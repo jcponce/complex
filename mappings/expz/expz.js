@@ -32,7 +32,7 @@ function draw(){
     line(0,(height-50)/2,width,(height-50)/2);
     line(width/2,0,width/2,(height-50));
     
-    let detail = 7;//Must be greater than 4 to run properly
+    let detail = 8;//Must be greater than 4 to run properly
     
     for (let i = 0; i < width; i += detail){
         for (let j =0; j < height-50; j += detail){
