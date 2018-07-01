@@ -1,5 +1,5 @@
-// Based on https://www.openprocessing.org/sketch/491395 
-// by Dan Anderson https://www.openprocessing.org/user/34940
+/* Based on https://www.openprocessing.org/sketch/491395
+ by Dan Anderson https://www.openprocessing.org/user/34940 */
 
 var slider;
 
@@ -45,8 +45,8 @@ function draw(){
 			
 			let nextx,nexty;
 			
-			nextx =   x / (x * x + y * y);
-			nexty =   - y / (x * x + y * y);
+			nextx =   x / (x * x + y * y);//Change real component for other functions
+			nexty =   - y / (x * x + y * y);//Change imaginary component for other functions
 			
 			let xp,yp;
 			
@@ -54,7 +54,6 @@ function draw(){
 			yp = map(y * (1-slider.value()) + nexty * slider.value(),-2,2,height-50,0);
 			
 			stroke(i*0.8, 255,255);
-            //point(xp, yp);
 			ellipse(xp,yp,2);
 		}
 	}
