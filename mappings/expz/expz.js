@@ -6,8 +6,8 @@ var slider;
 function setup(){
     createCanvas(400,450);
     slider = createSlider(0, 1, 0, 0.001);
-    slider.position(150, 415);
-    slider.style('width', '100px');
+    slider.position(120, 410);
+    slider.style('width', '150px');
     colorMode(HSB);
     noStroke();
 }
