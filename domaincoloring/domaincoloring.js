@@ -16,6 +16,7 @@ function setup() {
     background(0);
     controls();
     noLoop();
+    
 }
 
 function draw() {
