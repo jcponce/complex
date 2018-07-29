@@ -1,6 +1,12 @@
 // Based on https://www.openprocessing.org/sketch/491395 
 // by Dan Anderson https://www.openprocessing.org/user/34940
 
+/* Written in p5.js (https://p5js.org/)
+ * Under Creative Commons License
+ * https://creativecommons.org/licenses/by-sa/4.0/
+ * Writen by Juan Carlos Ponce Campuzano, 19-Jul-2018
+ */
+
 var slider;
 
 function setup(){
