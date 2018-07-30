@@ -53,9 +53,9 @@ function controls(){
     inpRe.value('x');
     inpIm.value('y');
     inpRe.style('font-size', '16px');
-    inpRe.style('width', '150px');
+    inpRe.style('width', '180px');
     inpIm.style('font-size', '16px');
-    inpIm.style('width', '150px');
+    inpIm.style('width', '180px');
     inpRe.position(50, 410);
     inpIm.position(50, 450);
     
