@@ -68,14 +68,12 @@ function draw() {
         let x1 = xmin;
         for (let i = 0; i < width; i++) {
             
-            // Now we test, as we iterate z = z^2 + cm does z tend towards infinity?
             let x = x1;
             let y = y1;
             let n = 0;
             
-            let re = eval(inpRe.value());//a+(a)/(a*a+b*b)+ cX; //a * a - b * b + cX;
-            let im = eval(inpIm.value());//b-(b)/(a*a+b*b)+ cY;//2 * a * b + cY;
-            //let twoab = 2.0 * a * b;
+            let re = eval(inpRe.value());
+            let im = eval(inpIm.value());
             
             x = re;
             y = im;
@@ -93,13 +91,6 @@ function draw() {
         y1 += dy;
     }
     updatePixels();
-    //noLoop();
-    
-    //draw constant label
-    //fill(255);
-    //textAlign(LEFT, CENTER);
-    //textSize(18);
-    //text("Pointer is (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", 5, height-15);
     
 }
 
