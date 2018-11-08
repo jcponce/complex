@@ -45,9 +45,6 @@ function draw() {
     // Only need to do this once since we don't do any other drawing.
     loadPixels();
     
-    // Maximum number of iterations for each point on the complex plane
-    let maxiterations = 100;
-    
     // x goes from xmin to xmax
     let xmax = xmin + w;
     // y goes from ymin to ymax
@@ -59,9 +56,6 @@ function draw() {
     
     // Start y
     let y1 = ymin;
-    
-    let cX = map(mouseX, 0, width, xmin, xmax);
-    let cY = map(mouseY, height, 0, ymin, ymax);
     
     for (let j = 0; j < height; j++) {
         // Start x
@@ -82,7 +76,8 @@ function draw() {
             // Gosh, we could make fancy colors here if we wanted
             
             let h = map(atan2(-y, -x), -PI, PI, 0, 360) ;
-            let b = max(map(log(5*sqrt(x * x + y * y))/log(1.5) - floor(log(5*sqrt(x * x + y * y))/log(1.5))+0.1, 0,5, 100, 0), 0);
+            let funColor = (x , y) => log(5*sqrt(x * x + y * y))/log(1.5) - floor(log(5*sqrt(x * x + y * y))/log(1.5))+0.1;
+            let b = max(map(funColor(x, y), 0,5, 100, 0), 0);
             
             set(i, j, color(h, 100, b));
             
