@@ -64,7 +64,6 @@ function draw() {
             
             let x = x1;
             let y = y1;
-            let n = 0;
             
             let re = eval(inpRe.value());
             let im = eval(inpIm.value());
