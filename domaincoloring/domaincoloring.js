@@ -21,7 +21,7 @@ let inpRe, inpIm, inpLim;
 
 function setup() {
     createCanvas(550, 400);
-    colorMode(HSB, 360, 100, 100);
+    colorMode(HSB, 1, 1, 1);
     frameRate(60);
     controls();
     noLoop();
@@ -74,11 +74,10 @@ function draw() {
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = map(atan2(-y, -x), -PI, PI, 0, 360) ;
-            let funColor = (x , y) => log(5*sqrt(x * x + y * y))/log(1.5) - floor(log(5*sqrt(x * x + y * y))/log(1.5))+0.1;
-            let b = max(map(funColor(x, y), 0,5, 100, 0), 0);
-            
-            set(i, j, color(h, 100, b));
+            let h = (PI-atan2(-y, -x))/(2*PI);
+            let funColor = (x , y) => 1/5*log(5*sqrt(x * x + y * y))/log(1.5) - 1/5* floor(log(5*sqrt(x * x + y * y))/log(1.5))+0.75;
+            let b = funColor(x, y);
+            set(i, j, color(h, 1, b));
             
             x1 += dx;
         }
