@@ -8,7 +8,8 @@
 // http://codingtra.in
 // http://patreon.com/codingtrain
 // Code for: https://youtu.be/6z7GQewK-Ks
-// I just changed the iteration function and color scheme
+// I just modified the code to plot,
+// complex functions as maps and added a color scheme
 
 // Last update 7-Nov-2018
 
