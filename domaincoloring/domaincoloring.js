@@ -22,7 +22,7 @@ let inpRe, inpIm, inpLim;
 
 function setup() {
     createCanvas(550, 400);
-    colorMode(HSB, 1, 1, 1);
+    colorMode(HSB, 1);
     frameRate(60);
     controls();
     noLoop();
@@ -35,7 +35,7 @@ function draw() {
     // A different range will allow us to "zoom" in or out on the fractal
     
     // It all starts with the width, try higher or lower values
-    let w = eval(inpLim.value());//4.5;
+    let w = eval(inpLim.value());//4;
     let h = (w * height) / width;
     
     // Start at negative half the width and height
@@ -76,7 +76,7 @@ function draw() {
             // Gosh, we could make fancy colors here if we wanted
             
             let h = (PI-atan2(-y, -x))/(2*PI);
-            let funColor = (x , y) => 1/5*log(5*sqrt(x * x + y * y))/log(1.5) - 1/5* floor(log(5*sqrt(x * x + y * y))/log(1.5))+0.75;
+            let funColor = (x , y) => 1/5*log(5*sqrt(x * x + y * y))/log(1.3) - 1/5* floor(log(5*sqrt(x * x + y * y))/log(1.3))+0.75;
             let b = funColor(x, y);
             set(i, j, color(h, 1, b));
             
@@ -101,7 +101,7 @@ function controls(){
     inpIm.position(50, height + 55);
     
     inpLim = createInput();
-    inpLim.value('4.5');
+    inpLim.value('4');
     inpLim.style('font-size', '16px');
     inpLim.style('width', '60px');
     inpLim.position(305, height + 15)
