@@ -75,8 +75,8 @@ function draw() {
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = \frac{PI-atan2(y, -x))}{2*PI};
-            let funColor = (x , y) => 1/5*log(5*sqrt(x * x + y * y))/log(1.3) - 1/5* floor(log(5*sqrt(x * x + y * y))/log(1.3))+0.75;
+            let h = (PI - atan2(y, -x))/(2*PI);
+            let funColor = (x , y) => 1/5 * log(5 * sqrt(x * x + y * y))/log(1.3) - 1/5 * floor(log(5 * sqrt(x * x + y * y))/log(1.3)) + 0.75;
             let b = funColor(x, y);
             set(i, j, color(h, 1, b));
             
