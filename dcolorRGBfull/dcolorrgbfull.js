@@ -12,14 +12,17 @@ title: 'HSB Scheme',
 
 lvlCurv: 'Phase',
     
-funcRe: 'x',
-funcIm: 'y',
+funcZ: 'z.pow(2)',
     
 displayXY: false,
 size: 5,
 centerX: 0,
 centerY: 0,
-//Update : plot,
+
+Save: function () {
+    save('myCanvas.png');
+},
+    
 };
 
 let lim, button, buttonSave;
@@ -28,11 +31,11 @@ let realText, imgText, boxText, optText, centerText;
 
 let inpRe, inpIm, inpLim, inpCx, inpCy;
 
-let funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
+var funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
 
 function setup() {
     createCanvas(470, 470);
-    colorMode(HSB, 1);
+    colorMode(RGB, 1);
     
     // create gui (dat.gui)
     let gui = new dat.GUI({
@@ -40,14 +43,15 @@ function setup() {
                           });
     gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
-    gui.add(clts, 'funcRe').name("Re(x, y) =").onChange(redraw);
-    gui.add(clts, 'funcIm').name("Im(x, y) =").onChange(redraw);
+    gui.add(clts, 'funcZ').name("f(z) =").onChange(redraw);
     gui.add(clts, 'size').name("Size =").onChange(redraw);
     
     let cXY = gui.addFolder('Reference');
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(redraw);
     cXY.add(clts, 'centerY').name("Center y =").onChange(redraw);
+    
+    gui.add(clts, 'Save').name("Save (png)");
     
     noLoop();
 }
@@ -103,19 +107,20 @@ function plot() {
             let x = x1;
             let y = -y1; //Here we need minus since the y-axis in canvas is upside down
             
-            let re = eval(clts.funcRe);
-            let im = eval(clts.funcIm);
+            let z = new Complex({ re: x, im: y });
+			
+            let w = eval(clts.funcZ);
             
-            x = re;
-            y = im;
+            x = w.re;
+            y = w.im;
             
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = (PI - atan2(y, -x)) / (2 * PI);
+            let h = (PI - atan2(y, -x)) / (2 * PI);//argument: 0 to pi/2??
             
             let b = funColor(x, y);
-            set(i, j, color(h, 1, b));
+            set(i, j, color(h, 0, b));
             
             x1 += dx;
         }
@@ -153,7 +158,7 @@ function saveImg() {
 }
 
 function sat(x, y) {
-    return 1 / 5 * log(5 * sqrt(x * x + y * y)) / log(1.5) - 1 / 5 * floor(log(5 * sqrt(x * x + y * y)) / log(1.5)) + 0.85;
+    return 1 / 5 * log(5 * sqrt(x * x + y * y)) / log(2) - 1 / 5 * floor(log(5 * sqrt(x * x + y * y)) / log(2)) + 0.85;
 }
 
 function val(x, y) {
@@ -162,9 +167,9 @@ function val(x, y) {
 
 function mySelectOption() {
     if (clts.lvlCurv == 'Phase') {
-        funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
+        funColor = (x, y) => val(x, y);
     } else if (clts.lvlCurv == 'Modulus') {
-        funColor = (x, y) => 1 / 5 * log(5 * sqrt(x * x + y * y)) / log(1.3) - 1 / 5 * floor(log(5 * sqrt(x * x + y * y)) / log(1.3)) + 0.75;
+        funColor = (x, y) => sat(x, y);
     } else if (clts.lvlCurv == 'Phase/Modulus') {
         funColor = (x, y) => val(x, y) * sat(x, y);
     } else if (clts.lvlCurv == 'None') {
