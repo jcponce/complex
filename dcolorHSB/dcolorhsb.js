@@ -16,7 +16,7 @@ funcRe: 'x',
 funcIm: 'y',
     
 displayXY: false,
-size: 4,
+size: 5,
 centerX: 0,
 centerY: 0,
 //Update : plot,
@@ -36,7 +36,7 @@ function setup() {
     
     // create gui (dat.gui)
     let gui = new dat.GUI({
-                          width: 300
+                          width: 289
                           });
     gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
@@ -45,7 +45,7 @@ function setup() {
     gui.add(clts, 'size').name("Size =").onChange(redraw);
     
     let cXY = gui.addFolder('Reference');
-    cXY.add(clts, 'displayXY').name("Axis").onChange(redraw);
+    cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(redraw);
     cXY.add(clts, 'centerY').name("Center y =").onChange(redraw);
     
@@ -133,11 +133,16 @@ function displayGrid() {
     textSize(16);
     fill(1);
     text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
+    text('Im', width / 2 + 2, height / 2 - 210);
+    text('Re', width / 2 + 210, height / 2 + 15);
     // Draw tick marks twice per step, and draw the halfway marks smaller.
-    for (let i = 0; i <= width; i = i + width / clts.size) {
-        for (let j = 0; j <= height; j = j + height / clts.size) {
-            line(i, height / 2 - 4, i, height / 2 + 4, );
-            line(width / 2 - 4, j, width / 2 + 4, j);
+    
+    for (let j = 0; j <= height/2; j += height / clts.size) {
+        for (let i = 0; i <= width/2; i += width / clts.size) {
+            line(width / 2 - 4, height/2 - j, width / 2 + 4, height/2 - j);//yAxis positive ticks
+            line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
+            line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
+            line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
         }
     }
     
