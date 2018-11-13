@@ -18,6 +18,10 @@ displayXY: false,
 size: 5,
 centerX: 0,
 centerY: 0,
+    
+Update: function () {
+    redraw();
+},
 
 Save: function () {
     save('myCanvas.png');
@@ -39,12 +43,13 @@ function setup() {
     
     // create gui (dat.gui)
     let gui = new dat.GUI({
-                          width: 289
+                          width: 291
                           });
     gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
-    gui.add(clts, 'funcZ').name("f(z) =").onChange(redraw);
-    gui.add(clts, 'size').name("Size =").onChange(redraw);
+    gui.add(clts, 'funcZ').name("f(z) =");
+    gui.add(clts, 'size', 0.00001, 20).name("Size =");
+    gui.add(clts, 'Update').name("Update f(z)/S");
     
     let cXY = gui.addFolder('Reference');
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
@@ -120,7 +125,7 @@ function plot() {
             let h = (PI - atan2(y, -x)) / (2 * PI);//argument: 0 to pi/2??
             
             let b = funColor(x, y);
-            set(i, j, color(h, 0, b));
+            set(i, j, color(h, b, 1));
             
             x1 += dx;
         }

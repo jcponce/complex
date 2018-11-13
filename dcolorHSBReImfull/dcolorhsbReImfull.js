@@ -51,13 +51,13 @@ function setup() {
     
     // create gui (dat.gui)
     let gui = new dat.GUI({
-                          width: 289
+                          width: 291
                           });
     gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcZ').name("f(z) =");
-    gui.add(clts, 'size').name("Size =").onChange(redraw);
-    gui.add(clts, 'Update').name("Update");
+    gui.add(clts, 'size', 0.00001, 20).name("Size =");
+    gui.add(clts, 'Update').name("Update f(z)/S");
     
     let cXY = gui.addFolder('Reference');
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
