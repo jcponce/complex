@@ -136,12 +136,12 @@ function plot() {
 }
 
 function displayGrid() {
-    stroke(1);
+    stroke(0.2);
     strokeWeight(1.5);
     line(0, height / 2, width, height / 2); //x-axis
     line(width / 2, 0, width / 2, height); //y-axis
     textSize(16);
-    fill(1);
+    fill(0.2);
     text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
     text('Im', width / 2 + 2, height / 2 - 210);
     text('Re', width / 2 + 210, height / 2 + 15);
