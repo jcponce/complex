@@ -19,6 +19,10 @@ size: 5,
 centerX: 0,
 centerY: 0,
 
+Update: function () {
+    redraw();
+},
+
 Save: function () {
     save('myCanvas.png');
 },
@@ -51,8 +55,9 @@ function setup() {
                           });
     gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None']).name("Level Curves:").onChange(mySelectOption);
-    gui.add(clts, 'funcZ').name("f(z) =").onChange(redraw);
+    gui.add(clts, 'funcZ').name("f(z) =");
     gui.add(clts, 'size').name("Size =").onChange(redraw);
+    gui.add(clts, 'Update').name("Update");
     
     let cXY = gui.addFolder('Reference');
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
