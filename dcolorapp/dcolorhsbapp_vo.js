@@ -8,11 +8,9 @@
 
 let lim, button, buttonSave;
 
-let realText, imgText, boxText, optText;
+let realText, imgText, boxText, optText, centerText;
 
-let inpRe, inpIm, inpLim;
-
-let colorFn;
+let inpRe, inpIm, inpLim, inpCx, inpCy;
 
 let funColor = (x , y) => 1 / 3 *(18*(PI - atan2(y,-x)) / (2*PI) - floor(18*(PI - atan2(y,-x)) / (2*PI))) + 0.7;
 
@@ -34,8 +32,8 @@ function draw() {
     let h = (w * height) / width;
     
     // Start at negative half the width and height
-    let xmin = -w / 2;
-    let ymin = -h / 2;
+    let xmin = -w / 2 + eval(inpCx.value());
+    let ymin = -h / 2 - eval(inpCy.value());
     
     // Make sure we can write to the pixels[] array.
     // Only need to do this once since we don't do any other drawing.
@@ -85,4 +83,29 @@ function draw() {
     
     updatePixels();
     
+}
+
+function saveImg(){
+    save('myCanvas.jpg');
+}
+
+function sat(x, y) {
+    return 1/5 * log( 5 * sqrt( x * x + y * y )) / log(1.5) - 1/5 * floor( log( 5 * sqrt( x * x + y * y )) / log(1.5)) + 0.85;
+}
+
+function val(x, y) {
+    return 1 / 3 * (18 * (PI - atan2(y,-x)) / (2*PI) - floor(18*(PI - atan2(y,-x)) / (2*PI))) + 0.7;
+}
+
+function mySelectEvent() {
+    if( colorFn.value() == 'Phase' ) {
+        funColor = (x , y) => 1 / 3 *(18*(PI - atan2(y,-x)) / (2*PI) - floor(18*(PI - atan2(y,-x)) / (2*PI))) + 0.7;
+    } else if( colorFn.value() == 'Modulus' ) {
+        funColor = (x,y) => 1/5 * log(5 * sqrt(x * x + y * y))/log(1.3) - 1/5 * floor(log(5 * sqrt(x * x + y * y))/log(1.3)) + 0.75;
+    } else if( colorFn.value() == 'Phase/Modulus' ) {
+        funColor = (x , y) => val(x,y) * sat(x, y);
+    } else if( colorFn.value() == 'None' ) {
+        funColor = (x,y) => 1;
+    }
+    redraw();
 }
