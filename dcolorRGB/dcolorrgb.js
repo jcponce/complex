@@ -121,7 +121,7 @@ function plot() {
             let h = (PI - atan2(y, -x)) / (2 * PI);//argument: 0 to 2pi??
             
             let b = funColor(x, y);
-            set(i, j, color(h, 0, b));
+            set(i, j, color(h, b, 1));
             
             x1 += dx;
         }
