@@ -19,11 +19,7 @@ displayXY: false,
 size: 5,
 centerX: 0,
 centerY: 0,
-
-Save: function () {
-    save('myCanvas.png');
-},
-    
+//Update : plot,
 };
 
 let lim, button, buttonSave;
@@ -32,7 +28,7 @@ let realText, imgText, boxText, optText, centerText;
 
 let inpRe, inpIm, inpLim, inpCx, inpCy;
 
-var funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
+let funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
 
 function setup() {
     createCanvas(470, 470);
@@ -52,8 +48,6 @@ function setup() {
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(redraw);
     cXY.add(clts, 'centerY').name("Center y =").onChange(redraw);
-    
-    gui.add(clts, 'Save').name("Save (png)");
     
     noLoop();
 }
@@ -168,9 +162,9 @@ function val(x, y) {
 
 function mySelectOption() {
     if (clts.lvlCurv == 'Phase') {
-        funColor = (x, y) => val(x, y);
+        funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
     } else if (clts.lvlCurv == 'Modulus') {
-        funColor = (x, y) => sat(x, y);
+        funColor = (x, y) => 1 / 5 * log(5 * sqrt(x * x + y * y)) / log(1.3) - 1 / 5 * floor(log(5 * sqrt(x * x + y * y)) / log(1.3)) + 0.75;
     } else if (clts.lvlCurv == 'Phase/Modulus') {
         funColor = (x, y) => val(x, y) * sat(x, y);
     } else if (clts.lvlCurv == 'None') {

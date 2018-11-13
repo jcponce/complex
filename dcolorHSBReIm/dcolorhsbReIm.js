@@ -10,7 +10,7 @@ let clts = {
 
 title: 'HSB Scheme',
 
-lvlCurv: 'Phase',
+lvlCurv: 'All',
     
 funcRe: 'x',
 funcIm: 'y',
@@ -32,7 +32,13 @@ let realText, imgText, boxText, optText, centerText;
 
 let inpRe, inpIm, inpLim, inpCx, inpCy;
 
-var funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
+var sat = (x, y) => (abs( 3*sin( 2* PI * (log(sqrt( x*x + y*y ))/log(2) - floor( log(sqrt(x*x + y*y ))/log(2))  ))));
+
+var val = (x, y) => sqrt(sqrt(abs( sin(2 * PI * y) * sin(2 * PI * x) )));
+
+var funColorS = (x, y) => sat(x, y);
+
+var funColorV = (x, y) => 0.5 * ((1 - sat(x,y)) + val(x,y) + sqrt((1 - sat(x,y) - val(x,y)) * (1 - sat(x,y) - val(x,y)) + 0.01));
 
 function setup() {
     createCanvas(470, 470);
@@ -43,7 +49,7 @@ function setup() {
                           width: 289
                           });
     gui.add(clts, 'title').name("Color mode:");
-    gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
+    gui.add(clts, 'lvlCurv', ['Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcRe').name("Re(x, y) =").onChange(redraw);
     gui.add(clts, 'funcIm').name("Im(x, y) =").onChange(redraw);
     gui.add(clts, 'size').name("Size =").onChange(redraw);
@@ -119,9 +125,9 @@ function plot() {
             // Gosh, we could make fancy colors here if we wanted
             
             let h = (PI - atan2(y, -x)) / (2 * PI);
-            
-            let b = funColor(x, y);
-            set(i, j, color(h, 1, b));
+            let s = funColorS(x, y);
+            let b = funColorV(x, y);
+            set(i, j, color(h, s, b));
             
             x1 += dx;
         }
@@ -132,16 +138,16 @@ function plot() {
 }
 
 function displayGrid() {
-    stroke(1);
+    
+    if(clts.lvlCurv == 'Modulus' || clts.lvlCurv == 'None'){
+        stroke(0);
+    } else {
+        stroke(1);
+    }
+    
     strokeWeight(1.5);
     line(0, height / 2, width, height / 2); //x-axis
     line(width / 2, 0, width / 2, height); //y-axis
-    textSize(16);
-    fill(1);
-    text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
-    text('Im', width / 2 + 2, height / 2 - 210);
-    text('Re', width / 2 + 210, height / 2 + 15);
-    // Draw tick marks twice per step, and draw the halfway marks smaller.
     
     for (let j = 0; j <= height/2; j += height / clts.size) {
         for (let i = 0; i <= width/2; i += width / clts.size) {
@@ -152,29 +158,44 @@ function displayGrid() {
         }
     }
     
+    textSize(16);
+    stroke(0);
+    fill(1);
+    text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
+    text('Im', width / 2 + 2, height / 2 - 210);
+    text('Re', width / 2 + 210, height / 2 + 15);
+    // Draw tick marks twice per step, and draw the halfway marks smaller.
+    
+    
+    
 }
 
 function saveImg() {
     save('myCanvas.jpg');
 }
 
-function sat(x, y) {
-    return 1 / 5 * log(5 * sqrt(x * x + y * y)) / log(1.5) - 1 / 5 * floor(log(5 * sqrt(x * x + y * y)) / log(1.5)) + 0.85;
-}
-
-function val(x, y) {
-    return 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
-}
+var bothSatVal = (x, y) => 0.5 * ((1 - sat(x,y)) + val(x,y) + sqrt((1 - sat(x,y) - val(x,y)) * (1 - sat(x,y) - val(x,y)) + 0.01));
 
 function mySelectOption() {
-    if (clts.lvlCurv == 'Phase') {
-        funColor = (x, y) => val(x, y);
+    if (clts.lvlCurv == 'Real') {
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(2 * PI * x) )));
+    } else if (clts.lvlCurv == 'Imaginary') {
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(2 * PI * y) )));
+    } else if (clts.lvlCurv == 'Re/Im') {
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(2 * PI * y) * sin(2 * PI * x) )));
     } else if (clts.lvlCurv == 'Modulus') {
-        funColor = (x, y) => sat(x, y);
-    } else if (clts.lvlCurv == 'Phase/Modulus') {
-        funColor = (x, y) => val(x, y) * sat(x, y);
+        funColorS = (x, y) => sat(x, y);
+        funColorV = (x, y) => 1;
+    }else if (clts.lvlCurv == 'All') {
+        funColorS = (x, y) => sat(x, y);
+        funColorV = (x, y) => bothSatVal(x, y);
     } else if (clts.lvlCurv == 'None') {
-        funColor = (x, y) => 1;
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => 1;
     }
     redraw();
 }
+
