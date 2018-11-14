@@ -15,7 +15,7 @@ lvlCurv: 'Phase',
 funcZ: 'z.pow(2)',
     
 displayXY: false,
-size: 5,
+size: 2.5,
 centerX: 0,
 centerY: 0,
     
@@ -26,6 +26,8 @@ Update: function () {
 Save: function () {
     save('myCanvas.png');
 },
+
+sizePlot: false,
     
 };
 
@@ -48,17 +50,26 @@ function setup() {
     gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcZ').name("f(z) =");
-    gui.add(clts, 'size', 0.00001, 20).name("Size =");
+    gui.add(clts, 'size', 0.00001, 20).name("|Re z| < =");
     gui.add(clts, 'Update').name("Update f(z)/S");
     
-    let cXY = gui.addFolder('Reference');
+    let cXY = gui.addFolder('Display Options');
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(redraw);
     cXY.add(clts, 'centerY').name("Center y =").onChange(redraw);
+    cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
     
     gui.add(clts, 'Save').name("Save (png)");
     
     noLoop();
+}
+
+function windowResized() {
+    if(clts.sizePlot == true){
+        resizeCanvas(750, 550);
+    } else{
+        resizeCanvas(470, 470);
+    }
 }
 
 function draw() {
@@ -78,7 +89,7 @@ function plot() {
     // A different range will allow us to "zoom" in or out on the fractal
     
     // It all starts with the width, try higher or lower values
-    let w = clts.size;
+    let w = clts.size * 2;
     let h = (w * height) / width;
     
     // Start at negative half the width and height
@@ -147,8 +158,8 @@ function displayGrid() {
     text('Re', width / 2 + 210, height / 2 + 15);
     // Draw tick marks twice per step, and draw the halfway marks smaller.
     
-    for (let j = 0; j <= height/2; j += height / clts.size) {
-        for (let i = 0; i <= width/2; i += width / clts.size) {
+    for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
+        for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
             line(width / 2 - 4, height/2 - j, width / 2 + 4, height/2 - j);//yAxis positive ticks
             line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
             line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
