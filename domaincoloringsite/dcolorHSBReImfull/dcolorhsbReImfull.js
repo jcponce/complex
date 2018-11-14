@@ -59,7 +59,7 @@ function setup() {
     gui.add(clts, 'lvlCurv', ['Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcZ').name("f(z) =");
     gui.add(clts, 'size', 0.00001, 20).name("|Re z| <");
-    gui.add(clts, 'Update').name("Update f(z)/S");
+    gui.add(clts, 'Update').name("Update");
     
     let cXY = gui.addFolder('Display Options');
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
