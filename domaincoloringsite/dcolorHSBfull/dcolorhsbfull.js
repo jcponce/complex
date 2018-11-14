@@ -45,18 +45,18 @@ function setup() {
     
     // create gui (dat.gui)
     let gui = new dat.GUI({
-                          width: 291
+                          width: 300
                           });
     gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcZ').name("f(z) =");
     gui.add(clts, 'size', 0.00001, 100).name("|Re z| =");
-    gui.add(clts, 'Update').name("Update");
+    gui.add(clts, 'Update').name("Update vals");
     
     let cXY = gui.addFolder('Display Options');
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
-    cXY.add(clts, 'centerX').name("Center x =").onChange(redraw);
-    cXY.add(clts, 'centerY').name("Center y =").onChange(redraw);
+    cXY.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
+    cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
     cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
     
     gui.add(clts, 'Save').name("Save (png)");
@@ -69,6 +69,12 @@ function windowResized() {
         resizeCanvas(750, 550);
     } else{
         resizeCanvas(470, 470);
+    }
+}
+
+function keyPressed() {
+    if (keyCode === ENTER) {
+        redraw();
     }
 }
 

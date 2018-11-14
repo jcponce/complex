@@ -48,7 +48,7 @@ function setup() {
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcRe').name("Re(x, y) =").onChange(redraw);
     gui.add(clts, 'funcIm').name("Im(x, y) =").onChange(redraw);
-    gui.add(clts, 'size').name("|Re z| =").onChange(redraw);
+    gui.add(clts, 'size').name("|Re z| =").min(0.000001).step(0.01).onChange(keyPressed);
     
     let cXY = gui.addFolder('Display Options');
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
@@ -66,6 +66,12 @@ function windowResized() {
         resizeCanvas(750, 550);
     } else{
         resizeCanvas(470, 470);
+    }
+}
+
+function keyPressed() {
+    if (keyCode === ENTER) {
+        redraw();
     }
 }
 
@@ -132,7 +138,7 @@ function plot() {
             let h = (PI - atan2(y, -x)) / (2 * PI);//argument: 0 to 2pi??
             
             let b = funColor(x, y);
-            set(i, j, color(h, b, 1));
+            set(i, j, color(h, b, 0.8));
             
             x1 += dx;
         }
