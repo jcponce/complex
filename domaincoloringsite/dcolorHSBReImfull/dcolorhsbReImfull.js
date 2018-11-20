@@ -39,7 +39,7 @@ let inpRe, inpIm, inpLim, inpCx, inpCy;
 
 var sat = (x, y) => (abs( 3*sin( 2* PI * (log(sqrt( x*x + y*y ))/log(2) - floor( log(sqrt(x*x + y*y ))/log(2))  ))));
 
-var val = (x, y) => sqrt(sqrt(abs( sin(2 * PI * y) * sin(2 * PI * x) )));
+var val = (x, y) => sqrt(sqrt(abs( sin(4 * PI * y) * sin(4 * PI * x) )));
 
 var bothSatVal = (x, y) => 0.5 * ((1 - sat(x,y)) + val(x,y) + sqrt((1 - sat(x,y) - val(x,y)) * (1 - sat(x,y) - val(x,y)) + 0.01));
 
@@ -197,17 +197,17 @@ function displayGrid() {
 function saveImg() {
     save('myCanvas.jpg');
 }
-
+//z.pow(0).div(z.pow(0).sub(z.pow(2)).sqrt())
 function mySelectOption() {
     if (clts.lvlCurv == 'Real') {
         funColorS = (x, y) => 1;
-        funColorV = (x, y) => sqrt(sqrt(abs( sin(2 * PI * x) )));
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(4 * PI * x) )));
     } else if (clts.lvlCurv == 'Imaginary') {
         funColorS = (x, y) => 1;
-        funColorV = (x, y) => sqrt(sqrt(abs( sin(2 * PI * y) )));
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(4 * PI * y) )));
     } else if (clts.lvlCurv == 'Re/Im') {
         funColorS = (x, y) => 1;
-        funColorV = (x, y) => sqrt(sqrt(abs( sin(2 * PI * y) * sin(2 * PI * x) )));
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(4 * PI * y) * sin(4 * PI * x) )));
     } else if (clts.lvlCurv == 'Modulus') {
         funColorS = (x, y) => sat(x, y);
         funColorV = (x, y) => 1;
