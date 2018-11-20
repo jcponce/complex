@@ -24,7 +24,7 @@ Update: function () {
 },
 
 Save: function () {
-    save('myCanvas.png');
+    save('plotfz.png');
 },
 
 sizePlot: false,

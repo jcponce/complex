@@ -21,7 +21,7 @@ centerX: 0,
 centerY: 0,
 
 Save: function () {
-    save('myCanvas.png');
+    save('plotfz.png');
 },
     
 sizePlot: false,
