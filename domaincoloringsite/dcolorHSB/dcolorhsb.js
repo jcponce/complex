@@ -4,7 +4,7 @@
  * Writen by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update ??
+// Last update 20-Nov-2018
 
 let clts = {
 
@@ -21,7 +21,7 @@ centerX: 0,
 centerY: 0,
 
 Save: function () {
-    save('myCanvas.png');
+    save('plotfz.png');
 },
 
 sizePlot: false,
@@ -173,9 +173,10 @@ function displayGrid() {
     
 }
 
-function saveImg() {
-    save('myCanvas.jpg');
-}
+//function saveImg() {
+//    let img = createImage(width, height);
+//    save(img, 'plotfz.png');
+//}
 
 function sat(x, y) {
     return 1 / 5 * log(5 * sqrt(x * x + y * y)) / log(1.5) - 1 / 5 * floor(log(5 * sqrt(x * x + y * y)) / log(1.5)) + 0.85;
