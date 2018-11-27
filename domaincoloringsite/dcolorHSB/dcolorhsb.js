@@ -11,6 +11,7 @@ let clts = {
 title: 'HSB Scheme',
 
 lvlCurv: 'Phase',
+phaseOption: '[0, 2pi)',
     
 funcRe: 'x',
 funcIm: 'y',
@@ -28,18 +29,12 @@ sizePlot: false,
     
 };
 
-let lim, button, buttonSave;
-
-let realText, imgText, boxText, optText, centerText;
-
-let inpRe, inpIm, inpLim, inpCx, inpCy;
-
-let canvas;
+var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
 var funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
 
 function setup() {
-    canvas = createCanvas(470, 470);
+    createCanvas(470, 470);
     colorMode(HSB, 1);
     
     // create gui (dat.gui)
@@ -53,6 +48,7 @@ function setup() {
     gui.add(clts, 'size').name("|Re z| <").min(0.000001).step(0.01).onChange(keyPressed);
     
     let cXY = gui.addFolder('Display Options');
+    cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(redraw);
     cXY.add(clts, 'centerY').name("Center y =").onChange(redraw);
@@ -137,7 +133,7 @@ function plot() {
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = (PI - atan2(y, -x)) / (2 * PI);
+            let h = funPhase(x, y);
             
             let b = funColor(x, y);
             set(i, j, color(h, 1, b));
@@ -195,6 +191,15 @@ function mySelectOption() {
         funColor = (x, y) => val(x, y) * sat(x, y);
     } else if (clts.lvlCurv == 'None') {
         funColor = (x, y) => 1;
+    }
+    redraw();
+}
+
+function myPhaseOption() {
+    if (clts.phaseOption == '[0, 2pi)') {
+        funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+    } else if (clts.phaseOption == '(-pi, pi]') {
+        funPhase = (x, y) => (PI + atan2(y, x)) / (2 * PI);
     }
     redraw();
 }

@@ -11,6 +11,7 @@ let clts = {
 title: 'HSB Scheme',
 
 lvlCurv: 'All',
+phaseOption: '[0, 2pi)',
     
 funcRe: 'x',
 funcIm: 'y',
@@ -19,7 +20,7 @@ displayXY: false,
 size: 5,
 centerX: 0,
 centerY: 0,
-
+    
 Save: function () {
     save('plotfz.png');
 },
@@ -28,11 +29,7 @@ sizePlot: false,
     
 };
 
-let lim, button, buttonSave;
-
-let realText, imgText, boxText, optText, centerText;
-
-let inpRe, inpIm, inpLim, inpCx, inpCy;
+var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
 var sat = (x, y) => (abs( 3*sin( 2* PI * (log(sqrt( x*x + y*y ))/log(2) - floor( log(sqrt(x*x + y*y ))/log(2))  ))));
 
@@ -57,6 +54,7 @@ function setup() {
     gui.add(clts, 'size').name("|Re z| <").min(0.000001).step(0.01).onChange(keyPressed);
     
     let cXY = gui.addFolder('Display Options');
+    cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(redraw);
     cXY.add(clts, 'centerY').name("Center y =").onChange(redraw);
@@ -141,7 +139,7 @@ function plot() {
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = (PI - atan2(y, -x)) / (2 * PI);
+            let h = funPhase(x, y);
             let s = funColorS(x, y);
             let b = funColorV(x, y);
             set(i, j, color(h, s, b));
@@ -184,11 +182,6 @@ function displayGrid() {
     // Draw tick marks twice per step, and draw the halfway marks smaller.
     
     
-    
-}
-
-function saveImg() {
-    save('myCanvas.jpg');
 }
 
 var bothSatVal = (x, y) => 0.5 * ((1 - sat(x,y)) + val(x,y) + sqrt((1 - sat(x,y) - val(x,y)) * (1 - sat(x,y) - val(x,y)) + 0.01));
@@ -216,3 +209,11 @@ function mySelectOption() {
     redraw();
 }
 
+function myPhaseOption() {
+    if (clts.phaseOption == '[0, 2pi)') {
+        funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+    } else if (clts.phaseOption == '(-pi, pi]') {
+        funPhase = (x, y) => (PI + atan2(y, x)) / (2 * PI);
+    }
+    redraw();
+}

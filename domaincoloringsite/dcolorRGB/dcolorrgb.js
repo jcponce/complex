@@ -4,13 +4,14 @@
  * Writen by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update ??
+// Last update 27-Nov-2018
 
 let clts = {
 
 title: 'RGB Scheme',
 
 lvlCurv: 'Phase',
+phaseOption: '[0, 2pi)',
     
 funcRe: 'x',
 funcIm: 'y',
@@ -28,11 +29,7 @@ sizePlot: false,
     
 };
 
-let lim, button, buttonSave;
-
-let realText, imgText, boxText, optText, centerText;
-
-let inpRe, inpIm, inpLim, inpCx, inpCy;
+var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
 var funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
 
@@ -51,6 +48,7 @@ function setup() {
     gui.add(clts, 'size').name("|Re z| =").min(0.000001).step(0.01).onChange(keyPressed);
     
     let cXY = gui.addFolder('Display Options');
+    cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(redraw);
     cXY.add(clts, 'centerY').name("Center y =").onChange(redraw);
@@ -135,7 +133,7 @@ function plot() {
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = (PI - atan2(y, -x)) / (2 * PI);//argument: 0 to 2pi??
+            let h = funPhase(x, y);//argument: 0 to 2pi??
             
             let b = funColor(x, y);
             set(i, j, color(h, b, 0.8));
@@ -171,10 +169,6 @@ function displayGrid() {
     
 }
 
-function saveImg() {
-    save('myCanvas.jpg');
-}
-
 function sat(x, y) {
     return 1 / 5 * log(5 * sqrt(x * x + y * y)) / log(2) - 1 / 5 * floor(log(5 * sqrt(x * x + y * y)) / log(2)) + 0.85;
 }
@@ -192,6 +186,15 @@ function mySelectOption() {
         funColor = (x, y) => val(x, y) * sat(x, y);
     } else if (clts.lvlCurv == 'None') {
         funColor = (x, y) => 1;
+    }
+    redraw();
+}
+
+function myPhaseOption() {
+    if (clts.phaseOption == '[0, 2pi)') {
+        funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+    } else if (clts.phaseOption == '(-pi, pi]') {
+        funPhase = (x, y) => (PI + atan2(y, x)) / (2 * PI);
     }
     redraw();
 }
