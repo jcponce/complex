@@ -18,9 +18,18 @@ function mouseWheel() {
     mandelbrot.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
 }
 
+let WIDTH = 500;
+let HEIGHT = 500;
+
 function setup() {
-    createCanvas(500, 500);
+    createCanvas(WIDTH, HEIGHT);
+    pixelDensity(1);//I need this for small devices
 }
+
+function windowResized() {
+    resizeCanvas(500, 500);
+}
+
 
 function draw() {
     mandelbrot.update();
@@ -38,10 +47,10 @@ const KC_ZOOM = 187;    // Zoom in +
 const KC_RESET = 82;    // Reset zoom level and position R
 
 function Mandelbrot() {
-    this.origSize = new Vec2D(3, 3);
-    this.size = new Vec2D(this.origSize.x, this.origSize.y);
-    this.origPos = new Vec2D(-0.7, 0);//Origin position
-    this.pos = new Vec2D(this.origPos.x, this.origPos.y);
+    this.origSize = new p5.Vector(3, 3);
+    this.size = new p5.Vector(this.origSize.x, this.origSize.y);
+    this.origPos = new p5.Vector(-0.7, 0);//Origin position
+    this.pos = new p5.Vector(this.origPos.x, this.origPos.y);
     this.maxIter = 170;
     this.origZoom = 1;
     this.zoom = this.origZoom;
@@ -88,12 +97,12 @@ Mandelbrot.prototype.draw = function() {
     
     for (var x = 0; x < width; x++) {
         for (var y = 0; y < height; y++) {
-            var sqZ = new Vec2D(0, 0);
-            var z = new Vec2D(
+            var sqZ = new p5.Vector(0, 0);
+            var z = new p5.Vector(
                               this.pos.x + map(x, 0, width, -this.size.x / 2, this.size.x / 2),
                               this.pos.y + map(y, height, 0, -this.size.y / 2, this.size.y / 2)
                               );
-            var c = new Vec2D(z.x, z.y);
+            var c = new p5.Vector(z.x, z.y);
             
             var iter = 0;
             while (iter < this.maxIter) {
@@ -131,11 +140,6 @@ Mandelbrot.prototype.draw = function() {
     ellipse(xc, yc, 8, 8);
 };
 
-function Vec2D(x, y) {
-    this.x = x;
-    this.y = y;
-}
-
 function setPixelRGB(x, y, r, g, b) {
     var pixelID = (x + y * width) * 4;
     pixels[pixelID + 0] = r;
@@ -161,5 +165,3 @@ function setPixelHSV(x, y, h, s, v) {
     }
     setPixelRGB(x, y, Math.round(r * 1), Math.round(g * 255), Math.round(b * 255));
 }
-
-

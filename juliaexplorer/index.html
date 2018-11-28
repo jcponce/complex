@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Domain coloring">
+<meta name="description" content="Julia Set explorer">
 <meta name="author" content="Juan Carlos Ponce Campuzano">
 <meta name="language" content="en"/>
 <title>Julia Set explorer</title>
@@ -51,6 +51,7 @@
 <link rel="stylesheet" href="libraries/dat-gui-light-theme.css">
 <link rel="stylesheet" href="https://jcponce.github.io/assets/style/w3.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    
 <style>
  div.sticky {
   position: -webkit-sticky;
@@ -74,8 +75,6 @@ canvas {
     left: 0;
     right: 0;
 }
-
-
 </style>
 <!-- This line removes any default padding and style. You might only need one of these values set. -->
 
@@ -93,37 +92,35 @@ canvas {
 </div>
 <!-- Navbar Ends-->
 
-
-    <div class="w3-card-4 w3-light-grey w3-hide-small w3-hide-medium w3-small" style="width:15%">
-        
-        <div class="w3-container">
+        <div class="w3-card-4 w3-light-grey w3-hide-small w3-hide-medium w3-small" style="width:15%">
             
+            <div class="w3-container">
+                
                 <h5><b>Julia set explorer</b></h5>
-            
-            <div class="w3-container w3-left">
-                <p>$z_{n+1}=z_n^2+c$</p>
-                <hr>
-            </div>
-            
-            
+                
+                <div class="w3-container w3-left">
+                    <p>$z_{n+1}=z_n^2+c$</p>
+                    <hr>
+                </div>
+                
+                
                 <h5><b>Control keys</b></h5>
-            
-            <div class="w3-container w3-left">
-                <p>W: Up</p>
-                <p>S: Down</p>
-                <p>D: Right</p>
-                <p>A: Left</p>
-                <p>R: Reset</p>
-                <p>ZoomIn: +</p>
-                <p>ZoomOut: -</p>
-                <p>P: Info</p>
+                
+                <div class="w3-container w3-left">
+                    <p>W: Up</p>
+                    <p>S: Down</p>
+                    <p>D: Right</p>
+                    <p>A: Left</p>
+                    <p>R: Reset</p>
+                    <p>ZoomIn: +</p>
+                    <p>ZoomOut: -</p>
+                    <p>P: Info</p>
+                </div>
             </div>
+            
         </div>
-        
-    </div>
 
-
-
+    
 </body>
 
 
