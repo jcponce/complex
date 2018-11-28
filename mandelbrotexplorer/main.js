@@ -73,7 +73,7 @@ Mandelbrot.prototype.update = function () {
 Mandelbrot.prototype.zoomAt = function(x, y, ammount, isZoomIn) {
     ammount = isZoomIn ? ammount : 1 / ammount;
     x = map(x, 0, width, this.pos.x - this.size.x / 2, this.pos.x + this.size.x / 2);
-    y = map(y, 0, height, this.pos.y - this.size.y / 2, this.pos.y + this.size.y / 2);
+    y = map(y, height, 0,  this.pos.y - this.size.y / 2, this.pos.y + this.size.y / 2);
     this.pos.x = x + (this.pos.x - x) * ammount;
     this.pos.y = y + (this.pos.y - y) * ammount;
     this.zoom *= ammount;
@@ -84,14 +84,14 @@ Mandelbrot.prototype.draw = function() {
     loadPixels();
     
     var cX = this.pos.x + map(mouseX, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Mandelbrot
-    var cY = this.pos.y + map(mouseY, 0, height, -this.size.y / 2, this.size.y / 2);//this is for Mandelbrot
+    var cY = this.pos.y + map(mouseY, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Mandelbrot
     
     for (var x = 0; x < width; x++) {
         for (var y = 0; y < height; y++) {
             var sqZ = new Vec2D(0, 0);
             var z = new Vec2D(
                               this.pos.x + map(x, 0, width, -this.size.x / 2, this.size.x / 2),
-                              this.pos.y + map(y, 0, height, -this.size.y / 2, this.size.y / 2)
+                              this.pos.y + map(y, height, 0, -this.size.y / 2, this.size.y / 2)
                               );
             var c = new Vec2D(z.x, z.y);
             
