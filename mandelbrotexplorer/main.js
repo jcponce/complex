@@ -1,7 +1,7 @@
 /* Written in p5.js (https://p5js.org/)
  * Under Creative Commons License
  * https://creativecommons.org/licenses/by-sa/4.0/
- * Writen by Juan Carlos Ponce Campuzano, 12-Nov-2018
+ * Writen by Juan Carlos Ponce Campuzano, 28-Nov-2018
  * Original code by Kato https://www.openprocessing.org/user/114431
  */
 
@@ -10,7 +10,7 @@
 var mandelbrot = new Mandelbrot();
 
 function keyReleased() {
-    if (keyCode === 80)
+    if (keyCode === 80)//P key
         mandelbrot.printDebug = !mandelbrot.printDebug;
 }
 
@@ -29,20 +29,20 @@ function draw() {
 }
 
 // KeyCodes available at: http://keycode.info/
-const KC_UP = 87;        // Move up
-const KC_DOWN = 83;        // Move down
-const KC_LEFT = 65;        // Move left
-const KC_RIGHT = 68;    // Move right
-const KC_UNZOOM = 189;    // Zoom back
-const KC_ZOOM = 187;    // Zoom in
-const KC_RESET = 82;    // Reset zoom level and position
+const KC_UP = 87;        // Move up W
+const KC_DOWN = 83;        // Move down S
+const KC_LEFT = 65;        // Move left A
+const KC_RIGHT = 68;    // Move right D
+const KC_UNZOOM = 189;    // Zoom back -
+const KC_ZOOM = 187;    // Zoom in +
+const KC_RESET = 82;    // Reset zoom level and position R
 
 function Mandelbrot() {
     this.origSize = new Vec2D(3, 3);
     this.size = new Vec2D(this.origSize.x, this.origSize.y);
-    this.origPos = new Vec2D(0, 0);//Origin position
+    this.origPos = new Vec2D(-0.7, 0);//Origin position
     this.pos = new Vec2D(this.origPos.x, this.origPos.y);
-    this.maxIter = 100;
+    this.maxIter = 170;
     this.origZoom = 1;
     this.zoom = this.origZoom;
     this.printDebug = false;
@@ -83,8 +83,8 @@ Mandelbrot.prototype.zoomAt = function(x, y, ammount, isZoomIn) {
 Mandelbrot.prototype.draw = function() {
     loadPixels();
     
-    var cX = this.pos.x + map(mouseX, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Julia
-    var cY = this.pos.y + map(mouseY, 0, height, -this.size.y / 2, this.size.y / 2);//this is for Julia
+    var cX = this.pos.x + map(mouseX, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Mandelbrot
+    var cY = this.pos.y + map(mouseY, 0, height, -this.size.y / 2, this.size.y / 2);//this is for Mandelbrot
     
     for (var x = 0; x < width; x++) {
         for (var y = 0; y < height; y++) {
@@ -99,13 +99,13 @@ Mandelbrot.prototype.draw = function() {
             while (iter < this.maxIter) {
                 sqZ.x = z.x * z.x - z.y * z.y;
                 sqZ.y = 2 * z.x * z.y;
-                z.x = sqZ.x + cX;//c.x for Mandel
-                z.y = sqZ.y + cY;//c.y for Mandel
+                z.x = sqZ.x + c.x;
+                z.y = sqZ.y + c.y;
                 if (abs(z.x + z.y) > 16)
                     break;
                 iter++;
             }
-            setPixelHSV(x, y, map(iter, 0, this.maxIter, 0, 1), 0.8, iter !== this.maxIter);
+            setPixelHSV(x, y, map(iter, 0, this.maxIter, 0, 1), 1, iter !== this.maxIter);
         }
     }
     updatePixels();
@@ -122,7 +122,7 @@ Mandelbrot.prototype.draw = function() {
     stroke(255);
     strokeWeight(1);
     textSize(13);
-    text("c is (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", 5, height-15);
+    text("Mouse: (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", 5, height-15);
     
     var xc = mouseX;
     var yc = mouseY;
@@ -159,7 +159,7 @@ function setPixelHSV(x, y, h, s, v) {
         case 4: r = t, g = p, b = v; break;
         case 5: r = v, g = p, b = q; break;
     }
-    setPixelRGB(x, y, Math.round(r * 255), Math.round(g * 255), Math.round(b * 255));
+    setPixelRGB(x, y, Math.round(r * 1), Math.round(g * 255), Math.round(b * 255));
 }
 
 
