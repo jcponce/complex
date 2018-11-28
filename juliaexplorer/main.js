@@ -42,7 +42,7 @@ function Julia() {
     this.size = new Vec2D(this.origSize.x, this.origSize.y);
     this.origPos = new Vec2D(0, 0);//Origin position
     this.pos = new Vec2D(this.origPos.x, this.origPos.y);
-    this.maxIter = 100;
+    this.maxIter = 130;
     this.origZoom = 1;
     this.zoom = this.origZoom;
     this.printDebug = false;
