@@ -29,16 +29,7 @@ sizePlot: false,
     
 };
 
-var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
-
-var sat = (x, y) => (abs( 3*sin( 2* PI * (log(sqrt( x*x + y*y ))/log(2) - floor( log(sqrt(x*x + y*y ))/log(2))  ))));
-
-var val = (x, y) => sqrt(sqrt(abs( sin(2 * PI * y) * sin(2 * PI * x) )));
-
-var funColorS = (x, y) => sat(x, y);
-
-var funColorV = (x, y) => 0.5 * ((1 - sat(x,y)) + val(x,y) + sqrt((1 - sat(x,y) - val(x,y)) * (1 - sat(x,y) - val(x,y)) + 0.01));
-
+//** Main functions setup() and draw() Begins**//
 function setup() {
     createCanvas(470, 470);
     colorMode(HSB, 1);
@@ -65,6 +56,21 @@ function setup() {
     noLoop();
 }
 
+function draw() {
+    
+    background(255);
+    
+    plot();
+    
+    if (clts.displayXY == true) {
+        displayGrid();
+    }
+    
+}
+//** Main functions setup() and draw() Ends**//
+
+//** Supplementary functions begins **//
+
 function windowResized() {
     if(clts.sizePlot == true){
         resizeCanvas(750, 550);
@@ -77,18 +83,6 @@ function keyPressed() {
     if (keyCode === ENTER) {
         redraw();
     }
-}
-
-function draw() {
-    
-    background(255);
-    
-    plot();
-    
-    if (clts.displayXY == true) {
-        displayGrid();
-    }
-    
 }
 
 function plot() {
@@ -181,21 +175,52 @@ function displayGrid() {
     text('Re', width / 2 + 210, height / 2 + 15);
     // Draw tick marks twice per step, and draw the halfway marks smaller.
     
-    
 }
 
-var bothSatVal = (x, y) => 0.5 * ((1 - sat(x,y)) + val(x,y) + sqrt((1 - sat(x,y) - val(x,y)) * (1 - sat(x,y) - val(x,y)) + 0.01));
+//** Supplementary functions Ends **//
+
+//** Color scheme functions Begins **//
+
+var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+
+let initial = 0;
+
+let final = 2;
+
+let period = 2;
+
+var fn = (x) => abs( 1 - ( ( (x-1)/2 - round( (x-1)/2, 0)) * 2 +1  ) );
+
+//var sat = (x, y) => sin( ( ( ( log(sqrt( x * x + y * y ))/log(2) -PI/2) - round( ( log(sqrt( x * x + y * y ))/log(2) -PI/2), 0)) * PI + PI/2  ) );
+
+//var sat = (x, y) => log(sqrt(x* x + y* y)) / log(2) - floor(log(sqrt(x* x + y* y)) / log(2));
+
+var sat = (x, y) => (abs( 3*sin( 2* PI * (log(sqrt( x * x + y * y ))/log(2) - floor( log(sqrt( x * x + y * y ))/log(2))  ))));
+
+var val = (x, y) => sqrt(sqrt(abs( sin(2 * PI * y) * sin(2 * PI * x) )));
+
+var funColorS = (x, y) => sat(x, y);
+
+var funColorV = (x, y) => 0.5 * ((1 - sat(x, y)) + val(x, y) + sqrt((1 - sat(x, y) - val(x, y)) * (1 - sat(x, y) - val(x, y)) + 0.01));
+
+var funRe = (x, y) => sqrt( sqrt( abs( sin( 2 * PI * x) ) ) );
+
+var funIm = (x, y) => sqrt( sqrt( abs( sin( 2 * PI * y) ) ) );
+
+var bothReIm = (x, y) =>  ((1 - funRe(x,y)) + funIm(x, y) + sqrt((1 - funRe(x, y) - funIm(x, y)) * (1 - funRe(x, y) - funIm(x, y)) ));
+
+var bothSatVal = (x, y) => 0.5 * ((1 - sat(x,y)) + val(x, y) + sqrt((1 - sat(x, y) - val(x, y)) * (1 - sat(x, y) - val(x, y)) + 0.01));
 
 function mySelectOption() {
     if (clts.lvlCurv == 'Real') {
         funColorS = (x, y) => 1;
-        funColorV = (x, y) => sqrt(sqrt(abs( sin(2 * PI * x) )));
+        funColorV = (x, y) => funRe(x, y);
     } else if (clts.lvlCurv == 'Imaginary') {
         funColorS = (x, y) => 1;
-        funColorV = (x, y) => sqrt(sqrt(abs( sin(2 * PI * y) )));
+        funColorV = (x, y) => funIm(x, y);
     } else if (clts.lvlCurv == 'Re/Im') {
         funColorS = (x, y) => 1;
-        funColorV = (x, y) => sqrt(sqrt(abs( sin(2 * PI * y) * sin(2 * PI * x) )));
+        funColorV = (x, y) =>  val(x, y);
     } else if (clts.lvlCurv == 'Modulus') {
         funColorS = (x, y) => sat(x, y);
         funColorV = (x, y) => 1;
@@ -217,3 +242,4 @@ function myPhaseOption() {
     }
     redraw();
 }
+//** Color scheme functions Ends **//
