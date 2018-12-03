@@ -8,6 +8,8 @@
 // Last update ??
 
 var julia = new Julia();
+var changeC;
+var c;
 
 function keyReleased() {
     if (keyCode === 80)//P key
@@ -24,6 +26,9 @@ let HEIGHT = 500;
 function setup() {
     createCanvas(WIDTH, HEIGHT);
     pixelDensity(1);//I need this for small devices
+    changeC = true;
+    c = new p5.Vector(0, 0);
+    
 }
 
 function windowResized() {
@@ -33,6 +38,7 @@ function windowResized() {
 function draw() {
     julia.update();
     julia.draw();
+    console.log(changeC);
     
 }
 
@@ -76,6 +82,7 @@ Julia.prototype.update = function () {
         this.pos.x = this.origPos.x;
         this.pos.y = this.origPos.y;
         this.zoom = this.origZoom;
+        changeC = true;
     }
 };
 Julia.prototype.zoomAt = function(x, y, ammount, isZoomIn) {
@@ -91,24 +98,34 @@ Julia.prototype.zoomAt = function(x, y, ammount, isZoomIn) {
 Julia.prototype.draw = function() {
     loadPixels();
     
-    var cX = this.pos.x + map(mouseX, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Julia
-    var cY = this.pos.y + map(mouseY, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
+    let mx = mouseX;
+    let my = mouseY;
+    let cX = this.pos.x + map(mx, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Julia
+    let cY = this.pos.y + map(my, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
     
-    for (var x = 0; x < width; x++) {
-        for (var y = 0; y < height; y++) {
+    if (!changeC) {
+        fill(255);
+        noStroke();
+        ellipse(mx, my, 8, 8);
+    }else{
+        c = new p5.Vector(cX, cY);
+    }
+    
+    for (let x = 0; x < width; x++) {
+        for (let y = 0; y < height; y++) {
             var sqZ = new p5.Vector(0, 0);
             var z = new p5.Vector(
                               this.pos.x + map(x, 0, width, -this.size.x / 2, this.size.x / 2),
                               this.pos.y + map(y, height, 0, -this.size.y / 2, this.size.y / 2)
                               );
-            var c = new p5.Vector(z.x, z.y);
             
-            var iter = 0;
+            
+            let iter = 0;
             while (iter < this.maxIter) {
                 sqZ.x = z.x * z.x - z.y * z.y;
                 sqZ.y = 2 * z.x * z.y;
-                z.x = sqZ.x + cX;//c.x for Mandel
-                z.y = sqZ.y + cY;//c.y for Mandel
+                z.x = sqZ.x + c.x;//c.x for Mandel
+                z.y = sqZ.y + c.y;//c.y for Mandel
                 if (abs(z.x + z.y) > 16)
                     break;
                 iter++;
@@ -132,12 +149,20 @@ Julia.prototype.draw = function() {
     textSize(13);
     text("c is (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", 5, height-15);
     
-    var xc = mouseX;
-    var yc = mouseY;
+    let xc = mouseX;
+    let yc = mouseY;
     fill(255);
     noStroke();
-    ellipse(xc, yc, 8, 8);
+    ellipse(mx, my, 8, 8);
 };
+
+function mouseClicked() {
+        if (changeC) {
+            changeC = false;
+        } else {
+            changeC = true;
+        }
+}
 
 function setPixelRGB(x, y, r, g, b) {
     var pixelID = (x + y * width) * 4;
