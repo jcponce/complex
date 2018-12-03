@@ -28,6 +28,7 @@ function setup() {
     pixelDensity(1);//I need this for small devices
     changeC = true;
     c = new p5.Vector(0, 0);
+    frameRate(60);
     
 }
 
@@ -124,8 +125,8 @@ Julia.prototype.draw = function() {
             while (iter < this.maxIter) {
                 sqZ.x = z.x * z.x - z.y * z.y;
                 sqZ.y = 2 * z.x * z.y;
-                z.x = sqZ.x + c.x;//c.x for Mandel
-                z.y = sqZ.y + c.y;//c.y for Mandel
+                z.x = sqZ.x + c.x;
+                z.y = sqZ.y + c.y;
                 if (abs(z.x + z.y) > 16)
                     break;
                 iter++;
@@ -147,10 +148,9 @@ Julia.prototype.draw = function() {
     stroke(255);
     strokeWeight(1);
     textSize(13);
-    text("c is (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", 5, height-15);
+    text("c is (" + str(round(c.x * 100)/100.0) + "," + str(round(c.y * 100)/100.0) + ")", 5, height-15);
     
-    let xc = mouseX;
-    let yc = mouseY;
+    
     fill(255);
     noStroke();
     ellipse(mx, my, 8, 8);
