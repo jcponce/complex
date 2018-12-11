@@ -1,7 +1,7 @@
 /* Written in p5.js (https://p5js.org/)
  * Under Creative Commons License
  * https://creativecommons.org/licenses/by-sa/4.0/
- * Writen by Juan Carlos Ponce Campuzano, 28-Nov-2018
+ * Written by Juan Carlos Ponce Campuzano, 28-Nov-2018
  * Original code by Kato https://www.openprocessing.org/user/114431
  */
 
