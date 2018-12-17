@@ -23,7 +23,7 @@ function setup() {
 }
 
 function windowResized() {
-    resizeCanvas(500, 500);
+    resizeCanvas(510, 510);
 }
 
 function draw() {

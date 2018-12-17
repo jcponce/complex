@@ -7,7 +7,26 @@
 
 // Last update ??
 
-var mandelbrot = new Mandelbrot();
+let mandelbrot = new Mandelbrot();
+
+let WIDTH = 510;
+let HEIGHT = 510;
+
+function setup() {
+    createCanvas(WIDTH, HEIGHT);
+    pixelDensity(1);//I need this for small devices
+}
+
+function windowResized() {
+    resizeCanvas(510, 510);
+}
+
+function draw() {
+    cursor(HAND);
+    mandelbrot.update();
+    mandelbrot.draw();
+    
+}
 
 function keyReleased() {
     if (keyCode === 80)//P key
@@ -18,24 +37,6 @@ function mouseWheel() {
     mandelbrot.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
 }
 
-let WIDTH = 500;
-let HEIGHT = 500;
-
-function setup() {
-    createCanvas(WIDTH, HEIGHT);
-    pixelDensity(1);//I need this for small devices
-}
-
-function windowResized() {
-    resizeCanvas(500, 500);
-}
-
-
-function draw() {
-    mandelbrot.update();
-    mandelbrot.draw();
-    
-}
 
 // KeyCodes available at: http://keycode.info/
 const KC_UP = 87;        // Move up W
