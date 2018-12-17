@@ -5,23 +5,13 @@
  * Original code by Kato https://www.openprocessing.org/user/114431
  */
 
-// Last update ??
+// Last update 17-Dec-2018
 
-var julia = new Julia();
-var changeC;
-var c;
-
-function keyReleased() {
-    if (keyCode === 80)//P key
-        julia.printDebug = !julia.printDebug;
-}
-
-function mouseWheel() {
-    julia.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
-}
-
-let WIDTH = 500;
-let HEIGHT = 500;
+let julia = new Julia();
+let changeC;
+let c;
+let WIDTH = 510;
+let HEIGHT = 510;
 
 function setup() {
     createCanvas(WIDTH, HEIGHT);
@@ -41,6 +31,15 @@ function draw() {
     julia.draw();
     console.log(changeC);
     
+}
+
+function keyReleased() {
+    if (keyCode === 80)//P key
+        julia.printDebug = !julia.printDebug;
+}
+
+function mouseWheel() {
+    julia.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
 }
 
 // KeyCodes available at: http://keycode.info/
@@ -119,7 +118,6 @@ Julia.prototype.draw = function() {
                               this.pos.x + map(x, 0, width, -this.size.x / 2, this.size.x / 2),
                               this.pos.y + map(y, height, 0, -this.size.y / 2, this.size.y / 2)
                               );
-            
             
             let iter = 0;
             while (iter < this.maxIter) {
