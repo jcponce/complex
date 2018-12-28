@@ -52,7 +52,7 @@ function Mandelbrot() {
     this.size = new p5.Vector(this.origSize.x, this.origSize.y);
     this.origPos = new p5.Vector(-0.7, 0);//Origin position
     this.pos = new p5.Vector(this.origPos.x, this.origPos.y);
-    this.maxIter = 170;
+    this.maxIter = 200;
     this.origZoom = 1;
     this.zoom = this.origZoom;
     this.printDebug = false;
