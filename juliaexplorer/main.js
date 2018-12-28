@@ -27,6 +27,7 @@ function windowResized() {
 }
 
 function draw() {
+    cursor(HAND);
     julia.update();
     julia.draw();
     console.log(changeC);
