@@ -176,10 +176,8 @@ function displayGrid() {
             line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
             line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
             line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
-            var xw = clts.centerX;
-            var decimals = xw - Math.floor(xw);
-            var decimalPlaces = xw.toString().split('.')[1].length;
-            decimals = decimals.toFixed(decimalPlaces);
+            var n = Math.abs(clts.centerX);
+var decimals = n - Math.floor(n);
             if(j>0){
                 let setPY = floor(map(j, 0, height/2, 0, w/2) + clts.centerY) + decimals;
                 let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY)) - decimals;
