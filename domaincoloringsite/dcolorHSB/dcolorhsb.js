@@ -177,10 +177,12 @@ function displayGrid() {
             line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
             line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
             if(j>0){
-                let setPY = floor(map(j, 0, height/2, 0, w/2) + clts.centerY);
-                let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY));
-                text('' + setPY, width / 2 - 4+9, height/2 - j + 3);//Y-Positive
-                text('' + setNY, width / 2 - 4+9, height/2 + j + 3);//Y-Negative
+                //let setPY = floor(map(j, 0, height/2, 0, w/2) + clts.centerY);
+                //let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY));
+                let setPY = map(j, 0, height/2, 0, w/2) + clts.centerY;
+                let setNY = -(map(j, 0, height/2, 0, w/2) - clts.centerY);
+                text('' + nfc(setPY, 2), width / 2 - 4+9, height/2 - j + 3);//Y-Positive
+                text('' + nfc(setNY, 2), width / 2 - 4+9, height/2 + j + 3);//Y-Negative
             }
             if(i>0){
                 let setPX = floor(map(i, 0, width/2, 0, w/2) + clts.centerX);
