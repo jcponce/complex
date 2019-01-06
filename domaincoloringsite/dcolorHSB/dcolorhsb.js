@@ -169,11 +169,6 @@ function displayGrid() {
     text('Re', width / 2 + posRe, height / 2 - 10);
     
     // Draw tick marks twice per step, and draw the halfway marks smaller.
-    
-    var decimals = w - Math.floor(w);
-
-    var decimalPlaces = w.toString().split('.')[1].length;
-    decimals = decimals.toFixed(decimalPlaces);
     textSize(14);
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
@@ -181,6 +176,10 @@ function displayGrid() {
             line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
             line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
             line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
+            var xw = clts.size;
+            var decimals = xw - Math.floor(xw);
+            var decimalPlaces = xw.toString().split('.')[1].length;
+            decimals = decimals.toFixed(decimalPlaces);
             if(j>0){
                 let setPY = floor(map(j, 0, height/2, 0, w/2) + clts.centerY) + decimals;
                 let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY)) - decimals;
