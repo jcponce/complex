@@ -176,21 +176,23 @@ function displayGrid() {
             line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
             line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
             line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
-            var n = Math.abs(clts.centerX);
-var decimals = n - Math.floor(n);
+            var nX = Math.abs(clts.centerX);
+            var decimalsX = nX - Math.floor(nX);
+            var nY = Math.abs(clts.centerY);
+            var decimalsY = nY - Math.floor(nY);
             if(j>0){
-                let setPY = floor(map(j, 0, height/2, 0, w/2) + clts.centerY) + decimals;
-                let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY)) - decimals;
+                let setPY = floor(map(j, 0, height/2, 0, w/2) + clts.centerY) + decimalsY;
+                let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY)) - decimalsY;
                 //let setPY = map(j, 0, height/2, 0, w/2) + clts.centerY;
                 //let setNY = -(map(j, 0, height/2, 0, w/2) - clts.centerY);
-                text('' + setPY, width / 2 - 4+9, height/2 - j + 3);//Y-Positive
-                text('' + setNY, width / 2 - 4+9, height/2 + j + 3);//Y-Negative
+                text('' + nfc(setPY, 1), width / 2 - 4+9, height/2 - j + 3);//Y-Positive
+                text('' + nfc(setNY, 1), width / 2 - 4+9, height/2 + j + 3);//Y-Negative
             }
             if(i>0){
-                let setPX = floor(map(i, 0, width/2, 0, w/2) + clts.centerX) + decimals;
-                let setNX = ceil(-(map(i, 0, width/2, 0, w/2) - clts.centerX)) - decimals;
-                text('' + setPX, width / 2 + i, height/2 - 4 + 18);//X-Positive
-                text('' + setNX, width / 2 - i, height/2 - 4 + 18);//X-Negative
+                let setPX = floor(map(i, 0, width/2, 0, w/2) + clts.centerX) + decimalsX;
+                let setNX = ceil(-(map(i, 0, width/2, 0, w/2) - clts.centerX)) - decimalsX;
+                text('' + nfc(setPX, 1), width / 2 + i, height/2 - 4 + 18);//X-Positive
+                text('' + nfc(setNX, 1), width / 2 - i, height/2 - 4 + 18);//X-Negative
             }
             
         }
