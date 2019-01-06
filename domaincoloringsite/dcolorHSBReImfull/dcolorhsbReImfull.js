@@ -182,6 +182,8 @@ function displayGrid() {
     text('Im', width / 2 + 2 - 25, height / 2 + posIm);
     text('Re', width / 2 + posRe, height / 2 - 10);
     
+    // Draw tick marks twice per step, and draw the halfway marks smaller.
+    textSize(14);
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
             stroke(0, 0, 0.6);

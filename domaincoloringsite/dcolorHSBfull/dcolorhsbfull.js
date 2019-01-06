@@ -157,7 +157,7 @@ function displayGrid() {
     strokeWeight(2);
     line(0, height / 2, width, height / 2); //x-axis
     line(width / 2, 0, width / 2, height); //y-axis
-    textSize(142);
+    textSize(12);
     fill(1);
     text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
     
@@ -171,8 +171,9 @@ function displayGrid() {
     }
     text('Im', width / 2 + 2 - 25, height / 2 + posIm);
     text('Re', width / 2 + posRe, height / 2 - 10);
-    // Draw tick marks twice per step, and draw the halfway marks smaller.
     
+    // Draw tick marks twice per step, and draw the halfway marks smaller.
+    textSize(14);
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
             line(width / 2 - 4, height/2 - j, width / 2 + 4, height/2 - j);//yAxis positive ticks

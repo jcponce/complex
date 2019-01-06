@@ -174,6 +174,7 @@ function displayGrid() {
     text('Re', width / 2 + posRe, height / 2 - 10);
     
     // Draw tick marks twice per step, and draw the halfway marks smaller.
+    textSize(14);
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
             line(width / 2 - 4, height/2 - j, width / 2 + 4, height/2 - j);//yAxis positive ticks
