@@ -32,7 +32,7 @@ sizePlot: false,
     
 };
 
-let w, posRe, posIm;
+let w, h, posRe, posIm;
 
 var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
@@ -97,7 +97,7 @@ function plot() {
     
     // It all starts with the width, try higher or lower values
     w = clts.size * 2;
-    let h = (w * height) / width;
+    h = (w * height) / width;
     
     // Start at negative half the width and height
     let xmin = -w / 2 + clts.centerX;
@@ -187,17 +187,19 @@ function displayGrid() {
             var decimalsY = nY - Math.floor(nY);
             if(j>0){
                 let setPY = floor(map(j, 0, height/2, 0, w/2) + clts.centerY) + decimalsY;
-                let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY)) - decimalsY;
+                let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY)) + decimalsY;
+                //let setPY = map(j, 0, height/2, 0, h/2) + clts.centerY;
+                //let setNY = -map(j, 0, height/2, 0, h/2) + clts.centerY;
                 //let setPY = map(j, 0, height/2, 0, w/2) + clts.centerY;
                 //let setNY = -(map(j, 0, height/2, 0, w/2) - clts.centerY);
-                text('' + nfc(setPY, 1), width / 2 - 4+9, height/2 - j + 3);//Y-Positive
-                text('' + nfc(setNY, 1), width / 2 - 4+9, height/2 + j + 3);//Y-Negative
-            }
+                text('' + nfc(setPY, 2), width / 2 - 4+9, height/2 - j + 3);//Y-Positive
+                text('' + nfc(setNY, 2), width / 2 - 4+9, height/2 + j + 3);//Y-Negative
+            }//str(round(c.x * 100)/100.0)
             if(i>0){
                 let setPX = floor(map(i, 0, width/2, 0, w/2) + clts.centerX) + decimalsX;
-                let setNX = ceil(-(map(i, 0, width/2, 0, w/2) - clts.centerX)) - decimalsX;
-                text('' + nfc(setPX, 1), width / 2 + i, height/2 - 4 + 18);//X-Positive
-                text('' + nfc(setNX, 1), width / 2 - i, height/2 - 4 + 18);//X-Negative
+                let setNX = ceil(-(map(i, 0, width/2, 0, w/2) - clts.centerX)) + decimalsX;
+                text('' + nfc(setPX, 2), width / 2 + i, height/2 - 4 + 18);//X-Positive
+                text('' + nfc(setNX, 2), width / 2 - i, height/2 - 4 + 18);//X-Negative
             }
             
         }
