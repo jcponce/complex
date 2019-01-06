@@ -169,6 +169,11 @@ function displayGrid() {
     text('Re', width / 2 + posRe, height / 2 - 10);
     
     // Draw tick marks twice per step, and draw the halfway marks smaller.
+    
+    var decimals = w - Math.floor(w);
+
+    var decimalPlaces = w.toString().split('.')[1].length;
+    decimals = decimals.toFixed(decimalPlaces);
     textSize(14);
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
@@ -177,16 +182,16 @@ function displayGrid() {
             line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
             line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
             if(j>0){
-                //let setPY = floor(map(j, 0, height/2, 0, w/2) + clts.centerY);
-                //let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY));
-                let setPY = map(j, 0, height/2, 0, w/2) + clts.centerY;
-                let setNY = -(map(j, 0, height/2, 0, w/2) - clts.centerY);
-                text('' + nfc(setPY, 2), width / 2 - 4+9, height/2 - j + 3);//Y-Positive
-                text('' + nfc(setNY, 2), width / 2 - 4+9, height/2 + j + 3);//Y-Negative
+                let setPY = floor(map(j, 0, height/2, 0, w/2) + clts.centerY) + decimals;
+                let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY)) - decimals;
+                //let setPY = map(j, 0, height/2, 0, w/2) + clts.centerY;
+                //let setNY = -(map(j, 0, height/2, 0, w/2) - clts.centerY);
+                text('' + setPY, width / 2 - 4+9, height/2 - j + 3);//Y-Positive
+                text('' + setNY, width / 2 - 4+9, height/2 + j + 3);//Y-Negative
             }
             if(i>0){
-                let setPX = floor(map(i, 0, width/2, 0, w/2) + clts.centerX);
-                let setNX = ceil(-(map(i, 0, width/2, 0, w/2) - clts.centerX));
+                let setPX = floor(map(i, 0, width/2, 0, w/2) + clts.centerX) + decimals;
+                let setNX = ceil(-(map(i, 0, width/2, 0, w/2) - clts.centerX)) - decimals;
                 text('' + setPX, width / 2 + i, height/2 - 4 + 18);//X-Positive
                 text('' + setNX, width / 2 - i, height/2 - 4 + 18);//X-Negative
             }
