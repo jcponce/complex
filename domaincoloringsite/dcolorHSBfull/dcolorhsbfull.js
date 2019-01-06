@@ -180,25 +180,25 @@ function displayGrid() {
             line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
             line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
             line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
-            var nX = Math.abs(clts.centerX);
-            var decimalsX = nX - Math.floor(nX);
-            var nY = Math.abs(clts.centerY);
-            var decimalsY = nY - Math.floor(nY);
+            //var nX = Math.abs(clts.centerX);
+            //var decimalsX = nX - Math.floor(nX);
+            //var nY = Math.abs(clts.centerY);
+            //var decimalsY = nY - Math.floor(nY);
             if(j>0){
-                let setPY = floor(map(j, 0, height/2, 0, w/2) + clts.centerY) + decimalsY;
-                let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY)) + decimalsY;
+                let setPY = map(j, 0, height/2, 0, h/2) + clts.centerY;
+                let setNY = -(map(j, 0, height/2, 0, h/2) - clts.centerY);
                 //let setPY = map(j, 0, height/2, 0, h/2) + clts.centerY;
                 //let setNY = -map(j, 0, height/2, 0, h/2) + clts.centerY;
                 //let setPY = map(j, 0, height/2, 0, w/2) + clts.centerY;
                 //let setNY = -(map(j, 0, height/2, 0, w/2) - clts.centerY);
-                text('' + nfc(setPY, 2), width / 2 - 4+9, height/2 - j + 3);//Y-Positive
-                text('' + nfc(setNY, 2), width / 2 - 4+9, height/2 + j + 3);//Y-Negative
+                text('' + str(round(setPY * 10)/10.0), width / 2 - 4+9, height/2 - j + 3);//Y-Positive
+                text('' + str(round(setNY * 10)/10.0), width / 2 - 4+9, height/2 + j + 3);//Y-Negative
             }//str(round(c.x * 100)/100.0)
             if(i>0){
-                let setPX = floor(map(i, 0, width/2, 0, w/2) + clts.centerX) + decimalsX;
-                let setNX = ceil(-(map(i, 0, width/2, 0, w/2) - clts.centerX)) + decimalsX;
-                text('' + nfc(setPX, 2), width / 2 + i, height/2 - 4 + 18);//X-Positive
-                text('' + nfc(setNX, 2), width / 2 - i, height/2 - 4 + 18);//X-Negative
+                let setPX = map(i, 0, width/2, 0, w/2) + clts.centerX;
+                let setNX = -(map(i, 0, width/2, 0, w/2) - clts.centerX);
+                text('' + str(round(setPX * 10)/10.0), width / 2 + i, height/2 - 4 + 18);//X-Positive
+                text('' + str(round(setNX * 10)/10.0), width / 2 - i, height/2 - 4 + 18);//X-Negative
             }
             
         }
