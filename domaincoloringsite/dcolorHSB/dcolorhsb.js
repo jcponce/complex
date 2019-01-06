@@ -4,7 +4,7 @@
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update 20-Nov-2018
+// Last update 6-January-2019
 
 let clts = {
 
@@ -29,9 +29,11 @@ sizePlot: false,
     
 };
 
-var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
-var funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
+let funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
+
+let w, posRe, posIm;
 
 function setup() {
     createCanvas(470, 470);
@@ -90,7 +92,7 @@ function plot() {
     // A different range will allow us to "zoom" in or out on the fractal
     
     // It all starts with the width, try higher or lower values
-    let w = clts.size * 2;
+    w = clts.size * 2;
     let h = (w * height) / width;
     
     // Start at negative half the width and height
@@ -147,23 +149,45 @@ function plot() {
 }
 
 function displayGrid() {
-    stroke(1);
-    strokeWeight(1.5);
+    stroke(0);
+    strokeWeight(2);
     line(0, height / 2, width, height / 2); //x-axis
     line(width / 2, 0, width / 2, height); //y-axis
-    textSize(16);
+    textSize(12);
     fill(1);
     text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
-    text('Im', width / 2 + 2, height / 2 - 210);
-    text('Re', width / 2 + 210, height / 2 + 15);
-    // Draw tick marks twice per step, and draw the halfway marks smaller.
     
+    //position Tags for Re and Im
+    if(clts.sizePlot == true){
+        posRe = 320;
+        posIm = -240;
+    } else{
+        posRe = 210;
+        posIm = -210;
+    }
+    text('Im', width / 2 + 2 - 25, height / 2 + posIm);
+    text('Re', width / 2 + posRe, height / 2 - 10);
+    
+    // Draw tick marks twice per step, and draw the halfway marks smaller.
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
             line(width / 2 - 4, height/2 - j, width / 2 + 4, height/2 - j);//yAxis positive ticks
             line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
             line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
             line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
+            if(j>0){
+                let setPY = floor(map(j, 0, height/2, 0, w/2) + clts.centerY);
+                let setNY = ceil(-(map(j, 0, height/2, 0, w/2) - clts.centerY));
+                text('' + setPY, width / 2 - 4+9, height/2 - j + 3);//Y-Positive
+                text('' + setNY, width / 2 - 4+9, height/2 + j + 3);//Y-Negative
+            }
+            if(i>0){
+                let setPX = floor(map(i, 0, width/2, 0, w/2) + clts.centerX);
+                let setNX = ceil(-(map(i, 0, width/2, 0, w/2) - clts.centerX));
+                text('' + setPX, width / 2 + i, height/2 - 4 + 18);//X-Positive
+                text('' + setNX, width / 2 - i, height/2 - 4 + 18);//X-Negative
+            }
+            
         }
     }
     
