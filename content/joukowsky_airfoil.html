@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="../images/infinity32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../images/infinity16.png" sizes="16x16">
-	<title>Complex Analysis</title>
+	<title>Joukowsky Airfoil</title>
 
 	<!-- dublin core -->
 	<meta name="dc.title" CONTENT="Complex Analysis">
@@ -31,21 +31,13 @@
 	<link href='http://fonts.googleapis.com/css?family=Raleway:400,600,800' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
 	<link href="../css/stylesheet.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../css/w3.css">
 
 	<!-- CODE PRETTIFY -->
 	<!-- via: https://github.com/google/code-prettify -->
-	<script src="js/run_prettify.js"></script>
+	<script src="../js/run_prettify.js"></script>
 
-	<!-- PROCESSING.JS -->
-	<!--[if lt IE 9]>
-			<script type="text/javascript">alert("Your browser does not support the canvas tag!");</script>
-	<![endif]-->
-	<script src="js/processing.js" type="text/javascript"></script>
-	<script>
-		function getProcessingSketchId() {
-			return '';
-		}
-	</script>
+	
 
 	<!-- JQUERY FANCY ADDITIONS -->
 	<!-- add code class, hover text, etc -->
@@ -123,6 +115,28 @@
 	</script>
 
 	<!-- ANALYTICS -->
+    
+    <!-- ANALYTICS -->
+    
+    <!--MathJax starts-->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+                           TeX: { equationNumbers: { autoNumber: "AMS" } }
+                           });
+        </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+        </script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+    
+    <!-- Cindy.js -->
+    <link rel="stylesheet" href="dclandscape/app.css" />
+    <link rel="stylesheet" href="dclandscape/CindyJS.css" />
+    <script type="text/javascript" src="dclandscape/Cindy.js"></script>
+    <script type="text/javascript" src="dclandscape/CindyGL.js"></script>
+    <script type="text/javascript" src="dclandscape/symbolic.js"></script>
+    <!-- Cindy.js -->
 	
 </head>
 
@@ -131,74 +145,54 @@
         
         <header><p><span id="prev"><a href="../index.html">&larr;</a></span><span id="title"><a href="table_of_contents.html">Complex Analysis</a></span><span id="next"><a href="license.html">&rarr;</a></span><div class="clear"></div></p></header>
         
+
+<h1>Joukowsky Airfoil</h1>
+<hr>
+<p>Consider the uniform flow past a circular cylinder with circulation $C$ and speed $U>0$ given by the complex potential
+<div class="w3-responsive">
+    \[
+    F(z)=Uz+\frac{Ua^2}{z}-\frac{i C}{2\pi}\log z.
+    \]
+</div>
+The streamfunction is just the imaginary part of this function, namely
+<div class="w3-responsive">
+    \[
+    \psi = Uy\left(1-\frac{a^2}{x^2+y^2}\right)-\frac{C}{4\pi}\log\left(x^2+y^2\right).
+    \]
+</div>
+Hence the circle $x^2+y^2=a^2$ is still a streamline, with $\psi = -(C/2\pi)\log a$.
+</p>
+
+<hr>
+
+<p>
+Consider now  the uniform flow past the circular cylinder $c_0$ for $a=1$. We use the linear  transformation $T(z)=-0.15+0.23i +r z$ to map the flow with circulation $C$ and speed $U$ around $|z|=1$ onto the flow around the circle $c_1$ with center $z_1=-0.15+0.23i$ and radius $r=0.23\sqrt{13\cdot 2}$. Then we use the mapping
+\[
+J(z)=z+\frac{1}{z}
+\]
+to map this flow around the Joukowsky airfoil.
+</p>
+
+<p>The following simulation shows the uniform flow past the circular cylinder $c_1$ and its transformation to the Joukowsky airfoil. Drag the sliders to interact:
+<ul>
+    <li>Slider U = speed.</li>
+    <li>Slider C = circulation.</li>
+    <li>Slider T = apply transformation.</li>
+    <li>Trace button = streamlines.</li>
+</ul>
+</p>
+<div class="w3-hide-small">
+    <iframe name="JoukAirfoil" src="joukowsky/index.html" width="700px" height="500px" style="border:none;" ></iframe>
+    <br>
+    <div class="w3-container w3-center">
+        <button onclick="var ifr=document.getElementsByName('JoukAirfoil')[0]; ifr.src=ifr.src;" class="w3-btn w3-ripple w3-grey w3-hover-text-white">Reset</button>
         
-         <p><img src="../images/table_of_contents.png" alt="Intro" title="Intro"></p>
-             
-<h1>TABLE OF CONTENTS</h1>
-<figcaption>You can get back to this page any time by clicking on the <code>Complex Analysis</code> text at the top!</figcaption>
-
-<div id="tableOfContents">
-	<h3>PREAMBLE</h3>
-	<ul>
-		<li><a href="../index.html">Introduction</a>  </li>
-		<!--<li><a href="license.html">License</a>  </li>
-		<li><a href="what_you_should_already_know.html">What You Should Already Know</a></li>-->
-	</ul>
-
-	<h3>SECTION 1</h3>
-	<ul>
-		<li><a href="joukowsky_airfoil.html">Joukowsky Arifoil</a> </li>
-		<li><a href="complex_analytic_landspaces.html">Complex Analytic Landscapes</a> </li>
-		<!--<li><a href="circle-circle.php">Circle/Circle</a>  </li>
-		<li><a href="section_1_challenges.php">Challenges</a></li>-->
-	</ul>
-<!--
-	<h3>SECTION 2</h3>
-	<ul>
-		<li><a href="point-rect.php">Point/Rectangle</a>  </li>
-		<li><a href="rect-rect.php">Rectangle/Rectangle</a></li>
-		<li><a href="circle-rect.php">Circle/Rectangle</a>  </li>
-		<li><a href="section_2_challenges.php">Challenges</a></li>
-	</ul>
-
-	<h3>SECTION 3</h3>
-	<ul>
-		<li><a href="line-point.php">Line/Point</a>  </li>
-		<li><a href="line-circle.php">Line/Circle</a>  </li>
-		<li><a href="line-line.php">Line/Line</a>  </li>
-		<li><a href="line-rect.php">Line/Rectangle</a>  </li>
-		<li><a href="section_3_challenges.php">Challenges</a></li>
-	</ul>
-
-	<h3>SECTION 4</h3>
-	<ul>
-		<li><a href="poly-point.php">Polygon/Point</a>  </li>
-		<li><a href="poly-circle.php">Polygon/Circle</a>  </li>
-		<li><a href="poly-rect.php">Polygon/Rectangle</a>  </li>
-		<li><a href="poly-line.php">Polygon/Line</a></li>
-		<li><a href="poly-poly.php">Polygon/Polygon</a>  </li>
-		<li><a href="section_4_challenges.php">Challenges</a></li>
-	</ul>
-
-	<h3>SECTION 5</h3>
-	<ul>
-		<li><a href="tri-point.php">Triangle/Point</a>  </li>
-		<li><a href="where_are_the_other_triangle_examples.php">Where Are The Other Triangle Examples?</a>  </li>
-		<li><a href="section_5_challenges.php">Challenges</a></li>
-	</ul>
-
-	<h3>SECTION 6</h3>
-	<ul>
-		<li><a href="object_oriented_collision.php">Moving to Object-Oriented Collision</a></li>
-	</ul>
-
-	<h3>THANKS</h3>
-	<ul>
-		<li><a href="thanks.php">An Attempt at Listing Those Who Made This Possible</a></li>
-	</ul>
- -->
-
-</div> <!-- end toc -->
+        
+        <a href="../joukowsky/joukowsky.html" class="w3-btn w3-ripple w3-grey w3-hover-text-white" target="_blank">Open in a separate tab</a>
+        
+        <a href="../joukowsky/joukowsky.zip" class="w3-btn w3-ripple w3-grey w3-hover-text-white" target="_blank"> Download <i class="fa fa-download w3-hover-text-blue" aria-hidden="true"></i> </a>
+        
+   </div>
 
 	<!-- link to the next page -->
 	<a href="license.html"><p class="nextPage">NEXT: License</p></a>
@@ -213,7 +207,7 @@
 	</div> <!-- end footer -->
 
 <!-- nice smart quotes, via: http://smartquotesjs.com -->
-<script src="js/smartquotes.min.js"></script>
-
+<script src="../js/smartquotes.min.js"></script>
+<script src="dclandscape/app.js"></script>
 </body>
 </html>

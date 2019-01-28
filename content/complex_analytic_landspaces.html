@@ -140,7 +140,7 @@
 
 <div id="complexLandscapes">
     <br>
-<p>Complex functions $ f:\mathbb{C}\to\mathbb{C} $ can be visualized by plotting the function $\tilde f: \mathbb{R^2} \to \mathbb{R}$ with $\tilde f(x,y) = |f(x + i y)|$ in 3D. The color of a patch $(x, y, |f(x + i y)|)$ indicates <a href="../ComplexExplorer">the phase</a> of the complex number $f(x + i y)$.</p>
+    <p>Complex functions $ f:\mathbb{C}\to\mathbb{C} $ can be visualized by plotting the function $$\tilde f: \mathbb{R^2} \to \mathbb{R}\quad \text{with}\quad \tilde f(x,y) = |f\left(x + i y\right)|\quad \text{in 3D}.$$ The color of a patch $\left(x, y, |f(x + i y)|\right)$ indicates <a href="../ComplexExplorer">the phase</a> of the complex number $f(x + i y)$.</p>
 <br>
 <div style="float: left;">
   
@@ -191,7 +191,7 @@
       ray(t) := t*mrd+mv;//mat * (t * rd + (0, 0, -5));
       
       //fun is the user defined function
-      fun(z) := (z-1)/(z^2+z+1);
+      fun(z) := (z-1)/(z^2+z+a);
       
       
       F(z) := fun(z/zoom)*zoom;
@@ -430,17 +430,18 @@
             color(F(cp.x+i*cp.y))*(.5+.2*abs(n*(.3,.5,.6)) + .3*abs(n*(ray(0)/|ray(0)|)))
             + .5*[1,1,1]*(n*(ray(0)/|ray(0)|))^16
             ,
-            grey(0.7)
+            grey(0.9)
           ),
-          grey(0.7)
+          grey(0.9)
         )
       );
     
       //lines for the sliders
       draw((.55, .4), (.55, -.4), color -> (0, 0, 0));
-      //drawtext((-1.1,PA.y),"a = " + zoom + "");
+      drawtext((.49, -.46),"a = " + round(a * 100) / 100 + "");
       
-      draw((.65, .4), (.65, -.4), color -> (0, 0, 0));
+      draw((.65, .4), (.65, -.4), color -> (0, 0, 10));
+      //drawtext((.46, .45),"zoom = " + round(zoom * 100) / 100 + "");
       </script>
 
       <div  id="CSCanvas" style="border:0px"></div>
@@ -462,7 +463,7 @@
           });
       </script>
       <br>
-      <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="(z-1)/(z^2+z+1)"  onkeypress="if((event.which ? event.which : event.keyCode)==13) { cdy.evokeCS('fun(z) := (' + this.value + '); init();'); }" size="55" style="font-size:18px">
+      <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="(z-1)/(z^2+z+a)"  onkeypress="if((event.which ? event.which : event.keyCode)==13) { cdy.evokeCS('fun(z) := (' + this.value + '); init();'); }" size="55" style="font-size:18px">
   </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -509,6 +510,10 @@ if(zoom) cdy.evokeCS('setzoom(' + zoom + ')');
 
 }, false);
 </script>
+
+<br>
+
+<p><strong> Software credits:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/Landscape/index.json">GitHub.</a></p>
 
 
 </div> <!-- end complex analytic landscapes -->
