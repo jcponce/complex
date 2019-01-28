@@ -156,7 +156,7 @@ function draw() {
     fill(255);
     text('U='+sliderU.value(), -340, 230);
     text('C='+sliderC.value(), -125, 230);
-    text('T='+sliderT.value(), 110, 230);
+    text('T='+sliderT.value(), 90, 230);
     
     
 }
@@ -220,7 +220,7 @@ class Particle{
 function controls() {
     
     buttonTrace = createButton('Trace');
-    buttonTrace.position(640, 420);
+    buttonTrace.position(640, 465);
     buttonTrace.mousePressed(traceShow);
     
     sliderU = createSlider(0.1, 1, 0.3, 0.1);
@@ -232,7 +232,7 @@ function controls() {
     sliderC.style('width', '100px');
     
     sliderT = createSlider(0, 1, 0, 0.01);
-    sliderT.position(530, 460);
+    sliderT.position(510, 460);
     sliderT.style('width', '100px');
     
 }
