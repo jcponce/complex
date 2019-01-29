@@ -31,6 +31,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Raleway:400,600,800' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
 	<link href="../css/stylesheet.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../css/w3.css">
 
 	<!-- CODE PRETTIFY -->
 	<!-- via: https://github.com/google/code-prettify -->
@@ -444,7 +445,9 @@
       //drawtext((.46, .45),"zoom = " + round(zoom * 100) / 100 + "");
       </script>
 
+      <div class="w3-hide-small">
       <div  id="CSCanvas" style="border:0px"></div>
+      </div>
       
       <script type="text/javascript">
           var cdy = CindyJS({canvasname:"CSCanvas",
@@ -452,8 +455,8 @@
                       animation: {autoplay: true},
                       csconsole: false,
                       use : ["CindyGL", "symbolic"],
-                      geometry: [ { name:"PA", kind:"P", type:"Free", pos: [.5,.37,1], narrow: true, color: [1,1,1], size:8 },
-                                  { name:"PC", kind:"P", type:"Free", pos: [.5,.1,1], narrow: true, color: [1,1,1], size:8 } ],
+                      geometry: [ { name:"PA", kind:"P", type:"Free", pos: [.5,.355,1], narrow: true, color: [1,1,1], size:8 },
+                                  { name:"PC", kind:"P", type:"Free", pos: [.5,.1,1], narrow: true, color: [0,1,1], size:8 } ],
                       ports: [{
                         id: "CSCanvas",
                         width: 690,
@@ -463,7 +466,9 @@
           });
       </script>
       <br>
+      <div class="w3-hide-small">
       <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="(z-1)/(z^2+z+a)"  onkeypress="if((event.which ? event.which : event.keyCode)==13) { cdy.evokeCS('fun(z) := (' + this.value + '); init();'); }" size="55" style="font-size:18px">
+      </div>
   </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -472,7 +477,7 @@
 </script>
 
 <br>
-
+<div class="w3-hide-small">
 <p>You can enter your own function $f$ or select one function of the following list:</p>
 <p><select id="sel" size="6" style="width:10em;"><option data-a="1">z</option>
   <option data-zoom=".15">z^2</option>
@@ -496,6 +501,12 @@
   <option data-a="1" data-zoom="-.2">z^z</option>
   <option data-a="1" data-zoom="-.2">log(z^z)/z</option>
 </select></p>
+</div>
+
+<div class="w3-hide-large w3-hide-medium">
+    <p class="callout"><strong>Oops!</strong> Sorry, the applet is  not supported for small screens.</p>
+</div>
+
 <script type="text/javascript">
 var select = document.getElementById("sel");
 select.addEventListener('change', function(event) {
@@ -528,7 +539,7 @@ if(zoom) cdy.evokeCS('setzoom(' + zoom + ')');
 		</a></p>
 	</footer>
 
-	</div> <!-- end footer -->
+	</div> <!-- end wrapper -->
 
 <!-- nice smart quotes, via: http://smartquotesjs.com -->
 <script src="../js/smartquotes.min.js"></script>
