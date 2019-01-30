@@ -10,48 +10,23 @@
     <link rel="stylesheet" href="dist/v08/CindyJS.css" />
 <script type="text/javascript" src="dist/v07/Cindy.js"></script>
 <script type="text/javascript" src="dist/v07/CindyGL.js"></script>
-<script type="text/javascript" src="dist/v07/katex-plugin.js"></script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.js"></script>
+<!--<script type="text/javascript" src="dist/v07/katex-plugin.js"></script>-->
 
   </head>
   <body class="with-footer">
 
     <!-- Header -->
-    <header id="top-bar">
-      <div>
-        
-        <nav>
-          <ul id="topBarLinks">
-            <li><a href="/gallery/main/">Gallery</a></li>
-            <li><a href="/docs/">Docs</a></li>
-            <li><a href="/project/">Project</a></li>
-            
-          </ul>
-        </nav>
-      </div>
-    </header>
+    
 
     <div id="between-bars">
 
       <!-- Main part -->
       <main>
       <!-- navigation within gallery -->
-      <div class="gallerynav"><ul>
-          <li><a href="/gallery">Overview</a></li>
-          <li><a href="/gallery/main">Showcase</a></li>
-          <li class="highlight"><a href="/gallery/cindygl">CindyGL-Gallery</a></li>
-          <li><a href="/examples">Examples shipped with the source tree</a></li>
-        </ul>
-      </div>
-
-        <h1>Taylor series of complex functions</h1>
+      
 
 <div style="float: left;">
-		
-		
-		
+
 		<script id="csinit" type="text/x-cindyscript">
 			hsvToRGB(h, s, v) := (
 				regional(j, p, q, t, f);
@@ -126,8 +101,8 @@
 		);
 		
 		drawtext((-5.9,1.7), "$f(z) =$");
-		
-		drawtext((-1.7,1.7), "$\sum_{k=0}^{"+n+"} \frac{f^{(k)}(a)}{k!} (z-a)^k$");
+		//\textcolor{<color>}{<text>}
+		drawtext((-1.7,1.7), "$\sum_{k=0}^{"+n+"} \frac{f^{(k)}(a)}{k!} (z-a)^k$", color->(0.98,0.98,0.98));
 		
 		draw((1.8,-1.8),(1.8,1.8), color->[0,0,0]);
 		N.x = 1.8;
@@ -136,7 +111,7 @@
 		N.y = n/5-1.8;
 		
 		draw((-5,-1.8),(1,-1.8), color->[0,0,0]);
-		drawtext((1.1,N.y),"$n = " + n + "$");
+        drawtext((1.25,N.y),"$n = " + n + "$", color->(0.98,0.98,0.98));
 		Zoom.y = -1.8;
 		
 		Zoom.x = max(Zoom.x, -5);
@@ -155,24 +130,26 @@
 		
 		<script type="text/javascript">
 				var cdy = CindyJS({canvasname:"CSCanvas",
-										scripts: "cs*",
-										geometry: [
-											{name:"A", type:"Free", pos:[1.1, 0.1],color:[1,0,0]},
-											{name:"N", type:"Free", pos:[1, 0],color:[1,1,1], size:8},
-											{name:"Zoom", type:"Free", pos:[-2, -.3],color:[1,1,1], size:8},
-											{name: "Input", type: "EditableText", pos: [-5.2, 1.7], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 300, text: "1/(z^2+1)"}
-										],
-										animation: {autoplay: true},
-										ports: [{
-											id: "CSCanvas",
-											width: 800,
-											height: 400,
-											transform: [ { visibleRect: [-6,-2, 2, 2] } ]
-										}],
-										use: ["CindyGL", "katex"]
-									});
+				scripts: "cs*",
+				geometry: [
+							{name:"A", type:"Free", pos:[1.1, 0.1],color:[0,0.9,1]},
+							{name:"N", type:"Free", pos:[1, 0],color:[1,1,1], size:8},
+							{name:"Zoom", type:"Free", pos:[-2, -.3],color:[1,1,1], size:8},
+							{name: "Input", type: "EditableText", pos: [-5.35, 1.7], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 200, text: "1/(z^2+1)"}
+                           ],
+				animation: {autoplay: true},
+				ports: [{
+                          id: "CSCanvas",
+                          width: 1000,
+                          height: 500,
+                          transform: [ { visibleRect: [-6,-2, 2, 2] } ]
+						}],
+				use: ["CindyGL", "katex"]
+				});
 		</script>
 	</div>
+
+<div style="float: left;">
 <p>On the left, a phase portrait of a complex function is displayed.
 On the right, one can see the approximation of the function through it&#39;s Taylor polynomials at the red base point.</p>
 <p>The complex function, the base point, the order of the polynomial and the zoom can be modified.</p>
@@ -185,34 +162,17 @@ On the right, one can see the approximation of the function through it&#39;s Tay
   <option value='Input.text = "sin(z)/cos(z)";'>tangent</option>
   <option value='Input.text = "exp(z)";'>exponential function</option>
 </select>
+</div>
 
+<div style="float: left;">
+    <br><br><br><hr>
+    <p><strong> Software credits:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/Landscape/index.json">GitHub.</a></p>
+</div>
 
       </main>
     </div>
 
-    <footer id="bottom-bar">
-      <div>
-        <div class="footer-item">
-          <p class="footer-label">Made possible by:</p>
-          <ul class="footer-links">
-            <li><a href="http://ma.tum.de/">Technische Universität München, Zentrum Mathematik, Germany</a></li>
-            <li><a href="http://discretization.de/">DFG SFB Transregio 109 DGD, Germany</a></li>
-            <li><a href="http://mc2-project.eu/">M C Squared, 7th Framework Programme, EU</a></li>
-          </ul>
-          <p class="footer-label"><a href="/imprint/">Legal notice and privacy policy</a></p>
-        </div>
-        <div class="footer-sep"><hr></div>
-        <div class="footer-item">
-          <p class="footer-label">This page:</p>
-          <ul class="footer-links">
-            <li><a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/Taylor/index.json">View source</a></li>
-            <li><a href="https://github.com/CindyJS/website/edit/master/src/gallery/cindygl/Taylor/index.json">Edit page</a></li>
-            <li><a href="http://www.apache.org/licenses/LICENSE-2.0" rel="license">Apache License 2.0
-            </a></li>
-          </ul>
-        </div>
-      </div>
-    </footer>
+    
 
     <script src="app.js"></script>
   </body>

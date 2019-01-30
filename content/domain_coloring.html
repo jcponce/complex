@@ -441,10 +441,12 @@ between $-1$ and $+1$.</p>
   <input id="ch3" onclick="check3()" type="checkbox" >Linear diagram&nbsp;&nbsp;&nbsp;
   <input id="ch4" onclick="check4()" type="checkbox" >Chessbaord&nbsp;&nbsp;&nbsp;
   <input id="ch5" onclick="check5()" type="checkbox" >Webcam<br>
-  </div>
-<div>
 <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="z"  onkeypress="typ(event, this)" size="43" style="font-size:18px">
-<select id="sel" onchange="sel(event, this)" style="width:20em;">
+  </div>
+<br>
+<div>
+<p>You can also select one function of the following list:</p>
+<select id="sel" onchange="sel(event, this)" style="width:16em;">
   <option>z</option>
   <option>(1-a)*(1+a)</option>
   <option>(z-A)/(z-B)</option>
@@ -459,7 +461,7 @@ between $-1$ and $+1$.</p>
 </select>
 </div>
 
-</div>
+</div><!--hide small-->
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/x-mathjax-config">
@@ -474,7 +476,7 @@ between $-1$ and $+1$.</p>
         <p class="callout"><strong>Oops!</strong> Sorry, the applet is  not supported for small screens.</p>
     </div>
     
-    <br>
+    <br><hr>
     
     <p><strong>Note:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/ComplexExplorer/index.json">GitHub.</a></p>
 
