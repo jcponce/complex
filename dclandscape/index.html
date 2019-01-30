@@ -7,11 +7,24 @@
     <title>Complex Analytic Landscapes</title>
     <link rel="icon" type="image/png" href="../images/infinity32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../images/infinity16.png" sizes="16x16">
+<link rel="stylesheet" href="../css/w3.css">
 <link rel="stylesheet" href="app.css" />
 <link rel="stylesheet" href="CindyJS.css" />
 <script type="text/javascript" src="Cindy.js"></script>
 <script type="text/javascript" src="CindyGL.js"></script>
 <script type="text/javascript" src="symbolic.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'UA-121691678-1');
+</script>
+
+
   </head>
   <body class="with-footer">
 
@@ -27,7 +40,7 @@
 
 <div style="float: left;">
   
-  
+  <div class="w3-hide-small">
       <script id="csmousedown" type="text/x-cindyscript">
       sx = mouse().x;
       sy = mouse().y;
@@ -347,7 +360,7 @@
           });
       </script>
       <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="(z-1)/(z^2+z+a)"  onkeypress="if((event.which ? event.which : event.keyCode)==13) { cdy.evokeCS('fun(z) := (' + this.value + '); init();'); }" size="55" style="font-size:18px">
-  </div>
+  
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
@@ -378,10 +391,19 @@
   <option data-a="1" data-zoom="-.2">log(z^z)/z</option>
 </select></p>
 
+</div><!--End Hide small -->
+
+</div>
+    
+<div class="w3-hide-large w3-hide-medium">
+   <p class="callout"><strong>Oops!</strong> Sorry, the applet is  not supported for small screens.</p>
+</div>
+
+
 <div style="float: left;">
     <br><br><br><hr>
-    <p><strong> Software credits:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/Landscape/index.json">GitHub.</a></p>
-</div>
+    <p><strong>Note:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/Landscape/index.json">GitHub.</a></p>
+</div><!--End second left -->
 <script type="text/javascript">
 var select = document.getElementById("sel");
 select.addEventListener('change', function(event) {
@@ -400,8 +422,8 @@ if(zoom) cdy.evokeCS('setzoom(' + zoom + ')');
 
 
 
-      </main>
-    </div>
+    </main>
+</div><!--End between bars-->
 
     
 

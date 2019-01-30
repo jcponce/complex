@@ -8,11 +8,22 @@
     
     <link rel="icon" type="image/png" href="../images/infinity32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../images/infinity16.png" sizes="16x16">
+    <link rel="stylesheet" href="../css/w3.css">
      <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="dist/v08/CindyJS.css" />
 <script type="text/javascript" src="dist/v07/Cindy.js"></script>
 <script type="text/javascript" src="dist/v07/CindyGL.js"></script>
 <!--<script type="text/javascript" src="dist/v07/katex-plugin.js"></script>-->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'UA-121691678-1');
+    </script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/x-mathjax-config">
@@ -34,6 +45,8 @@
 
 <div style="float: left;">
 
+    <div class="w3-hide-small">
+        
 		<script id="csinit" type="text/x-cindyscript">
 			hsvToRGB(h, s, v) := (
 				regional(j, p, q, t, f);
@@ -148,14 +161,14 @@
 				animation: {autoplay: true},
 				ports: [{
                           id: "CSCanvas",
-                          width: 1000,
-                          height: 500,
+                          width: 860,
+                          height: 430,
                           transform: [ { visibleRect: [-6,-2, 2, 2] } ]
 						}],
 				use: ["CindyGL", "katex"]
 				});
 		</script>
-	</div>
+	
 
 <div style="float: left;">
 <p>On the left, a phase portrait of a complex function is displayed.
@@ -173,9 +186,17 @@ On the right, one can see the approximation of the function through it&#39;s Tay
 </select>
 </div>
 
+</div>
+
+</div>
+
+<div class="w3-hide-large w3-hide-medium">
+    <p class="callout"><strong>Oops!</strong> Sorry, the applet is  not supported for small screens.</p>
+</div>
+
 <div style="float: left;">
     <br><br><br><hr>
-    <p><strong> Software credits:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/Landscape/index.json">GitHub.</a></p>
+    <p><strong>Note:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/Landscape/index.json">GitHub.</a></p>
 </div>
 
       </main>

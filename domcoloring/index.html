@@ -7,10 +7,21 @@
     <title>Exploring Complex Functions</title>
     <link rel="icon" type="image/png" href="../images/infinity32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../images/infinity16.png" sizes="16x16">
+    <link rel="stylesheet" href="../css/w3.css">
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="CindyJS.css" />
 <script type="text/javascript" src="Cindy.js"></script>
 <script type="text/javascript" src="CindyGL.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'UA-121691678-1');
+    </script>
 
 <script id="csinit" type="text/x-cindyscript">
 f(z, a, b, c, d, e, A, B, C, D) := z;
@@ -274,6 +285,8 @@ var check3=function(){
       
 
 <div style="float: left;">
+    
+<div class="w3-hide-small">
   
   <div id="CSCanvas" style="border:2px solid black"></div>
 <div>
@@ -299,6 +312,13 @@ var check3=function(){
   <option value="z=a; repeat(11, z = z - (z^3-b*c*d)/(3*z^2));">Newton-like</option>
 </select>
 </div>
+
+</div><!--End hide small-->
+
+</div>
+
+<div class="w3-hide-large w3-hide-medium">
+    <p class="callout"><strong>Oops!</strong> Sorry, the applet is  not supported for small screens.</p>
 </div>
 
 <div style="float: left;">
