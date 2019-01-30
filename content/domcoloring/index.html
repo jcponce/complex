@@ -5,7 +5,8 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>exploring complex functions</title>
-    <link rel="icon" href="/assets/img/logo_small.png" type="image/png">
+    <link rel="icon" type="image/png" href="../../images/infinity32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../images/infinity16.png" sizes="16x16">
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="CindyJS.css" />
 <script type="text/javascript" src="Cindy.js"></script>
@@ -73,7 +74,7 @@ if(D.x>1,D.size=6;drawtext(D+(.03,.03),"D"),D.size=4);
 drawtext((1.1,.8),"Complex Numbers Variables:",size->18);
 drawtext((1.1,.7),"a=z-A, b=z-B, c=z-C, d=z-D",size->18);
 
-drawtext((1.1,.2),"Real Number Variable:",size->18);
+drawtext((1.1,.17),"Real Scalar:",size->18);
 //drawtext((1.1,.1),"e",size->18);
 
 drawtext(E+(.03,.03),"e");
@@ -163,8 +164,8 @@ draw((1,-1),(1,1), color->(0,0,0), size->2);
 var cdy = CindyJS({
   ports: [{
     id: "CSCanvas",
-      width: 700,
-      height: 445,
+      width: 800,
+      height: 545,
       transform: [ { visibleRect: [-1, -1, 2.2, 1] } ]
   }],
   scripts: "cs*",
@@ -264,34 +265,13 @@ var check3=function(){
   <body class="with-footer">
 
     <!-- Header -->
-    <header id="top-bar">
-      <div>
-        <h1><a href="/"><span style="font-weight:400">Cindy</span><span style="font-weight:700">JS</span><img alt="CindyJS logo" class="logo" src="/assets/img/logo_small.png"></a></h1>
-        <nav>
-          <ul id="topBarLinks">
-            <li><a href="/gallery/main/">Gallery</a></li>
-            <li><a href="/docs/">Docs</a></li>
-            <li><a href="/project/">Project</a></li>
-            <li><a href="https://github.com/CindyJS/CindyJS"><img src="/assets/img/octoicons-mark-github.svg" alt="GitHub" title="GitHub project" style="display:inline; position:relative; top:0.2ex; width:1.7ex;"></a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
 
     <div id="between-bars">
 
       <!-- Main part -->
       <main>
       <!-- navigation within gallery -->
-      <div class="gallerynav"><ul>
-          <li><a href="/gallery">Overview</a></li>
-          <li class="highlight"><a href="/gallery/main">Showcase</a></li>
-          <li><a href="/gallery/cindygl">CindyGL-Gallery</a></li>
-          <li><a href="/examples">Examples shipped with the source tree</a></li>
-        </ul>
-      </div>
-
-        <h1>exploring complex functions</h1>
+      
 
 <div style="float: left;">
   
@@ -299,13 +279,14 @@ var check3=function(){
 <div>
   <input id="ch1" onclick="check1()" checked type="checkbox" >Angles&nbsp;&nbsp;&nbsp;
   <input id="ch2" onclick="check2()" checked type="checkbox" >Radii&nbsp;&nbsp;&nbsp;
-  <!--<input id="ch3" onclick="check3()" type="checkbox" >Linear diagram&nbsp;&nbsp;&nbsp;-->
-  <input id="ch4" onclick="check4()" type="checkbox" >B/W&nbsp;&nbsp;&nbsp;
+  <input id="ch3" onclick="check3()" type="checkbox" >Linear diagram&nbsp;&nbsp;&nbsp;
+  <input id="ch4" onclick="check4()" type="checkbox" >Chessbaord&nbsp;&nbsp;&nbsp;
   <input id="ch5" onclick="check5()" type="checkbox" >Webcam<br>
   </div>
 <div>
 <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="z"  onkeypress="typ(event, this)" size="45" style="font-size:18px">
 <select id="sel" onchange="sel(event, this)" style="width:20em;">
+  <option>z</option>
   <option>(1-a)*(1+a)</option>
   <option>(z-A)/(z-B)</option>
   <option>z^(1+i)</option>
@@ -320,52 +301,19 @@ var check3=function(){
 </div>
 </div>
 
+<div style="float: left;">
+    <br><br><br><hr>
+<p><strong>Note:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/ComplexExplorer/index.json">GitHub.</a></p>
+<div>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 </script>
 
-
-<p>Here you can freely explore phase portraits of complex functions.
-Variables accessible in the freely editable formula are $z$, $A$, $B$, $C$, $D$, $a$,$b$,$c$,$d$ and $e$
-where $a,b,c,d$ depend on the position of the colored points
-$A,B,C,D$. The dependence is
-(
-a=z-A,
-b=z-B,
-c=z-C,
-d=z-D.
-)
-Here $z$ is the location in the image. Variable $e$ is a real scalar that can be adjusted
-between $-1$ and $+1$.</p>
-
-
       </main>
     </div>
 
-    <footer id="bottom-bar">
-      <div>
-        <div class="footer-item">
-          <p class="footer-label">Made possible by:</p>
-          <ul class="footer-links">
-            <li><a href="http://ma.tum.de/">Technische Universität München, Zentrum Mathematik, Germany</a></li>
-            <li><a href="http://discretization.de/">DFG SFB Transregio 109 DGD, Germany</a></li>
-            <li><a href="http://mc2-project.eu/">M C Squared, 7th Framework Programme, EU</a></li>
-          </ul>
-          <p class="footer-label"><a href="/imprint/">Legal notice and privacy policy</a></p>
-        </div>
-        <div class="footer-sep"><hr></div>
-        <div class="footer-item">
-          <p class="footer-label">This page:</p>
-          <ul class="footer-links">
-            <li><a href="https://github.com/CindyJS/website/blob/master/src/gallery/main/ComplexExplorer/index.json">View source</a></li>
-            <li><a href="https://github.com/CindyJS/website/edit/master/src/gallery/main/ComplexExplorer/index.json">Edit page</a></li>
-            <li><a href="http://www.apache.org/licenses/LICENSE-2.0" rel="license">Apache License 2.0
-            </a></li>
-          </ul>
-        </div>
-      </div>
-    </footer>
 
     <script src="app.js"></script>
   </body>

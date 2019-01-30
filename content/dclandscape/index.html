@@ -5,7 +5,8 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Complex Analytic Landscapes</title>
-    <link rel="icon" href="/assets/img/logo_small.png" type="image/png">
+    <link rel="icon" type="image/png" href="../../images/infinity32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../images/infinity16.png" sizes="16x16">
 <link rel="stylesheet" href="app.css" />
 <link rel="stylesheet" href="CindyJS.css" />
 <script type="text/javascript" src="Cindy.js"></script>
@@ -15,34 +16,14 @@
   <body class="with-footer">
 
     <!-- Header -->
-    <header id="top-bar">
-      <div>
-        <h1><a href="/"><span style="font-weight:400">Cindy</span><span style="font-weight:700">JS</span><img alt="CindyJS logo" class="logo" src="/assets/img/logo_small.png"></a></h1>
-        <nav>
-          <ul id="topBarLinks">
-            <li><a href="/gallery/main/">Gallery</a></li>
-            <li><a href="/docs/">Docs</a></li>
-            <li><a href="/project/">Project</a></li>
-            <li><a href="https://github.com/CindyJS/CindyJS"><img src="/assets/img/octoicons-mark-github.svg" alt="GitHub" title="GitHub project" style="display:inline; position:relative; top:0.2ex; width:1.7ex;"></a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    
 
     <div id="between-bars">
 
       <!-- Main part -->
       <main>
       <!-- navigation within gallery -->
-      <div class="gallerynav"><ul>
-          <li><a href="/gallery">Overview</a></li>
-          <li><a href="/gallery/main">Showcase</a></li>
-          <li class="highlight"><a href="/gallery/cindygl">CindyGL-Gallery</a></li>
-          <li><a href="/examples">Examples shipped with the source tree</a></li>
-        </ul>
-      </div>
-
-        <h1>Complex Analytic Landscapes</h1>
+      
 
 <div style="float: left;">
   
@@ -94,7 +75,7 @@
       ray(t) := t*mrd+mv;//mat * (t * rd + (0, 0, -5));
       
       //fun is the user defined function
-      fun(z) := (z-1)/(z^3+1-i);
+      fun(z) := (z-1)/(z^2+z+a);
       
       
       F(z) := fun(z/zoom)*zoom;
@@ -341,11 +322,13 @@
     
       //lines for the sliders
       draw((.55, .4), (.55, -.4), color -> (0, 0, 0));
+      drawtext((.49, -.46),"a = " + round(a * 100) / 100 + "");
       
-      draw((.65, .4), (.65, -.4), color -> (0, 0, 0));
+      draw((.65, .4), (.65, -.4), color -> (0, 0, 10));
       </script>
 
       <div  id="CSCanvas" style="border:0px"></div>
+      
       
       <script type="text/javascript">
           var cdy = CindyJS({canvasname:"CSCanvas",
@@ -353,24 +336,24 @@
                       animation: {autoplay: true},
                       csconsole: false,
                       use : ["CindyGL", "symbolic"],
-                      geometry: [ { name:"PA", kind:"P", type:"Free", pos: [.5,.37,1], narrow: true, color: [1,1,1], size:8 },
+                      geometry: [ { name:"PA", kind:"P", type:"Free", pos: [.5,.355,1], narrow: true, color: [1,1,1], size:8 },
                                   { name:"PC", kind:"P", type:"Free", pos: [.5,.1,1], narrow: true, color: [1,1,1], size:8 } ],
                       ports: [{
                         id: "CSCanvas",
-                        width: 700,
-                        height: 500,
+                        width: 750,
+                        height: 550,
                         transform: [ { visibleRect: [ -0.7, -0.5, 0.7, 0.5 ] } ]
                       }]
           });
       </script>
-      <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="(z-1)/(z^3+1-i)"  onkeypress="if((event.which ? event.which : event.keyCode)==13) { cdy.evokeCS('fun(z) := (' + this.value + '); init();'); }" size="55" style="font-size:18px">
+      <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="(z-1)/(z^2+z+a)"  onkeypress="if((event.which ? event.which : event.keyCode)==13) { cdy.evokeCS('fun(z) := (' + this.value + '); init();'); }" size="55" style="font-size:18px">
   </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 </script>
 
-<p>Complex functions $ f:\mathbb{C}\to\mathbb{C} $ can be visualized by plotting the function $\tilde f: \mathbb{R^2} \to \mathbb{R}$ with $\tilde f(x,y) = |f(x + i y)|$ in 3D. The color of a patch $(x, y, |f(x + i y)|)$ indicates <a href="../ComplexExplorer">the phase</a> of the complex number $f(x + i y)$.</p>
+
 <p>You can enter your own function $f$ or select one function of the following list:</p>
 <p><select id="sel" size="6" style="width:10em;"><option data-a="1">z</option>
   <option data-zoom=".15">z^2</option>
@@ -394,6 +377,11 @@
   <option data-a="1" data-zoom="-.2">z^z</option>
   <option data-a="1" data-zoom="-.2">log(z^z)/z</option>
 </select></p>
+
+<div style="float: left;">
+    <br><br><br><hr>
+    <p><strong> Software credits:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/Landscape/index.json">GitHub.</a></p>
+</div>
 <script type="text/javascript">
 var select = document.getElementById("sel");
 select.addEventListener('change', function(event) {
@@ -409,39 +397,13 @@ if(zoom) cdy.evokeCS('setzoom(' + zoom + ')');
 }, false);
 </script>
 
-<h5 id="software-a-href-http-cindyjs-org-cindyjs-a-br-">Software: <a href="http://cindyjs.org">CindyJS</a><br></h5>
-<p>  Deformation made possible by connecting CindyJS to
-  WebGL and calculating transformations on the GPU.</p>
-<h5 id="widget-author-">Widget Author:</h5>
-<p>  Aaron Montag</p>
+
 
 
       </main>
     </div>
 
-    <footer id="bottom-bar">
-      <div>
-        <div class="footer-item">
-          <p class="footer-label">Made possible by:</p>
-          <ul class="footer-links">
-            <li><a href="http://ma.tum.de/">Technische Universität München, Zentrum Mathematik, Germany</a></li>
-            <li><a href="http://discretization.de/">DFG SFB Transregio 109 DGD, Germany</a></li>
-            <li><a href="http://mc2-project.eu/">M C Squared, 7th Framework Programme, EU</a></li>
-          </ul>
-          <p class="footer-label"><a href="/imprint/">Legal notice and privacy policy</a></p>
-        </div>
-        <div class="footer-sep"><hr></div>
-        <div class="footer-item">
-          <p class="footer-label">This page:</p>
-          <ul class="footer-links">
-            <li><a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/Landscape/index.json">View source</a></li>
-            <li><a href="https://github.com/CindyJS/website/edit/master/src/gallery/cindygl/Landscape/index.json">Edit page</a></li>
-            <li><a href="http://www.apache.org/licenses/LICENSE-2.0" rel="license">Apache License 2.0
-            </a></li>
-          </ul>
-        </div>
-      </div>
-    </footer>
+    
 
     <script src="app.js"></script>
   </body>
