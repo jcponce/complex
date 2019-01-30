@@ -119,7 +119,7 @@ a, a:link, a:visited {
 }
 a:active, a:hover {
 	color:				black;
-	background-color:	rgb(255,255,0);
+	background-color:	rgb(230, 230, 230);
 }
 a:hover .fa, .license a:hover {
 	color: 				rgb(255,150,0);
@@ -248,7 +248,7 @@ header {
 	text-align: 		center;
 }
 .nextPage:hover {
-	background-color: 	rgb(255,255,0);
+	background-color: 	rgb(230, 230, 230);
 }
 
 
