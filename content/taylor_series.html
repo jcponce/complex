@@ -150,7 +150,7 @@
 <h1>Taylor Series</h1>
 
 <p>On the left, a phase portrait of a complex function is displayed.
-On the right, one can see the approximation of the function through it&#39;s Taylor polynomials at the red base point.</p>
+On the right, you can see the approximation of the function through it&#39;s Taylor polynomials at the blue base point $z_0$.</p>
 <p>The complex function, the base point, the order of the polynomial and the zoom can be modified.</p>
 
 
@@ -232,7 +232,7 @@ On the right, one can see the approximation of the function through it&#39;s Tay
 		
 		//drawtext((-5.9,1.7), "$f(z) =$");
 		//\textcolor{<color>}{<text>}
-		drawtext((-1.89,1.7), "$\sum_{k=0}^{"+n+"} \frac{f^{(k)}(a)}{k!} (z-a)^k$", color->(0.98,0.98,0.98));
+		drawtext((-1.89,1.7), "$\sum_{k=0}^{"+n+"} \frac{f^{(k)}(z_0)}{k!} (z-z_0)^k$", color->(0.98,0.98,0.98));
 		
         linesize(1.5);
 		draw((1.8,-1.8),(1.8,1.8), color->[0,0,0]);
@@ -264,7 +264,7 @@ On the right, one can see the approximation of the function through it&#39;s Tay
 				scripts: "cs*",
 				geometry: [
 							{name:"A", type:"Free", pos:[1.1, 0.1],color:[0,0.9,1]},
-							{name:"N", type:"Free", pos:[1, 0],color:[1,1,1], size:8},
+							{name:"N", type:"Free", pos:[1, -2],color:[1,1,1], size:8},
 							{name:"Zoom", type:"Free", pos:[-2, -.3],color:[1,1,1], size:8},
 							//{name: "Input", type: "EditableText", pos: [-5.9,1.7], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 100, text: "1/(z^2+1)"}
                            ],

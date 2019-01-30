@@ -6,11 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Taylor series of complex functions</title>
     
+    <link rel="icon" type="image/png" href="../images/infinity32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../images/infinity16.png" sizes="16x16">
      <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="dist/v08/CindyJS.css" />
 <script type="text/javascript" src="dist/v07/Cindy.js"></script>
 <script type="text/javascript" src="dist/v07/CindyGL.js"></script>
 <!--<script type="text/javascript" src="dist/v07/katex-plugin.js"></script>-->
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
 
   </head>
   <body class="with-footer">
@@ -100,10 +107,11 @@
 			(-6,-2),(-2,2)
 		);
 		
-		drawtext((-5.9,1.7), "$f(z) =$");
+		drawtext((-5.9,1.7), "$f(z) =$", color->(0.98,0.98,0.98));
 		//\textcolor{<color>}{<text>}
-		drawtext((-1.7,1.7), "$\sum_{k=0}^{"+n+"} \frac{f^{(k)}(a)}{k!} (z-a)^k$", color->(0.98,0.98,0.98));
-		
+		drawtext((-1.9,1.7), "$\sum_{k=0}^{"+n+"} \frac{f^{(k)}(z_0)}{k!} (z-z_0)^k$", color->(0.98,0.98,0.98));
+        
+        linesize(1.2);
 		draw((1.8,-1.8),(1.8,1.8), color->[0,0,0]);
 		N.x = 1.8;
 		n = round(5*(N.y+1.8));
@@ -133,7 +141,7 @@
 				scripts: "cs*",
 				geometry: [
 							{name:"A", type:"Free", pos:[1.1, 0.1],color:[0,0.9,1]},
-							{name:"N", type:"Free", pos:[1, 0],color:[1,1,1], size:8},
+							{name:"N", type:"Free", pos:[1, -2],color:[1,1,1], size:8},
 							{name:"Zoom", type:"Free", pos:[-2, -.3],color:[1,1,1], size:8},
 							{name: "Input", type: "EditableText", pos: [-5.35, 1.7], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 200, text: "1/(z^2+1)"}
                            ],
@@ -151,16 +159,17 @@
 
 <div style="float: left;">
 <p>On the left, a phase portrait of a complex function is displayed.
-On the right, one can see the approximation of the function through it&#39;s Taylor polynomials at the red base point.</p>
-<p>The complex function, the base point, the order of the polynomial and the zoom can be modified.</p>
+On the right, one can see the approximation of the function through it&#39;s Taylor polynomials at the blue base point $z_0$.</p>
+<p>The complex function, the base point $z_0$, the order of the polynomial and the zoom can be modified.</p>
 <p>You can also select one function of the following list:</p>
 <select size="5" id="sel" onchange="cdy.evokeCS(this.value);" style="width:10em;">
   <option value='Input.text = "1/z";'>1/z</option>
-  <option value='Input.text = "z^(1/2)";'>square root</option>
-  <option value='Input.text = "log(z)";'>logarithm</option>
-  <option value='Input.text = "sin(z)";'>sine</option>
-  <option value='Input.text = "sin(z)/cos(z)";'>tangent</option>
-  <option value='Input.text = "exp(z)";'>exponential function</option>
+  <option value='Input.text = "z^(1/2)";'>Square root</option>
+  <option value='Input.text = "log(z)";'>Logarithm</option>
+  <option value='Input.text = "sin(z)";'>Sine</option>
+  <option value='Input.text = "sin(z)/cos(z)";'>Tangent</option>
+  <option value='Input.text = "i/2*log((i-z)/(i+z))";'>Arctangent</option>
+  <option value='Input.text = "exp(z)";'>Exponential function</option>
 </select>
 </div>
 
