@@ -159,11 +159,79 @@
 
 <h1>Taylor Series</h1>
 
-<p>On the left, a phase portrait of a complex function is displayed.
-On the right, you can see the approximation of the function through it&#39;s Taylor polynomials at the blue base point $z_0$.</p>
-<p>The complex function, the base point, the order of the polynomial and the zoom can be modified.</p>
+<hr>
 
+<h2>For Real Functions</h2>
 
+<p>Let $a\in \mathbb R$ and $f(x)$ be and infinitely differentiable function on an interval $I$ containing $a$. Then the one-dimensional Taylor series of $f$ around $a$ is given by
+ <div class="w3-responsive">
+     \[
+     f(x)=f(a)+f'(a)(x-a)+\frac{f''(a)}{2!}(x-a)^2+\frac{f^{(3)}(a)}{3!}(x-a)^3+\cdots
+     \]
+ </div>
+ which can be written in the most compact form:
+ <div class="w3-responsive">
+     \[
+     f(x)=\sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x-a)^n.
+     \]
+ </div>
+ </p>
+ 
+ <p>
+ Recall that, in real analysis, Taylor's theorem gives an approximation of a $k$-times differentiable function around a given point by a $k$-th order Taylor polynomial.</p>
+ 
+ 
+ <p>For example, the best linear approximation for $f(x)$ is
+ $$f(x)\approx f(a)+f′(a)(x−a).$$
+ This linear approximation fits $f(x)$  with a line  through $x=a$ that matches the slope of $f$ at $a$.
+</p>
+
+ <p>For a better approximation we can add other terms in the expansion. For instance, the best quadratic approximation is
+ <div class="w3-responsive">
+ $$f(x)\approx f(a)+f'(a)(x−a)+\frac12 f''(a)(x−a)^2.$$
+ </div>
+ </p>
+ 
+ <p>Figure 1 shows the partial sums (up to 10 terms) of the Taylor series for the function $f(x)=1/(1+x^2)$ around $a=0.67$.
+ </p>
+ 
+ <figure class="w3-center">
+     <img class="w3-image w3-mobile" src="../images/taylor.gif" alt="Taylor series" style="width:100%;">
+         <figcaption>
+             <b>Figure 1:</b> Taylor series of $f(x)=1/(1+x^2)$.
+         </figcaption>
+  </figure>
+<p>The Taylor series can be extended to calculate linear approximations of complex functions.</p>
+
+<hr>
+
+<h2>For Complex Functions</h2>
+
+<p>
+Suppose that a function $f$ is analytic throughout a disk $|z -z_0|&lt; R_0$,
+    centred at $z_0$ and with radius $R_0$. Then $f (z)$ has the power series representation
+     <div class="w3-responsive">
+    \begin{eqnarray}\label{seriefunction}
+    f(z)=\sum_{n=0}^{\infty} a_n(z-z_0)^n\quad (|z-z_0|&lt;R_0),
+    \end{eqnarray}
+     </div>
+    where
+     <div class="w3-responsive">
+    \begin{eqnarray}
+    a_n=\frac{f^{(n)}(z_0)}{n!}\quad (n=0,1,2,\ldots)
+    \end{eqnarray}
+     </div>
+    That is, series (\ref{seriefunction}) converges to $f (z)$ when $z$ lies in the stated open disk.
+</p>
+
+<hr>
+
+<h2>Dynamic Exploration</h2>
+
+<p>On the left side of the applet below, a phase portrait of a complex function is displayed. On the right side, you can see the approximation of the function through it&#39;s Taylor polynomials at the blue base point $z_0$.</p>
+<p>The complex function, the base point $z_0$, the order of the polynomial and the zoom can be modified.</p>
+
+<div class="w3-hide-small">
 <div style="float: left;">
 
 		<script id="csinit" type="text/x-cindyscript">
@@ -303,9 +371,7 @@ var sel=function(e, b){
 		</script>
 	</div>
     
-    <div class="w3-hide-large w3-hide-medium">
-        <p class="callout"><strong>Oops!</strong> Sorry, the applet is  not supported for small screens.</p>
-    </div>
+    
     
     <br>
    
@@ -323,8 +389,14 @@ var sel=function(e, b){
             <option value="exp(z)">Exponential function</option>
         </select>
     </div>
+     
+     </div><!--end hidesmall-->
+     
+     <div class="w3-hide-large w3-hide-medium">
+         <p class="callout"><strong>Oops!</strong> Sorry, the applet is  not supported for small screens.</p>
+     </div>
     
-    <br>
+    <br><hr>
     
     <p><strong>Note:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/ComplexExplorer/index.json">GitHub.</a></p>
 

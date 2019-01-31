@@ -145,12 +145,44 @@
              
 <h1>Complex Analytic Landscapes</h1>
 
-<div id="complexLandscapes">
-    <br>
-    <p>Complex functions $ f:\mathbb{C}\to\mathbb{C} $ can be visualized by plotting the function $$g: \mathbb{R^2} \to \mathbb{R}\quad \text{with}\quad  g(x,y) = |f\left(x + i y\right)|\quad \text{in 3D}.$$ The color of each point $\left(x, y, |f(x + i y)|\right)$ indicates <a href="domain_coloring.html">the phase</a> of the complex number $f(x + i y)$.</p>
+<hr>
+
+<h2>A brief history</h2>
     
-    <p>The blue slider on the right side is for zooming out/in and the black slider defines a real scalar value <strong>a</strong> between -0.14 and 1.14.</p>
-<br>
+<p>A traditional concept for visualizing complex functions is the so called <em>analytic landscape</em>. Probably introduced by <a href="https://fr.wikipedia.org/wiki/Edmond_Maillet">Edmond Maillet</a> in 1903, it depicts the graph of the absolute value of a function.</p>
+
+<p>In the first half of the preceding century analytic landscapes became rather popular. The Figure 1 reproduces a historical illustration from the book <strong>Funktionentafeln mit Formeln und Kurven</strong> by Jahnke and Emde of 1909. It shows the analytic landscape of the complex Gamma function and reached an almost iconic status. Today it is hard to believe that this detailed hand-drawn picture could be created without the help of computers!<p>
+
+<figure class="w3-center">
+     <img class="w3-image w3-mobile" src="../images/Jahnke_gamma_function.png" alt="Analytic landscape" title="Analytic landscape" style="width:90%;">
+         <figcaption>
+             <b>Figure 1:</b> A historical analytic landscape of $\Gamma(z)$.
+         </figcaption>
+  </figure>
+
+<!--<p><img class="center" src="../images/Jahnke_gamma_function.png" alt="Analytic landscape" title="Analytic landscape"></p>-->
+    
+<p>In the era of black-and-white illustrations this shortcoming was often compensated by endowing the analytic landscape with lines of constant argument as in the previous figure, where the argument is explicitly indicated by its numerical value. Modern computer technology allows us to achieve the same effect much better using colors, which yields the <strong>colored analytic landscape</strong> shown in Figure 2.</p>
+
+
+<figure class="w3-center">
+    <img class="w3-image w3-mobile" src="../images/coloredlandscape.jpg" alt="Colored analytic landscape" title="Colored analytic landscape" style="width:90%;">
+        <figcaption>
+            <b>Figure 2:</b> Colored analytic landscape of $\Gamma(z)$.
+        </figcaption>
+</figure>
+
+
+<hr>
+
+<div id="complexLandscapes">
+    
+<h2>Dynamic Exploration</h2>
+    
+    <p>Complex functions $ f:\mathbb{C}\to\mathbb{C} $ can be visualized by plotting the function $$g: \mathbb{R^2} \to \mathbb{R}\quad \text{with}\quad  g(x,y) = |f\left(x + i y\right)|.$$ The color of each point $\left(x, y, |f(x + i y)|\right)$ indicates <a href="domain_coloring.html">the phase</a> of the complex number $f(x + i y)$.</p>
+    
+    <p>In the applet below you can explore complex analytic landscapes. Use the blue slider on the right side for zooming out/in. The black slider defines a real scalar variable <strong>a</strong> between -0.14 and 1.14.</p>
+
 
 
 <div style="float: left;">
@@ -532,7 +564,7 @@ if(zoom) cdy.evokeCS('setzoom(' + zoom + ')');
 }, false);
 </script>
 
-<br>
+<br><hr>
 
 <p><strong>Note:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/CindyJS/website/blob/master/src/gallery/cindygl/Landscape/index.json">GitHub.</a></p>
 
