@@ -1,182 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
+    <title>Ups!</title>
+<script src="./robotrain/processing.min.js"></script>
 
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="images/infinity32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="images/infinity16.png" sizes="16x16">
-	<title>Complex Analysis</title>
+<style>
+    canvas {
+        padding: 0;
+        margin: auto;
+        display: block;
+        outline: 0px;
+        top: 120px;
+        width: 500px;
+        height: 500px;
+        border: 0;
+    }
+body {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    outline: 0px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+</style>
 
-	<!-- dublin core -->
-	<meta name="dc.title" CONTENT="Complex Analysis">
-	<meta name="dc.creator" CONTENT="Juan Carlos Ponce Campuzano">
-	<meta name="dc.date" CONTENT="26-01-2019">
-	<meta name="dc.type" CONTENT="Interactive Resource">
-	<meta name="dc.format" CONTENT="HTML">
-	<meta name="dc.language" CONTENT="en-US">
-	<meta name="dc.rights" CONTENT="https://creativecommons.org/licenses/by-nc-sa/4.0/">
 
-	<!-- social media cards -->
-	<meta property="og:title" content="Complex Analysis">
-	<meta property="og:description" content="An online interctive introduction to the study of complex analysis.">
-	<meta property="og:type" content="website">
-	<!--<meta property="og:image" content="">
-	<meta property="og:url" content="">-->
-	<meta name="twitter:card" content="An online interctive introduction to the study of complex analysis.">
-	<meta property="og:site_name" content="Complex Analysis">
-    
-	
-	<!-- FONTS AND CSS -->
-	<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,800" rel='stylesheet' type='text/css'>
-	<link href="https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic" rel='stylesheet' type='text/css'>
-	<link href="css/stylesheet.css" rel="stylesheet" type="text/css">
-
-	<!-- CODE PRETTIFY -->
-	<!-- via: https://github.com/google/code-prettify -->
-	<script src="js/run_prettify.js"></script>
-
-	
-
-	<!-- JQUERY FANCY ADDITIONS -->
-	<!-- add code class, hover text, etc -->
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script>
-
-		$(document).ready(function() {
-
-			// prettyprint the code, pls
-			$('pre').addClass('prettyprint lang-java');
-
-			// add word-breaks to anything with a / or - in it
-			$('h1').each(function() {
-				var t = $(this).text();
-				t = t.replace('/', '/<wbr>');
-				t = t.replace('-', '-<wbr>');
-				$(this).html(t);
-			});
-
-			// set formatting
-			resizeCommands();
-		});
-
-		// when the window gets resized, do some stuff to keep everything
-		// looking pretty
-		$(window).resize( function() {
-			resizeCommands();
-		});
-
-		// things to do when the page is loaded or window resized
-		function resizeCommands() {
-			// large-screen stuff...
-			if ($(window).width() > 600) {
-
-				// long headline on intro page
-				// $('#introHeadline').html('INTRODUCTION');
-
-				// menu hover stuff on larger screens
-				// (does weird formatting on larger screens)
-				// hover over title to show "Table of Contents"
-				$('#title a').hover(
-					function() {
-						$('#title a').text('Table of Contents');
-					},
-					function() {
-						$('#title a').text('Complex Analysis');	// set back when moving out
-					}
-				);
-
-				// set prev/next titles
-				$('#prev a').hover(
-					function() {
-						$('#title a').text('Prev: ');
-					},
-					function() {
-						$('#title a').text('Complex Analysis');
-					}
-				);
-				$('#next a').hover(
-					function() {
-						$('#title a').text('Next: Table Of Contents');
-					},
-					function() {
-						$('#title a').text('Complex Analysis');
-					}
-				);
-			}
-
-			// small-screen stuff
-			else {
-				// short headline on intro page
-				// $('#introHeadline').html('INTRO');
-			}
-		}
-	</script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        
-        gtag('config', 'UA-121691678-1');
-        </script>
-	
 </head>
+<body style="background-color:#464646">
 
-<body>
-	<div id="wrapper">
-        
-         <p><img src="images/intro.png" alt="Intro" title="Intro"></p>
-             
-<h1>Complex Analysis</h1>
+<center><h2 style="color:white">File not found</h2></center>
+<center><h2 style="color:white"> Please, go back to <a href="https://jcponce.github.io/" style="color:white">Home</a></p></center>
 
-<h4>Juan Carlos Ponce Campuzano</h4>
-
-<p>Hi, welcome!</p>
-
-<p>This online book can be used as an additional learning resource for those who are taking a course in Complex Analysis. Here you will find examples, problems with solutions and interactive applets to explore abstract concepts from a visual and dynamic point of view.
-</p>
-
-<!--<p class="callout"><strong>UPDATE!</strong> This site has been getting lots of visits which is awesome. I've made some changes so it will look better on mobile devices, make navigation easier, and tried to look over everything for mistakes. If you have any problems or suggestions, please <a href="https://github.com/jeffThompson/CollisionDetection/issues">post an issue on the project repository</a>. Thanks!</p>
--->
-<p>Ready to get started? Skip ahead to the <a href="content/table_of_contents.html">Table of Contents...</a></p>
-<!-- <a href="table_of_contents.php"><p class="nextPage">Skip ahead to the Table of Contents</p></a> -->
-<!--
-<h2>WHAT'S COVERED HERE?</h2>
-<p>This book covers concepts on Complex Analysis. </p>
-
-<p>Some sections include interactive applets.a description of the collision algorithm and an interactive example built using <code>processing.js</code>. You can <a href="https://github.com/jeffThompson/CollisionDetection">view the source code for all the examples (and this book!) on GitHub.</a></p>
-
-<p class="callout"><strong>NOTE!</strong> If you're on a mobile device, the applets might not work super well for you. They are designed for mouse input, so if you're getting frustrated or your finger is in the way, try the site on a computer.</p>
-
-<h2>WHAT'S NOT?</h2>
-<p>As with any book, there's a lot more useful material than could be covered here. Things that aren't discussed are mostly left out because the math gets too complicated. </p>
-
-<p>If there's a specific collision not covered that would be helpful, please please <a href="https://github.com/jeffThompson/CollisionDetection/issues"> submit an issue with a request</a> or, better yet, submit a working example that you've built!</p>-->
-
-<h2>ISSUES?</h2>
-<p>If you find applets that don't run correctly, or solutions to problems that aren't explained quite right, or a typo, please <a href="https://github.com/jcponce/complex/issues">report them at this project's GitHub repository</a>. Thanks for your help!</p>
-
-<h2>NAVIGATION</h2>
-<p>OK, let's begin exploring Complex Analysis! Click the link at the bottom the page, or the arrows at the top, to move to the next chapter. The <strong>Complex Analysis</strong> link at the top will take you back to the <a href="content/table_of_contents.html">Table of Contents</a>.</p>
-
-
-	<!-- link to the next page -->
-	<a href="content/table_of_contents.html"><p class="nextPage">NEXT: Table Of Contents</p></a>
-	<footer>
-		<p>[ <a href="index.html">intro</a>, <a href="https://github.com/jcponce/complex">source</a>, <a href="https://github.com/jcponce/complex/issues">issues</a> ]</p>
-
-		<p class="license"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
-			<img id="license" alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-		</a></p>
-	</footer>
-
-	</div> <!-- end footer -->
-
-<!-- nice smart quotes, via: http://smartquotesjs.com -->
-<script src="js/smartquotes.min.js"></script>
-
+  <canvas data-processing-sources="./robotrain/robotrain.pde"></canvas>
 </body>
 </html>

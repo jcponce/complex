@@ -28,8 +28,8 @@
     
 	
 	<!-- FONTS AND CSS -->
-	<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,800" rel='stylesheet' type='text/css'>
-	<link href="https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic" rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Raleway:400,600,800' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
 	<link href="../css/stylesheet.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="../css/w3.css">
 
@@ -131,8 +131,8 @@
         </script>
     
     <!-- Cindy.js -->
-    <!--<link rel="stylesheet" href="../domcoloring/app.css" />
-    <link rel="stylesheet" href="../domcoloring/CindyJS.css" />-->
+    <link rel="stylesheet" href="../domcoloring/app.css" />
+    <link rel="stylesheet" href="../domcoloring/CindyJS.css" />
     <script type="text/javascript" src="../domcoloring/Cindy.js"></script>
     <script type="text/javascript" src="../domcoloring/CindyGL.js"></script>
     <script type="text/javascript" src="../domcoloring/symbolic.js"></script>
@@ -457,14 +457,13 @@ between $-1$ and $+1$.</p>
   <div class="w3-hide-small">
   
   <div id="CSCanvas" style="border:2px solid black"></div>
-  <br>
+  
 <div>
   <input id="ch1" onclick="check1()" checked type="checkbox" >Angles&nbsp;&nbsp;&nbsp;
   <input id="ch2" onclick="check2()" checked type="checkbox" >Radii&nbsp;&nbsp;&nbsp;
   <input id="ch3" onclick="check3()" type="checkbox" >Linear diagram&nbsp;&nbsp;&nbsp;
   <input id="ch4" onclick="check4()" type="checkbox" >Chessbaord&nbsp;&nbsp;&nbsp;
   <input id="ch5" onclick="check5()" type="checkbox" >Webcam<br>
-      <br>
 <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="z"  onkeypress="typ(event, this)" size="60" style="font-size:18px">
   </div>
 <br>
@@ -487,7 +486,10 @@ between $-1$ and $+1$.</p>
 
 </div><!--hide small-->
 
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
 <br>
 
 
