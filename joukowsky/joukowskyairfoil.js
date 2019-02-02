@@ -128,7 +128,7 @@ function draw() {
             let p = particles[i];
             p.update();
             p.display();
-            if ( p.x > 4 ||  p.y > 4 || p.x < -5 ||  p.y < -4 ) {
+            if ( p.x > 4 ||  p.y > 4 || p.x < -5 ||  p.y < -4 || pow(pow(p.x, 2)+pow(p.y, 2), 1/2)<a ) {
                 particles.splice(i,1);
                 currentParticle--;
                 particles.push(new Particle(random(-4.5, -4),random(-frameHeight, frameHeight),t,h) );

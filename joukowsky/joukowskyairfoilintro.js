@@ -19,7 +19,7 @@ Send me a note at  j.ponce@uq.edu.au
 
 
 /*
- Last updated 23 jun 2018
+ Last updated 28 Jan 2019
  */
 
 let numMax = 500;
@@ -72,38 +72,16 @@ function resetSketch() {
     for (var i=0; i<numMax; i++) {
         var valX = random(-5, 5);
         var valY = random(-3, 3);
+        
         particles[i] = new Particle(valX, valY, t, h);
+        
     }
     //tshow = false;
     
 }
 
-/*function traceShow() {
-    if(tshow==false) {
-        tshow = true;
-    }else{
-        tshow = false;
-    }
-    
-    if(fshow==true) {
-        fshow = false;
-    }
-    
-}*/
-
 function draw() {
     cursor(HAND);
-    /*//Initial message
-    if (starting==false) {
-        stroke(0);
-        fill(0);
-        strokeWeight(0.5);
-        rect(0,0,width,height);
-        fill(255);
-        stroke(255);
-        textSize(23);
-        text("Click on screen to start", 6*width/18, height/4);
-    }*/
     
     //This is for drawing the trace of particles
     if(tshow==true){
@@ -118,12 +96,6 @@ function draw() {
     
     translate(width/2, height/2);//we need the origin at the center
     
-    /*//Reference xy
-    stroke(255, 0, 0);
-    strokeWeight(2);
-    line(0,0,100,0);
-    stroke(51, 204, 51,100);
-    line(0,0,0,-100);*/
     
     t += h;
     
@@ -132,7 +104,7 @@ function draw() {
             let p = particles[i];
             p.update();
             p.display();
-            if ( p.x > 4 ||  p.y > 4 || p.x < -5 ||  p.y < -4 ) {
+            if ( p.x > 4 ||  p.y > 4 || p.x < -5 ||  p.y < -4 || pow(pow(p.x, 2)+pow(p.y, 2), 1/2)<a ) {
                 particles.splice(i,1);
                 currentParticle--;
                 particles.push(new Particle(random(-4.5, -4),random(-frameHeight, frameHeight),t,h) );
@@ -153,20 +125,7 @@ function draw() {
     }
     endShape(CLOSE)
     
-    //This is the black rectangle for the controls
-    //noStroke();
-    //rect(-400, 200, 750, 50);
-    
-    /*
-    textSize(20);
-    fill(255);
-    text('U='+sliderU.value(), -340, 230);
-    text('C='+sliderC.value(), -125, 230);
-    text('T='+sliderT.value(), 90, 230);
-    */
-    
-    
-    transf +=0.004;
+    transf +=0.003;
     if(transf > 1){
         transf =1.0;
     }
@@ -198,8 +157,6 @@ let JkTransX = (x,y) => rd*x-0.15 + (rd*x-0.15)/((rd*x-0.15)*(rd*x-0.15)+(rd*y+0
 
 let JkTransY = (x,y) => rd*y+0.23 - (rd*y+0.23)/((rd*x-0.15)*(rd*x-0.15)+(rd*y+0.23)*(rd*y+0.23));
 
-
-
 //Define particles and how they are moved with Runge–Kutta method of 4th degree.
 class Particle{
     
@@ -210,9 +167,9 @@ class Particle{
         this.radius = random(3, 5);
         this.h = _h;
         this.op = random(199,200);
-        this.r = random(100,110);
-        this.g = random(100,110);
-        this.b = random(100,110);
+        this.r = random(110,120);
+        this.g = random(110,120);
+        this.b = random(110,120);
     }
     
     update() {
@@ -239,26 +196,6 @@ class Particle{
     }
     
 }
-/*
-//Set sliders and buttons
-function controls() {
-    
-    //buttonTrace = createButton('Trace');
-    //buttonTrace.position(640, 465);
-    //buttonTrace.mousePressed(traceShow);
-    
-    sliderU = createSlider(0.1, 1, 0.3, 0.1);
-    sliderU.position(75, 460);
-    sliderU.style('width', '100px');
-    
-    sliderC = createSlider(-10, 10, 0, 0.1);
-    sliderC.position(290, 460);
-    sliderC.style('width', '100px');
-    
-    //sliderT = createSlider(0, 1, 1, 0.01);
-    //sliderT.position(510, 460);
-    //sliderT.style('width', '100px');
-    
-}*/
+
 
 
