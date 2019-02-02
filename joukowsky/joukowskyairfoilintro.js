@@ -166,7 +166,7 @@ function draw() {
     */
     
     
-    transf +=0.003;
+    transf +=0.004;
     if(transf > 1){
         transf =1.0;
     }
@@ -174,11 +174,19 @@ function draw() {
 }
 
 function mousePressed() {
-    if(tshow==false) {
-        tshow = true;
-    }else{
-        tshow = false;
+    if (mouseIsPressed) {
+    if (mouseButton === LEFT) {
+        if(tshow==false) {
+            tshow = true;
+        }else{
+            tshow = false;
+        }
     }
+    if (mouseButton === RIGHT) {
+      transf =0.0;
+    }
+    }
+    
 }
 
 let P = (t, x, y) => 4.9*(   (2 * a*a * U * y*y)/((x*x+ y*y)*(x*x+ y*y)) + U*(1 - (a*a)/(x*x + y*y)) - (C*y)/(2*PI*(x*x + y*y)) );//Change this function

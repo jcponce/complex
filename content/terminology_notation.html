@@ -174,6 +174,7 @@
 
 <p>The complex numbers, denoted by $\mathbb C$, extend the concept of the one-dimensional number line to the two-dimensional complex plane (also known as Argand plane) by using the horizontal axis for the real part and the vertical axis for the imaginary part. The analogy with two-dimensional vectors is immediate. The complex number $x+iy$ can be identified with the point $(x, y)$ in the complex plane but also it can be interpreted as a two-dimensional vector.</p>
 
+<div class="w3-responsive">
 <p>It is useful to introduce another representation of complex numbers, namely
 polar coordinates $(r, \theta)$:
 \begin{eqnarray}\label{par}
@@ -188,7 +189,7 @@ $$r=\sqrt{x^2+y^2}=|z|$$
 and naturally gives us a notion of the <strong>absolute value</strong> of $z$, denoted by $|z|$, that is, it is the length of the vector associated with $z$. The value $|z|$ is often referred to as the <strong>modulus</strong> of $z$. The angle $\theta$ is called the <strong>argument</strong> of $z$ and is denoted by $\textbf{arg}(z)$. When $z\neq 0$, the values of $\theta$ can be found from (\ref{par}) via standard trigonometry:
 $$\tan \theta = \frac{y}{x}$$
 where the quadrant in which $x$, $y$ lie is understood as given.
-</p>
+</p><div>
 
 <p>At this point it is convenient to introduce a special exponential function. The
 polar exponential is defined by
@@ -203,11 +204,12 @@ function.</p>
 $$\overline{z}=x-iy.$$
 </p>
 
+<div class="w3-responsive">
 <p>Addition, subtraction, multiplication, and division of complex numbers follow
 from the rules governing real numbers. Thus, noting $i^2=-1$, we have
 $$z_1\pm z_2=(x_1\pm x_2)+i(y_1\pm y_2)$$
 and
-$$z_1z_2=(x1+iy_1)(x_2+iy_2)=(x_1x_2-y_1y_2)+i(x_1y_2+x_2y_1).$$
+$$z_1z_2=(x_1+iy_1)(x_2+iy_2)=(x_1x_2-y_1y_2)+i(x_1y_2+x_2y_1).$$
 Now, we note that
 $$z\overline{z}= (x + iy)(x − iy) = x^2+y^2=|z|^2.$$
 This fact is useful for division of complex numbers,
@@ -219,11 +221,13 @@ addition and multiplication hold.
 Geometrically speaking, addition of two complex numbers is equivalent to
 that of the parallelogram law of vectors.
 </p>
+<div>
 
-<p>Use the following applet to practice the basic operations with complex numbers (in cartesian or polar form). Select an operation from the list, drag points and calculate the result. Check your results by entering the real and imaginary parts in the input boxes at the bottom.</p>
 <!-- ctl=play button; sfsb=fullscreen button-->
 <div class="w3-hide-small">
-    <div style="width:700px;height:430px;display:block" id="applet_container1"></div>
+<p>Use the following applet to practice the basic operations with complex numbers (in cartesian or polar form). Select an operation from the list, drag points and calculate the result. Check your results by entering the real and imaginary parts in the input boxes at the bottom.</p>
+
+<div style="width:700px;height:430px;display:block" id="applet_container1"></div>
 </div>
 <div class="w3-hide-large w3-hide-medium">
     <p class="callout"><strong>Oops!</strong> Sorry, the applet is  not supported for small screens.</p>
