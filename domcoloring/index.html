@@ -7,7 +7,7 @@
     <title>Exploring Complex Functions</title>
     <link rel="icon" type="image/png" href="../images/infinity32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../images/infinity16.png" sizes="16x16">
-    <link rel="stylesheet" href="../css/w3.css">
+    <link rel="stylesheet" href="https://jcponce.github.io/cabook/css/w3.css">
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="CindyJS.css" />
 <script type="text/javascript" src="Cindy.js"></script>
@@ -38,12 +38,14 @@ t0 = seconds();
 </script>
 <script id="csdraw" type="text/x-cindyscript">
 //UI
-  
+
+/*//speed that I don't need
 x=S.x;
 if(x<S1.x,x=S1.x);
 if(x>S2.x,x=S2.x);
 S.xy=(x,S1.y);
 speed=(S.x-S1.x)/2;
+ */
 
 x=R.x;
 if(x<R1.x,x=R1.x);
@@ -136,7 +138,7 @@ color(z) := ( //what color should be given to a complex number z?
   regional(n, grey1, grey2);
   
   n = 2*grid*if(bw, .5, 1)*if(linear, .5, 1);
-  z = if(!linear, log(z), 2*i*z)/2/pi + i*time*speed;
+    z = if(!linear, log(z), 2*i*z)/2/pi;// + i*time*speed;
   
   zfract = n*z - floor(n*z); //value of n*z in C mod Z[i]
   
@@ -186,9 +188,9 @@ var cdy = CindyJS({
     {name:"C", type:"Free", pos:[1.6,0.5],color:[0,0,1],pinned:false,size:4},
     {name:"D", type:"Free", pos:[1.8,0.5],color:[1,1,0],pinned:false,size:4},
     {name:"E", type:"Free", pos:[1.7,0],color:[1,1,1],pinned:false,size:6},
-    {name:"S1", type:"Free", pos:[1.2,-.8],color:[0,0,0],pinned:true,size:2},
-    {name:"S2", type:"Free", pos:[2.0,-.8],color:[0,0,0],pinned:true,size:2},
-    {name:"S", type:"Free", pos:[1.201,-.8],color:[1,1,1],pinned:false,size:4},
+    //{name:"S1", type:"Free", pos:[1.2,-.8],color:[0,0,0],pinned:true,size:2},
+    //{name:"S2", type:"Free", pos:[2.0,-.8],color:[0,0,0],pinned:true,size:2},
+    //{name:"S", type:"Free", pos:[1.201,-.8],color:[1,1,1],pinned:false,size:4},
     {name:"l", type:"Segment", args:["S1","S2"],color:[0,0,0],pinned:false,size:2},
     {name:"R1", type:"Free", pos:[1.2,-.6],color:[0,0,0],pinned:true,size:2},
     {name:"R2", type:"Free", pos:[2.0,-.6],color:[0,0,0],pinned:true,size:2},
@@ -201,7 +203,9 @@ var cdy = CindyJS({
   ],
   animation: {autoplay: true},
   //transform:[{translate:[0,0]},{scale:10}],
-  images:{Rot:"uiImages/Rot.png",Sat:"uiImages/SSat.png",Grid:"uiImages/Grid.png"},
+  images:{//Rot:"uiImages/Rot.png",
+            Sat:"uiImages/SSat.png",
+            Grid:"uiImages/Grid.png"},
   use: ["CindyGL"]
 });
 
