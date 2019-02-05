@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity16.png" sizes="16x16">
     <title>Exploring Complex Functions</title>
     <link rel="icon" type="image/png" href="../images/infinity32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../images/infinity16.png" sizes="16x16">
@@ -293,32 +295,34 @@ var check3=function(){
 <div class="w3-hide-small">
   
   <div id="CSCanvas" style="border:2px solid black"></div>
-<div>
+
   <input id="ch1" onclick="check1()" checked type="checkbox" >Angles&nbsp;&nbsp;&nbsp;
   <input id="ch2" onclick="check2()" checked type="checkbox" >Radii&nbsp;&nbsp;&nbsp;
   <input id="ch3" onclick="check3()" type="checkbox" >Linear diagram&nbsp;&nbsp;&nbsp;
   <input id="ch4" onclick="check4()" type="checkbox" >Chessbaord&nbsp;&nbsp;&nbsp;
   <input id="ch5" onclick="check5()" type="checkbox" >Webcam<br>
-  </div>
-<div>
+  
 <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="z"  onkeypress="typ(event, this)" size="45" style="font-size:18px">
-<select id="sel" onchange="sel(event, this)" style="width:20em;">
-  <option>z</option>
-  <option>(1-a)*(1+a)</option>
-  <option>(z-A)/(z-B)</option>
-  <option>z^(1+i)</option>
-  <option>z^A</option>
-  <option>(sin(a)/sin(b))^(1+i)</option>
-  <option value="z=z/4; repeat(7, z = z*z + A/5);">Julia set</option>
-  <option value="z = 0; repeat(11, z = z*z +a/4; z = z/abs(z)*min(abs(z),10));">Mandelbrot set</option>
-  <option value="z = a/3;(1-z^(20*e))/(1-z)">Convergence of Geometric series</option>
-  <option value="repeat(5, z = z - (z^3-A)/(3*z^2));">Newton</option>
-  <option value="z=a; repeat(11, z = z - (z^3-b*c*d)/(3*z^2));">Newton-like</option>
-</select>
-</div>
 
 </div><!--End hide small-->
 
+</div>
+
+<div class="w3-hide-small">
+<p>You can also select one function of the following list:</p>
+    <select id="sel" onchange="sel(event, this)" style="width:15em;">
+        <option>z</option>
+        <option>(1-a)*(1+a)</option>
+        <option>(z-A)/(z-B)</option>
+        <option>z^(1+i)</option>
+        <option>z^A</option>
+        <option>(sin(a)/sin(b))^(1+i)</option>
+        <option value="z=z/4; repeat(7, z = z*z + A/5);">Julia set</option>
+        <option value="z = 0; repeat(11, z = z*z +a/4; z = z/abs(z)*min(abs(z),10));">Mandelbrot set</option>
+        <option value="z = a/3;(1-z^(20*e))/(1-z)">Convergence of Geometric series</option>
+        <option value="repeat(5, z = z - (z^3-A)/(3*z^2));">Newton</option>
+        <option value="z=a; repeat(11, z = z - (z^3-b*c*d)/(3*z^2));">Newton-like</option>
+    </select>
 </div>
 
 <div class="w3-hide-large w3-hide-medium">
@@ -328,7 +332,7 @@ var check3=function(){
 <div style="float: left;">
     <br><br><br><hr>
 <p><strong>Note:</strong> The applet was originally written by <a href="https://geo.ma.tum.de/en/people/aaron-montag.html">Aaron Montag</a> using <a href="https://cindyjs.org/">Cindy.js</a>. The source can be found at <a href="https://github.com/jcponce/complex/tree/gh-pages/domcoloring">GitHub.</a></p>
-<div>
+</div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/x-mathjax-config">
@@ -337,7 +341,6 @@ var check3=function(){
 
       </main>
     </div>
-
 
     <script src="app.js"></script>
   </body>
