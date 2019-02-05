@@ -167,25 +167,39 @@
 						}],
 				use: ["CindyGL", "katex"]
 				});
+                
+        var typ=function(e, b){
+  var chCode=e.which ? e.which:e.keyCode;
+  if(chCode==13){
+    console.log("*************");
+    console.log(b.value);
+    cdy.evokeCS('f(z) := (' + b.value + '); forcerecompile();');
+  }
+}
+        
+var sel=function(e, b){
+  document.getElementById("inp").value = b.value;
+  cdy.evokeCS('f(z) := (' + b.value + '); forcerecompile();');
+}
 		</script>
 
-</div>
-    
 <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="1/(z^2+1)"  onkeypress="typ(event, this)" size="43" style="font-size:18px">
+</div><!-- hide small end-->
+    
+</div><!-- end left-->
 
-</div>
-
+<div class="w3-hide-small">
 <p>You can also select one function of the following list:</p>
-<select size="5" id="sel" onchange="cdy.evokeCS(this.value);" style="width:10em;">
-    <option value='Input.text = "1/z";'>1/z</option>
-    <option value='Input.text = "z^(1/2)";'>Square root</option>
-    <option value='Input.text = "log(z)";'>Logarithm</option>
-    <option value='Input.text = "sin(z)";'>Sine</option>
-    <option value='Input.text = "sin(z)/cos(z)";'>Tangent</option>
-    <option value='Input.text = "i/2*log((i-z)/(i+z))";'>Arctangent</option>
-    <option value='Input.text = "exp(z)";'>Exponential function</option>
-</select>
-
+        <select id="sel" onchange="sel(event, this)" style="width:10em;">
+            <option value="1/z">1/z</option>
+            <option value="z^(1/2)">Square root</option>
+            <option value="log(z)">Logarithm</option>
+            <option value="sin(z)">Sine</option>
+            <option value="sin(z)/cos(z)">Tangent</option>
+            <option value="i/2*log((i+z)/(i-z))">Arctangent</option>
+            <option value="exp(z)">Exponential function</option>
+        </select>
+</div>
 
 <div style="float: left;">
 <p>On the left, a phase portrait of a complex function is displayed.
