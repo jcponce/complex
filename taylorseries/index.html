@@ -48,7 +48,8 @@
     <div class="w3-hide-small">
         
 		<script id="csinit" type="text/x-cindyscript">
-			hsvToRGB(h, s, v) := (
+			f(z):=1/(z^2+1);
+            hsvToRGB(h, s, v) := (
 				regional(j, p, q, t, f);
 
 				h = (h-floor(h))*6;
@@ -91,13 +92,11 @@
 		</script>
 		
 		<script id="csdraw" type="text/x-cindyscript">
-		if(Input.text!=lastf & Input.text!="",
-			parse("f(z) :=" + Input.text);
-			lastf = Input.text;
-		);
+		//if(Input.text!=lastf & Input.text!="",
+		//	parse("f(z) :=" + Input.text);
+		//	lastf = Input.text;
+		//);
 	
-		
-		
 		factorial(n) := if(n==0, 1, n*factorial(n-1));
 		
 		coeff = autodiff(f(z), [complex(A*zoom)], n)_1;
@@ -120,12 +119,12 @@
 			(-6,-2),(-2,2)
 		);
 		
-		drawtext((-5.9,1.7), "$f(z) =$", color->(0.98,0.98,0.98));
+		//drawtext((-5.9,1.7), "$f(z) =$", color->(0.98,0.98,0.98));
 		//\textcolor{<color>}{<text>}
 		drawtext((-1.9,1.7), "$\sum_{k=0}^{"+n+"} \frac{f^{(k)}(z_0)}{k!} (z-z_0)^k$", color->(0.98,0.98,0.98));
         
         linesize(1.2);
-		draw((1.8,-1.8),(1.8,1.8), color->[0,0,0]);
+		draw((1.8,-1.5),(1.8,1.8), color->[0,0,0]);
 		N.x = 1.8;
 		n = round(5*(N.y+1.8));
 		n = max(1, n);
@@ -148,6 +147,7 @@
 		</script>
 
 		<div id="CSCanvas"></div>
+        
 		
 		<script type="text/javascript">
 				var cdy = CindyJS({canvasname:"CSCanvas",
@@ -156,7 +156,7 @@
 							{name:"A", type:"Free", pos:[1.1, 0.1],color:[0,0.9,1]},
 							{name:"N", type:"Free", pos:[1, -2],color:[1,1,1], size:8},
 							{name:"Zoom", type:"Free", pos:[-2, -.3],color:[1,1,1], size:8},
-							{name: "Input", type: "EditableText", pos: [-5.35, 1.7], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 200, text: "1/(z^2+1)"}
+							//{name: "Input", type: "EditableText", pos: [-5.35, 1.7], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 200, text: "1/(z^2+1)"}
                            ],
 				animation: {autoplay: true},
 				ports: [{
@@ -168,26 +168,29 @@
 				use: ["CindyGL", "katex"]
 				});
 		</script>
-	
+
+</div>
+    
+<span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="1/(z^2+1)"  onkeypress="typ(event, this)" size="43" style="font-size:18px">
+
+</div>
+
+<p>You can also select one function of the following list:</p>
+<select size="5" id="sel" onchange="cdy.evokeCS(this.value);" style="width:10em;">
+    <option value='Input.text = "1/z";'>1/z</option>
+    <option value='Input.text = "z^(1/2)";'>Square root</option>
+    <option value='Input.text = "log(z)";'>Logarithm</option>
+    <option value='Input.text = "sin(z)";'>Sine</option>
+    <option value='Input.text = "sin(z)/cos(z)";'>Tangent</option>
+    <option value='Input.text = "i/2*log((i-z)/(i+z))";'>Arctangent</option>
+    <option value='Input.text = "exp(z)";'>Exponential function</option>
+</select>
+
 
 <div style="float: left;">
 <p>On the left, a phase portrait of a complex function is displayed.
-On the right, one can see the approximation of the function through it&#39;s Taylor polynomials at the blue base point $z_0$.</p>
+    On the right, one can see the approximation of the function through it&#39;s Taylor polynomials at the blue base point $z_0$.</p>
 <p>The complex function, the base point $z_0$, the order of the polynomial and the zoom can be modified.</p>
-<p>You can also select one function of the following list:</p>
-<select size="5" id="sel" onchange="cdy.evokeCS(this.value);" style="width:10em;">
-  <option value='Input.text = "1/z";'>1/z</option>
-  <option value='Input.text = "z^(1/2)";'>Square root</option>
-  <option value='Input.text = "log(z)";'>Logarithm</option>
-  <option value='Input.text = "sin(z)";'>Sine</option>
-  <option value='Input.text = "sin(z)/cos(z)";'>Tangent</option>
-  <option value='Input.text = "i/2*log((i-z)/(i+z))";'>Arctangent</option>
-  <option value='Input.text = "exp(z)";'>Exponential function</option>
-</select>
-</div>
-
-</div>
-
 </div>
 
 <div class="w3-hide-large w3-hide-medium">
