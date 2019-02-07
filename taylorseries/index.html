@@ -50,7 +50,7 @@
     <div class="w3-hide-small">
         
 		<script id="csinit" type="text/x-cindyscript">
-			f(z):=1/(z^2+1);
+			f(z):=(z-1)/(z^2+z+1);
             hsvToRGB(h, s, v) := (
 				regional(j, p, q, t, f);
 
@@ -187,7 +187,7 @@ var sel=function(e, b){
 }
 		</script>
 
-<span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="1/(z^2+1)"  onkeypress="typ(event, this)" size="43" style="font-size:18px">
+<span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="(z-1)/(z^2+z+1)"  onkeypress="typ(event, this)" size="43" style="font-size:18px">
 </div><!-- hide small end-->
     
 </div><!-- end left-->
