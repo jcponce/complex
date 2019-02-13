@@ -119,8 +119,9 @@ function draw() {
  fill(255);
  stroke(0);
  strokeWeight(2);
+ textAlign(CENTER);
  if(positions[0]==0 && positions[1]==0){
-  text("Drag circle!", width/2, height/2 + 100);
+  text("Drag circle!", width/2, height/2);
  }
 
 }
