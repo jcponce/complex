@@ -106,28 +106,28 @@ function draw() {
 
   translate(-width / 2, -height / 2);
   fill(220);
-  rect(0, 0, 150, 199);
+  rect(0, 0, 150, 199, 20);
   fill(0);
   stroke(0);
   strokeWeight(0.3);
   textSize(16);
-  text("Radius", buttonTrace.x, buttonTrace.y + 45);
-  text("Speed", buttonTrace.x, buttonTrace.y + 105);
-  text("Drag circle!", buttonTrace.x, buttonTrace.y + 165);
+  text("Radius", buttonTrace.x, buttonTrace.y + 50);
+  text("Speed", buttonTrace.x, buttonTrace.y + 110);
+  text("Drag circle!", buttonTrace.x, buttonTrace.y + 170);
 
 }
 
 function controls(){
     buttonTrace = createButton('Trace');
-    buttonTrace.position(20, 16);
+    buttonTrace.position(20, 10);
     buttonTrace.mousePressed(traceShow);
     
     sliderRadius = createSlider(0.01, 200, 120, 0.01);
-    sliderRadius.position(buttonTrace.x, buttonTrace.y + 50);
+    sliderRadius.position(buttonTrace.x, buttonTrace.y + 55);
     sliderRadius.style('width', '100px');
     
     sliderSpeed = createSlider(0.01, 100, 40, 0.01);
-    sliderSpeed.position(buttonTrace.x, buttonTrace.y + 110);
+    sliderSpeed.position(buttonTrace.x, buttonTrace.y + 115);
     sliderSpeed.style('width', '100px');
 }
 
