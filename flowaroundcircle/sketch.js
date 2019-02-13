@@ -76,7 +76,7 @@ function draw() {
   } else fill(0, 100);
   stroke(0);
   strokeWeight(2);
-  //translate(width/2,height/2);
+  
   rect(-width / 2, -height / 2, width, height);
 
   t += h;
