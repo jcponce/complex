@@ -8,6 +8,7 @@
  https://creativecommons.org/licenses/by-sa/4.0/
  
  Writen by Juan Carlos Ponce Campuzano, 12-Feb-2019
+ I still need to refactor :)
  https://jcponce.github.io
  */
 
@@ -113,7 +114,14 @@ function draw() {
   textSize(16);
   text("Radius", buttonTrace.x, buttonTrace.y + 50);
   text("Speed", buttonTrace.x, buttonTrace.y + 110);
-  text("Drag circle!", buttonTrace.x, buttonTrace.y + 170);
+ 
+ textSize(32);
+ fill(255);
+ stroke(0);
+ strokeWeight(2);
+ if(positions[0]==0 && positions[1]==0){
+  text("Drag circle!", width/2, height/2 + 100);
+ }
 
 }
 
