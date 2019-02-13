@@ -1,9 +1,13 @@
-/* 
-Flow around a circle simulation designed with p5.js (https://p5js.org/)
+/*
+ This is a simple simulation of an incompressible, nonviscous fluid.
+ Inspired by the Coding Challenge #132
+ https://youtu.be/alhpH6ECFvQ
+ 
+ Flow around a circle simulation designed with p5.js (https://p5js.org/)
  Under Creative Commons License
  https://creativecommons.org/licenses/by-sa/4.0/
  
- Writen by Juan Carlos Ponce Campuzano, 12-Febt-2019
+ Writen by Juan Carlos Ponce Campuzano, 12-Feb-2019
  https://jcponce.github.io
  */
 
@@ -16,10 +20,8 @@ let bs;
 let bz = 30;
 let bover = false;
 let locked = false;
-let bdifx = 0.0;
-let bdify = 0.0;
-//PImage[] image1 = new PImage [images.length]; 
-let newx, newy;
+let newx;
+let newy;
 let whichImage;
 
 var Strength = 40;
@@ -48,21 +50,11 @@ function setup() {
     particles[i] = new Particle(valX, valY, t, h);
   }
 
-  buttonTrace = createButton('Trace');
-  buttonTrace.position(20, 16);
-  buttonTrace.mousePressed(traceShow);
-
-  sliderRadius = createSlider(0.01, 200, 120, 0.01);
-  sliderRadius.position(buttonTrace.x, buttonTrace.y + 50);
-  sliderRadius.style('width', '100px');
-
-  sliderSpeed = createSlider(0.01, 100, 40, 0.01);
-  sliderSpeed.position(buttonTrace.x, buttonTrace.y + 110);
-  sliderSpeed.style('width', '100px');
+  controls();
 
   bs = sliderRadius.value();
   imageMode(CENTER);
-  //createCanvas(600, 400);
+  
   bx = width / 2.0;
   by = height / 2.0;
 
@@ -125,9 +117,21 @@ function draw() {
 
 }
 
-let P = (t, x, y) => Strength * (sliderSpeed.value() - (sliderSpeed.value() * (sliderRadius.value() * sliderRadius.value()) * (pow(x + positions[0], 2) - pow(y - positions[1], 2))) / ((pow(x + positions[0], 2) + pow(y - positions[1], 2)) * (pow(x + positions[0], 2) + pow(y - positions[1], 2))));
+function controls(){
+    buttonTrace = createButton('Trace');
+    buttonTrace.position(20, 16);
+    buttonTrace.mousePressed(traceShow);
+    
+    sliderRadius = createSlider(0.01, 200, 120, 0.01);
+    sliderRadius.position(buttonTrace.x, buttonTrace.y + 50);
+    sliderRadius.style('width', '100px');
+    
+    sliderSpeed = createSlider(0.01, 100, 40, 0.01);
+    sliderSpeed.position(buttonTrace.x, buttonTrace.y + 110);
+    sliderSpeed.style('width', '100px');
+}
 
-let Q = (t, x, y) => Strength * ((-2 * sliderSpeed.value() * (sliderRadius.value() * sliderRadius.value()) * (x + positions[0]) * (y - positions[1])) / ((pow(x + positions[0], 2) + pow(y - positions[1], 2)) * (pow(x + positions[0], 2) + pow(y - positions[1], 2))));
+
 
 //Define particles and how they are moved with Runge–Kutta method of 4th degree.
 class Particle {
@@ -145,6 +149,15 @@ class Particle {
   }
 
   update() {
+      
+    let sp = sliderSpeed.value();
+    let rd = sliderRadius.value();
+    let px = positions[0];
+    let py = positions[1];
+      
+    let P = (t, x, y) => Strength * ( sp - (sp * (rd * rd) * (pow(x + px, 2) - pow(y - py, 2))) / pow( pow(x + px, 2) + pow(y - py, 2) , 2) );
+      
+    let Q = (t, x, y) => Strength * ((-2 * sp * (rd * rd) * (x + px) * (y - py)) / pow( pow(x + px, 2) + pow(y - py, 2) , 2) );
     this.k1 = P(this.time, this.x, this.y);
     this.j1 = Q(this.time, this.x, this.y);
     this.k2 = P(this.time + 1 / 2 * this.h, this.x + 1 / 2 * this.h * this.k1, this.y + 1 / 2 * this.h * this.j1);
@@ -161,8 +174,6 @@ class Particle {
   display() {
     fill(this.r, this.b, this.g, this.op);
     noStroke();
-    //this.updatex = map(this.x, -7, 7, -width, width);
-    //this.updatey = map(-this.y, -5, 5, -height, height);
     ellipse(-this.x, this.y, 2 * this.radius, 2 * this.radius);
   }
 
@@ -176,13 +187,6 @@ function traceShow() {
   }
 }
 
-function doubleClicked() {
-  if (a > 10) {
-    a = 0.02;
-  }
-}
-
-
 function mousePressed() {
   checkOver();
   if (bover) {
@@ -191,6 +195,8 @@ function mousePressed() {
     locked = false;
   }
 }
+
+//The following functions allow me to drag the circle
 
 function mouseReleased() {
   locked = false;
