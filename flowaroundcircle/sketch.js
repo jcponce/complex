@@ -96,7 +96,7 @@ function draw() {
   for (let j = 0; j < 1; j++) {
     if (bover && whichImage == j) {
       noStroke();
-      fill(0);
+      fill(240);
     } else {
       noStroke();
       fill(100);
