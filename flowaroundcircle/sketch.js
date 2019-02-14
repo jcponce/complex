@@ -25,9 +25,9 @@ let newx;
 let newy;
 let whichImage;
 
-var Strength = 40;
-var v = 40;
-var a = 90;
+let Strength = 40;
+let v = 40;
+let a = 90;
 let numMax = 700;
 let t = 0;
 let h = 0.001;
@@ -107,7 +107,7 @@ function draw() {
 
   translate(-width / 2, -height / 2);
   fill(250);
-  rect(2, 2, 150, 199, 20);
+  rect(3, 3, 140, 190, 10);
   fill(0);
   stroke(0);
   strokeWeight(0.3);
@@ -169,6 +169,7 @@ class Particle {
     let P = (t, x, y) => Strength * ( sp - (sp * (rd * rd) * (pow(x + px, 2) - pow(y - py, 2))) / pow( pow(x + px, 2) + pow(y - py, 2) , 2) );
       
     let Q = (t, x, y) => Strength * ((-2 * sp * (rd * rd) * (x + px) * (y - py)) / pow( pow(x + px, 2) + pow(y - py, 2) , 2) );
+      
     this.k1 = P(this.time, this.x, this.y);
     this.j1 = Q(this.time, this.x, this.y);
     this.k2 = P(this.time + 1 / 2 * this.h, this.x + 1 / 2 * this.h * this.k1, this.y + 1 / 2 * this.h * this.j1);

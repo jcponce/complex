@@ -6,6 +6,7 @@ canvas {
   display: block;
 }
 
+/*Slider*/
 
 input[type=range] {
   -webkit-appearance: none;
@@ -91,4 +92,54 @@ input[type=range]:focus::-ms-fill-lower {
 }
 input[type=range]:focus::-ms-fill-upper {
   background: rgba(101, 52, 40, 0.32);
+}
+
+/*Button to reset*/
+
+*{padding:0;margin:0;}
+
+body{
+    font-family:Verdana, Geneva, sans-serif;
+    font-size:37px;
+    background-color:#CCC;
+}
+
+.float{
+    cursor: pointer;
+    position:fixed;
+    width:60px;
+    height:60px;
+    bottom:120px;
+    right:40px;
+    background-color:#3399ff;
+    color:#FFF;
+    border-radius:50px;
+    text-align:center;
+    box-shadow: 2px 2px 3px #999;
+}
+
+.my-floatBack{
+    cursor: pointer;
+    position:fixed;
+    width:60px;
+    height:60px;
+    bottom:50px;
+    right:40px;
+    background-color:#3399ff;
+    color:#FFF;
+    border-radius:50px;
+    text-align:center;
+    box-shadow: 2px 2px 3px #999;
+}
+
+.float:hover{
+    background-color:#5cbf2a;
+}
+
+.my-floatBack:hover{
+    background-color:#5cbf2a;
+}
+
+.my-float{
+    margin-top:12px;
 }
