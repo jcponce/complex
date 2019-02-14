@@ -97,16 +97,16 @@ function draw() {
   for (let j = 0; j < 1; j++) {
     if (bover && whichImage == j) {
       noStroke();
-      fill(240);
+      fill(200);
     } else {
       noStroke();
-      fill(100);
+      fill(80);
     }
     ellipse(positions[j * 2], positions[j * 2 + 1], (sliderRadius.value()) * 2, (sliderRadius.value()) * 2);
   }
 
   translate(-width / 2, -height / 2);
-  fill(220);
+  fill(250);
   rect(2, 2, 150, 199, 20);
   fill(0);
   stroke(0);
@@ -133,7 +133,7 @@ function controls(){
     buttonTrace.mousePressed(traceShow);
     buttonTrace.style('font-size', '20px');
     
-    sliderRadius = createSlider(0.01, 200, 120, 0.01);
+    sliderRadius = createSlider(0.01, 250, 120, 0.01);
     sliderRadius.position(buttonTrace.x-10, buttonTrace.y + 65);
     sliderRadius.style('width', '100px');
     
