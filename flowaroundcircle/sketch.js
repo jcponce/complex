@@ -107,13 +107,14 @@ function draw() {
 
   translate(-width / 2, -height / 2);
   fill(220);
-  rect(0, 0, 150, 199, 20);
+  rect(2, 2, 150, 199, 20);
   fill(0);
   stroke(0);
   strokeWeight(0.3);
   textSize(16);
-  text("Radius", buttonTrace.x, buttonTrace.y + 50);
-  text("Speed", buttonTrace.x, buttonTrace.y + 110);
+  textAlign(LEFT);
+  text("Radius", buttonTrace.x-10, buttonTrace.y + 60);
+  text("Speed", buttonTrace.x-10, buttonTrace.y + 120);
  
  textSize(32);
  fill(255);
@@ -128,15 +129,16 @@ function draw() {
 
 function controls(){
     buttonTrace = createButton('Trace');
-    buttonTrace.position(20, 10);
+    buttonTrace.position(30, 15);
     buttonTrace.mousePressed(traceShow);
+    buttonTrace.style('font-size', '20px');
     
     sliderRadius = createSlider(0.01, 200, 120, 0.01);
-    sliderRadius.position(buttonTrace.x, buttonTrace.y + 55);
+    sliderRadius.position(buttonTrace.x-10, buttonTrace.y + 65);
     sliderRadius.style('width', '100px');
     
     sliderSpeed = createSlider(0.01, 100, 40, 0.01);
-    sliderSpeed.position(buttonTrace.x, buttonTrace.y + 115);
+    sliderSpeed.position(buttonTrace.x-10, buttonTrace.y + 125);
     sliderSpeed.style('width', '100px');
 }
 
