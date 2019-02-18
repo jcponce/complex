@@ -4,8 +4,9 @@
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update 5-Jan-2018
+// Last update 18-Feb-2019
 
+// --Control variables--
 let clts = {
 
 title: 'HSB Scheme',
@@ -218,9 +219,6 @@ function displayGrid() {
     
 }
 
-function saveImg() {
-    save('myCanvas.jpg');
-}
 //z.pow(0).div(z.pow(0).sub(z.pow(2)).sqrt())
 function mySelectOption() {
     if (clts.lvlCurv == 'Real') {

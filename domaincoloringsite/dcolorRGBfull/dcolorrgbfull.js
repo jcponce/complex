@@ -4,7 +4,9 @@
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update ??
+// Last update 18-Feb-2019
+
+// --Control variables--
 
 let clts = {
 
@@ -32,12 +34,6 @@ sizePlot: false,
     
 };
 
-let w, h, posRe, posIm;
-
-var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
-
-var funColor = (x, y) => 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
-
 function setup() {
     createCanvas(470, 470);
     colorMode(RGB, 1);
@@ -64,21 +60,6 @@ function setup() {
     noLoop();
 }
 
-function windowResized() {
-    if(clts.sizePlot == true){
-        resizeCanvas(750, 550);
-    } else{
-        resizeCanvas(470, 470);
-    }
-}
-
-function keyPressed() {
-    if (keyCode === ENTER) {
-        redraw();
-    }
-}
-
-
 function draw() {
     
     background(255);
@@ -90,6 +71,52 @@ function draw() {
     }
     
 }
+
+// --Coloring the pixels--
+// First I need to define the functions to color each pixel
+
+let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+
+let sharp = 0.2;
+let nContour = 12;
+
+let funColor = (x, y) => sharp * (nContour * (PI - atan2(y, -x)) / (2 * PI) - floor(nContour * (PI - atan2(y, -x)) / (2 * PI))) + 0.6;
+
+function sat(x, y) {
+    let satAux =  log(sqrt(x * x + y * y)) / log(2);
+    return sharp * ( satAux -   floor(satAux)) + 0.6;
+}
+
+function val(x, y) {
+    let valAux = nContour * funPhase(x,y);
+    return sharp * ( valAux -  floor( valAux) ) + 0.6;
+}
+
+function mySelectOption() {
+    if (clts.lvlCurv == 'Phase') {
+        funColor = (x, y) => val(x, y);
+    } else if (clts.lvlCurv == 'Modulus') {
+        funColor = (x, y) => sat(x, y);
+    } else if (clts.lvlCurv == 'Phase/Modulus') {
+        funColor = (x, y) => val(x, y) * sat(x, y);
+    } else if (clts.lvlCurv == 'None') {
+        funColor = (x, y) => 1;
+    }
+    redraw();
+}
+
+function myPhaseOption() {
+    if (clts.phaseOption == '[0, 2pi)') {
+        funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+    } else if (clts.phaseOption == '(-pi, pi]') {
+        funPhase = (x, y) => (PI + atan2(y, x)) / (2 * PI);
+    }
+    redraw();
+}
+
+// Now we color the pixels
+
+let w, h, posRe, posIm;
 
 function plot() {
     // Establish a range of values on the complex plane
@@ -207,32 +234,18 @@ function displayGrid() {
     
 }
 
-function sat(x, y) {
-    return 1 / 5 * log(5 * sqrt(x * x + y * y)) / log(2) - 1 / 5 * floor(log(5 * sqrt(x * x + y * y)) / log(2)) + 0.85;
-}
+// Auxiliary functions
 
-function val(x, y) {
-    return 1 / 3 * (18 * (PI - atan2(y, -x)) / (2 * PI) - floor(18 * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
-}
-
-function mySelectOption() {
-    if (clts.lvlCurv == 'Phase') {
-        funColor = (x, y) => val(x, y);
-    } else if (clts.lvlCurv == 'Modulus') {
-        funColor = (x, y) => sat(x, y);
-    } else if (clts.lvlCurv == 'Phase/Modulus') {
-        funColor = (x, y) => val(x, y) * sat(x, y);
-    } else if (clts.lvlCurv == 'None') {
-        funColor = (x, y) => 1;
+function windowResized() {
+    if(clts.sizePlot == true){
+        resizeCanvas(750, 550);
+    } else{
+        resizeCanvas(470, 470);
     }
-    redraw();
 }
 
-function myPhaseOption() {
-    if (clts.phaseOption == '[0, 2pi)') {
-        funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
-    } else if (clts.phaseOption == '(-pi, pi]') {
-        funPhase = (x, y) => (PI + atan2(y, x)) / (2 * PI);
+function keyPressed() {
+    if (keyCode === ENTER) {
+        redraw();
     }
-    redraw();
 }
