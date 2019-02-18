@@ -77,12 +77,12 @@ function draw() {
 let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
 let sharp = 1/3;
-let nContour = 13;
+let nContour = 16;
 
 let funColor = (x, y) => sharp * (nContour * (PI - atan2(y, -x)) / (2 * PI) -  floor(nContour * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
 
 function sat(x, y) {
-    let satAux =  log(sqrt(x * x + y * y)) / log(2);
+    let satAux =  log(sqrt(x * x + y * y)) / log(1.6);
     return sharp * ( satAux - floor(satAux) ) + 0.7;
 }
 
