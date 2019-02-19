@@ -9,7 +9,7 @@ Domain coloring: https://jcponce.github.io/complex/domcoloring/
 
 Analytic landscape v1: https://jcponce.github.io/complex/dclandscape/
 
-Analytic lanscape v2: https://jcponce.github.io/complex/analyticlandscape/
+Analytic landscape v2: https://jcponce.github.io/complex/analyticlandscape/
 
 Taylor series: https://jcponce.github.io/complex/taylorseries/
 
