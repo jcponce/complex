@@ -129,8 +129,8 @@ Mandelbrot.prototype.draw = function() {
     }
     //draw constant label
     fill(255);
-    stroke(255);
-    strokeWeight(1);
+    stroke(0);
+    strokeWeight(1.5);
     textSize(13);
     text("Mouse: (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", 5, height-15);
     

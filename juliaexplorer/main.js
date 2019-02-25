@@ -144,9 +144,9 @@ Julia.prototype.draw = function() {
     }
     //draw constant label
     fill(255);
-    stroke(255);
-    strokeWeight(1);
-    textSize(13);
+    stroke(0);
+    strokeWeight(1.5);
+    textSize(16);
     text("c is (" + str(round(c.x * 100)/100.0) + "," + str(round(c.y * 100)/100.0) + ")", 5, height-15);
     
     
