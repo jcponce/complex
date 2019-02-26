@@ -28,7 +28,7 @@ let whichImage;
 let Strength = 40;
 let v = 40;
 let a = 90;
-let numMax = 500;
+let numMax = 450;
 let t = 0;
 let h = 0.001;
 let particles = [];
@@ -154,10 +154,10 @@ class Particle {
     this.time = _t;
     this.radius = random(3, 4);
     this.h = _h;
-    this.op = random(199, 200);
+    this.op = 200;
     this.r = random(10);
-    this.g = random(164, 255);
-    this.b = random(255);
+    this.g = random(220, 220);
+    this.b = random(120, 255);
   }
 
   update() {
