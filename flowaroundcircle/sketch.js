@@ -7,7 +7,7 @@
  Under Creative Commons License
  https://creativecommons.org/licenses/by-sa/4.0/
  
- Writen by Juan Carlos Ponce Campuzano, 12-Feb-2019
+ Written by Juan Carlos Ponce Campuzano, 12-Feb-2019
  I still need to refactor :)
  https://jcponce.github.io
  */
