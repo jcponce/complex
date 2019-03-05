@@ -1,0 +1,123 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Mandelbrot-Julia Sets Relationship explorer">
+<meta name="author" content="Juan Carlos Ponce Campuzano">
+<meta name="language" content="en"/>
+<title>Mandelbrot-Julia Sets Relationship explorer</title>
+<!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
+<script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
+<script language="javascript" type="text/javascript" src="libraries/p5.dom.min.js"></script>
+<script language="javascript" type="text/javascript" src="libraries/dat.gui.min.js"></script>
+<script language="javascript" type="text/javascript" src="sketch.js"></script>
+<script language="javascript" type="text/javascript" src="Julia.js"></script>
+<script language="javascript" type="text/javascript" src="Mandelbrot.js"></script>
+
+<!--MathJax starts-->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+                       TeX: { equationNumbers: { autoNumber: "AMS" } }
+                       });
+    </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+<!---<script type="text/x-mathjax-config">//left-side eq
+ MathJax.Hub.Config({
+ displayAlign: "left",
+ displayIndent: "5em"
+ });
+ </script>--->
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+<!--MathJax Ends-->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'UA-121691678-1');
+    </script>
+
+
+<script>
+    function myFunction() {
+        location.reload();
+    }
+</script>
+<!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
+<link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity16.png" sizes="16x16">
+<link rel="stylesheet" href="libraries/dat-gui-light-theme.css">
+<link rel="stylesheet" href="https://jcponce.github.io/assets/style/w3.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    
+<style>
+ div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+ body {
+    padding: 0;
+    margin: 0;
+}
+
+canvas {
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 800px;
+    height: 400px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+</style>
+<!-- This line removes any default padding and style. You might only need one of these values set. -->
+
+</head>
+<body style="background-color:#333333;">
+
+
+<!-- Navbar Stars-->
+<div class="w3-container w3-black w3-xlarge sticky">
+<div class="w3-display-topmiddle">
+    <a href="https://jcponce.github.io/#sketches" class="w3-button w3-hover-light-grey w3-opacity w3-round-xxlarge">  <i class="fas fa-arrow-circle-left"></i></a>
+&nbsp;
+<a onclick="myFunction()" class="w3-button w3-hover-light-grey w3-opacity w3-round-xxlarge">  <i class="fas fa-redo"></i></a>
+&nbsp;
+<a href="https://github.com/jcponce/complex/tree/gh-pages/mandelbrotjulia" class="w3-button w3-hover-grey w3-opacity w3-round-xxlarge"> <i class="fas fa-code"></i></a>
+&nbsp;
+<a href="http://mathworld.wolfram.com/JuliaSet.html" class="w3-button w3-hover-grey w3-opacity w3-round-xxlarge"> <i class="fas fa-question"></i></a>
+</div>
+</div>
+<!-- Navbar Ends-->
+
+
+
+        <div class="w3-card-4 w3-light-grey w3-hide-small w3-hide-medium w3-small" style="width:140px">
+            
+            <div class="w3-container">
+                
+                <!--<h4><b>Instructions:</b></h4>-->
+                
+                    <h5>Double click to fix/unfix <strong>c</strong></h5>
+            
+            </div>
+            
+        </div>
+       
+
+    
+</body>
+
+
+
+
+</html>
