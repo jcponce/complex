@@ -14,7 +14,7 @@ let mandelSet;
 
 let widthMandel = 2.7;
 let centerX = -0.7;
-let sizeGraph = 400;
+let sizeGraph = 480;
 
 let juliaSet;
 
@@ -45,7 +45,7 @@ let prevmy = 0;
 let cX, cY;
 
 function setup() {
-  createCanvas(800, 400);
+  createCanvas(960, 480);
 
   noStroke();
   ellipseMode(RADIUS);

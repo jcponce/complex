@@ -45,7 +45,7 @@ class Julia {
     for (let j = 0; j < height; j++) {
       // Start x
       let x = xmin;
-      for (let i = 400; i < 2 * this.sizeW; i++) {
+      for (let i = sizeGraph; i < 2 * this.sizeW; i++) {
 
         // Now we test, as we iterate z = z^2 + cm does z tend towards infinity?
         let a = x;
