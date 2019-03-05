@@ -1,6 +1,13 @@
-// Juan Carlos Ponce Campuzano
-// https://jcponce.github.io/
+/*
+ Written by Juan Carlos Ponce Campuzano
+ https://jcponce.github.io/
+ 
+ The Julia and Mandelbrot classes are based upon Daniel Shiffman
+ from his Coding Challenge #21 and #22:
+ https://thecodingtrain.com/CodingChallenges/021-mandelbrot-p5.html
+ https://thecodingtrain.com/CodingChallenges/022-juliaset.html
 
+*/
 
 let mandelSet;
 
@@ -69,18 +76,17 @@ function setup() {
 }
 
 function draw() {
+    
   cursor(HAND);
+    
   mandelSet = new Mandelbrot(clts.iter, widthMandel, sizeGraph);
-
 
   juliaSet = new Julia(clts.iter, 3, sizeGraph);
 
   mandelSet.show();
-
-
   juliaSet.show();
     
-    if(!clts.User){
+  if(!clts.User){//User
     
   if (!changeC) {
       if (abs(mouseX - mx) > 0.1) {
@@ -114,6 +120,7 @@ function doubleClicked(){
     
 }
 
+//Auxiliary functions
 function setPixelRGB(x, y, r, g, b) {
   let pixelID = (x + y * width) * 4;
   pixels[pixelID + 0] = r;
