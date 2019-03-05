@@ -21,7 +21,7 @@ let juliaSet;
 let mx = 1;
 let my = 1;
 let easing = 0.9;
-let radius = 4;
+let radius = 5;
 let edge = 0;
 let inner = edge + radius;
 
@@ -47,7 +47,6 @@ let cX, cY;
 function setup() {
   createCanvas(960, 480);
 
-  noStroke();
   ellipseMode(RADIUS);
   rectMode(CORNERS);
 
