@@ -1,5 +1,6 @@
 /*
  Written by Juan Carlos Ponce Campuzano
+ 05-March-2019
  https://jcponce.github.io/
  
  The Julia and Mandelbrot classes are based upon Daniel Shiffman
