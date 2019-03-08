@@ -13,6 +13,8 @@ let rad= 3;
 let sel;
 let system;
 
+let stepXY = 20;
+
 function setup() {
 	createCanvas(500, 500);
     colorMode(HSB, 1, 1, 1);
@@ -31,11 +33,12 @@ function setup() {
     sel.option('log(z)');
     sel.option('exp(z)');
     sel.option('sin(z)');
+    sel.option('(i+z)/(i-z)');
     sel.style('font-size', '18')
-    sel.changed(mySelectEvent);
+    sel.changed(myFunctionEvent);
     
     system = createSelect();
-    system.position(sel.x + 120, sel.y);
+    system.position(sel.x + 190, sel.y);
     system.option('Cartesian');
     system.option('Polar');
     system.option('None');
@@ -44,24 +47,44 @@ function setup() {
     
 }
 
-function mySelectEvent(){
+function myFunctionEvent(){
     
     if (sel.value() == 'z^2') {
+        scale = 2;
+        stepXY = 20;
         fun = (z) => z.pow(2);
     } else if (sel.value() == '1/z') {
+        scale = 2;
+        stepXY = 25;
         fun = (z) => z.inverse();
     } else if (sel.value() == 'z/|z|') {
+        scale = 2;
+        stepXY = 25;
         fun = (z) => z.div(z.abs());
     } else if (sel.value() == 'z+1/z') {
+        scale = 2;
+        stepXY = 25;
         fun = (z) => z.pow(1).add(z.inverse());
     }else if (sel.value() == 'sqrt(z)') {
+        scale = 2;
+        stepXY = 25;
         fun = (z) => z.pow(0.5);
     } else if (sel.value() == 'log(z)') {
+        scale = PI;
+        stepXY = 25;
         fun = (z) => z.log();
     } else if (sel.value() == 'exp(z)') {
+        scale = PI/2;
+        stepXY = 25;
         fun = (z) => z.exp();
     } else if (sel.value() == 'sin(z)') {
+        scale = PI/2;
+        stepXY = 25;
         fun = (z) => z.sin();
+    } else if (sel.value() == '(i+z)/(i-z)') {
+        scale = 1;
+        stepXY = 25;
+        fun = (z) => z.mul('1').add('i').div(z.mul(-1).add('i'));//z.mul(-1).add(1).div(z.add(1)).log();
     }
     //u = 0.0;
     points = [];
@@ -83,7 +106,7 @@ function mySystemEvent(){
 }
 
 function draw() {
-	background(0);
+	background(0.1);
     
     cursor(HAND);
     
@@ -97,8 +120,8 @@ function draw() {
 		}
 	}
 	if(coord==1){
-		for(let x=10; x<width; x += 20){
-			for(let y=10; y<height; y += 20){
+		for(let x=10; x<width; x += stepXY){
+			for(let y=10; y<height; y += stepXY){
 				noStroke();
                 let zx = map(x, 20, width, -scale, scale);
                 let zy = map(y, 20, height, -scale, scale)
@@ -112,7 +135,7 @@ function draw() {
 		}
 	} else if(coord==2){
 		for(let r=20; r<0.5*height; r += 20){
-			for(let a=-PI+0.06; a<=PI; a += 0.06){
+			for(let a=-PI+0.01; a<=PI; a += 0.09){
 				noStroke();
                 let rnew = map(r, 0, 0.5*height, 0, 2);
                 let pcolorz = map(atan2(rnew * sin(a), -rnew * cos(a)), -PI, PI, 0, 1);
