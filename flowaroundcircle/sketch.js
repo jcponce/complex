@@ -23,7 +23,7 @@ let bover = false;
 let locked = false;
 let newx;
 let newy;
-let whichImage;
+//let whichImage;
 
 let Strength = 40;
 let v = 40;
@@ -40,7 +40,6 @@ let buttonTrace;
 
 let sliderRadius;
 let sliderSpeed;
-
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -74,12 +73,8 @@ function draw() {
   translate(width / 2, height / 2);
 
   if (trace == true) {
-    fill(0, 6);
-  } else fill(0, 100);
-  stroke(0);
-  strokeWeight(2);
-  
-  rect(-width / 2, -height / 2, width, height);
+    background(0, 6);
+  } else background(0, 100);
 
   t += h;
 
@@ -143,6 +138,14 @@ function controls(){
     sliderSpeed.style('width', '100px');
 }
 
+function traceShow() {
+    if (trace == false) {
+        trace = true;
+    } else {
+        trace = false;
+    }
+}
+
 let alpha = 0.9;
 
 //Define particles and how they are moved with Runge–Kutta method of 4th degree.
@@ -201,13 +204,9 @@ class Particle {
 
 }
 
-function traceShow() {
-  if (trace == false) {
-    trace = true;
-  } else {
-    trace = false;
-  }
-}
+
+
+//The following functions allow me to drag the circle
 
 function mousePressed() {
   checkOver();
@@ -217,8 +216,6 @@ function mousePressed() {
     locked = false;
   }
 }
-
-//The following functions allow me to drag the circle
 
 function mouseReleased() {
   locked = false;
