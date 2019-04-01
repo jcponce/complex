@@ -122,8 +122,8 @@
 		);
 		
         shape1 = polygon([(-2,1.65), (-0.25,1.65), (-0.25,2), (-2,2)]);
-        fill(shape1,color->(0.8,0.8,0.8));
-        draw(shape1, color->(0.8,0.8,0.8));
+        fill(shape1,color->(0.9,0.9,0.9));
+        draw(shape1, color->(0.9,0.9,0.9));
         
 		//drawtext((-5.9,1.7), "$f(z) =$", color->(0.98,0.98,0.98));
 		//\textcolor{<color>}{<text>}
@@ -135,6 +135,9 @@
 		n = round(5*(N.y+1.8));
 		n = max(1, n);
 		N.y = n/5-1.8;
+        
+        linesize(3);
+        draw((-2,-2),(-2,2), color->[0,0,0]);//divide screen
 		
 		draw((-5,-1.8),(1,-1.8), color->[0,0,0]);
         drawtext((1.15,N.y),"$n = " + n + "$", color->(0.98,0.98,0.98));
@@ -151,6 +154,7 @@
 			A.xy = A.xy*lzoom/zoom;
 		);
 		lzoom = zoom;
+        
 		
 		</script>
 
