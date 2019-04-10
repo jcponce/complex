@@ -177,7 +177,7 @@ draw((1,-1),(1,1), color->(0,0,0), size->2);
 var cdy = CindyJS({
   ports: [{
     id: "CSCanvas",
-      width: 800,
+      width: 900,
       height: 545,
       transform: [ { visibleRect: [-1, -1, 2.2, 1] } ]
   }],
@@ -194,11 +194,11 @@ var cdy = CindyJS({
     {name:"l", type:"Segment", args:["S1","S2"],color:[0,0,0],pinned:false,size:2},
     {name:"R1", type:"Free", pos:[1.2,-.6],color:[0,0,0],pinned:true,size:2},
     {name:"R2", type:"Free", pos:[2.0,-.6],color:[0,0,0],pinned:true,size:2},
-    {name:"R", type:"Free", pos:[1.7,-.6],color:[1,1,1],pinned:false,size:4},
+    {name:"R", type:"Free", pos:[1.45,-.6],color:[1,1,1],pinned:false,size:6},//Grid
     {name:"m", type:"Segment", args:["R1","R2"],color:[0,0,0],pinned:false,size:2},
     {name:"T1", type:"Free", pos:[1.2,-.4],color:[0,0,0],pinned:true,size:2},
     {name:"T2", type:"Free", pos:[1.99,-.4],color:[0,0,0],pinned:true,size:2},
-    {name:"T", type:"Free", pos:[2.0,-.4],color:[1,1,1],pinned:false,size:4},
+    {name:"T", type:"Free", pos:[2.0,-.4],color:[1,1,1],pinned:false,size:6},//Color
     {name:"o", type:"Segment", args:["T1","T2"],color:[0,0,0],pinned:false,size:2}
   ],
   animation: {autoplay: true},
@@ -244,12 +244,15 @@ var check2=function(){
 }
 
 var check3=function(){
-       if(document.getElementById("ch3").checked){
-          cdy.evokeCS('linear=true;');
-       } else {
-           cdy.evokeCS('linear=false;');
-
-       }
+    if(document.getElementById("ch3").checked){
+        cdy.evokeCS('linear=true;');
+        document.getElementById("t1").innerHTML = "Real";
+        document.getElementById("t2").innerHTML = "Imaginary";
+    } else {
+        cdy.evokeCS('linear=false;');
+        document.getElementById("t1").innerHTML = "Phase";
+        document.getElementById("t2").innerHTML = "Modulus";
+    }
 }
 
     var check4=function(){
@@ -293,11 +296,13 @@ var check3=function(){
 <div class="w3-hide-small">
   
   <div id="CSCanvas" style="border:2px solid black"></div>
-  <input id="ch1" onclick="check1()" checked type="checkbox" >Phase/Re&nbsp;&nbsp;&nbsp;
-  <input id="ch2" onclick="check2()" checked type="checkbox" >Mod/Im&nbsp;&nbsp;&nbsp;
-  <input id="ch3" onclick="check3()" type="checkbox" >Re &amp; Im components&nbsp;&nbsp;&nbsp;
-  <input id="ch4" onclick="check4()" type="checkbox" >Chessbaord&nbsp;&nbsp;&nbsp;
-  <input id="ch5" onclick="check5()" type="checkbox" >Webcam<br>
+<div style="display: flex; justify-content: space-between; width: 800px;">
+  <div><input id="ch1" onclick="check1()" checked type="checkbox" ><span id="t1">Phase</span></div>
+  <div><input id="ch2" onclick="check2()" checked type="checkbox" ><span id="t2">Modulus</span></div>
+  <div><input id="ch3" onclick="check3()" type="checkbox" >Re/Im components</div>
+  <div><input id="ch4" onclick="check4()" type="checkbox" >Chessboard</div>
+  <div><input id="ch5" onclick="check5()" type="checkbox" >Webcam</div>
+</div>
   
 <span style="font-size:18px">f(z) = </span><input type="text" id="inp" value="z"  onkeypress="typ(event, this)" size="45" style="font-size:18px">
 
@@ -307,15 +312,16 @@ var check3=function(){
 
 <div class="w3-hide-small">
 <p>You can also select one function of the following list:</p>
-    <select id="sel" onchange="sel(event, this)" style="width:15em;">
+    <select id="sel" onchange="sel(event, this)" style="width:8em;">
         <option>z</option>
+        <option>(z-1)/(z^2+z+1)</option>
         <option>(1-a)*(1+a)</option>
         <option>(z-A)/(z-B)</option>
         <option>z^(1+i)</option>
         <option>z^A</option>
         <option>(sin(a)/sin(b))^(1+i)</option>
-        <option value="z=z/4; repeat(7, z = z*z + A/5);">Julia set</option>
         <option value="z = 0; repeat(11, z = z*z +a/4; z = z/abs(z)*min(abs(z),10));">Mandelbrot set</option>
+        <option value="z=z/4; repeat(7, z = z*z + A/5);">Julia set</option>
         <option value="z = a/3;(1-z^(20*e))/(1-z)">Convergence of Geometric series</option>
         <option value="repeat(5, z = z - (z^3-A)/(3*z^2));">Newton</option>
         <option value="z=a; repeat(11, z = z - (z^3-b*c*d)/(3*z^2));">Newton-like</option>

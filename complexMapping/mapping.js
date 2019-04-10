@@ -16,7 +16,7 @@ let system;
 let stepXY = 20;
 
 function setup() {
-	createCanvas(500, 500);
+	createCanvas(450, 450);
     colorMode(HSB, 1, 1, 1);
 	unit = new Complex(1,1);
 	unitr = new Complex(1,0);
@@ -24,7 +24,7 @@ function setup() {
 	//stroke(255);
     
     sel = createSelect();
-    sel.position(10, 510);
+    sel.position(10, 460);
     sel.option('z^2');
     sel.option('1/z');
     sel.option('z/|z|');
@@ -44,6 +44,8 @@ function setup() {
     system.option('None');
     system.style('font-size', '18')
     system.changed(mySystemEvent);
+    
+    
     
 }
 
@@ -160,6 +162,12 @@ function draw() {
         strokeWeight(2);
 		line(ppos.x, ppos.y, pos.x, pos.y);
 	}
+    fill(1);
+    textSize(18);
+    stroke(0);
+    strokeWeight(1);
+    text('T: Apply', 20, 30);
+    
 }
 
 function keyTyped(){
