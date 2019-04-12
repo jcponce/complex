@@ -44,7 +44,7 @@ function setup() {
     gui.add(clts, 'lvlCurv', ['Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcRe').name("Re(x, y) =").onChange(redraw);
     gui.add(clts, 'funcIm').name("Im(x, y) =").onChange(redraw);
-    gui.add(clts, 'size').name("|Re z| <").min(0.000001).step(0.01).onChange(keyPressed);
+    gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
     
     let cXY = gui.addFolder('Display Options');
     cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);

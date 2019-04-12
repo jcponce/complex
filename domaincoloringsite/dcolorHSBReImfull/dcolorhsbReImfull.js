@@ -58,7 +58,7 @@ function setup() {
     gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcZ').name("f(z) =");
-    gui.add(clts, 'size', 0.00001, 100).name("|Re z| <");
+    gui.add(clts, 'size', 0.00001, 15).name("|Re z| <");
     gui.add(clts, 'Update').name("Update vals");
     
     let cXY = gui.addFolder('Display Options');
