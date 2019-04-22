@@ -45,8 +45,10 @@ function setup() {
     gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcZ').name("f(z) =");
-    gui.add(clts, 'size', 0.00001, 15).name("|Re z| < =");
+    gui.add(clts, 'size', 0.00001, 15).name("|Re z| < ");
     gui.add(clts, 'Update').name("Update vals");
+    
+    gui.add(clts, 'Save').name("Save (png)");
     
     let cXY = gui.addFolder('Display Options');
     cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
@@ -55,7 +57,7 @@ function setup() {
     cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
     cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
     
-    gui.add(clts, 'Save').name("Save (png)");
+    
     
     noLoop();
 }

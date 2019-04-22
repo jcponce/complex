@@ -61,6 +61,8 @@ function setup() {
     gui.add(clts, 'size', 0.00001, 15).name("|Re z| <");
     gui.add(clts, 'Update').name("Update vals");
     
+    gui.add(clts, 'Save').name("Save (png)");
+    
     let cXY = gui.addFolder('Display Options');
     cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
@@ -68,7 +70,7 @@ function setup() {
     cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
     cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
     
-    gui.add(clts, 'Save').name("Save (png)");
+    
     
     noLoop();
 }
