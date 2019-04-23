@@ -3,17 +3,19 @@ Here you can find my sketches about complex analysis.
 
 Visit [Dynamic Mathematics](https://jcponce.github.io/) to play with them.
 
-I also discovered recently [Cindy.je](https://cindyjs.org/) and I am learning to use it. I have adapted some applets and now I am putting them in this repository. Some examples are:
+![alt tag](https://github.com/jcponce/complex/blob/gh-pages/screenshot.png)
 
-Domain coloring: https://jcponce.github.io/complex/domcoloring/
+I also discovered recently [Cindy.js](https://cindyjs.org/) and I am learning to use it. I have adapted some applets and now I am putting them in this repository. Some examples are:
 
-Analytic landscape v1: https://jcponce.github.io/complex/dclandscape/
+[Domain coloring](https://jcponce.github.io/complex/domcoloring/)
 
-Analytic landscape v2: https://jcponce.github.io/complex/analyticlandscape/
+[Analytic landscape v1](https://jcponce.github.io/complex/dclandscape/)
 
-Taylor series: https://jcponce.github.io/complex/taylorseries/
+[Analytic landscape v2](https://jcponce.github.io/complex/analyticlandscape/)
 
-Finally, one that I made, Power functions: https://jcponce.github.io/complex/powerfunction/
+[Taylor series](https://jcponce.github.io/complex/taylorseries/)
+
+Finally, one that I made about [Power functions](https://jcponce.github.io/complex/powerfunction/)
 
 ## License
 
