@@ -3,8 +3,6 @@ Here you can find my sketches about complex analysis.
 
 Visit [Dynamic Mathematics](https://jcponce.github.io/) to play with them.
 
-![alt tag](https://github.com/jcponce/complex/blob/gh-pages/screenshot.png)
-
 I also discovered recently [Cindy.js](https://cindyjs.org/) and I am learning to use it. I have adapted some applets and now I am putting them in this repository. Some examples are:
 
 [Domain coloring](https://jcponce.github.io/complex/domcoloring/)
@@ -16,6 +14,8 @@ I also discovered recently [Cindy.js](https://cindyjs.org/) and I am learning to
 [Taylor series](https://jcponce.github.io/complex/taylorseries/)
 
 Finally, one that I made about [Power functions](https://jcponce.github.io/complex/powerfunction/)
+
+![alt tag](https://github.com/jcponce/complex/blob/gh-pages/screenshot.png)
 
 ## License
 
