@@ -40,7 +40,7 @@ function draw() {
   // A different range will allow us to "zoom" in or out on the fractal
 
   // It all starts with the width, try higher or lower values
-  let w = 2.5;
+  let w = 3;
   let h = (w * height) / width;
 
   // Start at negative half the width and height
