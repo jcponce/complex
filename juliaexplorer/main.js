@@ -7,7 +7,7 @@
 
 // Last update 17-Dec-2018
 
-let julia = new Julia();
+let julia;
 let changeC;
 let c;
 let WIDTH = 510;
@@ -16,10 +16,11 @@ let HEIGHT = 510;
 function setup() {
     createCanvas(WIDTH, HEIGHT);
     pixelDensity(1);//I need this for small devices
+    julia = new DomainColoring();
     changeC = true;
     c = new p5.Vector(0, 0);
-    frameRate(60);
-    
+    //frameRate(60);
+    smooth();
 }
 
 function windowResized() {
@@ -29,7 +30,7 @@ function windowResized() {
 function draw() {
     cursor(HAND);
     julia.update();
-    julia.draw();
+    julia.plot();
     console.log(changeC);
     
 }
@@ -52,108 +53,119 @@ const KC_UNZOOM = 189;    // Zoom back -
 const KC_ZOOM = 187;    // Zoom in +
 const KC_RESET = 82;    // Reset zoom level and position R
 
-function Julia() {
-    this.origSize = new p5.Vector(3, 3);
-    this.size = new p5.Vector(this.origSize.x, this.origSize.y);
-    this.origPos = new p5.Vector(0, 0);//Origin position
-    this.pos = new p5.Vector(this.origPos.x, this.origPos.y);
-    this.maxIter = 150;
-    this.origZoom = 1;
-    this.zoom = this.origZoom;
-    this.printDebug = false;
-}
-Julia.prototype.update = function () {
-    var moveSpeed = 0.1 * this.zoom;
-    if (keyIsDown(KC_UP))
-        this.pos.y -= moveSpeed;
-    if (keyIsDown(KC_DOWN))
-        this.pos.y += moveSpeed;
-    if (keyIsDown(KC_LEFT))
-        this.pos.x -= moveSpeed;
-    if (keyIsDown(KC_RIGHT))
-        this.pos.x += moveSpeed;
-    if (keyIsDown(KC_UNZOOM))
-        this.zoomAt(mouseX, mouseY, 0.95, false);
-    if (keyIsDown(KC_ZOOM))
-        this.zoomAt(mouseX, mouseY, 0.95, true);
-    if (keyIsDown(KC_RESET))
-    {
-        this.size.x = this.origSize.x;
-        this.size.y = this.origSize.y;
-        this.pos.x = this.origPos.x;
-        this.pos.y = this.origPos.y;
+class DomainColoring {
+    
+    constructor(){
+        this.origSize = new p5.Vector(3, 3);
+        this.size = new p5.Vector(this.origSize.x, this.origSize.y);
+        this.origPos = new p5.Vector(0, 0);//Origin position
+        this.pos = new p5.Vector(this.origPos.x, this.origPos.y);
+        this.maxIter = 150;
+        this.origZoom = 1;
         this.zoom = this.origZoom;
-        changeC = true;
+        this.printDebug = false;
     }
-};
-Julia.prototype.zoomAt = function(x, y, ammount, isZoomIn) {
-    ammount = isZoomIn ? ammount : 1 / ammount;
-    x = map(x, 0, width, this.pos.x - this.size.x / 2, this.pos.x + this.size.x / 2);
-    y = map(y, height, 0, this.pos.y - this.size.y / 2, this.pos.y + this.size.y / 2);
-    this.pos.x = x + (this.pos.x - x) * ammount;
-    this.pos.y = y + (this.pos.y - y) * ammount;
-    this.zoom *= ammount;
-    this.size.x = this.origSize.x * this.zoom;
-    this.size.y = this.origSize.y * this.zoom;
-};
-Julia.prototype.draw = function() {
-    loadPixels();
     
-    let mx = mouseX;
-    let my = mouseY;
-    let cX = this.pos.x + map(mx, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Julia
-    let cY = this.pos.y + map(my, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
+    update(){
+        var moveSpeed = 0.1 * this.zoom;
+        if (keyIsDown(KC_UP))
+            this.pos.y -= moveSpeed;
+        if (keyIsDown(KC_DOWN))
+            this.pos.y += moveSpeed;
+        if (keyIsDown(KC_LEFT))
+            this.pos.x -= moveSpeed;
+        if (keyIsDown(KC_RIGHT))
+            this.pos.x += moveSpeed;
+        if (keyIsDown(KC_UNZOOM))
+            this.zoomAt(mouseX, mouseY, 0.95, false);
+        if (keyIsDown(KC_ZOOM))
+            this.zoomAt(mouseX, mouseY, 0.95, true);
+        if (keyIsDown(KC_RESET))
+        {
+            this.size.x = this.origSize.x;
+            this.size.y = this.origSize.y;
+            this.pos.x = this.origPos.x;
+            this.pos.y = this.origPos.y;
+            this.zoom = this.origZoom;
+            changeC = true;
+        }
+        
+    }
     
-    if (!changeC) {
+    zoomAt(x, y, ammount, isZoomIn){
+        
+        ammount = isZoomIn ? ammount : 1 / ammount;
+        x = map(x, 0, width, this.pos.x - this.size.x / 2, this.pos.x + this.size.x / 2);
+        y = map(y, height, 0, this.pos.y - this.size.y / 2, this.pos.y + this.size.y / 2);
+        this.pos.x = x + (this.pos.x - x) * ammount;
+        this.pos.y = y + (this.pos.y - y) * ammount;
+        this.zoom *= ammount;
+        this.size.x = this.origSize.x * this.zoom;
+        this.size.y = this.origSize.y * this.zoom;
+    }
+    
+    plot(){
+        
+        loadPixels();
+        
+        let mx = mouseX;
+        let my = mouseY;
+        let cX = this.pos.x + map(mx, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Julia
+        let cY = this.pos.y + map(my, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
+        
+        if (!changeC) {
+            fill(255);
+            noStroke();
+            ellipse(mx, my, 8, 8);
+        }else{
+            c = new p5.Vector(cX, cY);
+        }
+        
+        for (let x = 0; x < width; x++) {
+            for (let y = 0; y < height; y++) {
+                var sqZ = new p5.Vector(0, 0);
+                var z = new p5.Vector(
+                                      this.pos.x + map(x, 0, width, -this.size.x / 2, this.size.x / 2),
+                                      this.pos.y + map(y, height, 0, -this.size.y / 2, this.size.y / 2)
+                                      );
+                
+                let iter = 0;
+                while (iter < this.maxIter) {
+                    sqZ.x = z.x * z.x - z.y * z.y;
+                    sqZ.y = 2 * z.x * z.y;
+                    z.x = sqZ.x + c.x;
+                    z.y = sqZ.y + c.y;
+                    if (abs(z.x + z.y) > 16)
+                        break;
+                    iter++;
+                }
+                setPixelHSV(x, y, map(iter, 0, this.maxIter, 0, 1), 0.8, 1);
+            }
+        }
+        updatePixels();
+        if (this.printDebug) {
+            fill(255, 255, 255, 255);
+            text("x: " + str( round( this.pos.x * 100 )/100 )
+                 + "\ny: " + str( round( this.pos.y * 100 )/100 )
+                 + "\nzoom: " + str( round(  (1 / this.zoom) * 100 )/100 )
+                 , 5, 15
+                 );
+        }
+        //draw constant label
+        fill(255);
+        stroke(0);
+        strokeWeight(1.5);
+        textSize(16);
+        text("c is (" + str(round(c.x * 100)/100.0) + "," + str(round(c.y * 100)/100.0) + ")", 5, height-15);
+        
+        
         fill(255);
         noStroke();
         ellipse(mx, my, 8, 8);
-    }else{
-        c = new p5.Vector(cX, cY);
+        
     }
     
-    for (let x = 0; x < width; x++) {
-        for (let y = 0; y < height; y++) {
-            var sqZ = new p5.Vector(0, 0);
-            var z = new p5.Vector(
-                              this.pos.x + map(x, 0, width, -this.size.x / 2, this.size.x / 2),
-                              this.pos.y + map(y, height, 0, -this.size.y / 2, this.size.y / 2)
-                              );
-            
-            let iter = 0;
-            while (iter < this.maxIter) {
-                sqZ.x = z.x * z.x - z.y * z.y;
-                sqZ.y = 2 * z.x * z.y;
-                z.x = sqZ.x + c.x;
-                z.y = sqZ.y + c.y;
-                if (abs(z.x + z.y) > 16)
-                    break;
-                iter++;
-            }
-            setPixelHSV(x, y, map(iter, 0, this.maxIter, 0, 1), 0.8, 1);
-        }
-    }
-    updatePixels();
-    if (this.printDebug) {
-        fill(255, 255, 255, 255);
-        text("x: " + str( round( this.pos.x * 100 )/100 )
-             + "\ny: " + str( round( this.pos.y * 100 )/100 )
-             + "\nzoom: " + str( round(  (1 / this.zoom) * 100 )/100 )
-             , 5, 15
-             );
-    }
-    //draw constant label
-    fill(255);
-    stroke(0);
-    strokeWeight(1.5);
-    textSize(16);
-    text("c is (" + str(round(c.x * 100)/100.0) + "," + str(round(c.y * 100)/100.0) + ")", 5, height-15);
-    
-    
-    fill(255);
-    noStroke();
-    ellipse(mx, my, 8, 8);
-};
+}
 
 function mouseClicked() {
         if (changeC) {
