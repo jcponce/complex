@@ -5,7 +5,8 @@
  * Original code by Kato https://www.openprocessing.org/user/114431
  */
 
-// Last update 17-Dec-2018
+// Last update 02-Jul-2019
+
 
 let julia;
 let changeC;
