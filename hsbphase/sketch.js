@@ -6,6 +6,9 @@ let HEIGHT = 510;
 //let f = (z) => z.mul("i").inverse().pow(7).sub(z.mul("i").inverse()).div(z.mul("i").inverse().add(-1));//z.pow(2).inverse().sin();
 let sizePlot = false;
 
+let prevmx = 0;
+let prevmy = 0;
+
 // --Control variables dat.gui--
 let clts = {
     
@@ -80,7 +83,7 @@ function draw() {
 }
 
 function keyReleased() {
-    if (keyCode === 80)//P key
+    if (keyCode === 191)//P key
         phasePortrait.printDebug = !phasePortrait.printDebug;
     if (keyCode === 70){//F key
         sizePlot = !sizePlot;
@@ -94,10 +97,10 @@ function mouseWheel() {
 }
 
 // KeyCodes available at: http://keycode.info/
-const KC_UP = 87;        // Move up W
-const KC_DOWN = 83;        // Move down S
-const KC_LEFT = 65;        // Move left A
-const KC_RIGHT = 68;    // Move right D
+const KC_UP = 38;        // Move up W
+const KC_DOWN = 40;        // Move down S
+const KC_LEFT = 37;        // Move left A
+const KC_RIGHT = 39;    // Move right D
 const KC_UNZOOM = 189;    // Zoom back -
 const KC_ZOOM = 187;    // Zoom in +
 const KC_RESET = 82;    // Reset zoom level and position R
@@ -140,7 +143,7 @@ class DomainColoring {
             changeC = true;
         }
         
-    }
+    }//end update
     
     zoomAt(x, y, ammount, isZoomIn){
         
@@ -152,7 +155,7 @@ class DomainColoring {
         this.zoom *= ammount;
         this.size.x = this.origSize.x * this.zoom;
         this.size.y = this.origSize.y * this.zoom;
-    }
+    }//end zoomAt
     
     plot(){
         
@@ -160,15 +163,17 @@ class DomainColoring {
         
         let mx = constrain(mouseX, 0, width);
         let my = constrain(mouseY, 0, height);
+        
         let cX = this.pos.x + map(mx, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Julia
         let cY = this.pos.y + map(my, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
         
+        //c = new p5.Vector(cX, cY);
         if (!changeC) {
-            fill(255);
-            noStroke();
-            ellipse(mx, my, 8, 8);
+        //    fill(255);
+        //    noStroke();
+            //ellipse(mx, my, 8, 8);
         }else{
-            c = new p5.Vector(cX, cY);
+           c = new p5.Vector(cX, cY);
         }
         
         for (let x = 0; x < width; x++) {
@@ -196,12 +201,15 @@ class DomainColoring {
         }
         updatePixels();
         if (this.printDebug) {
+            //Frame reference
             fill(0);
             stroke(0);
             strokeWeight(2);
             line(width/2, 0, width/2, height);
             line(0, height/2, width, height/2);
             ellipse(width/2, height/2, 8, 8);
+            
+            //text info
             fill(255);
             stroke(0);
             strokeWeight(4);
@@ -219,12 +227,19 @@ class DomainColoring {
         textSize(16);
         text("(" + str(round(c.x * 100)/100.0) + "," + str(round(c.y * 100)/100.0) + ")", 5, height-15);
         
+        if(changeC){
+            fill(255);
+            strokeWeight(1);
+            ellipse(mx, my, 8, 8);
+            prevmx = mx;
+            prevmy = my;
+        }else{
+            fill(255);
+            ellipse(prevmx, prevmy, 8, 8);
+        }
         
-        fill(255);
-        noStroke();
-        //ellipse(mx, my, 8, 8);
         
-    }
+    }//end plot
     
 }
 

@@ -13,6 +13,9 @@ let changeC;
 let c;
 let WIDTH = 510;
 let HEIGHT = 510;
+let sizePlot = false;
+let prevmx = 0;
+let prevmy = 0;
 
 function setup() {
     createCanvas(WIDTH, HEIGHT);
@@ -25,7 +28,11 @@ function setup() {
 }
 
 function windowResized() {
-    resizeCanvas(510, 510);
+    if(sizePlot== true){
+        resizeCanvas(700, 700);
+    } else{
+        resizeCanvas(510, 510);
+    }
 }
 
 function draw() {
@@ -37,8 +44,12 @@ function draw() {
 }
 
 function keyReleased() {
-    if (keyCode === 80)//P key
+    if (keyCode === 73)//I key
         julia.printDebug = !julia.printDebug;
+    if (keyCode === 66){//B key
+        sizePlot = !sizePlot;
+    }
+    windowResized();
 }
 
 function mouseWheel() {
@@ -46,10 +57,10 @@ function mouseWheel() {
 }
 
 // KeyCodes available at: http://keycode.info/
-const KC_UP = 87;        // Move up W
-const KC_DOWN = 83;        // Move down S
-const KC_LEFT = 65;        // Move left A
-const KC_RIGHT = 68;    // Move right D
+const KC_UP = 38;        // Move up W
+const KC_DOWN = 40;        // Move down S
+const KC_LEFT = 37;        // Move left A
+const KC_RIGHT = 39;    // Move right D
 const KC_UNZOOM = 189;    // Zoom back -
 const KC_ZOOM = 187;    // Zoom in +
 const KC_RESET = 82;    // Reset zoom level and position R
@@ -114,11 +125,11 @@ class DomainColoring {
         let cX = this.pos.x + map(mx, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Julia
         let cY = this.pos.y + map(my, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
         
-        if (!changeC) {
-            fill(255);
-            noStroke();
-            ellipse(mx, my, 8, 8);
-        }else{
+        if (changeC==true) {
+            //fill(255);
+            //noStroke();
+            //ellipse(mx, my, 8, 8);
+       
             c = new p5.Vector(cX, cY);
         }
         
@@ -145,7 +156,19 @@ class DomainColoring {
         }
         updatePixels();
         if (this.printDebug) {
-            fill(255, 255, 255, 255);
+            
+            //Frame reference
+            
+            stroke(220);
+            strokeWeight(2);
+            line(width/2, 0, width/2, height);
+            line(0, height/2, width, height/2);
+            ellipse(width/2, height/2, 8, 8);
+            
+            fill(255);
+            stroke(0);
+            strokeWeight(4);
+            textSize(18);
             text("x: " + str( round( this.pos.x * 100 )/100 )
                  + "\ny: " + str( round( this.pos.y * 100 )/100 )
                  + "\nzoom: " + str( round(  (1 / this.zoom) * 100 )/100 )
@@ -159,10 +182,17 @@ class DomainColoring {
         textSize(16);
         text("c is (" + str(round(c.x * 100)/100.0) + "," + str(round(c.y * 100)/100.0) + ")", 5, height-15);
         
-        
-        fill(255);
-        noStroke();
-        ellipse(mx, my, 8, 8);
+        if(changeC){
+            fill(255);
+            strokeWeight(1);
+            ellipse(mx, my, 8, 8);
+            prevmx = mx;
+            prevmy = my;
+        }//else{
+            //fill(255);
+            //strokeWeight(3);
+            //ellipse(prevmx, prevmy, 8, 8);
+        //}
         
     }
     
