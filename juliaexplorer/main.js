@@ -120,8 +120,8 @@ class DomainColoring {
         
         loadPixels();
         
-        let mx = mouseX;
-        let my = mouseY;
+        let mx = constrain(mouseX, 0, width);
+        let my = constrain(mouseY, 0, height);
         let cX = this.pos.x + map(mx, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Julia
         let cY = this.pos.y + map(my, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
         
