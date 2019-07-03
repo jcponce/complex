@@ -4,7 +4,7 @@
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update 18-Feb-2019
+// Last update 03-Jul-2019
 
 // --Control variables--
 let clts = {
@@ -14,7 +14,7 @@ phaseOption: '[0, 2pi)',
 
 lvlCurv: 'Phase',
     
-funcZ: 'z.pow(2)',
+funcZ: '(z-1)/(z^2+z+1)',
     
 displayXY: false,
 size: 2.5,
@@ -50,13 +50,11 @@ function setup() {
     gui.add(clts, 'Save').name("Save (png)");
     
     let cXY = gui.addFolder('Display Options');
-    cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
+    //cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
     cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
     cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
-    
-    
     
     noLoop();
 }
@@ -74,7 +72,7 @@ function draw() {
 }
 
 // --Coloring the pixels--
-// First I need to define the functions to color each pixel
+// First I need to define the functions to color pixels
 
 let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
@@ -91,7 +89,7 @@ function sat(x, y) {
 function val(x, y) {
     let valAux = nContour * funPhase(x,y);
     return sharp * ( valAux - floor( valAux) ) + 0.7;
-}
+}//end coloring functions
 
 function mySelectOption() {
     if (clts.lvlCurv == 'Phase') {
@@ -148,19 +146,20 @@ function plot() {
     let cY = map(mouseY, height, 0, ymin, ymax);
     
     // Start y
-    let y1 = ymin;
+    let ytemp = ymin;
     
     for (let j = 0; j < height; j++) {
         // Start x
-        let x1 = xmin;
+        let xtemp = xmin;
         for (let i = 0; i < width; i++) {
             
-            let x = x1;
-            let y = -y1; //Here we need minus since the y-axis in canvas is upside down
+            let x = xtemp;
+            let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let z = new Complex({ re: x, im: y });
-			
-            let w = eval(clts.funcZ);
+            let z = new Complex(x, y);
+            let fz = shuntingYard(clts.funcZ);
+            
+            let w = funcVal(z, fz);//eval(clts.funcZ);
             
             x = w.re;
             y = w.im;
@@ -173,9 +172,9 @@ function plot() {
             let b = funColor(x, y);
             set(i, j, color(h, 1, b));
             
-            x1 += dx;
+            xtemp += dx;
         }
-        y1 += dy;
+        ytemp += dy;
     }
     
     updatePixels();

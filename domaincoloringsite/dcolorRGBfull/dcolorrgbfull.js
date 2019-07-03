@@ -4,18 +4,18 @@
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update 18-Feb-2019
+// Last update 03-Jul-2019
 
 // --Control variables--
 
 let clts = {
 
-title: 'HSB Scheme',
+title: 'RGB Scheme',
 
-lvlCurv: 'Phase',
+lvlCurv: 'Modulus',
 phaseOption: '[0, 2pi)',
     
-funcZ: 'z.pow(2)',
+funcZ: 'z^5+1',
     
 displayXY: false,
 size: 2.5,
@@ -82,7 +82,8 @@ let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 let sharp = 1/3;
 let nContour = 16;
 
-let funColor = (x, y) => sharp * (nContour * (PI - atan2(y, -x)) / (2 * PI) - floor(nContour * (PI - atan2(y, -x)) / (2 * PI))) + 0.6;
+let funColor = (x, y) => sharp * ( log(sqrt(x * x + y * y)) / log(1.6) -   floor(log(sqrt(x * x + y * y)) / log(1.6))) + 0.6;
+//sharp * (nContour * (PI - atan2(y, -x)) / (2 * PI) - floor(nContour * (PI - atan2(y, -x)) / (2 * PI))) + 0.6;
 
 function sat(x, y) {
     let satAux =  log(sqrt(x * x + y * y)) / log(1.6);
@@ -149,19 +150,20 @@ function plot() {
     let cY = map(mouseY, height, 0, ymin, ymax);
     
     // Start y
-    let y1 = ymin;
+    let ytemp = ymin;
     
     for (let j = 0; j < height; j++) {
         // Start x
-        let x1 = xmin;
+        let xtemp = xmin;
         for (let i = 0; i < width; i++) {
             
-            let x = x1;
-            let y = -y1; //Here we need minus since the y-axis in canvas is upside down
+            let x = xtemp;
+            let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let z = new Complex({ re: x, im: y });
-			
-            let w = eval(clts.funcZ);
+            let z = new Complex(x, y);
+            let fz = shuntingYard(clts.funcZ);
+            
+            let w = funcVal(z, fz);//eval(clts.funcZ);
             
             x = w.re;
             y = w.im;
@@ -174,13 +176,15 @@ function plot() {
             let b = funColor(x, y);
             set(i, j, color(h, b, 0.8));
             
-            x1 += dx;
+            xtemp += dx;
         }
-        y1 += dy;
+        ytemp += dy;
     }
     
     updatePixels();
 }
+
+//--This function displays the grid for reference--
 
 function displayGrid() {
     stroke(0);
