@@ -4,7 +4,7 @@
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update 18-Feb-2019
+// Last update 03-Jul-2019
 
 // --Control variables--
 let clts = {
@@ -12,12 +12,12 @@ let clts = {
 title: 'HSB Scheme',
 phaseOption: '[0, 2pi)',
 
-lvlCurv: 'Phase',
+lvlCurv: 'Modulus',
     
-funcZ: 'z.pow(2)',
+funcZ: 'z^5+1',
     
 //sharp = 1/3;
-nContour: 20,
+nContour: 8,
     
 displayXY: false,
 size: 2.5,
@@ -47,14 +47,14 @@ function setup() {
     gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcZ').name("f(z) =");
-    gui.add(clts, 'nContour', 0, 16).step(1).name("n curves").onChange(keyPressed);
+    gui.add(clts, 'nContour', 5, 20).step(1).name("Mod. curves").onChange(keyPressed);
     gui.add(clts, 'size', 0.00001, 15).name("|Re z| <");
     gui.add(clts, 'Update').name("Update values");
     
     gui.add(clts, 'Save').name("Save (png)");
     
     let cXY = gui.addFolder('Display Options');
-    cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
+    //cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
     cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
@@ -83,9 +83,6 @@ function draw() {
 let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
 
-
-
-
 function sat(x, y) {
     let satAux =  log(sqrt(x * x + y * y)) / log(2);
     let bw;
@@ -108,7 +105,7 @@ function val(x, y) {
     return bwval;
 }
 
-let funColor = (x, y) => val(x,y);
+let funColor = (x, y) => sat(x,y);
 
 function mySelectOption() {
     if (clts.lvlCurv == 'Phase') {
@@ -165,19 +162,20 @@ function plot() {
     let cY = map(mouseY, height, 0, ymin, ymax);
     
     // Start y
-    let y1 = ymin;
+    let ytemp = ymin;
     
     for (let j = 0; j < height; j++) {
         // Start x
-        let x1 = xmin;
+        let xtemp = xmin;
         for (let i = 0; i < width; i++) {
             
-            let x = x1;
-            let y = -y1; //Here we need minus since the y-axis in canvas is upside down
+            let x = xtemp;
+            let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let z = new Complex({ re: x, im: y });
-			
-            let w = eval(clts.funcZ);
+            let z = new Complex(x, y);
+            let fz = shuntingYard(clts.funcZ);
+            
+            let w = funcVal(z, fz);//eval(clts.funcZ);
             
             x = w.re;
             y = w.im;
@@ -200,12 +198,12 @@ function plot() {
             
             let h = funColor(x,y);
             
-            let b = sat(x, y);
+            //let b = sat(x, y);
             set(i, j, color(1, 0, h));
             
-            x1 += dx;
+            xtemp += dx;
         }
-        y1 += dy;
+        ytemp += dy;
     }
     
     updatePixels();
@@ -214,11 +212,9 @@ function plot() {
 //--This function displays the grid for reference--
 
 function displayGrid() {
-    stroke(0);
-    strokeWeight(2);
-    line(0, height / 2, width, height / 2); //x-axis
-    line(width / 2, 0, width / 2, height); //y-axis
-    textSize(12);
+    stroke(1, 1, 1);
+    strokeWeight(3);
+    textSize(18);
     fill(1);
     text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
     
@@ -233,8 +229,11 @@ function displayGrid() {
     text('Im', width / 2 + 2 - 25, height / 2 + posIm);
     text('Re', width / 2 + posRe, height / 2 - 10);
     
+   
+    line(0, height / 2, width, height / 2); //x-axis
+    line(width / 2, 0, width / 2, height); //y-axis
     // Draw tick marks twice per step, and draw the halfway marks smaller.
-    textSize(14);
+    textSize(16);
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
             line(width / 2 - 4, height/2 - j, width / 2 + 4, height/2 - j);//yAxis positive ticks

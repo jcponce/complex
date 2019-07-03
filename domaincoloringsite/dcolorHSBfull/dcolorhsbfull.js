@@ -44,7 +44,7 @@ function setup() {
     gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcZ').name("f(z) =");
-    gui.add(clts, 'size', 0.00001, 15).name("|Re z| <");
+    gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
     gui.add(clts, 'Update').name("Update values");
     
     gui.add(clts, 'Save').name("Save (png)");
