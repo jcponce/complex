@@ -3,7 +3,7 @@ let changeC;
 let c;
 let WIDTH = 510;
 let HEIGHT = 510;
-//let f = (z) => z.mul("i").inverse().pow(7).sub(z.mul("i").inverse()).div(z.mul("i").inverse().add(-1));//z.pow(2).inverse().sin();
+let f = (z) => z.pow(2);
 let sizePlot = false;
 
 let prevmx = 0;
@@ -17,7 +17,7 @@ title: 'HSB Scheme',
     
 lvlCurv: 'Phase',
     
-funcZ: 'z.pow(2).inverse().sin()',
+funcZ: 'z.pow(2).add(1)',
 
 ZoomIn: '+',
 ZoomOut: '-',
