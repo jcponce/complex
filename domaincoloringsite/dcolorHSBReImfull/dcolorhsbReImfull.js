@@ -4,7 +4,7 @@
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update 18-Feb-2019
+// Last update 03-Jul-2019
 
 // --Control variables--
 let clts = {
@@ -14,7 +14,7 @@ title: 'HSB Scheme',
 lvlCurv: 'Re/Im',
 phaseOption: '[0, 2pi)',
     
-funcZ: 'z.pow(2)',
+funcZ: 'sin(z)',
     
 displayXY: false,
 size: 2.5,
@@ -33,20 +33,6 @@ sizePlot: false,
     
 };
 
-let w, h, posRe, posIm;
-
-var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
-
-var sat = (x, y) => (abs( 3*sin( 2* PI * (log(sqrt( x*x + y*y ))/log(2) - floor( log(sqrt(x*x + y*y ))/log(2))  ))));
-
-var val = (x, y) => sqrt(sqrt(abs( sin(3 * PI * y) * sin(3 * PI * x) )));
-
-var bothSatVal = (x, y) => 0.5 * ((1 - sat(x,y)) + val(x,y) + sqrt((1 - sat(x,y) - val(x,y)) * (1 - sat(x,y) - val(x,y)) + 0.01));
-
-var funColorS = (x, y) => 1;
-
-var funColorV = (x, y) => val(x, y);
-
 function setup() {
     createCanvas(470, 470);
     colorMode(HSB, 1);
@@ -64,29 +50,13 @@ function setup() {
     gui.add(clts, 'Save').name("Save (png)");
     
     let cXY = gui.addFolder('Display Options');
-    cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
+    //cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
     cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
     cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
     
-    
-    
     noLoop();
-}
-
-function windowResized() {
-    if(clts.sizePlot == true){
-        resizeCanvas(750, 550);
-    } else{
-        resizeCanvas(470, 470);
-    }
-}
-
-function keyPressed() {
-    if (keyCode === ENTER) {
-        redraw();
-    }
 }
 
 function draw() {
@@ -101,6 +71,58 @@ function draw() {
     
 }
 
+// --Coloring the pixels--
+// First I need to define the functions to color pixels
+
+var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+
+var sat = (x, y) => (abs( 3*sin( 2* PI * (log(sqrt( x*x + y*y ))/log(2) - floor( log(sqrt(x*x + y*y ))/log(2))  ))));
+
+var val = (x, y) => sqrt(sqrt(abs( sin(3 * PI * y) * sin(3 * PI * x) )));
+
+var bothSatVal = (x, y) => 0.5 * ((1 - sat(x,y)) + val(x,y) + sqrt((1 - sat(x,y) - val(x,y)) * (1 - sat(x,y) - val(x,y)) + 0.01));
+
+var funColorS = (x, y) => 1;
+
+var funColorV = (x, y) => val(x, y);
+//end coloring functions
+
+//z.pow(0).div(z.pow(0).sub(z.pow(2)).sqrt())
+function mySelectOption() {
+    if (clts.lvlCurv == 'Real') {
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(3 * PI * x) )));
+    } else if (clts.lvlCurv == 'Imaginary') {
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(3 * PI * y) )));
+    } else if (clts.lvlCurv == 'Re/Im') {
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(3 * PI * y) * sin(3 * PI * x) )));
+    } else if (clts.lvlCurv == 'Modulus') {
+        funColorS = (x, y) => sat(x, y);
+        funColorV = (x, y) => 1;
+    }else if (clts.lvlCurv == 'All') {
+        funColorS = (x, y) => sat(x, y);
+        funColorV = (x, y) => bothSatVal(x, y);
+    } else if (clts.lvlCurv == 'None') {
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => 1;
+    }
+    redraw();
+}
+
+function myPhaseOption() {
+    if (clts.phaseOption == '[0, 2pi)') {
+        funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+    } else if (clts.phaseOption == '(-pi, pi]') {
+        funPhase = (x, y) => (PI + atan2(y, x)) / (2 * PI);
+    }
+    redraw();
+}
+
+// Now we color the pixels
+
+let w, h, posRe, posIm;
 
 function plot() {
     // Establish a range of values on the complex plane
@@ -131,19 +153,20 @@ function plot() {
     let cY = map(mouseY, height, 0, ymin, ymax);
     
     // Start y
-    let y1 = ymin;
+    let ytemp = ymin;
     
     for (let j = 0; j < height; j++) {
         // Start x
-        let x1 = xmin;
+        let xtemp = xmin;
         for (let i = 0; i < width; i++) {
             
-            let x = x1;
-            let y = -y1; //Here we need minus since the y-axis in canvas is upside down
+            let x = xtemp;
+            let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let z = new Complex({ re: x, im: y });
+            let z = new Complex(x, y);
+            let fz = shuntingYard(clts.funcZ);
             
-            let w = eval(clts.funcZ);
+            let w = funcVal(z, fz);//eval(clts.funcZ);
             
             x = w.re;
             y = w.im;
@@ -156,13 +179,15 @@ function plot() {
             let b = funColorV(x, y);
             set(i, j, color(h, s, b));
             
-            x1 += dx;
+            xtemp += dx;
         }
-        y1 += dy;
+        ytemp += dy;
     }
     
     updatePixels();
 }
+
+//--This function displays the grid for reference--
 
 function displayGrid() {
     
@@ -221,35 +246,18 @@ function displayGrid() {
     
 }
 
-//z.pow(0).div(z.pow(0).sub(z.pow(2)).sqrt())
-function mySelectOption() {
-    if (clts.lvlCurv == 'Real') {
-        funColorS = (x, y) => 1;
-        funColorV = (x, y) => sqrt(sqrt(abs( sin(3 * PI * x) )));
-    } else if (clts.lvlCurv == 'Imaginary') {
-        funColorS = (x, y) => 1;
-        funColorV = (x, y) => sqrt(sqrt(abs( sin(3 * PI * y) )));
-    } else if (clts.lvlCurv == 'Re/Im') {
-        funColorS = (x, y) => 1;
-        funColorV = (x, y) => sqrt(sqrt(abs( sin(3 * PI * y) * sin(3 * PI * x) )));
-    } else if (clts.lvlCurv == 'Modulus') {
-        funColorS = (x, y) => sat(x, y);
-        funColorV = (x, y) => 1;
-    }else if (clts.lvlCurv == 'All') {
-        funColorS = (x, y) => sat(x, y);
-        funColorV = (x, y) => bothSatVal(x, y);
-    } else if (clts.lvlCurv == 'None') {
-        funColorS = (x, y) => 1;
-        funColorV = (x, y) => 1;
+// Auxiliary functions
+
+function windowResized() {
+    if(clts.sizePlot == true){
+        resizeCanvas(750, 550);
+    } else{
+        resizeCanvas(470, 470);
     }
-    redraw();
 }
 
-function myPhaseOption() {
-    if (clts.phaseOption == '[0, 2pi)') {
-        funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
-    } else if (clts.phaseOption == '(-pi, pi]') {
-        funPhase = (x, y) => (PI + atan2(y, x)) / (2 * PI);
+function keyPressed() {
+    if (keyCode === ENTER) {
+        redraw();
     }
-    redraw();
 }
