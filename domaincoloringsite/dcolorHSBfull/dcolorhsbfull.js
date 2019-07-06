@@ -4,12 +4,11 @@
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update 03-Jul-2019
+// Last update 07-Jul-2019
 
 // --Control variables--
 let clts = {
 
-//title: 'HSB Scheme',
 phaseOption: '[0, 2pi)',
 
 lvlCurv: 'Modulus',
@@ -21,15 +20,11 @@ size: 2.5,
 centerX: 0,
 centerY: 0,
 
-//Update: function () {
-//    redraw();
-//},
-
 Save: function () {
     save('plotfz.png');
 },
-
-sizePlot: false,
+    
+canvasSize: 'Square'
     
 };
 
@@ -41,20 +36,16 @@ function setup() {
     let gui = new dat.GUI({
                           width: 360
                           });
-    //gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'funcZ').name("f(z) =");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
-    //gui.add(clts, 'Update').name("Update values");
-    
     gui.add(clts, 'Save').name("Save (png)");
     
     let cXY = gui.addFolder('Display Options');
-    //cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
     cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
-    cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
+    cXY.add(clts, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
     
     noLoop();
 }
@@ -91,27 +82,6 @@ function val(x, y) {
     return sharp * ( valAux - floor( valAux) ) + 0.7;
 }//end coloring functions
 
-function mySelectOption() {
-    if (clts.lvlCurv == 'Phase') {
-        funColor = (x, y) => val(x, y);
-    } else if (clts.lvlCurv == 'Modulus') {
-        funColor = (x, y) => sat(x, y);
-    } else if (clts.lvlCurv == 'Phase/Modulus') {
-        funColor = (x, y) => val(x, y) * sat(x, y);
-    } else if (clts.lvlCurv == 'None') {
-        funColor = (x, y) => 1;
-    }
-    redraw();
-}
-
-function myPhaseOption() {
-    if (clts.phaseOption == '[0, 2pi)') {
-        funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
-    } else if (clts.phaseOption == '(-pi, pi]') {
-        funPhase = (x, y) => (PI + atan2(y, x)) / (2 * PI);
-    }
-    redraw();
-}
 
 // Now we color the pixels
 
@@ -149,7 +119,7 @@ function plot() {
     let ytemp = ymin;
     
     let z = trimN(clts.funcZ);
-    let parsed = complex_expression(z);
+    let parsed = complex_expression(z);//Define function
     
     for (let j = 0; j < height; j++) {
         // Start x
@@ -161,7 +131,7 @@ function plot() {
             
             let vz = {r:x, i:y};
             
-            let w = parsed.fn(vz);
+            let w = parsed.fn(vz);//Evaluate function
             
             x = w.r;
             y = w.i;
@@ -182,12 +152,6 @@ function plot() {
     updatePixels();
 }
 
-function trimN(s) {
-    if (s.trim) {
-        return s.trim();
-    }
-    return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-}
 
 //--This function displays the axes for reference--
 
@@ -219,20 +183,13 @@ function displayGrid() {
             line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
             line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
             line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
-            //var nX = Math.abs(clts.centerX);
-            //var decimalsX = nX - Math.floor(nX);
-            //var nY = Math.abs(clts.centerY);
-            //var decimalsY = nY - Math.floor(nY);
+        
             if(j>0){
                 let setPY = map(j, 0, height/2, 0, h/2) + clts.centerY;
                 let setNY = -(map(j, 0, height/2, 0, h/2) - clts.centerY);
-                //let setPY = map(j, 0, height/2, 0, h/2) + clts.centerY;
-                //let setNY = -map(j, 0, height/2, 0, h/2) + clts.centerY;
-                //let setPY = map(j, 0, height/2, 0, w/2) + clts.centerY;
-                //let setNY = -(map(j, 0, height/2, 0, w/2) - clts.centerY);
                 text('' + str(round(setPY * 10)/10.0), width / 2 - 4+9, height/2 - j + 3);//Y-Positive
                 text('' + str(round(setNY * 10)/10.0), width / 2 - 4+9, height/2 + j + 3);//Y-Negative
-            }//str(round(c.x * 100)/100.0)
+            }
             if(i>0){
                 let setPX = map(i, 0, width/2, 0, w/2) + clts.centerX;
                 let setNX = -(map(i, 0, width/2, 0, w/2) - clts.centerX);
@@ -247,11 +204,33 @@ function displayGrid() {
 
 // Auxiliary functions
 
-function windowResized() {
-    if(clts.sizePlot == true){
-        resizeCanvas(750, 550);
-    } else{
+function trimN(s) {
+    if (s.trim) {
+        return s.trim();
+    }
+    return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+}
+
+function mySelectOption() {
+    if (clts.lvlCurv == 'Phase') {
+        funColor = (x, y) => val(x, y);
+    } else if (clts.lvlCurv == 'Modulus') {
+        funColor = (x, y) => sat(x, y);
+    } else if (clts.lvlCurv == 'Phase/Modulus') {
+        funColor = (x, y) => val(x, y) * sat(x, y);
+    } else if (clts.lvlCurv == 'None') {
+        funColor = (x, y) => 1;
+    }
+    redraw();
+}
+
+function screenSize() {
+    if (clts.canvasSize == 'Square') {
         resizeCanvas(470, 470);
+    } else if (clts.canvasSize == 'Landscape') {
+        resizeCanvas(750, 550);
+    } else if (clts.canvasSize == 'Full-Screen') {
+        resizeCanvas(windowWidth, windowHeight);
     }
 }
 
