@@ -148,9 +148,6 @@ function plot() {
     // Start y
     let ytemp = ymin;
     
-    let z = trimN(clts.funcZ);
-    let parsed = complex_expression(z);
-    
     for (let j = 0; j < height; j++) {
         // Start x
         let xtemp = xmin;
@@ -159,12 +156,13 @@ function plot() {
             let x = xtemp;
             let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let vz = {r:x, i:y};
+            let z = new Complex(x, y);
+            let fz = shuntingYard(clts.funcZ);
             
-            let w = parsed.fn(vz);
+            let w = funcVal(z, fz);//eval(clts.funcZ);
             
-            x = w.r;
-            y = w.i;
+            x = w.re;
+            y = w.im;
             
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
@@ -182,14 +180,7 @@ function plot() {
     updatePixels();
 }
 
-function trimN(s) {
-    if (s.trim) {
-        return s.trim();
-    }
-    return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-}
-
-//--This function displays the axes for reference--
+//--This function displays the grid for reference--
 
 function displayGrid() {
     stroke(0);

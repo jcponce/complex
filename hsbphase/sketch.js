@@ -17,7 +17,7 @@ title: 'HSB Scheme',
     
 lvlCurv: 'Phase',
     
-funcZ: 'z.pow(2).add(1)',
+funcZ: 'z^2',
 
 ZoomIn: '+',
 ZoomOut: '-',
@@ -67,7 +67,7 @@ function setup() {
     //cXY.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
     //cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
     //cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
-    
+    noLoop();
 }
 
 //function windowResized() {
@@ -85,16 +85,18 @@ function draw() {
 function keyReleased() {
     if (keyCode === 191)//P key
         phasePortrait.printDebug = !phasePortrait.printDebug;
+        redraw();
     if (keyCode === 70){//F key
         sizePlot = !sizePlot;
+        redraw();
     }
     windowResized();
 }
 
 
-function mouseWheel() {
-    phasePortrait.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
-}
+//function mouseWheel() {
+//    phasePortrait.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
+//}
 
 // KeyCodes available at: http://keycode.info/
 const KC_UP = 38;        // Move up W
@@ -121,18 +123,36 @@ class DomainColoring {
     
     update(){
         var moveSpeed = 0.1 * this.zoom;
-        if (keyIsDown(KC_UP))
+        if (keyIsDown(KC_UP)){
             this.pos.y -= moveSpeed;
-        if (keyIsDown(KC_DOWN))
+            //redraw();
+            
+        }
+        if (keyIsDown(KC_DOWN)){
             this.pos.y += moveSpeed;
-        if (keyIsDown(KC_LEFT))
+            //redraw();
+            
+        }
+        if (keyIsDown(KC_LEFT)){
             this.pos.x -= moveSpeed;
-        if (keyIsDown(KC_RIGHT))
+            //redraw();
+            
+        }
+        if (keyIsDown(KC_RIGHT)){
             this.pos.x += moveSpeed;
-        if (keyIsDown(KC_UNZOOM))
+            //redraw();
+            
+        }
+        if (keyIsDown(KC_UNZOOM)){
             this.zoomAt(mouseX, mouseY, 0.95, false);
-        if (keyIsDown(KC_ZOOM))
+            //redraw();
+            
+        }
+        if (keyIsDown(KC_ZOOM)){
             this.zoomAt(mouseX, mouseY, 0.95, true);
+            //redraw();
+            
+        }
         if (keyIsDown(KC_RESET))
         {
             this.size.x = this.origSize.x;
@@ -141,6 +161,7 @@ class DomainColoring {
             this.pos.y = this.origPos.y;
             this.zoom = this.origZoom;
             changeC = true;
+            //redraw();
         }
         
     }//end update
@@ -176,27 +197,34 @@ class DomainColoring {
            c = new p5.Vector(cX, cY);
         }
         
+        let z = trimN(clts.funcZ);
+        let parsed = complex_expression(z);
+        
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
-                var sqZ = new p5.Vector(0, 0);
-                var zc = new p5.Vector(
-                                      this.pos.x + map(x, 0, width, -this.size.x / 2, this.size.x / 2),
-                                      this.pos.y + map(y, height, 0, -this.size.y / 2, this.size.y / 2)
-                                      );
-                let z = Complex({re: zc.x, im: zc.y})
+                //var sqZ = new p5.Vector(0, 0);
+                //var zc = new p5.Vector(
+                                      //this.pos.x + map(x, 0, width, -this.size.x / 2, this.size.x / 2),
+                                      //this.pos.y + map(y, height, 0, -this.size.y / 2, this.size.y / 2)
+                                      //);
+                //let z = Complex({re: zc.x, im: zc.y})
+                let vz = {
+                    r:this.pos.x + map(x, 0, width, -this.size.x / 2, this.size.x / 2),
+                    i:this.pos.y + map(y, height, 0, -this.size.y / 2, this.size.y / 2)
+                };
                 
-                let w = eval(clts.funcZ);
+                let w = parsed.fn(vz);//eval(clts.funcZ);
                 //let iter = 0;
                 //while (iter < this.maxIter) {
                     //sqZ.x = z.x;
                     //sqZ.y = z.y;
-                    zc.x = w.re;
-                    zc.y = w.im;
+                    vz.x = w.r;
+                    vz.y = w.i;
                 //    if (abs(z.x + z.y) > 16)
                 //        break;
                 //    iter++;
                 //}
-                setPixelHSV(x, y, map(atan2(-zc.y, -zc.x), -PI, PI, 0, 1), 1, 1);
+                setPixelHSV(x, y, map(atan2(-vz.y, -vz.x), -PI, PI, 0, 1), 1, 1);
             }
         }
         updatePixels();
@@ -241,6 +269,15 @@ class DomainColoring {
         
     }//end plot
     
+    
+    
+}
+
+function trimN(s) {
+    if (s.trim) {
+        return s.trim();
+    }
+    return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 }
 
 
