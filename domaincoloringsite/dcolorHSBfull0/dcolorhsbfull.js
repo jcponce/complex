@@ -148,6 +148,9 @@ function plot() {
     // Start y
     let ytemp = ymin;
     
+    let z = trimN(clts.funcZ);
+    let parsed = complex_expression(z);
+    
     for (let j = 0; j < height; j++) {
         // Start x
         let xtemp = xmin;
@@ -156,14 +159,9 @@ function plot() {
             let x = xtemp;
             let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let z = trimN(clts.funcZ);
-            let parsed = complex_expression(z);
-            
             let vz = {r:x, i:y};
-            //let z = new Complex(x, y);
-            //let fz = shuntingYard(clts.funcZ);
             
-            let w = parsed.fn(vz);//funcVal(z, fz);//eval(clts.funcZ);
+            let w = parsed.fn(vz);
             
             x = w.r;
             y = w.i;
@@ -191,7 +189,7 @@ function trimN(s) {
     return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 }
 
-//--This function displays the grid for reference--
+//--This function displays the axes for reference--
 
 function displayGrid() {
     stroke(0);
