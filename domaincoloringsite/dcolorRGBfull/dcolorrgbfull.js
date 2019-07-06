@@ -40,7 +40,7 @@ function setup() {
     
     // create gui (dat.gui)
     let gui = new dat.GUI({
-                          width: 301
+                          width: 360
                           });
     //gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'funcZ').name("f(z) =");
