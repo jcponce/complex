@@ -7,23 +7,24 @@
 // Last update 03-Jul-2019
 
 // --Control variables--
+
 let clts = {
 
-//title: 'HSB Scheme',
-phaseOption: '[0, 2pi)',
+title: 'RGB Scheme',
 
 lvlCurv: 'Modulus',
+phaseOption: '[0, 2pi)',
     
-funcZ: '(z-1)/(z^2+z+1)',
+funcZ: 'z^5+1',
     
 displayXY: false,
 size: 2.5,
 centerX: 0,
 centerY: 0,
-
-//Update: function () {
-//    redraw();
-//},
+    
+Update: function () {
+    redraw();
+},
 
 Save: function () {
     save('plotfz.png');
@@ -35,26 +36,28 @@ sizePlot: false,
 
 function setup() {
     createCanvas(470, 470);
-    colorMode(HSB, 1);
+    colorMode(RGB, 1);
     
     // create gui (dat.gui)
     let gui = new dat.GUI({
-                          width: 360
+                          width: 301
                           });
-    //gui.add(clts, 'title').name("Color mode:");
-    gui.add(clts, 'funcZ').name("f(z) =");
+    gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
-    gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
-    //gui.add(clts, 'Update').name("Update values");
+    gui.add(clts, 'funcZ').name("f(z) =");
+    gui.add(clts, 'size', 0.00001, 15).name("|Re z| < ");
+    gui.add(clts, 'Update').name("Update values");
     
     gui.add(clts, 'Save').name("Save (png)");
     
     let cXY = gui.addFolder('Display Options');
-    //cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
+    cXY.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]'] ).name("Arg(z): ").onChange(myPhaseOption);
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
     cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
     cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
+    
+    
     
     noLoop();
 }
@@ -72,24 +75,25 @@ function draw() {
 }
 
 // --Coloring the pixels--
-// First I need to define the functions to color pixels
+// First I need to define the functions to color each pixel
 
 let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
 let sharp = 1/3;
 let nContour = 16;
 
-let funColor = (x, y) => sharp * ( log(sqrt(x * x + y * y)) / log(1.6) - floor(log(sqrt(x * x + y * y)) / log(1.6)) ) + 0.7;//sharp * (nContour * (PI - atan2(y, -x)) / (2 * PI) -  floor(nContour * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
+let funColor = (x, y) => sharp * ( log(sqrt(x * x + y * y)) / log(1.6) -   floor(log(sqrt(x * x + y * y)) / log(1.6))) + 0.6;
+//sharp * (nContour * (PI - atan2(y, -x)) / (2 * PI) - floor(nContour * (PI - atan2(y, -x)) / (2 * PI))) + 0.6;
 
 function sat(x, y) {
     let satAux =  log(sqrt(x * x + y * y)) / log(1.6);
-    return sharp * ( satAux - floor(satAux) ) + 0.7;
+    return sharp * ( satAux -   floor(satAux)) + 0.6;
 }
 
 function val(x, y) {
     let valAux = nContour * funPhase(x,y);
-    return sharp * ( valAux - floor( valAux) ) + 0.7;
-}//end coloring functions
+    return sharp * ( valAux -  floor( valAux) ) + 0.6;
+}
 
 function mySelectOption() {
     if (clts.lvlCurv == 'Phase') {
@@ -148,9 +152,6 @@ function plot() {
     // Start y
     let ytemp = ymin;
     
-    let z = trimN(clts.funcZ);
-    let parsed = complex_expression(z);
-    
     for (let j = 0; j < height; j++) {
         // Start x
         let xtemp = xmin;
@@ -159,20 +160,21 @@ function plot() {
             let x = xtemp;
             let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let vz = {r:x, i:y};
+            let z = new Complex(x, y);
+            let fz = shuntingYard(clts.funcZ);
             
-            let w = parsed.fn(vz);
+            let w = funcVal(z, fz);//eval(clts.funcZ);
             
-            x = w.r;
-            y = w.i;
+            x = w.re;
+            y = w.im;
             
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = funPhase(x, y);
+            let h = funPhase(x, y);//argument: 0 to pi/2??
             
             let b = funColor(x, y);
-            set(i, j, color(h, 1, b));
+            set(i, j, color(h, b, 0.8));
             
             xtemp += dx;
         }
@@ -182,14 +184,7 @@ function plot() {
     updatePixels();
 }
 
-function trimN(s) {
-    if (s.trim) {
-        return s.trim();
-    }
-    return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-}
-
-//--This function displays the axes for reference--
+//--This function displays the grid for reference--
 
 function displayGrid() {
     stroke(0);

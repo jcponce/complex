@@ -9,21 +9,24 @@
 // --Control variables--
 let clts = {
 
-//title: 'HSB Scheme',
+title: 'HSB Scheme',
 phaseOption: '[0, 2pi)',
 
 lvlCurv: 'Modulus',
     
-funcZ: '(z-1)/(z^2+z+1)',
+funcZ: 'z^5+1',
+    
+//sharp = 1/3;
+nContour: 8,
     
 displayXY: false,
 size: 2.5,
 centerX: 0,
 centerY: 0,
 
-//Update: function () {
-//    redraw();
-//},
+Update: function () {
+    redraw();
+},
 
 Save: function () {
     save('plotfz.png');
@@ -39,13 +42,14 @@ function setup() {
     
     // create gui (dat.gui)
     let gui = new dat.GUI({
-                          width: 360
+                          width: 301
                           });
-    //gui.add(clts, 'title').name("Color mode:");
+    gui.add(clts, 'title').name("Color mode:");
+    gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcZ').name("f(z) =");
-    gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
-    gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
-    //gui.add(clts, 'Update').name("Update values");
+    gui.add(clts, 'nContour', 5, 20).step(1).name("Mod. curves").onChange(keyPressed);
+    gui.add(clts, 'size', 0.00001, 15).name("|Re z| <");
+    gui.add(clts, 'Update').name("Update values");
     
     gui.add(clts, 'Save').name("Save (png)");
     
@@ -55,6 +59,8 @@ function setup() {
     cXY.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
     cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
     cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
+    
+    
     
     noLoop();
 }
@@ -72,35 +78,45 @@ function draw() {
 }
 
 // --Coloring the pixels--
-// First I need to define the functions to color pixels
+// First I need to define the functions to color each pixel
 
 let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
-let sharp = 1/3;
-let nContour = 16;
-
-let funColor = (x, y) => sharp * ( log(sqrt(x * x + y * y)) / log(1.6) - floor(log(sqrt(x * x + y * y)) / log(1.6)) ) + 0.7;//sharp * (nContour * (PI - atan2(y, -x)) / (2 * PI) -  floor(nContour * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
 
 function sat(x, y) {
-    let satAux =  log(sqrt(x * x + y * y)) / log(1.6);
-    return sharp * ( satAux - floor(satAux) ) + 0.7;
+    let satAux =  log(sqrt(x * x + y * y)) / log(2);
+    let bw;
+    if((( round(clts.nContour/6) * satAux - floor(round(clts.nContour/6) * satAux) ))<0.5){
+        bw = 1;
+    }else {
+        bw = -1;
+    }
+    return bw;
 }
 
 function val(x, y) {
-    let valAux = nContour * funPhase(x,y);
-    return sharp * ( valAux - floor( valAux) ) + 0.7;
-}//end coloring functions
+    let valAux = clts.nContour * funPhase(x,y);
+    let bwval;
+    if((( valAux - floor( valAux) ))<0.5){
+        bwval = 1;
+    }else {
+        bwval = -1;
+    }
+    return bwval;
+}
+
+let funColor = (x, y) => sat(x,y);
 
 function mySelectOption() {
     if (clts.lvlCurv == 'Phase') {
-        funColor = (x, y) => val(x, y);
+        funColor = (x, y) => val(x,y);
     } else if (clts.lvlCurv == 'Modulus') {
         funColor = (x, y) => sat(x, y);
     } else if (clts.lvlCurv == 'Phase/Modulus') {
         funColor = (x, y) => val(x, y) * sat(x, y);
-    } else if (clts.lvlCurv == 'None') {
-        funColor = (x, y) => 1;
-    }
+    } //else if (clts.lvlCurv == 'None') {
+      //  funColor = (x, y) => 1;
+    //}
     redraw();
 }
 
@@ -115,7 +131,7 @@ function myPhaseOption() {
 
 // Now we color the pixels
 
-let w, h, posRe, posIm;
+let w, h, posRe, posIm, xr, yr;
 
 function plot() {
     // Establish a range of values on the complex plane
@@ -148,9 +164,6 @@ function plot() {
     // Start y
     let ytemp = ymin;
     
-    let z = trimN(clts.funcZ);
-    let parsed = complex_expression(z);
-    
     for (let j = 0; j < height; j++) {
         // Start x
         let xtemp = xmin;
@@ -159,20 +172,34 @@ function plot() {
             let x = xtemp;
             let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let vz = {r:x, i:y};
+            let z = new Complex(x, y);
+            let fz = shuntingYard(clts.funcZ);
             
-            let w = parsed.fn(vz);
+            let w = funcVal(z, fz);//eval(clts.funcZ);
             
-            x = w.r;
-            y = w.i;
+            x = w.re;
+            y = w.im;
+            
+            if(x<0.5){
+                xr = x;
+                xr = 1;
+            }else{
+                xr = -1;
+            }
+            if(y<0.5){
+                yr = y;
+                yr = 1;
+            }else{
+                yr = -1;
+            }
             
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = funPhase(x, y);
+            let h = funColor(x,y);
             
-            let b = funColor(x, y);
-            set(i, j, color(h, 1, b));
+            //let b = sat(x, y);
+            set(i, j, color(1, 0, h));
             
             xtemp += dx;
         }
@@ -182,21 +209,12 @@ function plot() {
     updatePixels();
 }
 
-function trimN(s) {
-    if (s.trim) {
-        return s.trim();
-    }
-    return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-}
-
-//--This function displays the axes for reference--
+//--This function displays the grid for reference--
 
 function displayGrid() {
-    stroke(0);
-    strokeWeight(2);
-    line(0, height / 2, width, height / 2); //x-axis
-    line(width / 2, 0, width / 2, height); //y-axis
-    textSize(12);
+    stroke(1, 1, 1);
+    strokeWeight(3);
+    textSize(18);
     fill(1);
     text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
     
@@ -211,8 +229,11 @@ function displayGrid() {
     text('Im', width / 2 + 2 - 25, height / 2 + posIm);
     text('Re', width / 2 + posRe, height / 2 - 10);
     
+   
+    line(0, height / 2, width, height / 2); //x-axis
+    line(width / 2, 0, width / 2, height); //y-axis
     // Draw tick marks twice per step, and draw the halfway marks smaller.
-    textSize(14);
+    textSize(16);
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
             line(width / 2 - 4, height/2 - j, width / 2 + 4, height/2 - j);//yAxis positive ticks

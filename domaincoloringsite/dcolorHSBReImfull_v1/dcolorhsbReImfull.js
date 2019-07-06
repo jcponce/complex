@@ -9,21 +9,21 @@
 // --Control variables--
 let clts = {
 
-//title: 'HSB Scheme',
-phaseOption: '[0, 2pi)',
+title: 'HSB Scheme',
 
-lvlCurv: 'Modulus',
+lvlCurv: 'Re/Im',
+phaseOption: '[0, 2pi)',
     
-funcZ: '(z-1)/(z^2+z+1)',
+funcZ: 'sin(z)',
     
 displayXY: false,
 size: 2.5,
 centerX: 0,
 centerY: 0,
 
-//Update: function () {
-//    redraw();
-//},
+Update: function () {
+    redraw();
+},
 
 Save: function () {
     save('plotfz.png');
@@ -39,13 +39,13 @@ function setup() {
     
     // create gui (dat.gui)
     let gui = new dat.GUI({
-                          width: 360
+                          width: 301
                           });
-    //gui.add(clts, 'title').name("Color mode:");
+    gui.add(clts, 'title').name("Color mode:");
+    gui.add(clts, 'lvlCurv', ['Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'funcZ').name("f(z) =");
-    gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
-    gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
-    //gui.add(clts, 'Update').name("Update values");
+    gui.add(clts, 'size', 0.00001, 15).name("|Re z| <");
+    gui.add(clts, 'Update').name("Update values");
     
     gui.add(clts, 'Save').name("Save (png)");
     
@@ -74,32 +74,39 @@ function draw() {
 // --Coloring the pixels--
 // First I need to define the functions to color pixels
 
-let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
-let sharp = 1/3;
-let nContour = 16;
+var sat = (x, y) => (abs( 3*sin( 2* PI * (log(sqrt( x*x + y*y ))/log(2) - floor( log(sqrt(x*x + y*y ))/log(2))  ))));
 
-let funColor = (x, y) => sharp * ( log(sqrt(x * x + y * y)) / log(1.6) - floor(log(sqrt(x * x + y * y)) / log(1.6)) ) + 0.7;//sharp * (nContour * (PI - atan2(y, -x)) / (2 * PI) -  floor(nContour * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
+var val = (x, y) => sqrt(sqrt(abs( sin(3 * PI * y) * sin(3 * PI * x) )));
 
-function sat(x, y) {
-    let satAux =  log(sqrt(x * x + y * y)) / log(1.6);
-    return sharp * ( satAux - floor(satAux) ) + 0.7;
-}
+var bothSatVal = (x, y) => 0.5 * ((1 - sat(x,y)) + val(x,y) + sqrt((1 - sat(x,y) - val(x,y)) * (1 - sat(x,y) - val(x,y)) + 0.01));
 
-function val(x, y) {
-    let valAux = nContour * funPhase(x,y);
-    return sharp * ( valAux - floor( valAux) ) + 0.7;
-}//end coloring functions
+var funColorS = (x, y) => 1;
 
+var funColorV = (x, y) => val(x, y);
+//end coloring functions
+
+//z.pow(0).div(z.pow(0).sub(z.pow(2)).sqrt())
 function mySelectOption() {
-    if (clts.lvlCurv == 'Phase') {
-        funColor = (x, y) => val(x, y);
+    if (clts.lvlCurv == 'Real') {
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(3 * PI * x) )));
+    } else if (clts.lvlCurv == 'Imaginary') {
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(3 * PI * y) )));
+    } else if (clts.lvlCurv == 'Re/Im') {
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => sqrt(sqrt(abs( sin(3 * PI * y) * sin(3 * PI * x) )));
     } else if (clts.lvlCurv == 'Modulus') {
-        funColor = (x, y) => sat(x, y);
-    } else if (clts.lvlCurv == 'Phase/Modulus') {
-        funColor = (x, y) => val(x, y) * sat(x, y);
+        funColorS = (x, y) => sat(x, y);
+        funColorV = (x, y) => 1;
+    }else if (clts.lvlCurv == 'All') {
+        funColorS = (x, y) => sat(x, y);
+        funColorV = (x, y) => bothSatVal(x, y);
     } else if (clts.lvlCurv == 'None') {
-        funColor = (x, y) => 1;
+        funColorS = (x, y) => 1;
+        funColorV = (x, y) => 1;
     }
     redraw();
 }
@@ -148,9 +155,6 @@ function plot() {
     // Start y
     let ytemp = ymin;
     
-    let z = trimN(clts.funcZ);
-    let parsed = complex_expression(z);
-    
     for (let j = 0; j < height; j++) {
         // Start x
         let xtemp = xmin;
@@ -159,20 +163,21 @@ function plot() {
             let x = xtemp;
             let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let vz = {r:x, i:y};
+            let z = new Complex(x, y);
+            let fz = shuntingYard(clts.funcZ);
             
-            let w = parsed.fn(vz);
+            let w = funcVal(z, fz);//eval(clts.funcZ);
             
-            x = w.r;
-            y = w.i;
+            x = w.re;
+            y = w.im;
             
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
             let h = funPhase(x, y);
-            
-            let b = funColor(x, y);
-            set(i, j, color(h, 1, b));
+            let s = funColorS(x, y);
+            let b = funColorV(x, y);
+            set(i, j, color(h, s, b));
             
             xtemp += dx;
         }
@@ -182,16 +187,10 @@ function plot() {
     updatePixels();
 }
 
-function trimN(s) {
-    if (s.trim) {
-        return s.trim();
-    }
-    return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-}
-
-//--This function displays the axes for reference--
+//--This function displays the grid for reference--
 
 function displayGrid() {
+    
     stroke(0);
     strokeWeight(2);
     line(0, height / 2, width, height / 2); //x-axis
@@ -215,10 +214,13 @@ function displayGrid() {
     textSize(14);
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
+            stroke(0, 0, 0.6);
             line(width / 2 - 4, height/2 - j, width / 2 + 4, height/2 - j);//yAxis positive ticks
             line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
             line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
             line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
+            stroke(0);
+            fill(0, 0, 0.9);
             //var nX = Math.abs(clts.centerX);
             //var decimalsX = nX - Math.floor(nX);
             //var nY = Math.abs(clts.centerY);
@@ -239,7 +241,6 @@ function displayGrid() {
                 text('' + str(round(setPX * 10)/10.0), width / 2 + i, height/2 - 4 + 18);//X-Positive
                 text('' + str(round(setNX * 10)/10.0), width / 2 - i, height/2 - 4 + 18);//X-Negative
             }
-            
         }
     }
     

@@ -9,7 +9,7 @@
 // --Control variables--
 let clts = {
 
-title: 'HSB Scheme',
+//title: 'HSB Scheme',
 
 lvlCurv: 'Re/Im',
 phaseOption: '[0, 2pi)',
@@ -21,9 +21,9 @@ size: 2.5,
 centerX: 0,
 centerY: 0,
 
-Update: function () {
-    redraw();
-},
+//Update: function () {
+//    redraw();
+//},
 
 Save: function () {
     save('plotfz.png');
@@ -41,11 +41,11 @@ function setup() {
     let gui = new dat.GUI({
                           width: 301
                           });
-    gui.add(clts, 'title').name("Color mode:");
-    gui.add(clts, 'lvlCurv', ['Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None']).name("Level Curves:").onChange(mySelectOption);
+    //gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'funcZ').name("f(z) =");
-    gui.add(clts, 'size', 0.00001, 15).name("|Re z| <");
-    gui.add(clts, 'Update').name("Update values");
+    gui.add(clts, 'lvlCurv', ['Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None']).name("Level Curves:").onChange(mySelectOption);
+    gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
+    //gui.add(clts, 'Update').name("Update values");
     
     gui.add(clts, 'Save').name("Save (png)");
     
@@ -155,6 +155,9 @@ function plot() {
     // Start y
     let ytemp = ymin;
     
+    let z = trimN(clts.funcZ);
+    let parsed = complex_expression(z);
+    
     for (let j = 0; j < height; j++) {
         // Start x
         let xtemp = xmin;
@@ -163,13 +166,12 @@ function plot() {
             let x = xtemp;
             let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let z = new Complex(x, y);
-            let fz = shuntingYard(clts.funcZ);
+            let vz = {r:x, i:y};
             
-            let w = funcVal(z, fz);//eval(clts.funcZ);
+            let w = parsed.fn(vz);
             
-            x = w.re;
-            y = w.im;
+            x = w.r;
+            y = w.i;
             
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
@@ -186,6 +188,14 @@ function plot() {
     
     updatePixels();
 }
+
+function trimN(s) {
+    if (s.trim) {
+        return s.trim();
+    }
+    return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+}
+
 
 //--This function displays the grid for reference--
 
@@ -214,13 +224,13 @@ function displayGrid() {
     textSize(14);
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
-            stroke(0, 0, 0.6);
+            //stroke(0, 0, 0.6);
             line(width / 2 - 4, height/2 - j, width / 2 + 4, height/2 - j);//yAxis positive ticks
             line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
             line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
             line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
-            stroke(0);
-            fill(0, 0, 0.9);
+            //stroke(0);
+            //fill(0, 0, 0.9);
             //var nX = Math.abs(clts.centerX);
             //var decimalsX = nX - Math.floor(nX);
             //var nY = Math.abs(clts.centerY);
