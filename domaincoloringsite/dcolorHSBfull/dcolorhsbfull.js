@@ -9,8 +9,6 @@
 // --Control variables--
 let clts = {
 
-phaseOption: '[0, 2pi)',
-
 lvlCurv: 'Modulus',
     
 funcZ: '(z-1)/(z^2+z+1)',

@@ -4,13 +4,11 @@
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update 03-Jul-2019
+// Last update 07-Jul-2019
 
 // --Control variables--
 
 let clts = {
-
-title: 'RGB Scheme',
 
 lvlCurv: 'Modulus',
 phaseOption: '[0, 2pi)',
@@ -22,15 +20,11 @@ size: 2.5,
 centerX: 0,
 centerY: 0,
     
-//Update: function () {
-//    redraw();
-//},
-
 Save: function () {
     save('plotfz.png');
 },
 
-sizePlot: false,
+canvasSize: 'Square'
     
 };
 
@@ -42,12 +36,9 @@ function setup() {
     let gui = new dat.GUI({
                           width: 360
                           });
-    //gui.add(clts, 'title').name("Color mode:");
     gui.add(clts, 'funcZ').name("f(z) =");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'size', 0.00001, 15).name("|Re z| < ").onChange(keyPressed);
-    //gui.add(clts, 'Update').name("Update values");
-    
     gui.add(clts, 'Save').name("Save (png)");
     
     let cXY = gui.addFolder('Display Options');
@@ -55,7 +46,7 @@ function setup() {
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
     cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
-    cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
+    cXY.add(clts, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
     
     noLoop();
 }
@@ -93,27 +84,7 @@ function val(x, y) {
     return sharp * ( valAux -  floor( valAux) ) + 0.6;
 }
 
-function mySelectOption() {
-    if (clts.lvlCurv == 'Phase') {
-        funColor = (x, y) => val(x, y);
-    } else if (clts.lvlCurv == 'Modulus') {
-        funColor = (x, y) => sat(x, y);
-    } else if (clts.lvlCurv == 'Phase/Modulus') {
-        funColor = (x, y) => val(x, y) * sat(x, y);
-    } else if (clts.lvlCurv == 'None') {
-        funColor = (x, y) => 1;
-    }
-    redraw();
-}
 
-function myPhaseOption() {
-    if (clts.phaseOption == '[0, 2pi)') {
-        funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
-    } else if (clts.phaseOption == '(-pi, pi]') {
-        funPhase = (x, y) => (PI + atan2(y, x)) / (2 * PI);
-    }
-    redraw();
-}
 
 // Now we color the pixels
 
@@ -184,12 +155,6 @@ function plot() {
     updatePixels();
 }
 
-function trimN(s) {
-    if (s.trim) {
-        return s.trim();
-    }
-    return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-}
 
 //--This function displays the grid for reference--
 
@@ -248,6 +213,45 @@ function displayGrid() {
 }
 
 // Auxiliary functions
+
+function trimN(s) {
+    if (s.trim) {
+        return s.trim();
+    }
+    return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+}
+
+function mySelectOption() {
+    if (clts.lvlCurv == 'Phase') {
+        funColor = (x, y) => val(x, y);
+    } else if (clts.lvlCurv == 'Modulus') {
+        funColor = (x, y) => sat(x, y);
+    } else if (clts.lvlCurv == 'Phase/Modulus') {
+        funColor = (x, y) => val(x, y) * sat(x, y);
+    } else if (clts.lvlCurv == 'None') {
+        funColor = (x, y) => 1;
+    }
+    redraw();
+}
+
+function myPhaseOption() {
+    if (clts.phaseOption == '[0, 2pi)') {
+        funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+    } else if (clts.phaseOption == '(-pi, pi]') {
+        funPhase = (x, y) => (PI + atan2(y, x)) / (2 * PI);
+    }
+    redraw();
+}
+
+function screenSize() {
+    if (clts.canvasSize == 'Square') {
+        resizeCanvas(470, 470);
+    } else if (clts.canvasSize == 'Landscape') {
+        resizeCanvas(750, 550);
+    } else if (clts.canvasSize == 'Full-Screen') {
+        resizeCanvas(windowWidth, windowHeight);
+    }
+}
 
 function windowResized() {
     if(clts.sizePlot == true){
