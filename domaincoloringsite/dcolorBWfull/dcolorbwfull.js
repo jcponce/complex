@@ -14,7 +14,7 @@ lvlCurv: 'Modulus',
 funcZ: 'z+1/z',
     
 //sharp = 1/3;
-nContour: 8,
+nContour: 10,
     
 displayXY: false,
 size: 2.5,
@@ -38,9 +38,9 @@ function setup() {
                           width: 360
                           });
     gui.add(clts, 'funcZ').name("f(z) =");
-    gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im']).name("Level Curves:").onChange(mySelectOption);
+    gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'Real-component', 'Imaginary-component', 'Re/Im']).name("Mode:").onChange(mySelectOption);
    
-    gui.add(clts, 'nContour', 5, 20).step(1).name("Level curves").onChange(keyPressed);
+    gui.add(clts, 'nContour', 5, 25).step(5).name("Level curves").onChange(keyPressed);
     gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
     gui.add(clts, 'Save').name("Save (png)");
     
@@ -75,7 +75,7 @@ let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 function funRe(x,y){
     realComp = x;
     let bwRe;
-    if((( round(clts.nContour/6) * realComp - floor(round(clts.nContour/6) * realComp) ))<0.5){
+    if((( round(clts.nContour/5) * realComp - floor(round(clts.nContour/5) * realComp) ))<0.5){
         bwRe = 1;
     }else {
         bwRe = -1;
@@ -86,7 +86,7 @@ function funRe(x,y){
 function funIm(x,y){
     imComp = y;
     let bwIm;
-    if((( round(clts.nContour/6) * imComp - floor(round(clts.nContour/6) * imComp) ))<0.5){
+    if((( round(clts.nContour/5) * imComp - floor(round(clts.nContour/5) * imComp) ))<0.5){
         bwIm = 1;
     }else {
         bwIm = -1;
@@ -95,11 +95,10 @@ function funIm(x,y){
 }
 
 
-
 function sat(x, y) {
     let satAux =  log(sqrt(x * x + y * y)) / log(2);
     let bw;
-    if((( round(clts.nContour/6) * satAux - floor(round(clts.nContour/6) * satAux) ))<0.5){
+    if((( round(clts.nContour/7) * satAux - floor(round(clts.nContour/7) * satAux) ))<0.5){
         bw = 1;
     }else {
         bw = -1;
@@ -108,7 +107,7 @@ function sat(x, y) {
 }
 
 function val(x, y) {
-    let valAux = clts.nContour * funPhase(x,y);
+    let valAux = round(clts.nContour) * funPhase(x,y);
     let bwval;
     if((( valAux - floor( valAux) ))<0.5){
         bwval = 1;
@@ -278,9 +277,9 @@ function mySelectOption() {
         funColor = (x, y) => sat(x, y);
     } else if (clts.lvlCurv == 'Phase/Modulus') {
         funColor = (x, y) => val(x, y) * sat(x, y);
-    } else if (clts.lvlCurv == 'Real') {
+    } else if (clts.lvlCurv == 'Real-component') {
       funColor = (x, y) => funRe(x,y);
-    }else if (clts.lvlCurv == 'Imaginary') {
+    }else if (clts.lvlCurv == 'Imaginary-component') {
         funColor = (x, y) => funIm(x,y);
     }else if (clts.lvlCurv == 'Re/Im') {
         funColor = (x, y) => funRe(x,y)*funIm(x,y);
