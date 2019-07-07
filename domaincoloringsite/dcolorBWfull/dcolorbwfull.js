@@ -11,7 +11,7 @@ let clts = {
 
 lvlCurv: 'Modulus',
     
-funcZ: 'z^5+1',
+funcZ: 'z+1/z',
     
 //sharp = 1/3;
 nContour: 8,
@@ -38,7 +38,7 @@ function setup() {
                           width: 360
                           });
     gui.add(clts, 'funcZ').name("f(z) =");
-    gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus']).name("Level Curves:").onChange(mySelectOption);
+    gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im']).name("Level Curves:").onChange(mySelectOption);
    
     gui.add(clts, 'nContour', 5, 20).step(1).name("Level curves").onChange(keyPressed);
     gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
@@ -69,6 +69,31 @@ function draw() {
 // First I need to define the functions to color each pixel
 
 let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+
+
+
+function funRe(x,y){
+    realComp = x;
+    let bwRe;
+    if((( round(clts.nContour/6) * realComp - floor(round(clts.nContour/6) * realComp) ))<0.5){
+        bwRe = 1;
+    }else {
+        bwRe = -1;
+    }
+    return bwRe;
+}
+
+function funIm(x,y){
+    imComp = y;
+    let bwIm;
+    if((( round(clts.nContour/6) * imComp - floor(round(clts.nContour/6) * imComp) ))<0.5){
+        bwIm = 1;
+    }else {
+        bwIm = -1;
+    }
+    return bwIm;
+}
+
 
 
 function sat(x, y) {
@@ -253,9 +278,13 @@ function mySelectOption() {
         funColor = (x, y) => sat(x, y);
     } else if (clts.lvlCurv == 'Phase/Modulus') {
         funColor = (x, y) => val(x, y) * sat(x, y);
-    } //else if (clts.lvlCurv == 'None') {
-    //  funColor = (x, y) => 1;
-    //}
+    } else if (clts.lvlCurv == 'Real') {
+      funColor = (x, y) => funRe(x,y);
+    }else if (clts.lvlCurv == 'Imaginary') {
+        funColor = (x, y) => funIm(x,y);
+    }else if (clts.lvlCurv == 'Re/Im') {
+        funColor = (x, y) => funRe(x,y)*funIm(x,y);
+    }
     redraw();
 }
 
