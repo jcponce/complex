@@ -53,8 +53,6 @@ function setup() {
     cXY.add(clts, 'centerY').name("Center y =").onChange(redraw);
     cXY.add(clts, 'sizePlot').name("Landscape").onChange(windowResized);
     
-    
-    
     noLoop();
 }
 

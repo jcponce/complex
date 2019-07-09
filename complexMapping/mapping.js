@@ -15,12 +15,15 @@ let system;
 
 let stepXY = 20;
 
+let expr = 'z/|z|';
+let inp;
+
 function setup() {
 	createCanvas(450, 450);
     colorMode(HSB, 1, 1, 1);
-	unit = new Complex(1,1);
-	unitr = new Complex(1,0);
-	dim = new Complex(width, height);
+	//unit = new Complex(1,1);
+	//unitr = new Complex(1,0);
+	//dim = new Complex(width, height);
 	//stroke(255);
     
     sel = createSelect();
@@ -45,8 +48,13 @@ function setup() {
     system.style('font-size', '18')
     system.changed(mySystemEvent);
     
-    
-    
+    inp = createInput('z^2');
+    inp.position(40, 50);
+    inp.input(myInputEvent)
+}
+
+function myInputEvent() {
+    noLoop();//redraw();
 }
 
 function myFunctionEvent(){
@@ -182,14 +190,25 @@ function keyTyped(){
 }
 
 function cmap(p){
-	let z = new Complex({
-		re: map(p.x, 0, width, -scale, scale), 
-		im: map(p.y, 0, height, -scale, scale)
-	});
-	let w = wfun(z);
+	let z = {
+		r: map(p.x, 0, width, -scale, scale),
+		i: map(p.y, 0, height, -scale, scale)
+	};
+    let zt = trimN(inp.value());
+    let parsed = complex_expression(zt);//Define function
+    
+    let w = parsed.fn(z);//wfun(z);
 	let v = {
-		x: map(w.re, -scale, scale, 0, width),
-		y: map(w.im, -scale, scale, 0, height)
+		x: map(w.r * u + (1-u) * z.r, -scale, scale, 0, width),
+		y: map(w.i * u + (1-u) * z.i, -scale, scale, 0, height)
 	};
 	return {x: v.x, y: v.y};
 }
+
+function trimN(s) {
+if (s.trim) {
+    return s.trim();
+}
+return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+}
+

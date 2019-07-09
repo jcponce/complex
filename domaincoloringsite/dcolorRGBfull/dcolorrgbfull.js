@@ -31,6 +31,8 @@ canvasSize: 'Square'
 function setup() {
     createCanvas(470, 470);
     colorMode(RGB, 1);
+    smooth();
+    pixelDensity(1);
     
     // create gui (dat.gui)
     let gui = new dat.GUI({
