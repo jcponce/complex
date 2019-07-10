@@ -3,7 +3,7 @@ let fun = (z) => z.pow('5').inverse();
 function setup() {
   createCanvas(350, 350);
   colorMode(HSB, 1, 1, 1);
-  frameRate(60);
+  //frameRate(60);
   pixelDensity(1);
   noCursor();
   //noLoop(); 
