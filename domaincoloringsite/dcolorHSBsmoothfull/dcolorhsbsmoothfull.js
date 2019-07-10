@@ -9,9 +9,9 @@
 // --Control variables--
 let clts = {
 
-lvlCurv: 'Modulus',
+//lvlCurv: 'Modulus',
     
-funcZ: '(z^2-1) (z-2-i)^2/(z^2+2+2i) ',
+funcZ: '(z^2-1) (z-2-i)^2/(z^2+2+2i)',
     
 displayXY: false,
 size: 2.5,
@@ -67,8 +67,8 @@ function draw() {
 
 let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
-let sharp = 1/3;
-let nContour = 16;
+//let sharp = 1/3;
+//let nContour = 16;
 
 let funColor = (x, y) => log(1+ sqrt(x * x + y * y));
 
@@ -207,6 +207,7 @@ function trimN(s) {
     return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 }
 
+/*
 function mySelectOption() {
     if (clts.lvlCurv == 'Phase') {
         funColor = (x, y) => val(x, y);
@@ -218,7 +219,7 @@ function mySelectOption() {
         funColor = (x, y) => 1;
     }
     redraw();
-}
+}*/
 
 function screenSize() {
     if (clts.canvasSize == 'Square') {
