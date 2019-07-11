@@ -5,7 +5,7 @@ function setup() {
   colorMode(HSB, 1, 1, 1);
   //frameRate(60);
   pixelDensity(1);
-  noCursor();
+  //noCursor();
   //noLoop(); 
   //console.log(dim.im);
 	
@@ -13,7 +13,7 @@ function setup() {
 
 function draw() {
   background(255);
-    //cursor(HAND);
+    cursor(HAND);
 
   // Establish a range of values on the complex plane
   // A different range will allow us to "zoom" in or out on the fractal
