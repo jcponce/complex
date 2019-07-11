@@ -11,7 +11,7 @@
 <script language="javascript" type="text/javascript" src="libraries/dat.gui.min.js"></script>
 <!--<script language="javascript" type="text/javascript" src="libraries/Complex.js"></script>-->
 <script language="javascript" type="text/javascript" src="Complex.min.js"></script>
-<script language="javascript" type="text/javascript" src="dcolorhsbfull.js"></script>
+<script language="javascript" type="text/javascript" src="dcolorhsbsmoothfull.js"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
@@ -111,8 +111,7 @@ canvas {
                 </div>
                 
                 <p>This tool visualizes complex-valued
-                functions by assigning a color (HSB scheme) to each point in
-                the complex plane according to its argument/phase. The identity function f(z)=z shows how colors are assigned.</p>
+                functions by assigning a color (HSB scheme with a gradient method) to each point in the complex plane according to its argument/phase. The identity function f(z)=z shows how colors are assigned.</p>
                 <p><span style="font-weight: bold;" class="w3-xlarge">f(z):</span> Enter any expression in z. Here are some example functions to try<ul>
                     <li>z^2</li>
                     <li>z^3-1</li>
@@ -132,10 +131,6 @@ canvas {
                     </ul>
                     </p>
                 
-                <p><span style="font-weight: bold;" class="w3-xlarge">Level curves:</span>
-                Draw level curves. Select an option 'Phase', 'Modulus', 'Phase/Modulus' or 'None'.</p>
-                
-                
                 <p><span style="font-weight: bold;" class="w3-xlarge">|Re z|&lt;:</span>
                 Drag or enter a positive number to define the domain (square/rectangle) for plotting the function.</p>
                 
@@ -149,6 +144,7 @@ canvas {
                 If you found this tool useful, or an issue, please let me know: <a href="mailto:j.ponce@uq.edu.au">j.ponce@uq.edu.au</a></p>
                 
                 <p class="w3-center"><i class="fas fa-infinity"></i></p>
+                
                 
             </div>
             
