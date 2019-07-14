@@ -2,9 +2,9 @@
  * Under Creative Commons License
  * https://creativecommons.org/licenses/by-sa/4.0/
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
+ 
+ * Last update 07-Jul-2019
  */
-
-// Last update 07-Jul-2019
 
 // --Control variables--
 let clts = {
