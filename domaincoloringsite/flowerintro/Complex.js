@@ -1,1395 +1,1283 @@
-/**
- * @license Complex.js v2.0.11 11/02/2016
- *
- * Copyright (c) 2016, Robert Eisele (robert@xarg.org)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- **/
-
-/**
- *
- * This class allows the manipulation of complex numbers.
- * You can pass a complex number in different formats. Either as object, double, string or two integer parameters.
- *
- * Object form
- * { re: <real>, im: <imaginary> }
- * { arg: <angle>, abs: <radius> }
- * { phi: <angle>, r: <radius> }
- *
- * Array / Vector form
- * [ real, imaginary ]
- *
- * Double form
- * 99.3 - Single double value
- *
- * String form
- * '23.1337' - Simple real number
- * '15+3i' - a simple complex number
- * '3-i' - a simple complex number
- *
- * Example:
- *
- * var c = new Complex('99.3+8i');
- * c.mul({r: 3, i: 9}).div(4.9).sub(3, 2);
- *
- */
-
-(function(root) {
-
-  'use strict';
-
-  var cosh = function(x) {
-    return (Math.exp(x) + Math.exp(-x)) * 0.5;
+// This is the parser for complex number formulae.
+// written by David Bau, durring snowstorm Nemo 2013 
+function complex_expression(s) {
+  var consts = {
+    i: {
+      r: 0,
+      i: 1
+    },
+    pi: {
+      r: Math.PI,
+      i: 0
+    },
+    e: {
+      r: Math.E,
+      i: 0
+    }
   };
-
-  var sinh = function(x) {
-    return (Math.exp(x) - Math.exp(-x)) * 0.5;
+  var vars = {
+    m: 'm',
+    n: 'n',
+    t: 't',
+    r: 'r',
+    s: 's',
+    u: 'u',
+    z: 'z',
+    'z\'': 'zp'
   };
-
-  /**
-   * Calculates cos(x) - 1 using Taylor series if x is small.
-   *
-   * @param {number} x
-   * @returns {number} cos(x) - 1
-   */
-
-  var cosm1 = function(x) {
-    var limit = Math.PI/4;
-    if (x < -limit || x > limit) {
-      return (Math.cos(x) - 1.0);
-    }
-
-    var xx = x * x;
-    return xx *
-      (-0.5 + xx *
-        (1/24 + xx *
-          (-1/720 + xx *
-            (1/40320 + xx *
-              (-1/3628800 + xx *
-                (1/4790014600 + xx *
-                  (-1/87178291200 + xx *
-                    (1/20922789888000)
-                  )
-                )
-              )
-            )
-          )
-        )
-      )
+  var funcs = {
+    random: 0,
+    re: 1,
+    im: 1,
+    modulus: 1,
+    arg: 1,
+    recip: 1,
+    neg: 1,
+    conj: 1,
+    disk: 1,
+    floor: 1,
+    ceil: 1,
+    square: 1,
+    cube: 1,
+    sqrt: 1,
+    exp: 1,
+    log: 1,
+    sin: 1,
+    cos: 1,
+    tan: 1,
+    cot: 1,
+    sec: 1,
+    csc: 1,
+    sinh: 1,
+    cosh: 1,
+    tanh: 1,
+    coth: 1,
+    sech: 1,
+    csch: 1,
+    asin: 1,
+    acos: 1,
+    atan: 1,
+    arcsin: 1,
+    arccos: 1,
+    arctan: 1,
+    arccot: 1,
+    arcsec: 1,
+    arccsc: 1,
+    arcsinh: 1,
+    arccosh: 1,
+    arctanh: 1,
+    arccoth: 1,
+    arcsech: 1,
+    arccsch: 1,
+    gamma: 1,
+    pow: 2,
+    binomial: 2,
+    sn: 2,
+    cn: 2,
+    dn: 2,
+    sum: 2,
+    iter: 3
   };
-
-  var hypot = function(x, y) {
-
-    var a = Math.abs(x);
-    var b = Math.abs(y);
-
-    if (a < 3000 && b < 3000) {
-      return Math.sqrt(a * a + b * b);
-    }
-
-    if (a < b) {
-      a = b;
-      b = x / y;
-    } else {
-      b = y / x;
-    }
-    return a * Math.sqrt(1 + b * b);
+  var syns = {
+    asin: 'arcsin',
+    acos: 'arccos',
+    atan: 'arctan'
   };
-
-  var parser_exit = function() {
-    throw SyntaxError('Invalid Param');
+  var params = [{
+      name: 't',
+      defn: '{r:par,i:0}',
+      caption: (function(t) {
+        return 't = ' + t.toFixed(3);
+      })
+    },
+    {
+      name: 'u',
+      defn: '{r:Math.cos(Math.PI*2*par),i:Math.sin(Math.PI*2*par)}',
+      caption: (function(t) { // epislon added to avoid displaying "-0.00".
+        var s = Math.sin(Math.PI * 2 * t) + 3e-16,
+          c = Math.cos(Math.PI * 2 * t) + 3e-16;
+        return 'u = ' + c.toFixed(2) + (s >= 0 ? ' + ' : ' - ') +
+          Math.abs(s).toFixed(2) + 'i';
+      })
+    },
+    {
+      name: 'n',
+      defn: '{r:Math.floor(par*par*59 + 1.5),i:0}',
+      caption: (function(t) {
+        return 'n = ' + (Math.floor(t * t * 59 + 1.5));
+      })
+    },
+    {
+      name: 's',
+      defn: '{r:Math.sin(Math.PI*2*par),i:0}',
+      caption: (function(t) {
+        return 's = ' + (Math.sin(Math.PI * 2 * t) + 3e-16).toFixed(3);
+      })
+    },
+    {
+      name: 'r',
+      defn: '{r:0.5-Math.cos(Math.PI*2*par)/2,i:0}',
+      caption: (function(t) {
+        return 'r = ' + (.5 - Math.cos(Math.PI * 2 * t) / 2 + 3e-16).toFixed(3);
+      })
+    }
+  ];
+  var loops = {
+    iter: 1,
+    sum: 1
   };
+  var symbols = {}
+  var factorials = [];
 
-  /**
-   * Calculates log(sqrt(a^2+b^2)) in a way to avoid overflows
-   *
-   * @param {number} a
-   * @param {number} b
-   * @returns {number}
-   */
-  function logHypot(a, b) {
-
-    var _a = Math.abs(a);
-    var _b = Math.abs(b);
-
-    if (a === 0) {
-      return Math.log(_b);
+  function run() {
+    dictadd(symbols, consts);
+    dictadd(symbols, vars);
+    dictadd(symbols, funcs);
+    init_constants();
+    var state = {
+      tok: tokenize(s),
+      j: 0
     }
-
-    if (b === 0) {
-      return Math.log(_a);
+    if (state.tok === null) return null;
+    var result = parsesum(state, false);
+    if (result === null || state.j < state.tok.length) return null;
+    var parameters = [];
+    if (result.vars.hasOwnProperty('z\'')) return null;
+    var fntext = '(function(z,par){';
+    if (result.vars.hasOwnProperty('m')) {
+      defns += 'var m = expi(z); '
     }
-
-    if (_a < 3000 && _b < 3000) {
-      return Math.log(a * a + b * b) * 0.5;
+    for (var j = 0; j < params.length; ++j) {
+      if (result.vars.hasOwnProperty(params[j].name)) {
+        if (params[j].defn) {
+          fntext += 'var ' + params[j].name + '=' + params[j].defn + ';';
+        }
+        parameters.push({
+          name: params[j].name,
+          caption: params[j].caption
+        });
+      }
     }
-
-    /* I got 4 ideas to compute this property without overflow:
-     *
-     * Testing 1000000 times with random samples for a,b ∈ [1, 1000000000] against a big decimal library to get an error estimate
-     *
-     * 1. Only eliminate the square root: (OVERALL ERROR: 3.9122483030951116e-11)
-     Math.log(a * a + b * b) / 2
-     *
-     *
-     * 2. Try to use the non-overflowing pythagoras: (OVERALL ERROR: 8.889760039210159e-10)
-     var fn = function(a, b) {
-     a = Math.abs(a);
-     b = Math.abs(b);
-     var t = Math.min(a, b);
-     a = Math.max(a, b);
-     t = t / a;
-     return Math.log(a) + Math.log(1 + t * t) / 2;
-     };
-     * 3. Abuse the identity cos(atan(y/x) = x / sqrt(x^2+y^2): (OVERALL ERROR: 3.4780178737037204e-10)
-     Math.log(a / Math.cos(Math.atan2(b, a)))
-     * 4. Use 3. and apply log rules: (OVERALL ERROR: 1.2014087502620896e-9)
-     Math.log(a) - Math.log(Math.cos(Math.atan2(b, a)))
-     */
-
-    return Math.log(a / Math.cos(Math.atan2(b, a)));
+    fntext += 'return ' + result.expr + ';})';
+    return {
+      fn: eval(fntext),
+      fntext: fntext,
+      parameters: parameters
+    };
   }
 
-  var parse = function(a, b) {
-
-    var z = {'re': 0, 'im': 0};
-
-    if (a === undefined || a === null) {
-      z['re'] =
-              z['im'] = 0;
-    } else if (b !== undefined) {
-      z['re'] = a;
-      z['im'] = b;
-    } else
-      switch (typeof a) {
-
-        case 'object':
-
-          if ('im' in a && 're' in a) {
-            z['re'] = a['re'];
-            z['im'] = a['im'];
-          } else if ('abs' in a && 'arg' in a) {
-            if (!Number.isFinite(a['abs']) && Number.isFinite(a['arg'])) {
-              return Complex['INFINITY'];
-            }
-            z['re'] = a['abs'] * Math.cos(a['arg']);
-            z['im'] = a['abs'] * Math.sin(a['arg']);
-          } else if ('r' in a && 'phi' in a) {
-            if (!Number.isFinite(a['r']) && Number.isFinite(a['phi'])) {
-              return Complex['INFINITY'];
-            }
-            z['re'] = a['r'] * Math.cos(a['phi']);
-            z['im'] = a['r'] * Math.sin(a['phi']);
-          } else if (a.length === 2) { // Quick array check
-            z['re'] = a[0];
-            z['im'] = a[1];
-          } else {
-            parser_exit();
-          }
-          break;
-
-        case 'string':
-
-          z['im'] = /* void */
-                  z['re'] = 0;
-
-          var tokens = a.match(/\d+\.?\d*e[+-]?\d+|\d+\.?\d*|\.\d+|./g);
-          var plus = 1;
-          var minus = 0;
-
-          if (tokens === null) {
-            parser_exit();
-          }
-
-          for (var i = 0; i < tokens.length; i++) {
-
-            var c = tokens[i];
-
-            if (c === ' ' || c === '\t' || c === '\n') {
-              /* void */
-            } else if (c === '+') {
-              plus++;
-            } else if (c === '-') {
-              minus++;
-            } else if (c === 'i' || c === 'I') {
-
-              if (plus + minus === 0) {
-                parser_exit();
-              }
-
-              if (tokens[i + 1] !== ' ' && !isNaN(tokens[i + 1])) {
-                z['im'] += parseFloat((minus % 2 ? '-' : '') + tokens[i + 1]);
-                i++;
-              } else {
-                z['im'] += parseFloat((minus % 2 ? '-' : '') + '1');
-              }
-              plus = minus = 0;
-
-            } else {
-
-              if (plus + minus === 0 || isNaN(c)) {
-                parser_exit();
-              }
-
-              if (tokens[i + 1] === 'i' || tokens[i + 1] === 'I') {
-                z['im'] += parseFloat((minus % 2 ? '-' : '') + c);
-                i++;
-              } else {
-                z['re'] += parseFloat((minus % 2 ? '-' : '') + c);
-              }
-              plus = minus = 0;
-            }
-          }
-
-          // Still something on the stack
-          if (plus + minus > 0) {
-            parser_exit();
-          }
-          break;
-
-        case 'number':
-          z['im'] = 0;
-          z['re'] = a;
-          break;
-
-        default:
-          parser_exit();
+  function init_constants() {
+    factorials.push(1);
+    for (var j = 0; j < 160; ++j) {
+      factorials.push(factorials[factorials.length - 1] * factorials.length);
+    }
+  }
+  // Evaluate this function, and return a r, j tuple.
+  function random() {
+    while (true) {
+      var result = {
+        r: Math.random() * 2 - 1,
+        i: Math.random() * 2 - 1
+      };
+      if (modulussquared(result) < 1) {
+        return result;
       }
-
-    if (isNaN(z['re']) || isNaN(z['im'])) {
-      // If a calculation is NaN, we treat it as NaN and don't throw
-      //parser_exit();
     }
-
-    return z;
-  };
-
-  /**
-   * @constructor
-   * @returns {Complex}
-   */
-  function Complex(a, b) {
-
-    if (!(this instanceof Complex)) {
-      return new Complex(a, b);
-    }
-
-    var z = parse(a, b);
-
-    this['re'] = z['re'];
-    this['im'] = z['im'];
   }
 
-  Complex.prototype = {
-
-    're': 0,
-    'im': 0,
-
-    /**
-     * Calculates the sign of a complex number, which is a normalized complex
-     *
-     * @returns {Complex}
-     */
-    'sign': function() {
-
-      var abs = this['abs']();
-
-      return new Complex(
-              this['re'] / abs,
-              this['im'] / abs);
-    },
-
-    /**
-     * Adds two complex numbers
-     *
-     * @returns {Complex}
-     */
-    'add': function(a, b) {
-
-      var z = new Complex(a, b);
-
-      // Infinity + Infinity = NaN
-      if (this['isInfinite']() && z['isInfinite']()) {
-        return Complex['NAN'];
-      }
-
-      // Infinity + z = Infinity { where z != Infinity }
-      if (this['isInfinite']() || z['isInfinite']()) {
-        return Complex['INFINITY'];
-      }
-
-      return new Complex(
-              this['re'] + z['re'],
-              this['im'] + z['im']);
-    },
-
-    /**
-     * Subtracts two complex numbers
-     *
-     * @returns {Complex}
-     */
-    'sub': function(a, b) {
-
-      var z = new Complex(a, b);
-
-      // Infinity - Infinity = NaN
-      if (this['isInfinite']() && z['isInfinite']()) {
-        return Complex['NAN'];
-      }
-
-      // Infinity - z = Infinity { where z != Infinity }
-      if (this['isInfinite']() || z['isInfinite']()) {
-        return Complex['INFINITY'];
-      }
-
-      return new Complex(
-              this['re'] - z['re'],
-              this['im'] - z['im']);
-    },
-
-    /**
-     * Multiplies two complex numbers
-     *
-     * @returns {Complex}
-     */
-    'mul': function(a, b) {
-
-      var z = new Complex(a, b);
-
-      // Infinity * 0 = NaN
-      if ((this['isInfinite']() && z['isZero']()) || (this['isZero']() && z['isInfinite']())) {
-        return Complex['NAN'];
-      }
-
-      // Infinity * z = Infinity { where z != 0 }
-      if (this['isInfinite']() || z['isInfinite']()) {
-        return Complex['INFINITY'];
-      }
-
-      // Short circuit for real values
-      if (z['im'] === 0 && this['im'] === 0) {
-        return new Complex(this['re'] * z['re'], 0);
-      }
-
-      return new Complex(
-              this['re'] * z['re'] - this['im'] * z['im'],
-              this['re'] * z['im'] + this['im'] * z['re']);
-    },
-
-    /**
-     * Divides two complex numbers
-     *
-     * @returns {Complex}
-     */
-    'div': function(a, b) {
-
-      var z = new Complex(a, b);
-
-      // 0 / 0 = NaN and Infinity / Infinity = NaN
-      if ((this['isZero']() && z['isZero']()) || (this['isInfinite']() && z['isInfinite']())) {
-        return Complex['NAN'];
-      }
-
-      // Infinity / 0 = Infinity
-      if (this['isInfinite']() || z['isZero']()) {
-        return Complex['INFINITY'];
-      }
-
-      // 0 / Infinity = 0
-      if (this['isZero']() || z['isInfinite']()) {
-        return Complex['ZERO'];
-      }
-
-      a = this['re'];
-      b = this['im'];
-
-      var c = z['re'];
-      var d = z['im'];
-      var t, x;
-
-      if (0 === d) {
-        // Divisor is real
-        return new Complex(a / c, b / c);
-      }
-
-      if (Math.abs(c) < Math.abs(d)) {
-
-        x = c / d;
-        t = c * x + d;
-
-        return new Complex(
-                (a * x + b) / t,
-                (b * x - a) / t);
-
-      } else {
-
-        x = d / c;
-        t = d * x + c;
-
-        return new Complex(
-                (a + b * x) / t,
-                (b - a * x) / t);
-      }
-    },
-
-    /**
-     * Calculate the power of two complex numbers
-     *
-     * @returns {Complex}
-     */
-    'pow': function(a, b) {
-
-      var z = new Complex(a, b);
-
-      a = this['re'];
-      b = this['im'];
-
-      if (z['isZero']()) {
-        return Complex['ONE'];
-      }
-
-      // If the exponent is real
-      if (z['im'] === 0) {
-
-        if (b === 0 && a >= 0) {
-
-          return new Complex(Math.pow(a, z['re']), 0);
-
-        } else if (a === 0) { // If base is fully imaginary
-
-          switch ((z['re'] % 4 + 4) % 4) {
-            case 0:
-              return new Complex(Math.pow(b, z['re']), 0);
-            case 1:
-              return new Complex(0, Math.pow(b, z['re']));
-            case 2:
-              return new Complex(-Math.pow(b, z['re']), 0);
-            case 3:
-              return new Complex(0, -Math.pow(b, z['re']));
-          }
-        }
-      }
-
-      /* I couldn't find a good formula, so here is a derivation and optimization
-       *
-       * z_1^z_2 = (a + bi)^(c + di)
-       *         = exp((c + di) * log(a + bi)
-       *         = pow(a^2 + b^2, (c + di) / 2) * exp(i(c + di)atan2(b, a))
-       * =>...
-       * Re = (pow(a^2 + b^2, c / 2) * exp(-d * atan2(b, a))) * cos(d * log(a^2 + b^2) / 2 + c * atan2(b, a))
-       * Im = (pow(a^2 + b^2, c / 2) * exp(-d * atan2(b, a))) * sin(d * log(a^2 + b^2) / 2 + c * atan2(b, a))
-       *
-       * =>...
-       * Re = exp(c * log(sqrt(a^2 + b^2)) - d * atan2(b, a)) * cos(d * log(sqrt(a^2 + b^2)) + c * atan2(b, a))
-       * Im = exp(c * log(sqrt(a^2 + b^2)) - d * atan2(b, a)) * sin(d * log(sqrt(a^2 + b^2)) + c * atan2(b, a))
-       *
-       * =>
-       * Re = exp(c * logsq2 - d * arg(z_1)) * cos(d * logsq2 + c * arg(z_1))
-       * Im = exp(c * logsq2 - d * arg(z_1)) * sin(d * logsq2 + c * arg(z_1))
-       *
-       */
-
-      if (a === 0 && b === 0 && z['re'] > 0 && z['im'] >= 0) {
-        return Complex['ZERO'];
-      }
-
-      var arg = Math.atan2(b, a);
-      var loh = logHypot(a, b);
-
-      a = Math.exp(z['re'] * loh - z['im'] * arg);
-      b = z['im'] * loh + z['re'] * arg;
-      return new Complex(
-              a * Math.cos(b),
-              a * Math.sin(b));
-    },
-
-    /**
-     * Calculate the complex square root
-     *
-     * @returns {Complex}
-     */
-    'sqrt': function() {
-
-      var a = this['re'];
-      var b = this['im'];
-      var r = this['abs']();
-
-      var re, im;
-
-      if (a >= 0) {
-
-        if (b === 0) {
-          return new Complex(Math.sqrt(a), 0);
-        }
-
-        re = 0.5 * Math.sqrt(2.0 * (r + a));
-      } else {
-        re = Math.abs(b) / Math.sqrt(2 * (r - a));
-      }
-
-      if (a <= 0) {
-        im = 0.5 * Math.sqrt(2.0 * (r - a));
-      } else {
-        im = Math.abs(b) / Math.sqrt(2 * (r + a));
-      }
-
-      return new Complex(re, b < 0 ? -im : im);
-    },
-
-    /**
-     * Calculate the complex exponent
-     *
-     * @returns {Complex}
-     */
-    'exp': function() {
-
-      var tmp = Math.exp(this['re']);
-
-      if (this['im'] === 0) {
-        //return new Complex(tmp, 0);
-      }
-      return new Complex(
-              tmp * Math.cos(this['im']),
-              tmp * Math.sin(this['im']));
-    },
-
-    /**
-     * Calculate the complex exponent and subtracts one.
-     *
-     * This may be more accurate than `Complex(x).exp().sub(1)` if
-     * `x` is small.
-     *
-     * @returns {Complex}
-     */
-    'expm1': function() {
-
-      /**
-       * exp(a + i*b) - 1
-       = exp(a) * (cos(b) + j*sin(b)) - 1
-       = expm1(a)*cos(b) + cosm1(b) + j*exp(a)*sin(b)
-       */
-
-      var a = this['re'];
-      var b = this['im'];
-
-      return new Complex(
-              Math.expm1(a) * Math.cos(b) + cosm1(b),
-              Math.exp(a) * Math.sin(b));
-    },
-
-    /**
-     * Calculate the natural log
-     *
-     * @returns {Complex}
-     */
-    'log': function() {
-
-      var a = this['re'];
-      var b = this['im'];
-
-      if (b === 0 && a > 0) {
-        //return new Complex(Math.log(a), 0);
-      }
-
-      return new Complex(
-              logHypot(a, b),
-              Math.atan2(b, a));
-    },
-
-    /**
-     * Calculate the magnitude of the complex number
-     *
-     * @returns {number}
-     */
-    'abs': function() {
-
-      return hypot(this['re'], this['im']);
-    },
-
-    /**
-     * Calculate the angle of the complex number
-     *
-     * @returns {number}
-     */
-    'arg': function() {
-
-      return Math.atan2(this['im'], this['re']);
-    },
-
-    /**
-     * Calculate the sine of the complex number
-     *
-     * @returns {Complex}
-     */
-    'sin': function() {
-
-      // sin(c) = (e^b - e^(-b)) / (2i)
-
-      var a = this['re'];
-      var b = this['im'];
-
-      return new Complex(
-              Math.sin(a) * cosh(b),
-              Math.cos(a) * sinh(b));
-    },
-
-    /**
-     * Calculate the cosine
-     *
-     * @returns {Complex}
-     */
-    'cos': function() {
-
-      // cos(z) = (e^b + e^(-b)) / 2
-
-      var a = this['re'];
-      var b = this['im'];
-
-      return new Complex(
-              Math.cos(a) * cosh(b),
-              -Math.sin(a) * sinh(b));
-    },
-
-    /**
-     * Calculate the tangent
-     *
-     * @returns {Complex}
-     */
-    'tan': function() {
-
-      // tan(c) = (e^(ci) - e^(-ci)) / (i(e^(ci) + e^(-ci)))
-
-      var a = 2 * this['re'];
-      var b = 2 * this['im'];
-      var d = Math.cos(a) + cosh(b);
-
-      return new Complex(
-              Math.sin(a) / d,
-              sinh(b) / d);
-    },
-
-    /**
-     * Calculate the cotangent
-     *
-     * @returns {Complex}
-     */
-    'cot': function() {
-
-      // cot(c) = i(e^(ci) + e^(-ci)) / (e^(ci) - e^(-ci))
-
-      var a = 2 * this['re'];
-      var b = 2 * this['im'];
-      var d = Math.cos(a) - cosh(b);
-
-      return new Complex(
-              -Math.sin(a) / d,
-              sinh(b) / d);
-    },
-
-    /**
-     * Calculate the secant
-     *
-     * @returns {Complex}
-     */
-    'sec': function() {
-
-      // sec(c) = 2 / (e^(ci) + e^(-ci))
-
-      var a = this['re'];
-      var b = this['im'];
-      var d = 0.5 * cosh(2 * b) + 0.5 * Math.cos(2 * a);
-
-      return new Complex(
-              Math.cos(a) * cosh(b) / d,
-              Math.sin(a) * sinh(b) / d);
-    },
-
-    /**
-     * Calculate the cosecans
-     *
-     * @returns {Complex}
-     */
-    'csc': function() {
-
-      // csc(c) = 2i / (e^(ci) - e^(-ci))
-
-      var a = this['re'];
-      var b = this['im'];
-      var d = 0.5 * cosh(2 * b) - 0.5 * Math.cos(2 * a);
-
-      return new Complex(
-              Math.sin(a) * cosh(b) / d,
-              -Math.cos(a) * sinh(b) / d);
-    },
-
-    /**
-     * Calculate the complex arcus sinus
-     *
-     * @returns {Complex}
-     */
-    'asin': function() {
-
-      // asin(c) = -i * log(ci + sqrt(1 - c^2))
-
-      var a = this['re'];
-      var b = this['im'];
-
-      var t1 = new Complex(
-              b * b - a * a + 1,
-              -2 * a * b)['sqrt']();
-
-      var t2 = new Complex(
-              t1['re'] - b,
-              t1['im'] + a)['log']();
-
-      return new Complex(t2['im'], -t2['re']);
-    },
-
-    /**
-     * Calculate the complex arcus cosinus
-     *
-     * @returns {Complex}
-     */
-    'acos': function() {
-
-      // acos(c) = i * log(c - i * sqrt(1 - c^2))
-
-      var a = this['re'];
-      var b = this['im'];
-
-      var t1 = new Complex(
-              b * b - a * a + 1,
-              -2 * a * b)['sqrt']();
-
-      var t2 = new Complex(
-              t1['re'] - b,
-              t1['im'] + a)['log']();
-
-      return new Complex(Math.PI / 2 - t2['im'], t2['re']);
-    },
-
-    /**
-     * Calculate the complex arcus tangent
-     *
-     * @returns {Complex}
-     */
-    'atan': function() {
-
-      // atan(c) = i / 2 log((i + x) / (i - x))
-
-      var a = this['re'];
-      var b = this['im'];
-
-      if (a === 0) {
-
-        if (b === 1) {
-          return new Complex(0, Infinity);
-        }
-
-        if (b === -1) {
-          return new Complex(0, -Infinity);
-        }
-      }
-
-      var d = a * a + (1.0 - b) * (1.0 - b);
-
-      var t1 = new Complex(
-              (1 - b * b - a * a) / d,
-              -2 * a / d).log();
-
-      return new Complex(-0.5 * t1['im'], 0.5 * t1['re']);
-    },
-
-    /**
-     * Calculate the complex arcus cotangent
-     *
-     * @returns {Complex}
-     */
-    'acot': function() {
-
-      // acot(c) = i / 2 log((c - i) / (c + i))
-
-      var a = this['re'];
-      var b = this['im'];
-
-      if (b === 0) {
-        return new Complex(Math.atan2(1, a), 0);
-      }
-
-      var d = a * a + b * b;
-      return (d !== 0)
-              ? new Complex(
-                      a / d,
-                      -b / d).atan()
-              : new Complex(
-                      (a !== 0) ? a / 0 : 0,
-                      (b !== 0) ? -b / 0 : 0).atan();
-    },
-
-    /**
-     * Calculate the complex arcus secant
-     *
-     * @returns {Complex}
-     */
-    'asec': function() {
-
-      // asec(c) = -i * log(1 / c + sqrt(1 - i / c^2))
-
-      var a = this['re'];
-      var b = this['im'];
-
-      if (a === 0 && b === 0) {
-        return new Complex(0, Infinity);
-      }
-
-      var d = a * a + b * b;
-      return (d !== 0)
-              ? new Complex(
-                      a / d,
-                      -b / d).acos()
-              : new Complex(
-                      (a !== 0) ? a / 0 : 0,
-                      (b !== 0) ? -b / 0 : 0).acos();
-    },
-
-    /**
-     * Calculate the complex arcus cosecans
-     *
-     * @returns {Complex}
-     */
-    'acsc': function() {
-
-      // acsc(c) = -i * log(i / c + sqrt(1 - 1 / c^2))
-
-      var a = this['re'];
-      var b = this['im'];
-
-      if (a === 0 && b === 0) {
-        return new Complex(Math.PI / 2, Infinity);
-      }
-
-      var d = a * a + b * b;
-      return (d !== 0)
-              ? new Complex(
-                      a / d,
-                      -b / d).asin()
-              : new Complex(
-                      (a !== 0) ? a / 0 : 0,
-                      (b !== 0) ? -b / 0 : 0).asin();
-    },
-
-    /**
-     * Calculate the complex sinh
-     *
-     * @returns {Complex}
-     */
-    'sinh': function() {
-
-      // sinh(c) = (e^c - e^-c) / 2
-
-      var a = this['re'];
-      var b = this['im'];
-
-      return new Complex(
-              sinh(a) * Math.cos(b),
-              cosh(a) * Math.sin(b));
-    },
-
-    /**
-     * Calculate the complex cosh
-     *
-     * @returns {Complex}
-     */
-    'cosh': function() {
-
-      // cosh(c) = (e^c + e^-c) / 2
-
-      var a = this['re'];
-      var b = this['im'];
-
-      return new Complex(
-              cosh(a) * Math.cos(b),
-              sinh(a) * Math.sin(b));
-    },
-
-    /**
-     * Calculate the complex tanh
-     *
-     * @returns {Complex}
-     */
-    'tanh': function() {
-
-      // tanh(c) = (e^c - e^-c) / (e^c + e^-c)
-
-      var a = 2 * this['re'];
-      var b = 2 * this['im'];
-      var d = cosh(a) + Math.cos(b);
-
-      return new Complex(
-              sinh(a) / d,
-              Math.sin(b) / d);
-    },
-
-    /**
-     * Calculate the complex coth
-     *
-     * @returns {Complex}
-     */
-    'coth': function() {
-
-      // coth(c) = (e^c + e^-c) / (e^c - e^-c)
-
-      var a = 2 * this['re'];
-      var b = 2 * this['im'];
-      var d = cosh(a) - Math.cos(b);
-
-      return new Complex(
-              sinh(a) / d,
-              -Math.sin(b) / d);
-    },
-
-    /**
-     * Calculate the complex coth
-     *
-     * @returns {Complex}
-     */
-    'csch': function() {
-
-      // csch(c) = 2 / (e^c - e^-c)
-
-      var a = this['re'];
-      var b = this['im'];
-      var d = Math.cos(2 * b) - cosh(2 * a);
-
-      return new Complex(
-              -2 * sinh(a) * Math.cos(b) / d,
-              2 * cosh(a) * Math.sin(b) / d);
-    },
-
-    /**
-     * Calculate the complex sech
-     *
-     * @returns {Complex}
-     */
-    'sech': function() {
-
-      // sech(c) = 2 / (e^c + e^-c)
-
-      var a = this['re'];
-      var b = this['im'];
-      var d = Math.cos(2 * b) + cosh(2 * a);
-
-      return new Complex(
-              2 * cosh(a) * Math.cos(b) / d,
-              -2 * sinh(a) * Math.sin(b) / d);
-    },
-
-    /**
-     * Calculate the complex asinh
-     *
-     * @returns {Complex}
-     */
-    'asinh': function() {
-
-      // asinh(c) = log(c + sqrt(c^2 + 1))
-
-      var tmp = this['im'];
-      this['im'] = -this['re'];
-      this['re'] = tmp;
-      var res = this['asin']();
-
-      this['re'] = -this['im'];
-      this['im'] = tmp;
-      tmp = res['re'];
-
-      res['re'] = -res['im'];
-      res['im'] = tmp;
-      return res;
-    },
-
-    /**
-     * Calculate the complex asinh
-     *
-     * @returns {Complex}
-     */
-    'acosh': function() {
-
-      // acosh(c) = log(c + sqrt(c^2 - 1))
-
-      var res = this['acos']();
-      if (res['im'] <= 0) {
-        var tmp = res['re'];
-        res['re'] = -res['im'];
-        res['im'] = tmp;
-      } else {
-        var tmp = res['im'];
-        res['im'] = -res['re'];
-        res['re'] = tmp;
-      }
-      return res;
-    },
-
-    /**
-     * Calculate the complex atanh
-     *
-     * @returns {Complex}
-     */
-    'atanh': function() {
-
-      // atanh(c) = log((1+c) / (1-c)) / 2
-
-      var a = this['re'];
-      var b = this['im'];
-
-      var noIM = a > 1 && b === 0;
-      var oneMinus = 1 - a;
-      var onePlus = 1 + a;
-      var d = oneMinus * oneMinus + b * b;
-
-      var x = (d !== 0)
-              ? new Complex(
-                      (onePlus * oneMinus - b * b) / d,
-                      (b * oneMinus + onePlus * b) / d)
-              : new Complex(
-                      (a !== -1) ? (a / 0) : 0,
-                      (b !== 0) ? (b / 0) : 0);
-
-      var temp = x['re'];
-      x['re'] = logHypot(x['re'], x['im']) / 2;
-      x['im'] = Math.atan2(x['im'], temp) / 2;
-      if (noIM) {
-        x['im'] = -x['im'];
-      }
-      return x;
-    },
-
-    /**
-     * Calculate the complex acoth
-     *
-     * @returns {Complex}
-     */
-    'acoth': function() {
-
-      // acoth(c) = log((c+1) / (c-1)) / 2
-
-      var a = this['re'];
-      var b = this['im'];
-
-      if (a === 0 && b === 0) {
-        return new Complex(0, Math.PI / 2);
-      }
-
-      var d = a * a + b * b;
-      return (d !== 0)
-              ? new Complex(
-                      a / d,
-                      -b / d).atanh()
-              : new Complex(
-                      (a !== 0) ? a / 0 : 0,
-                      (b !== 0) ? -b / 0 : 0).atanh();
-    },
-
-    /**
-     * Calculate the complex acsch
-     *
-     * @returns {Complex}
-     */
-    'acsch': function() {
-
-      // acsch(c) = log((1+sqrt(1+c^2))/c)
-
-      var a = this['re'];
-      var b = this['im'];
-
-      if (b === 0) {
-
-        return new Complex(
-                (a !== 0)
-                ? Math.log(a + Math.sqrt(a * a + 1))
-                : Infinity, 0);
-      }
-
-      var d = a * a + b * b;
-      return (d !== 0)
-              ? new Complex(
-                      a / d,
-                      -b / d).asinh()
-              : new Complex(
-                      (a !== 0) ? a / 0 : 0,
-                      (b !== 0) ? -b / 0 : 0).asinh();
-    },
-
-    /**
-     * Calculate the complex asech
-     *
-     * @returns {Complex}
-     */
-    'asech': function() {
-
-      // asech(c) = log((1+sqrt(1-c^2))/c)
-
-      var a = this['re'];
-      var b = this['im'];
-
-      if (this['isZero']()) {
-        return Complex['INFINITY'];
-      }
-
-      var d = a * a + b * b;
-      return (d !== 0)
-              ? new Complex(
-                      a / d,
-                      -b / d).acosh()
-              : new Complex(
-                      (a !== 0) ? a / 0 : 0,
-                      (b !== 0) ? -b / 0 : 0).acosh();
-    },
-
-    /**
-     * Calculate the complex inverse 1/z
-     *
-     * @returns {Complex}
-     */
-    'inverse': function() {
-
-      // 1 / 0 = Infinity and 1 / Infinity = 0
-      if (this['isZero']()) {
-        return Complex['INFINITY'];
-      }
-
-      if (this['isInfinite']()) {
-        return Complex['ZERO'];
-      }
-
-      var a = this['re'];
-      var b = this['im'];
-
-      var d = a * a + b * b;
-
-      return new Complex(a / d, -b / d);
-    },
-
-    /**
-     * Returns the complex conjugate
-     *
-     * @returns {Complex}
-     */
-    'conjugate': function() {
-
-      return new Complex(this['re'], -this['im']);
-    },
-
-    /**
-     * Gets the negated complex number
-     *
-     * @returns {Complex}
-     */
-    'neg': function() {
-
-      return new Complex(-this['re'], -this['im']);
-    },
-
-    /**
-     * Ceils the actual complex number
-     *
-     * @returns {Complex}
-     */
-    'ceil': function(places) {
-
-      places = Math.pow(10, places || 0);
-
-      return new Complex(
-              Math.ceil(this['re'] * places) / places,
-              Math.ceil(this['im'] * places) / places);
-    },
-
-    /**
-     * Floors the actual complex number
-     *
-     * @returns {Complex}
-     */
-    'floor': function(places) {
-
-      places = Math.pow(10, places || 0);
-
-      return new Complex(
-              Math.floor(this['re'] * places) / places,
-              Math.floor(this['im'] * places) / places);
-    },
-
-    /**
-     * Ceils the actual complex number
-     *
-     * @returns {Complex}
-     */
-    'round': function(places) {
-
-      places = Math.pow(10, places || 0);
-
-      return new Complex(
-              Math.round(this['re'] * places) / places,
-              Math.round(this['im'] * places) / places);
-    },
-
-    /**
-     * Compares two complex numbers
-     *
-     * **Note:** new Complex(Infinity).equals(Infinity) === false
-     *
-     * @returns {boolean}
-     */
-    'equals': function(a, b) {
-
-      var z = new Complex(a, b);
-
-      return Math.abs(z['re'] - this['re']) <= Complex['EPSILON'] &&
-              Math.abs(z['im'] - this['im']) <= Complex['EPSILON'];
-    },
-
-    /**
-     * Clones the actual object
-     *
-     * @returns {Complex}
-     */
-    'clone': function() {
-
-      return new Complex(this['re'], this['im']);
-    },
-
-    /**
-     * Gets a string of the actual complex number
-     *
-     * @returns {string}
-     */
-    'toString': function() {
-
-      var a = this['re'];
-      var b = this['im'];
-      var ret = '';
-
-      if (this['isNaN']()) {
-        return 'NaN';
-      }
-
-      if (this['isZero']()) {
-        return '0';
-      }
-
-      if (this['isInfinite']()) {
-        return 'Infinity';
-      }
-
-      if (a !== 0) {
-        ret += a;
-      }
-
-      if (b !== 0) {
-
-        if (a !== 0) {
-          ret += b < 0 ? ' - ' : ' + ';
-        } else if (b < 0) {
-          ret += '-';
-        }
-
-        b = Math.abs(b);
-
-        if (1 !== b) {
-          ret += b;
-        }
-        ret += 'i';
-      }
-
-      if (!ret)
-        return '0';
-
-      return ret;
-    },
-
-    /**
-     * Returns the actual number as a vector
-     *
-     * @returns {Array}
-     */
-    'toVector': function() {
-
-      return [this['re'], this['im']];
-    },
-
-    /**
-     * Returns the actual real value of the current object
-     *
-     * @returns {number|null}
-     */
-    'valueOf': function() {
-
-      if (this['im'] === 0) {
-        return this['re'];
-      }
-      return null;
-    },
-
-    /**
-     * Determines whether a complex number is not on the Riemann sphere.
-     *
-     * @returns {boolean}
-     */
-    'isNaN': function() {
-      return isNaN(this['re']) || isNaN(this['im']);
-    },
-
-    /**
-     * Determines whether or not a complex number is at the zero pole of the
-     * Riemann sphere.
-     *
-     * @returns {boolean}
-     */
-    'isZero': function() {
-      return (
-              (this['re'] === 0 || this['re'] === -0) &&
-              (this['im'] === 0 || this['im'] === -0)
-              );
-    },
-
-    /**
-     * Determines whether a complex number is not at the infinity pole of the
-     * Riemann sphere.
-     *
-     * @returns {boolean}
-     */
-    'isFinite': function() {
-      return isFinite(this['re']) && isFinite(this['im']);
-    },
-
-    /**
-     * Determines whether or not a complex number is at the infinity pole of the
-     * Riemann sphere.
-     *
-     * @returns {boolean}
-     */
-    'isInfinite': function() {
-      return !(this['isNaN']() || this['isFinite']());
+  function re(z) {
+    return {
+      r: z.r,
+      i: 0
+    };
+  }
+
+  function im(z) {
+    return {
+      r: z.i,
+      i: 0
+    };
+  }
+
+  function scale(s, z) {
+    return {
+      r: z.r * s,
+      i: z.i * s
+    };
+  }
+
+  function modulussquared(z) {
+    return z.r * z.r + z.i * z.i;
+  }
+
+  function realmodulus(z) {
+    return Math.sqrt(modulussquared(z));
+  }
+
+  function modulus(z) {
+    if (z.i == 0) {
+      return {
+        r: Math.abs(z.r),
+        i: 0
+      };
     }
-  };
+    return {
+      r: realmodulus(z),
+      i: 0
+    };
+  }
 
-  Complex['ZERO'] = new Complex(0, 0);
-  Complex['ONE'] = new Complex(1, 0);
-  Complex['I'] = new Complex(0, 1);
-  Complex['PI'] = new Complex(Math.PI, 0);
-  Complex['E'] = new Complex(Math.E, 0);
-  Complex['INFINITY'] = new Complex(Infinity, Infinity);
-  Complex['NAN'] = new Complex(NaN, NaN);
-  Complex['EPSILON'] = 1e-16;
+  function realarg(z) {
+    return Math.atan2(z.i, z.r);
+  }
 
-  if (typeof define === 'function' && define['amd']) {
-    define([], function() {
-      return Complex;
+  function arg(z) {
+    return {
+      r: realarg(z),
+      i: 0
+    };
+  }
+
+  function add(y, z) {
+    return {
+      r: y.r + z.r,
+      i: y.i + z.i
+    };
+  }
+
+  function sub(y, z) {
+    return {
+      r: y.r - z.r,
+      i: y.i - z.i
+    };
+  }
+
+  function mult(y, z) {
+    return {
+      r: y.r * z.r - y.i * z.i,
+      i: y.r * z.i + y.i * z.r
+    };
+  }
+
+  function div(y, z) {
+    var m2 = modulussquared(z);
+    return {
+      r: (y.r * z.r + y.i * z.i) / m2,
+      i: (y.i * z.r - y.r * z.i) / m2
+    };
+  }
+
+  function recip(z) {
+    var m2 = modulussquared(z);
+    return {
+      r: z.r / m2,
+      i: -z.i / m2
+    };
+  }
+
+  function neg(z) {
+    return {
+      r: -z.r,
+      i: -z.i
+    };
+  }
+
+  function conj(z) {
+    return {
+      r: z.r,
+      i: -z.i
+    };
+  }
+
+  function disk(z) {
+    if (realmodulus(z) > 1) {
+      return {
+        r: 0,
+        i: 0
+      };
+    }
+    return {
+      r: 1,
+      i: 0
+    };
+  }
+
+  function exp(z) {
+    var er = Math.exp(z.r);
+    return {
+      r: er * Math.cos(z.i),
+      i: er * Math.sin(z.i)
+    };
+  }
+
+  function expi(z) {
+    var er = Math.exp(-z.i);
+    return {
+      r: er * Math.cos(z.r),
+      i: er * Math.sin(z.r)
+    };
+  }
+
+  function log(z) {
+    return {
+      r: Math.log(realmodulus(z)),
+      i: realarg(z)
+    };
+  }
+
+  function realsinh(x) {
+    return (-Math.exp(-x) + Math.exp(x)) / 2;
+  }
+
+  function realcosh(x) {
+    return (Math.exp(-x) + Math.exp(x)) / 2;
+  }
+
+  function realtanh(x) {
+    return (1 - Math.exp(-2 * x)) / (1 + Math.exp(-2 * x));
+  }
+
+  function sin(z) {
+    var er = Math.exp(z.i);
+    var enr = 1 / er;
+    return {
+      r: (er + enr) * 0.5 * Math.sin(z.r),
+      i: (er - enr) * 0.5 * Math.cos(z.r)
+    };
+  }
+
+  function cos(z) {
+    var er = Math.exp(z.i);
+    var enr = 1 / er;
+    return {
+      r: (enr + er) * 0.5 * Math.cos(z.r),
+      i: (enr - er) * 0.5 * Math.sin(z.r)
+    };
+  }
+
+  function sec(z) {
+    return recip(cos(z));
+  }
+
+  function csc(z) {
+    return recip(sin(z));
+  }
+
+  function tan(z) {
+    var er = Math.exp(z.i),
+      enr = 1 / er,
+      es = er + enr,
+      ed = er - enr,
+      s = Math.sin(z.r),
+      c = Math.cos(z.r);
+    return div({
+      r: es * s,
+      i: ed * c
+    }, {
+      r: es * c,
+      i: -ed * s
     });
-  } else if (typeof exports === 'object') {
-    Object.defineProperty(exports, "__esModule", {'value': true});
-    Complex['default'] = Complex;
-    Complex['Complex'] = Complex;
-    module['exports'] = Complex;
-  } else {
-    root['Complex'] = Complex;
   }
 
-})(this);
+  function cot(z) {
+    var er = Math.exp(z.i),
+      enr = 1 / er,
+      es = er + enr,
+      ed = er - enr,
+      s = Math.sin(z.r),
+      c = Math.cos(z.r);
+    return div({
+      r: es * c,
+      i: -ed * s
+    }, {
+      r: es * s,
+      i: ed * c
+    });
+  }
+
+  function sinh(z) {
+    return negitimes(sin(itimes(z)));
+  }
+
+  function cosh(z) {
+    return cos(itimes(z));
+  }
+
+  function tanh(z) {
+    return negitimes(tan(itimes(z)));
+  }
+
+  function coth(z) {
+    return itimes(cot(itimes(z)));
+  }
+
+  function sech(z) {
+    return sec(itimes(z));
+  }
+
+  function csch(z) {
+    return itimes(csc(itimes(z)));
+  }
+
+  function intpow(y, c) {
+    if (c == 1) return y;
+    if (c % 2 == 0) return square(intpow(y, c / 2));
+    if (c % 3 == 0) return cube(intpow(y, c / 3));
+    if (c % 5 == 0) return p5(intpow(y, c / 5));
+    return mult(y, intpow(y, c - 1));
+  }
+
+  function realpow(y, r) {
+    if (r == Math.floor(r)) {
+      if (r > 0 && r <= 64) {
+        return intpow(y, r);
+      }
+      if (r < 0 && r >= -64) {
+        return recip(intpow(y, -r));
+      }
+      if (r == 0) {
+        return {
+          r: 1,
+          i: 0
+        };
+      }
+    }
+    var arg = realarg(y) * r,
+      modulus = Math.pow(realmodulus(y), r);
+    return {
+      r: modulus * Math.cos(arg),
+      i: modulus * Math.sin(arg)
+    };
+  }
+
+  function powreal(r, z) {
+    return exp(scale(Math.log(r), z));
+  }
+
+  function pow(y, z) {
+    if (z.i == 0) {
+      return realpow(y, z.r);
+    }
+    if (y.i == 0) {
+      return powreal(y.r, z);
+    }
+    return exp(mult(log(y), z));
+  }
+
+  function floor(z) {
+    return {
+      r: Math.floor(z.r),
+      i: Math.floor(z.i)
+    };
+  }
+
+  function ceil(z) {
+    return {
+      r: Math.ceil(z.r),
+      i: Math.ceil(z.i)
+    };
+  }
+
+  function square(z) {
+    var t = z.r * z.i;
+    return {
+      r: z.r * z.r - z.i * z.i,
+      i: t + t
+    };
+  }
+
+  function cube(z) {
+    var r2 = z.r * z.r,
+      i2 = z.i * z.i;
+    return {
+      r: z.r * (r2 - 3 * i2),
+      i: z.i * (3 * r2 - i2)
+    }
+  }
+
+  function p5(z) {
+    var r2 = z.r * z.r,
+      i2 = z.i * z.i,
+      p2 = r2 * i2,
+      t2 = p2 + p2,
+      r4 = r2 * r2,
+      i4 = i2 * i2;
+    return {
+      r: z.r * (r4 + 5 * (i4 - t2)),
+      i: z.i * (i4 + 5 * (r4 - t2))
+    };
+  }
+
+  function sqrt(z) {
+    var a = Math.sqrt((Math.abs(z.r) + realmodulus(z)) / 2),
+      b = z.i / a / 2;
+    if (z.r < 0) {
+      if (z.i < 0) {
+        return {
+          r: -b,
+          i: -a
+        };
+      } else {
+        return {
+          r: b,
+          i: a
+        };
+      }
+    }
+    return {
+      r: a,
+      i: b
+    };
+  }
+
+  function itimes(z) {
+    return {
+      r: -z.i,
+      i: z.r
+    };
+  }
+
+  function negitimes(z) {
+    return {
+      r: z.i,
+      i: -z.r
+    };
+  }
+
+  function oneminus(z) {
+    return {
+      r: 1 - z.r,
+      i: -z.i
+    };
+  }
+
+  function oneplus(z) {
+    return {
+      r: 1 + z.r,
+      i: z.i
+    };
+  }
+
+  function minusone(z) {
+    return {
+      r: z.r - 1,
+      i: z.i
+    };
+  }
+
+  function arcsin(z) {
+    return negitimes(log(add(itimes(z), sqrt(oneminus(square(z))))));
+  }
+
+  function arccos(z) {
+    return negitimes(log(add(z, itimes(sqrt(oneminus(square(z)))))));
+  }
+
+  function arctan(z) {
+    return scale(0.5, itimes(
+      sub(log(oneminus(itimes(z))), log(oneplus(itimes(z))))));
+  }
+
+  function arccot(z) {
+    return arctan(recip(z));
+  }
+
+  function arcsec(z) {
+    return arccos(recip(z));
+  }
+
+  function arccsc(z) {
+    return arcsin(recip(z));
+  }
+
+  function arcsinh(z) {
+    var opsz = oneplus(square(z));
+    return log(add(z, scale(Math.sqrt(realmodulus(opsz)),
+      exp({
+        r: 0,
+        i: realarg(opsz) / 2
+      }))));
+  }
+
+  function arccosh(z) {
+    var szmo = minusone(square(z));
+    return log(add(z, scale(Math.sqrt(realmodulus(szmo)),
+      exp({
+        r: 0,
+        i: realarg(szmo) / 2
+      }))));
+  }
+
+  function arctanh(z) {
+    return scale(0.5, sub(log(oneplus(z)), log(oneminus(z))));
+  }
+
+  function arccoth(z) {
+    return scale(0.5, sub(log(oneplus(z)), log(minusone(z))));
+  }
+
+  function arcsech(z) {
+    return negitimes(arcsec(z));
+  }
+
+  function arccsch(z) {
+    return negitimes(arccsc(negitimes(z)));
+  }
+
+  function binomial(n, c) {
+    if (n.i == 0 && n.r == Math.floor(n.r) && n.r >= 0 &&
+      c.i == 0 && c.r == Math.floor(c.r) && c.r >= 0 && c.r <= n.r) {
+      // If n is small enough for n! to be fully precise, just use factorial.
+      if (n.r < 21) {
+        return {
+          r: factorials[n.r] /
+            factorials[c.r] / factorials[n.r - c.r],
+          i: 0
+        };
+      }
+      // Otherwise, loop to preserve precision.
+      var k = Math.min(c.r, n.r - c.r),
+        m = n.r,
+        result = 1,
+        j;
+      for (j = 1; j <= k; ++j) {
+        result = result * (m - (k - j)) / j;
+      }
+      return {
+        r: result,
+        i: 0
+      };
+    }
+    return div(gamma(oneplus(n)),
+      mult(gamma(oneplus(c)), gamma(oneplus(sub(n, c)))));
+  }
+
+  function factorial(z) {
+    if (z.i == 0 && z.r == Math.floor(z.r) && z.r >= 0) {
+      if (z.r < factorials.length) {
+        return {
+          r: factorials[z.r],
+          i: 0
+        };
+      }
+    }
+    return gamma(oneplus(z));
+  }
+
+  function gamma(z) {
+    var sqrt2pi = Math.sqrt(2 * Math.PI),
+      gamma_coeff = [
+        0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+        771.32342877765313, -176.61502916214059, 12.507343278686905,
+        -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7
+      ],
+      gamma_g = 7;
+    if (z.r < 0.5) {
+      return scale(Math.PI, recip(mult(
+        sin(scale(Math.PI, z)), gamma(oneminus(z)))));
+    }
+    var zmo = minusone(z),
+      x = {
+        r: gamma_coeff[0],
+        i: 0
+      },
+      i, t;
+    for (i = 1; i < gamma_g + 2; ++i) {
+      x = add(x, scale(gamma_coeff[i], recip({
+        r: zmo.r + i,
+        i: zmo.i
+      })));
+    }
+    t = {
+      r: zmo.r + gamma_g + 0.5,
+      i: zmo.i
+    };
+    return scale(sqrt2pi, mult(mult(
+      pow(t, {
+        r: zmo.r + 0.5,
+        i: zmo.i
+      }), exp(neg(t))), x));
+  }
+
+  function sn(z, k) {
+    if (typeof(k) == "object") {
+      k = k.r;
+    }
+    var kp = Math.sqrt(1 - k * k),
+      ju = realellipj(z.r, k),
+      jv = realellipj(z.i, kp),
+      denom = (1 - ju.dn * ju.dn * jv.sn * jv.sn);
+    return {
+      r: (ju.sn * jv.dn) / denom,
+      i: (ju.cn * ju.dn * jv.sn * jv.cn) / denom
+    };
+  }
+
+  function cn(z, k) {
+    if (typeof(k) == "object") {
+      k = k.r;
+    }
+    var kp = Math.sqrt(1 - k * k),
+      ju = realellipj(z.r, k),
+      jv = realellipj(z.i, kp),
+      denom = (1 - ju.dn * ju.dn * jv.sn * jv.sn);
+    return {
+      r: (ju.cn * jv.cn) / denom,
+      i: -(ju.sn * ju.dn * jv.sn * jv.dn) / denom
+    };
+  }
+
+  function dn(z, k) {
+    if (typeof(k) == "object") {
+      k = k.r;
+    }
+    var kp = Math.sqrt(1 - k * k),
+      ju = realellipj(z.r, k),
+      jv = realellipj(z.i, kp),
+      denom = (1 - ju.dn * ju.dn * jv.sn * jv.sn);
+    return {
+      r: (ju.dn * jv.cn * jv.dn) / denom,
+      i: -(k * k * ju.sn * ju.cn * jv.sn) / denom
+    };
+  }
+
+  function sum(z, fn, iters) {
+    var r = 0,
+      i = 0,
+      end = Math.floor(iters.r),
+      n, result;
+    for (n = 0; n < end; ++n) {
+      result = fn(z, {
+        r: n,
+        i: 0
+      });
+      r += result.r;
+      i += result.i;
+    }
+    return {
+      r: r,
+      i: i
+    };
+  }
+
+  function iter(z, fn, start, iters) {
+    var result = start,
+      end = Math.floor(iters.r),
+      n;
+    for (n = 0; n < end; ++n) {
+      result = fn(z, result, {
+        r: n,
+        i: 0
+      });
+    }
+    return result;
+  }
+
+  function realellipj(u, m) {
+    /* Jacobi elliptical functions, real form, expressed in Javascript. */
+    /* adapted from C Cephes library, ellipj.c, by Stephen L. Moshier */
+    /* http://lists.debian.org/debian-legal/2004/12/msg00295.html */
+    var ai, aj, b, phi, twon, a = [],
+      c = [],
+      i, epsilon = 2.22045e-16;
+    if (m < 0.0 || m > 1.0) {
+      return {
+        sn: NaN,
+        cn: NaN,
+        ph: NaN,
+        dn: NaN
+      };
+    }
+    if (m < 1.0e-9) {
+      t = Math.sin(u);
+      b = Math.cos(u);
+      ai = 0.25 * m * (u - t * b);
+      return {
+        sn: t - ai * b,
+        cn: b + ai * t,
+        ph: u - ai,
+        dn: 1.0 - 0.5 * m * t * t
+      };
+    }
+    if (m >= 0.9999999999) {
+      ai = 0.25 * (1.0 - m);
+      b = realcosh(u);
+      t = realtanh(u);
+      phi = 1.0 / b;
+      aj = ai * t * phi;
+      twon = b * realsinh(u);
+      return {
+        sn: t + ai * (twon - u) / (b * b),
+        ph: 2.0 * Math.atan(Math.exp(u)) - Math.PI / 2 + ai * (twon - u) / b,
+        cn: phi - aj * (twon - u),
+        dn: phi + aj * (twon + u)
+      }
+    }
+    a[0] = 1.0;
+    b = Math.sqrt(1.0 - m);
+    c[0] = Math.sqrt(m);
+    twon = 1.0;
+    i = 0;
+    while (Math.abs(c[i] / a[i]) > epsilon && i < 8) {
+      ai = a[i];
+      ++i;
+      c[i] = (ai - b) / 2.0;
+      t = Math.sqrt(ai * b);
+      a[i] = (ai + b) / 2.0;
+      b = t;
+      twon *= 2.0;
+    }
+    phi = twon * a[i] * u;
+    do {
+      t = c[i] * Math.sin(phi) / a[i];
+      b = phi;
+      phi = (Math.asin(t) + phi) / 2.0;
+    } while (--i);
+    t = Math.cos(phi);
+    return {
+      sn: Math.sin(phi),
+      cn: t,
+      dn: t / Math.cos(phi - b),
+      ph: phi
+    };
+  }
+
+  function splitwords(tok) {
+    var s = tok.text;
+    var result = [];
+    for (var begin = 0; begin < s.length;) {
+      var found = false;
+      for (var end = s.length; end > begin; --end) {
+        var sub = s.substring(begin, end);
+        if (symbols.hasOwnProperty(sub)) {
+          result.push({
+            spaced: begin == 0 && tok.spaced,
+            text: sub
+          });
+          begin = end;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        result.push({
+          spaced: begin == 0 && tok.spaced,
+          text: s.substring(begin)
+        });
+        break;
+      }
+    }
+    return result;
+  }
+
+  function tokenize(s) {
+    var rexp = /(\s*)(?:((?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|\*\*|[-+()^|,*\/!]|[a-zA-Z_]+'?)|(\S.*))/g;
+    var result = [];
+    var match;
+    while ((match = rexp.exec(s)) !== null) {
+      if (match[3]) {
+        return null;
+      }
+      if (match[2]) {
+        var tok = {
+          spaced: match[1] && match[1].length > 0,
+          text: match[2]
+        };
+        if (/^\w/.exec(tok.text)) {
+          result.push.apply(result, splitwords(tok));
+        } else {
+          result.push(tok);
+        }
+      }
+    }
+    return result;
+  }
+
+  function parsesum(state, inabs) {
+    var root = null;
+    var op = null;
+    while (true) {
+      var term = parseproduct(state, inabs);
+      if (term === null) {
+        return null;
+      }
+      if (root === null) {
+        root = term;
+      } else {
+        root = compose(op, [root, term]);
+      }
+      if (state.j < state.tok.length) {
+        var next = state.tok[state.j];
+        if (next.text == '+' || next.text == '-') {
+          op = (next.text == '+' ? 'add' : 'sub');
+          state.j += 1;
+          continue;
+        }
+      }
+      break;
+    }
+    return root;
+  }
+
+  function parseproduct(state, inabs) {
+    var root = null;
+    var auto = -1;
+    var op = null;
+    while (true) {
+      var term = parseunary(state, auto >= 0, inabs);
+      if (term === null) {
+        return (state.j == auto) ? root : null;
+      }
+      if (root === null) {
+        root = term;
+      } else {
+        root = compose(op, [root, term]);
+      }
+      if (state.j < state.tok.length) {
+        var next = state.tok[state.j];
+        if (next.text == '*' || next.text == '/') {
+          op = (next.text == '*' ? 'mult' : 'div');
+          state.j += 1;
+          auto = -1;
+          continue;
+        } else if (!inabs || next.text != '|') {
+          op = 'mult';
+          auto = state.j;
+          continue;
+        }
+      }
+      break;
+    }
+    return root;
+  }
+
+  function parseunary(state, noneg, inabs) {
+    if (state.j < state.tok.length) {
+      var next = state.tok[state.j];
+      if (!noneg && next.text == '-') {
+        state.j += 1;
+        var term = parseunary(state, inabs);
+        if (term === null) return null;
+        return compose('neg', [term]);
+      }
+    }
+    return parsetightproduct(state, inabs);
+  }
+
+  function parsetightproduct(state, inabs) {
+    var root = null;
+    var auto = -1;
+    var op;
+    while (true) {
+      var term = parsepower(state, inabs);
+      if (term === null) {
+        return (state.j == auto) ? root : null;
+      }
+      if (root === null) {
+        root = term;
+      } else {
+        root = compose('mult', [root, term]);
+      }
+      if (state.j < state.tok.length) {
+        var next = state.tok[state.j];
+        if (/^[\w\d\.]/.exec(next.text) && !next.spaced) {
+          auto = state.j
+          continue;
+        }
+      }
+      break;
+    }
+    return root;
+  }
+
+  function parsepower(state, inabs) {
+    var term = parsesuffixed(state, inabs);
+    if (term === null) return null;
+    if (state.j < state.tok.length) {
+      var next = state.tok[state.j];
+      if (next.text == '^' || next.text == '**') {
+        state.j += 1;
+        var expterm = parseunary(state, inabs);
+        if (expterm === null) return null;
+        return compose('pow', [term, expterm]);
+      }
+    }
+    return term;
+  }
+
+  function parsesuffixed(state, inabs) {
+    var term = parseunit(state);
+    if (term === null) return null;
+    var found = true;
+    while (found) {
+      found = false;
+      if (state.j < state.tok.length &&
+        state.tok[state.j].text == '*') {
+        var ismult = true;
+        if (state.j + 1 >= state.tok.length) {
+          ismult = false;
+        } else {
+          var peek = state.tok[state.j + 1];
+          if (peek.text == ')' || peek.text == '*' ||
+            peek.text == '/' || peek.text == '+' ||
+            peek.text == '-' || peek.text == '^' ||
+            (inabs && peek.text == '|')) {
+            ismult = false;
+          }
+        }
+        if (!ismult) {
+          state.j += 1;
+          term = compose('conj', [term]);
+          found = true;
+        }
+      }
+      if (state.j < state.tok.length &&
+        state.tok[state.j].text == '!') {
+        state.j += 1;
+        term = compose('factorial', [term]);
+        found = true;
+      }
+    }
+    return term;
+  }
+
+  function parseunit(state) {
+    if (state.j >= state.tok.length) {
+      return null;
+    }
+    var next = state.tok[state.j];
+    if (/^\d|\./.exec(next.text)) {
+      state.j += 1;
+      return composereal(parseFloat(next.text));
+    }
+    var result;
+    if (/^\w/.exec(next.text)) {
+      state.j += 1;
+      if (state.j < state.tok.length &&
+        state.tok[state.j].text == '(' &&
+        funcs.hasOwnProperty(next.text)) {
+        var paramcount = funcs[next.text];
+        var params = [];
+        state.j += 1;
+        if (paramcount == 0) {
+          if (state.j >= state.tok.length || state.tok[state.j].text != ')') {
+            return null;
+          }
+          state.j += 1;
+        }
+        while (paramcount > 0) {
+          var param = parsesum(state, false);
+          if (param == null) {
+            return null;
+          }
+          params.push(param);
+          paramcount -= 1;
+          if (state.j >= state.tok.length ||
+            state.tok[state.j].text != (paramcount ? ',' : ')')) {
+            // implicit last param of 0,0,0...,'n' for loops
+            if (loops.hasOwnProperty(next.text) &&
+              state.j < state.tok.length &&
+              state.tok[state.j].text == ')') {
+              while (paramcount > 1) {
+                params.push(composereal(0));
+                paramcount -= 1;
+              }
+              params.push({
+                expr: 'n',
+                vars: {
+                  'n': 'n'
+                },
+                val: null
+              });
+              paramcount -= 1;
+            } else {
+              return null;
+            }
+          }
+          state.j += 1;
+        }
+        if (loops.hasOwnProperty(next.text)) {
+          var vs = {};
+          dictadd(vs, params[0].vars);
+          var funcdecl = 'function(z,n)';
+          delete vs['n'];
+          if (next.text == 'iter') {
+            funcdecl = 'function(z,zp,n)';
+            delete vs['z\''];
+          }
+          var args = ['z', funcdecl + '{return ' + params[0].expr + ';}']
+          for (var j = 1; j < params.length; ++j) {
+            dictadd(vs, params[j].vars);
+            args.push(params[j].expr);
+          }
+          return {
+            expr: next.text + '(' + args.join(',') + ')',
+            vars: vs,
+            val: null
+          };
+        }
+        var fname = next.text;
+        if (syns.hasOwnProperty(fname)) {
+          fname = syns[fname];
+        }
+        return compose(fname, params);
+      } else if (vars.hasOwnProperty(next.text)) {
+        var vs = {};
+        vs[next.text] = vars[next.text];
+        return {
+          expr: vars[next.text],
+          vars: vs,
+          val: null
+        };
+      } else if (consts.hasOwnProperty(next.text)) {
+        var vl = consts[next.text];
+        return {
+          expr: '{r:' + vl.r + ',i:' + vl.i + '}',
+          vars: {},
+          val: vl
+        };
+      }
+    }
+    if (next.text == '(' || next.text == '|') {
+      state.j += 1;
+      result = parsesum(state, next.text == '|');
+      if (state.j >= state.tok.length ||
+        state.tok[state.j].text != (next.text == '|' ? '|' : ')')) {
+        return null;
+      }
+      state.j += 1;
+      if (next.text == '|') {
+        return compose('modulus', [result]);
+      }
+      return result;
+    }
+    return null;
+  }
+
+  function composereal(r) {
+    return {
+      expr: '{r:' + r + ',i:0}',
+      vars: {},
+      val: {
+        r: r,
+        i: 0
+      }
+    };
+  }
+
+  function compose(fname, args) {
+    var vs = {};
+    var ae = [];
+    var av = [];
+    var vl = null;
+    var valcount = 0;
+    var fn = eval(fname);
+    for (var j = 0; j < args.length; ++j) {
+      dictadd(vs, args[j].vars);
+      ae.push(args[j].expr);
+      av.push(args[j].val);
+      if (args[j].val !== null) ++valcount;
+    }
+    // Fold constants
+    if (dictsize(vs) == 0 && valcount == args.length && args.length > 0) {
+      vl = fn.apply(null, av);
+      return {
+        expr: '{r:' + vl.r + ',i:' + vl.i + '}',
+        vars: vs,
+        val: vl
+      }
+    }
+    // Optimize real multiplication and division
+    if ((fn === mult || fn === div) && isreal(1, av[1])) {
+      return args[0];
+    }
+    if (fn === mult && av[0] !== null && av[0].i == 0) {
+      if (isreal(1, av[0])) {
+        return args[1];
+      }
+      return {
+        expr: 'scale(' + av[0].r + ',' + ae[1] + ')',
+        vars: vs,
+        val: null
+      }
+    }
+    if (fn === div && av[1] !== null && av[1].i == 0 && av[1].r != 0) {
+      if (isreal(1, av[1])) {
+        return args[1];
+      }
+      return {
+        expr: 'scale(' + (1 / av[1].r) + ',' + ae[0] + ')',
+        vars: vs,
+        val: null
+      }
+    }
+    if (fn === div && av[0] !== null && av[0].i == 0) {
+      var r = compose('recip', [args[1]]);
+      if (isreal(1, av[0])) {
+        return r;
+      }
+      return {
+        expr: 'scale(' + av[0].r + ',' + r.expr + ')',
+        vars: vs,
+        val: null
+      }
+    }
+    // Optimize integral powers and natural exponentiation.
+    if (fn === pow) {
+      if (isreal(-1, av[1])) {
+        return compose('recip', [args[0]]);
+      }
+      if (isreal(0, av[1])) {
+        return composereal(1);
+      }
+      if (isreal(0.5, av[1])) {
+        return compose('sqrt', [args[0]]);
+      }
+      if (isreal(1, av[1])) {
+        return args[0];
+      }
+      if (isreal(2, av[1])) {
+        return compose('square', [args[0]]);
+      }
+      if (isreal(3, av[1])) {
+        return compose('cube', [args[0]]);
+      }
+      if (isreal(4, av[1])) {
+        return compose('square', [compose('square', [args[0]])]);
+      }
+      if (isreal(5, av[1])) {
+        return compose('p5', [args[0]]);
+      }
+      if (isreal(6, av[1])) {
+        return compose('square', [compose('cube', [args[0]])]);
+      }
+      if (isreal(Math.E, av[0])) {
+        return compose('exp', [args[1]]);
+      }
+    }
+    // Apply the function at runtime.
+    return {
+      expr: fname + '(' + ae.join(',') + ')',
+      vars: vs,
+      val: null
+    }
+  }
+
+  function isreal(r, c) {
+    return c !== null && c.i == 0 && c.r == r;
+  }
+
+  function dictsize(dict) {
+    var size = 0,
+      key;
+    for (key in dict)
+      if (dict.hasOwnProperty(key)) ++size;
+    return size;
+  }
+
+  function dictadd(d1, d2) {
+    for (key in d2)
+      if (d2.hasOwnProperty(key)) d1[key] = d2[key];
+  }
+  return run();
+} // end of complex_expression

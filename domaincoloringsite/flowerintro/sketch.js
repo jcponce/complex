@@ -1,7 +1,7 @@
-let fun = (z) => z.pow('5').inverse();
+let fun = 'z^3';
 
 function setup() {
-  createCanvas(350, 350);
+  createCanvas(320, 320);
   colorMode(HSB, 1, 1, 1);
   //frameRate(60);
   pixelDensity(1);
@@ -49,6 +49,9 @@ function draw() {
   let cY = map(mouseY, height, 0, ymin, ymax);
   
   let funColor = (x , y) => 1/5*log(5*sqrt(x * x + y * y))/log(2) - 1/5* floor(log(5*sqrt(x * x + y * y))/log(2))+0.75;
+    
+    let z = trimN(fun);
+    let parsed = complex_expression(z);
 
   for (let j = 0; j < height; j++) {
     // Start x
@@ -59,21 +62,22 @@ function draw() {
       let x = x1;
       let y = -y1;
       
-      let z = new Complex({
-		  	re: x, 
-		  	im: y
-	    });
-			let w = fun(z);
+      let z = {
+		  	r: x,
+		  	i: y
+	    };
+        
 	    //let v = {
 		  //	x: w.re,
 		  //	y: w.im,
 	    //};
-      let Real = w.re; //a * a - b * b + cX;
-      let Ima = w.im;//2 * a * b + cY;
-      //let twoab = 2.0 * a * b;
+        let vz = {r:x, i:y};
+        
+        let we = parsed.fn(vz);//Evaluate function
+        
+        x = we.r+cX;
+        y = we.i+cY;
 
-      x = Real+cX;
-      y = Ima+cY;
 
       // We color each pixel based on something
       // Gosh, we could make fancy colors here if we wanted
@@ -100,4 +104,11 @@ function draw() {
   fill(0, 0, 100);
   stroke(0,0, 0);
   ellipse(mouseX, mouseY, 9);
+}
+
+function trimN(s) {
+    if (s.trim) {
+        return s.trim();
+    }
+    return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 }
