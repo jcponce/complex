@@ -1,4 +1,5 @@
 // This is the parser for complex number formulae.
+// written by David Bau, durring snowstorm Nemo 2013 
 function complex_expression(s) {
   var consts = {
     i: {
