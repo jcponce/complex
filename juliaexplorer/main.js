@@ -11,8 +11,8 @@
 let julia;
 let changeC;
 let c;
-let WIDTH = 510;
-let HEIGHT = 510;
+let WIDTH = 500;
+let HEIGHT = 500;
 let sizePlot = false;
 let prevmx = 0;
 let prevmy = 0;
