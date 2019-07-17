@@ -32,7 +32,7 @@ function draw() {
     mandelbrot.update();
     mandelbrot.plot();
     
-    console.log(mandelbrot.maxIter);
+    //console.log(mandelbrot.maxIter);
     
 }
 
