@@ -9,8 +9,8 @@
 
 let mandelbrot;
 
-let WIDTH = 510;
-let HEIGHT = 510;
+let WIDTH = 500;
+let HEIGHT = 500;
 let sizePlot = false;
 
 function setup() {
@@ -23,7 +23,7 @@ function windowResized() {
     if(sizePlot== true){
         resizeCanvas(700, 700);
     } else{
-        resizeCanvas(510, 510);
+        resizeCanvas(500, 500);
     }
 }
 
