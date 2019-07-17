@@ -23,7 +23,7 @@ function setup() {
     julia = new DomainColoring();
     changeC = true;
     c = new p5.Vector(0, 0);
-    //frameRate(60);
+    frameRate(60);
     smooth();
 }
 
@@ -31,7 +31,7 @@ function windowResized() {
     if(sizePlot== true){
         resizeCanvas(700, 700);
     } else{
-        resizeCanvas(510, 510);
+        resizeCanvas(500, 500);
     }
 }
 
