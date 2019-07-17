@@ -32,6 +32,8 @@ function draw() {
     mandelbrot.update();
     mandelbrot.plot();
     
+    console.log(mandelbrot.maxIter);
+    
 }
 
 function keyReleased() {
@@ -56,6 +58,8 @@ const KC_RIGHT = 39;    // Move right D
 const KC_UNZOOM = 189;    // Zoom back -
 const KC_ZOOM = 187;    // Zoom in +
 const KC_RESET = 82;    // Reset zoom level and position R
+const KC_ITERPLUS = 190;    // More Iterations >
+const KC_ITERMINUS = 188;    // Less Iteration <
 
 class Mandelbrot {
     
@@ -64,7 +68,7 @@ class Mandelbrot {
     this.size = new p5.Vector(this.origSize.x, this.origSize.y);
     this.origPos = new p5.Vector(-0.7, 0);//Origin position
     this.pos = new p5.Vector(this.origPos.x, this.origPos.y);
-    this.maxIter = 200;
+    this.maxIter = 180;
     this.origZoom = 1;
     this.zoom = this.origZoom;
     this.printDebug = false;
@@ -92,6 +96,17 @@ class Mandelbrot {
             this.pos.x = this.origPos.x;
             this.pos.y = this.origPos.y;
             this.zoom = this.origZoom;
+        }
+        const iteration = 5;
+        if(keyIsDown(KC_ITERPLUS)){
+            if(this.maxIter <=250){
+                this.maxIter += iteration;
+            }else this.maxIter = 300;
+        }
+        if(keyIsDown(KC_ITERMINUS)){
+            if(this.maxIter > 0){
+                this.maxIter -= iteration;
+            }else this.maxIter = 0;
         }
         
     }
@@ -155,6 +170,7 @@ class Mandelbrot {
             text("x: " + str( round( this.pos.x * 100 )/100 )
                  + "\ny: " + str( round( this.pos.y * 100 )/100 )
                  + "\nzoom: " + str( round(  (1 / this.zoom) * 100 )/100 )
+                 + "\niterations: " + str( round(  (this.maxIter) * 100 )/100 )
                  , 5, 15
                  );
         }
