@@ -6,31 +6,128 @@
  */
 
 // Last update 02-Jul-2019
+// I know I nee to refactor it :) maybe soon!
 
 let mandelbrot;
 
-let WIDTH = 510;
-let HEIGHT = 510;
+let WIDTH = 490;
+let HEIGHT = 490;
+let ctlsBack = 00;
 let sizePlot = false;
+let starting = true;
+let up = 1;
+let down = 2;
+let left = 3;
+let right = 4;
+let zoomin = 5;
+let zoomout = 6;
+let reset = 7;
+let info = false;
+let changeC = false;
+
+let buttonUP;
+let buttonDOWN;
+let buttonLEFT;
+let buttonRIGHT;
+
+let buttonZOOMIN;
+let buttonZOOMOUT;
+
+let sliderIter;
+
+
 
 function setup() {
     createCanvas(WIDTH, HEIGHT);
-     mandelbrot = new Mandelbrot();
+    
+    //var canvas = createCanvas(WIDTH, HEIGHT);
+    
+    // Move the canvas so it’s inside our <div id="sketch-holder">.
+    //canvas.parent('sketch-holder');
+    
+    mandelbrot = new Mandelbrot();
     pixelDensity(1);//I need this for small devices
+    
+    document.getElementById("up").onclick = () => {
+        userUP();
+    }
+    document.getElementById("down").onclick = () => {
+        userDOWN();
+    }
+    document.getElementById("left").onclick = () => {
+        userLEFT();
+    }
+    document.getElementById("right").onclick = () => {
+        userRIGHT();
+    }
+    document.getElementById("zoomin").onclick = () => {
+        userZOOMIN();
+    }
+    document.getElementById("zoomout").onclick = () => {
+        userZOOMOUT();
+    }
+   
+    document.getElementById("reset").onclick = () => {
+        userRESET();
+    }
+    
+    document.getElementById("info").onclick = () => {
+        userINFO();
+    }
+    
+    document.getElementById("screen").onclick = () => {
+        userSCREEN();
+        
+    }
+    
+    sliderIter = createSlider(0, 250, 180, 1);
+    sliderIter.parent('slider');
+    sliderIter.style('width', '120px')
+    
+    
 }
 
 function windowResized() {
     if(sizePlot== true){
         resizeCanvas(700, 700);
     } else{
-        resizeCanvas(510, 510);
+        resizeCanvas(490, 490);
     }
 }
 
 function draw() {
-    cursor(HAND);
-    mandelbrot.update();
-    mandelbrot.plot();
+    background(200);
+    
+    //Initial message
+    if (starting == false) {
+        fill(190);
+        stroke(190);
+        rect(0,0, width, height);
+        fill(0);
+        stroke(0);
+        textAlign(CENTER);
+        textSize(32);
+        text("Click to start!", width / 2, height / 2);
+    }
+    if(starting == true){
+        //cursor(HAND);
+        textAlign(LEFT);
+        mandelbrot.update();
+        mandelbrot.plot();
+        
+        
+    }
+    
+    
+    up = 1;
+    down = 2;
+    left = 3;
+    right = 4;
+    zoomin = 5;
+    zoomout = 6;
+    reset = 7;
+    
+    //console.log(sizePlot);
     
 }
 
@@ -43,8 +140,12 @@ function keyReleased() {
     windowResized();
 }
 
+
+
 function mouseWheel() {
-    mandelbrot.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
+    if(starting == true){
+        mandelbrot.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
+    }
 }
 
 
@@ -60,32 +161,32 @@ const KC_RESET = 82;    // Reset zoom level and position R
 class Mandelbrot {
     
     constructor(){
-    this.origSize = new p5.Vector(3, 3);
-    this.size = new p5.Vector(this.origSize.x, this.origSize.y);
-    this.origPos = new p5.Vector(-0.7, 0);//Origin position
-    this.pos = new p5.Vector(this.origPos.x, this.origPos.y);
-    this.maxIter = 200;
-    this.origZoom = 1;
-    this.zoom = this.origZoom;
-    this.printDebug = false;
+        this.origSize = new p5.Vector(3, 3);
+        this.size = new p5.Vector(this.origSize.x, this.origSize.y);
+        this.origPos = new p5.Vector(-0.7, 0);//Origin position
+        this.pos = new p5.Vector(this.origPos.x, this.origPos.y);
+        this.maxIter = 180;
+        this.origZoom = 1;
+        this.zoom = this.origZoom;
+        this.printDebug = false;
     }
     
     update(){
         
         var moveSpeed = 0.1 * this.zoom;
-        if (keyIsDown(KC_UP))
+        if (up === -1 || keyIsDown(KC_UP))
             this.pos.y -= moveSpeed;
-        if (keyIsDown(KC_DOWN))
+        if (down === -2 || keyIsDown(KC_DOWN))
             this.pos.y += moveSpeed;
-        if (keyIsDown(KC_LEFT))
+        if (left === -3 || keyIsDown(KC_LEFT))
             this.pos.x -= moveSpeed;
-        if (keyIsDown(KC_RIGHT))
+        if (right === -4 || keyIsDown(KC_RIGHT))
             this.pos.x += moveSpeed;
-        if (keyIsDown(KC_UNZOOM))
-            this.zoomAt(mouseX, mouseY, 0.95, false);
-        if (keyIsDown(KC_ZOOM))
-            this.zoomAt(mouseX, mouseY, 0.95, true);
-        if (keyIsDown(KC_RESET))
+        if (zoomout === -6 || keyIsDown(KC_UNZOOM))
+            this.zoomAt(395, 245, 0.95, false);
+        if (zoomin === -5 || keyIsDown(KC_ZOOM))
+            this.zoomAt(395, 245, 0.95, true);
+        if (reset === -7 ||keyIsDown(KC_RESET))
         {
             this.size.x = this.origSize.x;
             this.size.y = this.origSize.y;
@@ -93,13 +194,14 @@ class Mandelbrot {
             this.pos.y = this.origPos.y;
             this.zoom = this.origZoom;
         }
+        this.maxIter = sliderIter.value();
         
     }
     
     zoomAt(x, y, ammount, isZoomIn){
         
         ammount = isZoomIn ? ammount : 1 / ammount;
-        x = map(x, 0, width, this.pos.x - this.size.x / 2, this.pos.x + this.size.x / 2);
+        x = map(x, ctlsBack, width, this.pos.x - this.size.x / 2, this.pos.x + this.size.x / 2);
         y = map(y, height, 0,  this.pos.y - this.size.y / 2, this.pos.y + this.size.y / 2);
         this.pos.x = x + (this.pos.x - x) * ammount;
         this.pos.y = y + (this.pos.y - y) * ammount;
@@ -113,14 +215,14 @@ class Mandelbrot {
         
         loadPixels();
         
-        var cX = this.pos.x + map(mouseX, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Mandelbrot
+        var cX = this.pos.x + map(mouseX, ctlsBack, width, -this.size.x / 2, this.size.x / 2);//this is for Mandelbrot
         var cY = this.pos.y + map(mouseY, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Mandelbrot
         
-        for (var x = 0; x < width; x++) {
+        for (var x = ctlsBack; x < width; x++) {
             for (var y = 0; y < height; y++) {
                 var sqZ = new p5.Vector(0, 0);
                 var z = new p5.Vector(
-                                      this.pos.x + map(x, 0, width, -this.size.x / 2, this.size.x / 2),
+                                      this.pos.x + map(x, ctlsBack, width, -this.size.x / 2, this.size.x / 2),
                                       this.pos.y + map(y, height, 0, -this.size.y / 2, this.size.y / 2)
                                       );
                 var c = new p5.Vector(z.x, z.y);
@@ -144,9 +246,9 @@ class Mandelbrot {
             
             stroke(220);
             strokeWeight(2);
-            line(width/2, 0, width/2, height);
-            line(0, height/2, width, height/2);
-            ellipse(width/2, height/2, 8, 8);
+            line((width+ctlsBack)/2, 0, (width+ctlsBack)/2, height);
+            line(ctlsBack, height/2, (width+ctlsBack), height/2);
+            ellipse((width+ctlsBack)/2, height/2, 8, 8);
             
             fill(255);
             stroke(0);
@@ -155,7 +257,8 @@ class Mandelbrot {
             text("x: " + str( round( this.pos.x * 100 )/100 )
                  + "\ny: " + str( round( this.pos.y * 100 )/100 )
                  + "\nzoom: " + str( round(  (1 / this.zoom) * 100 )/100 )
-                 , 5, 15
+                 + "\niterations: " + str( round(  (this.maxIter) * 100 )/100 )
+                 , ctlsBack + 10, 15
                  );
         }
         //draw constant label
@@ -163,11 +266,14 @@ class Mandelbrot {
         stroke(0);
         strokeWeight(1.5);
         textSize(16);
-        text("Mouse: (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", 5, height-15);
+        text("Mouse: (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", ctlsBack + 10, height-15);
         
         var xc = mouseX;
         var yc = mouseY;
-        fill(255);
+        if(xc<=ctlsBack){
+            fill(200);}
+        else{
+            fill(255);}
         noStroke();
         ellipse(xc, yc, 8, 8);
         
@@ -175,7 +281,14 @@ class Mandelbrot {
     
 }
 
-
+function mouseClicked() {
+    starting = true;
+    if (changeC) {
+        changeC = false;
+    } else {
+        changeC = true;
+    }
+}
 
 
 function setPixelRGB(x, y, r, g, b) {
@@ -203,3 +316,99 @@ function setPixelHSV(x, y, h, s, v) {
     }
     setPixelRGB(x, y, Math.round(r * 1), Math.round(g * 255), Math.round(b * 255));
 }
+
+/*function controlsUI(){
+    buttonUP = createButton('&uarr;');
+    buttonUP.position(80, 100);
+    buttonUP.style('font-size','20');
+    buttonUP.mousePressed(userUP);
+    
+    buttonDOWN = createButton('&darr;');
+    buttonDOWN.position(buttonUP.x, buttonUP.y+45);
+    buttonDOWN.style('font-size','20');
+    buttonDOWN.mousePressed(userDOWN);
+    
+    buttonLEFT = createButton('&larr;');
+    buttonLEFT.position(buttonUP.x-50, (buttonUP.y+45));
+    buttonLEFT.style('font-size','20');
+    buttonLEFT.mousePressed(userLEFT);
+    
+    buttonRIGHT = createButton('&rarr;');
+    buttonRIGHT.position(buttonUP.x+45, (buttonUP.y+45));
+    buttonRIGHT.style('font-size','20');
+    buttonRIGHT.mousePressed(userRIGHT);
+    
+    buttonZOOMIN = createButton('&plus;');
+    buttonZOOMIN.position(buttonUP.x, buttonUP.y+100);
+    buttonZOOMIN.style('font-size','20');
+    buttonZOOMIN.mousePressed(userZOOMIN);
+    
+    buttonZOOMOUT = createButton('&minus;');
+    buttonZOOMOUT.position(buttonUP.x, buttonUP.y+140);
+    buttonZOOMOUT.style('font-size','20');
+    buttonZOOMOUT.mousePressed(userZOOMOUT);
+    
+    buttonRESET = createButton('R');
+    buttonRESET.position(buttonUP.x, buttonUP.y+190);
+    buttonRESET.style('font-size','20');
+    buttonRESET.mousePressed(userRESET);
+    
+    sliderIter = createSlider(0, 250, 180, 1);
+    sliderIter.style('width', '120px')
+    sliderIter.position(buttonUP.x-50, buttonUP.y+260)
+}*/
+
+function userUP() {
+    up = -1;
+}
+
+function userDOWN() {
+    down = -2;
+}
+
+function userLEFT() {
+    left = -3;
+}
+
+function userRIGHT() {
+    right = -4;
+}
+
+function userZOOMIN() {
+    zoomin = -5;
+}
+
+function userZOOMOUT() {
+    zoomout = -6;
+}
+
+function userRESET() {
+    reset = -7;
+}
+
+function userINFO() {
+    if (info) {
+        info = false;
+    } else {
+        info = true;
+    }
+    mandelbrot.printDebug = !mandelbrot.printDebug;
+}
+
+function userSCREEN() {
+    if (sizePlot) {
+        sizePlot = false;
+    } else {
+        sizePlot = true;
+    }
+    windowResized();
+}
+
+
+/*function mousePressed() {
+ up = true;
+ }
+ 
+ function mouseReleased() {
+ up = false;
+ }*/

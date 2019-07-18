@@ -11,8 +11,8 @@
 let julia;
 let changeC;
 let c;
-let WIDTH = 510;
-let HEIGHT = 510;
+let WIDTH = 500;
+let HEIGHT = 500;
 let sizePlot = false;
 let prevmx = 0;
 let prevmy = 0;
@@ -23,7 +23,7 @@ function setup() {
     julia = new DomainColoring();
     changeC = true;
     c = new p5.Vector(0, 0);
-    //frameRate(60);
+    frameRate(60);
     smooth();
 }
 
@@ -31,7 +31,7 @@ function windowResized() {
     if(sizePlot== true){
         resizeCanvas(700, 700);
     } else{
-        resizeCanvas(510, 510);
+        resizeCanvas(500, 500);
     }
 }
 
@@ -64,6 +64,8 @@ const KC_RIGHT = 39;    // Move right D
 const KC_UNZOOM = 189;    // Zoom back -
 const KC_ZOOM = 187;    // Zoom in +
 const KC_RESET = 82;    // Reset zoom level and position R
+const KC_ITERPLUS = 190;    // More Iterations >
+const KC_ITERMINUS = 188;    // Less Iteration <
 
 class DomainColoring {
     
@@ -100,6 +102,17 @@ class DomainColoring {
             this.pos.y = this.origPos.y;
             this.zoom = this.origZoom;
             changeC = true;
+        }
+        const iteration = 5;
+        if(keyIsDown(KC_ITERPLUS)){
+            if(this.maxIter <=250){
+                this.maxIter += iteration;
+            }else this.maxIter = 300;
+        }
+        if(keyIsDown(KC_ITERMINUS)){
+            if(this.maxIter > 0){
+                this.maxIter -= iteration;
+            }else this.maxIter = 0;
         }
         
     }
@@ -172,6 +185,7 @@ class DomainColoring {
             text("x: " + str( round( this.pos.x * 100 )/100 )
                  + "\ny: " + str( round( this.pos.y * 100 )/100 )
                  + "\nzoom: " + str( round(  (1 / this.zoom) * 100 )/100 )
+                 + "\niterations: " + str( round(  (this.maxIter) * 100 )/100 )
                  , 5, 15
                  );
         }

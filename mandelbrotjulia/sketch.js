@@ -31,7 +31,7 @@ title: 'Mandelbrot-Julia Sets',
 inst: 'Double click',
 iter: 100,
 Save: function () {
-    save('fractal.png');
+    save('mandelbrot-julia.png');
 },
 User: false,
 Cx: 0,
