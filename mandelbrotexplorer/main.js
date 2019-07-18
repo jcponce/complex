@@ -36,13 +36,14 @@ let sliderIter;
 
 function setup() {
     createCanvas(WIDTH, HEIGHT);
+    cursor(HAND);
     
     //var canvas = createCanvas(WIDTH, HEIGHT);
-    
     // Move the canvas so it’s inside our <div id="sketch-holder">.
     //canvas.parent('sketch-holder');
     
     mandelbrot = new Mandelbrot();
+    
     pixelDensity(1);//I need this for small devices
     
     controlsUI();
@@ -204,8 +205,8 @@ class Mandelbrot {
         //draw constant label
         fill(255);
         stroke(0);
-        strokeWeight(1.5);
-        textSize(16);
+        strokeWeight(2);
+        textSize(18);
         text("Mouse: (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", ctlsBack + 10, height-15);
         
         var xc = mouseX;
