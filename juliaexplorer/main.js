@@ -70,7 +70,7 @@ function draw() {
     zoomout = 6;
     reset = 7;
     
-    console.log(up);
+    //console.log(up);
     
 }
 
