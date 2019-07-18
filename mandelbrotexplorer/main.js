@@ -6,7 +6,7 @@
  */
 
 // Last update 02-Jul-2019
-// I know I nee to refactor it :) maybe soon!
+// I know I need to refactor it :) maybe soon!
 
 let mandelbrot;
 
