@@ -13,7 +13,6 @@ let WIDTH = 490;
 let HEIGHT = 490;
 let ctlsBack = 00;//This is just need it when controls are inside canvas
 
-
 let up = 1;
 let down = 2;
 let left = 3;
@@ -37,14 +36,16 @@ let sliderIter;
 function setup() {
     createCanvas(WIDTH, HEIGHT);
     cursor(HAND);
+    pixelDensity(1);//I need this for small devices
     
     //var canvas = createCanvas(WIDTH, HEIGHT);
     // Move the canvas so it’s inside our <div id="sketch-holder">.
     //canvas.parent('sketch-holder');
     
     mandelbrot = new Mandelbrot();
+    frameRate(60);
+    smooth();
     
-    pixelDensity(1);//I need this for small devices
     
     controlsUI();
     

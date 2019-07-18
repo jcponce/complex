@@ -11,45 +11,81 @@
 let julia;
 let changeC;
 let c;
-let WIDTH = 500;
-let HEIGHT = 500;
+let WIDTH = 490;
+let HEIGHT = 490;
+let ctlsBack = 00;//This is just need it when controls are inside canvas
+
+let up = 1;
+let down = 2;
+let left = 3;
+let right = 4;
+let zoomin = 5;
+let zoomout = 6;
+let reset = 7;
+let info = false;
+let sliderIter;
 let sizePlot = false;
+let checkboxc;
+
 let prevmx = 0;
 let prevmy = 0;
 
 function setup() {
     createCanvas(WIDTH, HEIGHT);
+    cursor(HAND);
     pixelDensity(1);//I need this for small devices
+    
     julia = new DomainColoring();
     changeC = true;
     c = new p5.Vector(0, 0);
+    
     frameRate(60);
     smooth();
+    
+    controlsUI();
+    
 }
 
 function windowResized() {
     if(sizePlot== true){
         resizeCanvas(700, 700);
     } else{
-        resizeCanvas(500, 500);
+        resizeCanvas(490, 490);
     }
 }
 
 function draw() {
-    cursor(HAND);
+    
+    background(200);
+    
     julia.update();
     julia.plot();
-    console.log(changeC);
+    //console.log(changeC);
+    
+    up = 1;
+    down = 2;
+    left = 3;
+    right = 4;
+    zoomin = 5;
+    zoomout = 6;
+    reset = 7;
+    
+    console.log(up);
     
 }
 
 function keyReleased() {
-    if (keyCode === 73)//I key
+    if (keyCode === 73){//I key
         julia.printDebug = !julia.printDebug;
+    }
     if (keyCode === 66){//B key
         sizePlot = !sizePlot;
     }
     windowResized();
+    if(keyCode === 13){
+        changeC = !changeC;
+    }
+    
 }
 
 function mouseWheel() {
@@ -66,6 +102,7 @@ const KC_ZOOM = 187;    // Zoom in +
 const KC_RESET = 82;    // Reset zoom level and position R
 const KC_ITERPLUS = 190;    // More Iterations >
 const KC_ITERMINUS = 188;    // Less Iteration <
+const KC_FIXEC = 13;    // Fix c Enter
 
 class DomainColoring {
     
@@ -82,19 +119,19 @@ class DomainColoring {
     
     update(){
         var moveSpeed = 0.1 * this.zoom;
-        if (keyIsDown(KC_UP))
+        if (up === -1 || keyIsDown(KC_UP))
             this.pos.y -= moveSpeed;
-        if (keyIsDown(KC_DOWN))
+        if (down === -2 || keyIsDown(KC_DOWN))
             this.pos.y += moveSpeed;
-        if (keyIsDown(KC_LEFT))
+        if (left === -3 || keyIsDown(KC_LEFT))
             this.pos.x -= moveSpeed;
-        if (keyIsDown(KC_RIGHT))
+        if (right === -4 || keyIsDown(KC_RIGHT))
             this.pos.x += moveSpeed;
-        if (keyIsDown(KC_UNZOOM))
-            this.zoomAt(mouseX, mouseY, 0.95, false);
-        if (keyIsDown(KC_ZOOM))
-            this.zoomAt(mouseX, mouseY, 0.95, true);
-        if (keyIsDown(KC_RESET))
+        if (zoomout === -6 || keyIsDown(KC_UNZOOM))
+            this.zoomAt(width/2, height/2, 0.94, false);
+        if (zoomin === -5 || keyIsDown(KC_ZOOM))
+            this.zoomAt(width/2, height/2, 0.95, true);
+        if (reset === -7 ||keyIsDown(KC_RESET))
         {
             this.size.x = this.origSize.x;
             this.size.y = this.origSize.y;
@@ -103,9 +140,10 @@ class DomainColoring {
             this.zoom = this.origZoom;
             changeC = true;
         }
-        const iteration = 5;
+        
+        /*const iteration = 5;
         if(keyIsDown(KC_ITERPLUS)){
-            if(this.maxIter <=250){
+            if(this.maxIter <=300){
                 this.maxIter += iteration;
             }else this.maxIter = 300;
         }
@@ -113,7 +151,8 @@ class DomainColoring {
             if(this.maxIter > 0){
                 this.maxIter -= iteration;
             }else this.maxIter = 0;
-        }
+        }*/
+        this.maxIter = sliderIter.value();
         
     }
     
@@ -192,8 +231,8 @@ class DomainColoring {
         //draw constant label
         fill(255);
         stroke(0);
-        strokeWeight(1.5);
-        textSize(16);
+        strokeWeight(2);
+        textSize(18);
         text("c is (" + str(round(c.x * 100)/100.0) + "," + str(round(c.y * 100)/100.0) + ")", 5, height-15);
         
         if(changeC){
@@ -212,13 +251,15 @@ class DomainColoring {
     
 }
 
-function mouseClicked() {
+/*function doubleClicked() {
+    if((mouseX < width || mouseX >0) && (mouseY < height || mouseY >0)){
         if (changeC) {
             changeC = false;
         } else {
             changeC = true;
         }
-}
+    }
+}*/
 
 function setPixelRGB(x, y, r, g, b) {
     var pixelID = (x + y * width) * 4;
@@ -244,4 +285,134 @@ function setPixelHSV(x, y, h, s, v) {
         case 5: r = v, g = p, b = q; break;
     }
     setPixelRGB(x, y, round(r * 55), round(g * 255), round(b * 255));
+}
+
+function controlsUI(){
+    document.getElementById("up").onclick = () => {
+        userUP();
+    }
+    document.getElementById("down").onclick = () => {
+        userDOWN();
+    }
+    document.getElementById("left").onclick = () => {
+        userLEFT();
+    }
+    document.getElementById("right").onclick = () => {
+        userRIGHT();
+    }
+    document.getElementById("zoomin").onclick = () => {
+        userZOOMIN();
+    }
+    document.getElementById("zoomout").onclick = () => {
+        userZOOMOUT();
+    }
+    
+    document.getElementById("reset").onclick = () => {
+        userRESET();
+    }
+    
+    document.getElementById("info").onclick = () => {
+        userINFO();
+    }
+    
+    document.getElementById("screen").onclick = () => {
+        userSCREEN();
+        
+    }
+    
+    sliderIter = createSlider(0, 300, 150, 1);
+    sliderIter.parent('slider');
+    sliderIter.style('width', '120px')
+    
+    
+    
+    /*
+     ---Old controls---
+     buttonUP = createButton('&uarr;');
+     buttonUP.position(80, 100);
+     buttonUP.style('font-size','20');
+     buttonUP.mousePressed(userUP);
+     
+     buttonDOWN = createButton('&darr;');
+     buttonDOWN.position(buttonUP.x, buttonUP.y+45);
+     buttonDOWN.style('font-size','20');
+     buttonDOWN.mousePressed(userDOWN);
+     
+     buttonLEFT = createButton('&larr;');
+     buttonLEFT.position(buttonUP.x-50, (buttonUP.y+45));
+     buttonLEFT.style('font-size','20');
+     buttonLEFT.mousePressed(userLEFT);
+     
+     buttonRIGHT = createButton('&rarr;');
+     buttonRIGHT.position(buttonUP.x+45, (buttonUP.y+45));
+     buttonRIGHT.style('font-size','20');
+     buttonRIGHT.mousePressed(userRIGHT);
+     
+     buttonZOOMIN = createButton('&plus;');
+     buttonZOOMIN.position(buttonUP.x, buttonUP.y+100);
+     buttonZOOMIN.style('font-size','20');
+     buttonZOOMIN.mousePressed(userZOOMIN);
+     
+     buttonZOOMOUT = createButton('&minus;');
+     buttonZOOMOUT.position(buttonUP.x, buttonUP.y+140);
+     buttonZOOMOUT.style('font-size','20');
+     buttonZOOMOUT.mousePressed(userZOOMOUT);
+     
+     buttonRESET = createButton('R');
+     buttonRESET.position(buttonUP.x, buttonUP.y+190);
+     buttonRESET.style('font-size','20');
+     buttonRESET.mousePressed(userRESET);
+     
+     sliderIter = createSlider(0, 250, 180, 1);
+     sliderIter.style('width', '120px')
+     sliderIter.position(buttonUP.x-50, buttonUP.y+260)
+     */
+}
+
+//Now I just need to think to write better the next lines. I will do it soon :)
+function userUP() {
+    up = -1;
+}
+
+function userDOWN() {
+    down = -2;
+}
+
+function userLEFT() {
+    left = -3;
+}
+
+function userRIGHT() {
+    right = -4;
+}
+
+function userZOOMIN() {
+    zoomin = -5;
+}
+
+function userZOOMOUT() {
+    zoomout = -6;
+}
+
+function userRESET() {
+    reset = -7;
+}
+//Need to refactor
+
+function userINFO() {
+    if (info) {
+        info = false;
+    } else {
+        info = true;
+    }
+    julia.printDebug = !julia.printDebug;
+}
+
+function userSCREEN() {
+    if (sizePlot) {
+        sizePlot = false;
+    } else {
+        sizePlot = true;
+    }
+    windowResized();
 }
