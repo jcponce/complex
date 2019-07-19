@@ -5,11 +5,11 @@
  * Original code by Kato https://www.openprocessing.org/user/114431
  */
 
-// Last update 02-Jul-2019
+// Last update 19-Jul-2019
 
 
 let julia;
-let changeC;
+let changeC;//Boolean to fix 'c'
 let c;
 let WIDTH = 490;
 let HEIGHT = 490;
@@ -138,7 +138,7 @@ class DomainColoring {
             this.pos.x = this.origPos.x;
             this.pos.y = this.origPos.y;
             this.zoom = this.origZoom;
-            changeC = true;
+            //changeC = true;
         }
         
         /*const iteration = 5;
@@ -287,28 +287,29 @@ function setPixelHSV(x, y, h, s, v) {
     setPixelRGB(x, y, round(r * 55), round(g * 255), round(b * 255));
 }
 
+
 function controlsUI(){
     document.getElementById("up").onclick = () => {
-        userUP();
+        up = -1;//userUP();
     }
     document.getElementById("down").onclick = () => {
-        userDOWN();
+        down = -2;//userDOWN();
     }
     document.getElementById("left").onclick = () => {
-        userLEFT();
+        left = -3;//userLEFT();
     }
     document.getElementById("right").onclick = () => {
-        userRIGHT();
+        right = -4;//userRIGHT();
     }
     document.getElementById("zoomin").onclick = () => {
-        userZOOMIN();
+        zoomin = -5;//userZOOMIN();
     }
     document.getElementById("zoomout").onclick = () => {
-        userZOOMOUT();
+        zoomout = -6;//userZOOMOUT();
     }
     
     document.getElementById("reset").onclick = () => {
-        userRESET();
+        reset = -7;//userRESET();
     }
     
     document.getElementById("info").onclick = () => {
@@ -366,9 +367,10 @@ function controlsUI(){
      sliderIter = createSlider(0, 250, 180, 1);
      sliderIter.style('width', '120px')
      sliderIter.position(buttonUP.x-50, buttonUP.y+260)
-     */
+ */
 }
 
+/*
 //Now I just need to think to write better the next lines. I will do it soon :)
 function userUP() {
     up = -1;
@@ -397,6 +399,8 @@ function userZOOMOUT() {
 function userRESET() {
     reset = -7;
 }
+*/
+ 
 //Need to refactor
 
 function userINFO() {
