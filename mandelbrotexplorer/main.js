@@ -85,6 +85,8 @@ function keyReleased() {
         sizePlot = !sizePlot;
     }
     windowResized();
+    if (keyCode === 83)//S key
+        saveFractal();
 }
 
 function mouseWheel() {
@@ -125,9 +127,9 @@ class Mandelbrot {
         if (right === -4 || keyIsDown(KC_RIGHT))
             this.pos.x += moveSpeed;
         if (zoomout === -6 || keyIsDown(KC_UNZOOM))
-            this.zoomAt(395, 245, 0.95, false);
+            this.zoomAt(width/2, height/2, 0.95, false);
         if (zoomin === -5 || keyIsDown(KC_ZOOM))
-            this.zoomAt(395, 245, 0.95, true);
+            this.zoomAt(width/2, height/2, 0.95, true);
         if (reset === -7 ||keyIsDown(KC_RESET))
         {
             this.size.x = this.origSize.x;
@@ -196,10 +198,10 @@ class Mandelbrot {
             stroke(0);
             strokeWeight(4);
             textSize(18);
-            text("x: " + str( round( this.pos.x * 100 )/100 )
-                 + "\ny: " + str( round( this.pos.y * 100 )/100 )
-                 + "\nzoom: " + str( round(  (1 / this.zoom) * 100 )/100 )
-                 + "\niterations: " + str( round(  (this.maxIter) * 100 )/100 )
+            text("x: " + str( round( this.pos.x * 1000 )/1000 )
+                 + "\ny: " + str( round( this.pos.y * 1000 )/1000 )
+                 + "\nzoom: " + str( round(  (1 / this.zoom) * 1000 )/1000 )
+                 + "\niterations: " + str( round(  (this.maxIter) * 1000 )/1000 )
                  , ctlsBack + 10, 15
                  );
         }
@@ -208,7 +210,7 @@ class Mandelbrot {
         stroke(0);
         strokeWeight(2);
         textSize(18);
-        text("Mouse: (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", ctlsBack + 10, height-15);
+        text("Mouse: (" + str(round(cX*1000)/1000.0) + "," + str(round(cY*1000)/1000.0) + ")", ctlsBack + 10, height-15);
         
         var xc = mouseX;
         var yc = mouseY;
@@ -251,38 +253,43 @@ function setPixelHSV(x, y, h, s, v) {
 
 function controlsUI(){
     document.getElementById("up").onclick = () => {
-        up = -1;//userUP();
+        up = -1;
     }
     document.getElementById("down").onclick = () => {
-        down = -2;//userDOWN();
+        down = -2;
     }
     document.getElementById("left").onclick = () => {
-        left = -3;//userLEFT();
+        left = -3;
     }
     document.getElementById("right").onclick = () => {
-        right = -4;//userRIGHT();
+        right = -4;
     }
     document.getElementById("zoomin").onclick = () => {
-        zoomin = -5;//userZOOMIN();
+        zoomin = -5;
     }
     document.getElementById("zoomout").onclick = () => {
-        zoomout = -6;//userZOOMOUT();
+        zoomout = -6;
     }
     
     document.getElementById("reset").onclick = () => {
-        reset = -7;//userRESET();
+        reset = -7;
     }
- 
     document.getElementById("info").onclick = () => {
         userINFO();
     }
- 
     document.getElementById("screen").onclick = () => {
-        userSCREEN();
- 
+        if (sizePlot) {
+            sizePlot = false;
+        } else {
+            sizePlot = true;
+        }
+        windowResized();//userSCREEN();
+    }
+    document.getElementById("save").onclick = () => {
+        saveFractal();
     }
  
-    sliderIter = createSlider(0, 250, 160, 1);
+    sliderIter = createSlider(0, 300, 160, 1);
     sliderIter.parent('slider');
     sliderIter.style('width', '120px')
     
@@ -328,37 +335,6 @@ function controlsUI(){
     sliderIter.position(buttonUP.x-50, buttonUP.y+260)
      */
 }
-/*
-//Now I just need to think to write better the next lines. I will do it soon :)
-function userUP() {
-    up = -1;
-}
-
-function userDOWN() {
-    down = -2;
-}
-
-function userLEFT() {
-    left = -3;
-}
-
-function userRIGHT() {
-    right = -4;
-}
-
-function userZOOMIN() {
-    zoomin = -5;
-}
-
-function userZOOMOUT() {
-    zoomout = -6;
-}
-
-function userRESET() {
-    reset = -7;
-}*/
-
-//Need to refactor
 
 function userINFO() {
     if (info) {
@@ -369,11 +345,7 @@ function userINFO() {
     mandelbrot.printDebug = !mandelbrot.printDebug;
 }
 
-function userSCREEN() {
-    if (sizePlot) {
-        sizePlot = false;
-    } else {
-        sizePlot = true;
-    }
-    windowResized();
+function saveFractal(){
+    save('mandelbrot.jpg')
 }
+
