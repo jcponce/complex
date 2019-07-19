@@ -179,9 +179,9 @@ class DomainColoring {
         let cY = this.pos.y + map(my, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
         
         if (changeC==true) {
-            //fill(255);
-            //noStroke();
-            //ellipse(mx, my, 8, 8);
+            fill(255);
+            noStroke();
+            ellipse(mx, my, 8, 8);
        
             c = new p5.Vector(cX, cY);
         }
@@ -222,10 +222,10 @@ class DomainColoring {
             stroke(0);
             strokeWeight(4);
             textSize(18);
-            text("x: " + str( round( this.pos.x * 100 )/100 )
-                 + "\ny: " + str( round( this.pos.y * 100 )/100 )
-                 + "\nzoom: " + str( round(  (1 / this.zoom) * 100 )/100 )
-                 + "\niterations: " + str( round(  (this.maxIter) * 100 )/100 )
+            text("x: " + str( round( this.pos.x * 1000 )/1000 )
+                 + "\ny: " + str( round( this.pos.y * 1000 )/1000 )
+                 + "\nzoom: " + str( round(  (1 / this.zoom) * 1000 )/1000 )
+                 + "\niterations: " + str( round(  (this.maxIter) * 1000 )/1000 )
                  , 5, 15
                  );
         }
@@ -234,7 +234,7 @@ class DomainColoring {
         stroke(0);
         strokeWeight(2);
         textSize(18);
-        text("c is (" + str(round(c.x * 100)/100.0) + "," + str(round(c.y * 100)/100.0) + ")", 5, height-15);
+        text("c is (" + str(round(c.x * 1000)/1000.0) + "," + str(round(c.y * 1000)/1000.0) + ")", 5, height-15);
         
         if(changeC){
             fill(255);
@@ -242,11 +242,11 @@ class DomainColoring {
             ellipse(mx, my, 8, 8);
             prevmx = mx;
             prevmy = my;
-        }//else{
-            //fill(255);
-            //strokeWeight(3);
-            //ellipse(prevmx, prevmy, 8, 8);
-        //}
+        }else{
+            fill(255);
+            strokeWeight(3);
+            ellipse(prevmx, prevmy, 8, 8);
+        }
         
     }
     
