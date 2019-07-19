@@ -60,7 +60,6 @@ function draw() {
     
     julia.update();
     julia.plot();
-    //console.log(changeC);
     
     up = 1;
     down = 2;
@@ -82,8 +81,11 @@ function keyReleased() {
         sizePlot = !sizePlot;
     }
     windowResized();
-    if(keyCode === 13){
+    if(keyCode === 13){//Enter key
         changeC = !changeC;
+    }
+    if (keyCode === 83){//S key
+        saveFractal();
     }
     
 }
@@ -131,14 +133,12 @@ class DomainColoring {
             this.zoomAt(width/2, height/2, 0.94, false);
         if (zoomin === -5 || keyIsDown(KC_ZOOM))
             this.zoomAt(width/2, height/2, 0.95, true);
-        if (reset === -7 ||keyIsDown(KC_RESET))
-        {
+        if (reset === -7 ||keyIsDown(KC_RESET)){
             this.size.x = this.origSize.x;
             this.size.y = this.origSize.y;
             this.pos.x = this.origPos.x;
             this.pos.y = this.origPos.y;
             this.zoom = this.origZoom;
-            //changeC = true;
         }
         
         /*const iteration = 5;
@@ -152,6 +152,7 @@ class DomainColoring {
                 this.maxIter -= iteration;
             }else this.maxIter = 0;
         }*/
+        
         this.maxIter = sliderIter.value();
         
     }
@@ -251,15 +252,6 @@ class DomainColoring {
     
 }
 
-/*function doubleClicked() {
-    if((mouseX < width || mouseX >0) && (mouseY < height || mouseY >0)){
-        if (changeC) {
-            changeC = false;
-        } else {
-            changeC = true;
-        }
-    }
-}*/
 
 function setPixelRGB(x, y, r, g, b) {
     var pixelID = (x + y * width) * 4;
@@ -290,45 +282,47 @@ function setPixelHSV(x, y, h, s, v) {
 
 function controlsUI(){
     document.getElementById("up").onclick = () => {
-        up = -1;//userUP();
+        up = -1;
     }
     document.getElementById("down").onclick = () => {
-        down = -2;//userDOWN();
+        down = -2;
     }
     document.getElementById("left").onclick = () => {
-        left = -3;//userLEFT();
+        left = -3;
     }
     document.getElementById("right").onclick = () => {
-        right = -4;//userRIGHT();
+        right = -4;
     }
     document.getElementById("zoomin").onclick = () => {
-        zoomin = -5;//userZOOMIN();
+        zoomin = -5;
     }
     document.getElementById("zoomout").onclick = () => {
-        zoomout = -6;//userZOOMOUT();
+        zoomout = -6;
     }
-    
     document.getElementById("reset").onclick = () => {
-        reset = -7;//userRESET();
+        reset = -7;
     }
-    
     document.getElementById("info").onclick = () => {
         userINFO();
     }
-    
     document.getElementById("screen").onclick = () => {
-        userSCREEN();
-        
+        if (sizePlot) {
+            sizePlot = false;
+        } else {
+            sizePlot = true;
+        }
+        windowResized();
+    }
+    document.getElementById("save").onclick = () => {
+        saveFractal();
     }
     
     sliderIter = createSlider(0, 300, 150, 1);
     sliderIter.parent('slider');
     sliderIter.style('width', '120px')
     
-    
-    
     /*
-     ---Old controls---
+     ---Old controls UI---
      buttonUP = createButton('&uarr;');
      buttonUP.position(80, 100);
      buttonUP.style('font-size','20');
@@ -370,39 +364,6 @@ function controlsUI(){
  */
 }
 
-/*
-//Now I just need to think to write better the next lines. I will do it soon :)
-function userUP() {
-    up = -1;
-}
-
-function userDOWN() {
-    down = -2;
-}
-
-function userLEFT() {
-    left = -3;
-}
-
-function userRIGHT() {
-    right = -4;
-}
-
-function userZOOMIN() {
-    zoomin = -5;
-}
-
-function userZOOMOUT() {
-    zoomout = -6;
-}
-
-function userRESET() {
-    reset = -7;
-}
-*/
- 
-//Need to refactor
-
 function userINFO() {
     if (info) {
         info = false;
@@ -412,11 +373,8 @@ function userINFO() {
     julia.printDebug = !julia.printDebug;
 }
 
-function userSCREEN() {
-    if (sizePlot) {
-        sizePlot = false;
-    } else {
-        sizePlot = true;
-    }
-    windowResized();
+function saveFractal(){
+    save('julia.jpg');
 }
+
+
