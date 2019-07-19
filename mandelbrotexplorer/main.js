@@ -5,16 +5,14 @@
  * Original code by Kato https://www.openprocessing.org/user/114431
  */
 
-// Last update 02-Jul-2019
-// I know I nee to refactor it :) maybe soon!
+// Last update 18-Jul-2019
 
 let mandelbrot;
 
 let WIDTH = 490;
 let HEIGHT = 490;
-let ctlsBack = 00;
-let sizePlot = false;
-let starting = false;
+let ctlsBack = 00;//This is just need it when controls are inside canvas
+
 let up = 1;
 let down = 2;
 let left = 3;
@@ -23,7 +21,7 @@ let zoomin = 5;
 let zoomout = 6;
 let reset = 7;
 let info = false;
-let changeC = false;
+let sizePlot = false;
 
 let buttonUP;
 let buttonDOWN;
@@ -35,55 +33,21 @@ let buttonZOOMOUT;
 
 let sliderIter;
 
-
-
 function setup() {
     createCanvas(WIDTH, HEIGHT);
+    cursor(HAND);
+    pixelDensity(1);//I need this for small devices
     
     //var canvas = createCanvas(WIDTH, HEIGHT);
-    
     // Move the canvas so it’s inside our <div id="sketch-holder">.
     //canvas.parent('sketch-holder');
     
     mandelbrot = new Mandelbrot();
-    pixelDensity(1);//I need this for small devices
+    frameRate(60);
+    smooth();
     
-    document.getElementById("up").onclick = () => {
-        userUP();
-    }
-    document.getElementById("down").onclick = () => {
-        userDOWN();
-    }
-    document.getElementById("left").onclick = () => {
-        userLEFT();
-    }
-    document.getElementById("right").onclick = () => {
-        userRIGHT();
-    }
-    document.getElementById("zoomin").onclick = () => {
-        userZOOMIN();
-    }
-    document.getElementById("zoomout").onclick = () => {
-        userZOOMOUT();
-    }
-   
-    document.getElementById("reset").onclick = () => {
-        userRESET();
-    }
     
-    document.getElementById("info").onclick = () => {
-        userINFO();
-    }
-    
-    document.getElementById("screen").onclick = () => {
-        userSCREEN();
-        
-    }
-    
-    sliderIter = createSlider(0, 250, 180, 1);
-    sliderIter.parent('slider');
-    sliderIter.style('width', '120px')
-    
+    controlsUI();
     
 }
 
@@ -96,29 +60,12 @@ function windowResized() {
 }
 
 function draw() {
+    
     background(200);
-    
-    //Initial message
-    if (starting == false) {
-        fill(190);
-        stroke(190);
-        rect(0,0, width, height);
-        fill(0);
-        stroke(0);
-        textAlign(CENTER);
-        textSize(32);
-        text("Click to start!", width / 2, height / 2);
-    }
-    if(starting == true){
-        //cursor(HAND);
-        textAlign(LEFT);
-        mandelbrot.update();
-        mandelbrot.plot();
-        
-        
-    }
-    
-    
+
+    mandelbrot.update();
+    mandelbrot.plot();
+
     up = 1;
     down = 2;
     left = 3;
@@ -127,7 +74,7 @@ function draw() {
     zoomout = 6;
     reset = 7;
     
-    //console.log(sizePlot);
+    //console.log(up);
     
 }
 
@@ -140,14 +87,9 @@ function keyReleased() {
     windowResized();
 }
 
-
-
 function mouseWheel() {
-    if(starting == true){
-        mandelbrot.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
-    }
+    mandelbrot.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
 }
-
 
 // KeyCodes available at: http://keycode.info/
 const KC_UP = 38;        // Move up W
@@ -264,8 +206,8 @@ class Mandelbrot {
         //draw constant label
         fill(255);
         stroke(0);
-        strokeWeight(1.5);
-        textSize(16);
+        strokeWeight(2);
+        textSize(18);
         text("Mouse: (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", ctlsBack + 10, height-15);
         
         var xc = mouseX;
@@ -280,16 +222,6 @@ class Mandelbrot {
     }
     
 }
-
-function mouseClicked() {
-    starting = true;
-    if (changeC) {
-        changeC = false;
-    } else {
-        changeC = true;
-    }
-}
-
 
 function setPixelRGB(x, y, r, g, b) {
     var pixelID = (x + y * width) * 4;
@@ -317,7 +249,45 @@ function setPixelHSV(x, y, h, s, v) {
     setPixelRGB(x, y, Math.round(r * 1), Math.round(g * 255), Math.round(b * 255));
 }
 
-/*function controlsUI(){
+function controlsUI(){
+    document.getElementById("up").onclick = () => {
+        userUP();
+    }
+    document.getElementById("down").onclick = () => {
+        userDOWN();
+    }
+    document.getElementById("left").onclick = () => {
+        userLEFT();
+    }
+    document.getElementById("right").onclick = () => {
+        userRIGHT();
+    }
+    document.getElementById("zoomin").onclick = () => {
+        userZOOMIN();
+    }
+    document.getElementById("zoomout").onclick = () => {
+        userZOOMOUT();
+    }
+ 
+    document.getElementById("reset").onclick = () => {
+        userRESET();
+    }
+ 
+    document.getElementById("info").onclick = () => {
+        userINFO();
+    }
+ 
+    document.getElementById("screen").onclick = () => {
+        userSCREEN();
+ 
+    }
+ 
+    sliderIter = createSlider(0, 250, 160, 1);
+    sliderIter.parent('slider');
+    sliderIter.style('width', '120px')
+    
+    /*
+    ---Old controls---
     buttonUP = createButton('&uarr;');
     buttonUP.position(80, 100);
     buttonUP.style('font-size','20');
@@ -356,8 +326,10 @@ function setPixelHSV(x, y, h, s, v) {
     sliderIter = createSlider(0, 250, 180, 1);
     sliderIter.style('width', '120px')
     sliderIter.position(buttonUP.x-50, buttonUP.y+260)
-}*/
+     */
+}
 
+//Now I just need to think to write better the next lines. I will do it soon :)
 function userUP() {
     up = -1;
 }
@@ -385,6 +357,7 @@ function userZOOMOUT() {
 function userRESET() {
     reset = -7;
 }
+//Need to refactor
 
 function userINFO() {
     if (info) {
@@ -403,12 +376,3 @@ function userSCREEN() {
     }
     windowResized();
 }
-
-
-/*function mousePressed() {
- up = true;
- }
- 
- function mouseReleased() {
- up = false;
- }*/
