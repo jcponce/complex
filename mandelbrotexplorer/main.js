@@ -251,26 +251,26 @@ function setPixelHSV(x, y, h, s, v) {
 
 function controlsUI(){
     document.getElementById("up").onclick = () => {
-        userUP();
+        up = -1;//userUP();
     }
     document.getElementById("down").onclick = () => {
-        userDOWN();
+        down = -2;//userDOWN();
     }
     document.getElementById("left").onclick = () => {
-        userLEFT();
+        left = -3;//userLEFT();
     }
     document.getElementById("right").onclick = () => {
-        userRIGHT();
+        right = -4;//userRIGHT();
     }
     document.getElementById("zoomin").onclick = () => {
-        userZOOMIN();
+        zoomin = -5;//userZOOMIN();
     }
     document.getElementById("zoomout").onclick = () => {
-        userZOOMOUT();
+        zoomout = -6;//userZOOMOUT();
     }
- 
+    
     document.getElementById("reset").onclick = () => {
-        userRESET();
+        reset = -7;//userRESET();
     }
  
     document.getElementById("info").onclick = () => {
@@ -328,7 +328,7 @@ function controlsUI(){
     sliderIter.position(buttonUP.x-50, buttonUP.y+260)
      */
 }
-
+/*
 //Now I just need to think to write better the next lines. I will do it soon :)
 function userUP() {
     up = -1;
@@ -356,7 +356,8 @@ function userZOOMOUT() {
 
 function userRESET() {
     reset = -7;
-}
+}*/
+
 //Need to refactor
 
 function userINFO() {
