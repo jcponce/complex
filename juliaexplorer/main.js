@@ -35,7 +35,7 @@ function setup() {
     cursor(HAND);
     pixelDensity(1);//I need this for small devices
     
-    julia = new DomainColoring();
+    julia = new JuliaSet();
     changeC = true;
     c = new p5.Vector(0, 0);
     
@@ -106,7 +106,7 @@ const KC_ITERPLUS = 190;    // More Iterations >
 const KC_ITERMINUS = 188;    // Less Iteration <
 const KC_FIXEC = 13;    // Fix c Enter
 
-class DomainColoring {
+class JuliaSet {
     
     constructor(){
         this.origSize = new p5.Vector(3, 3);

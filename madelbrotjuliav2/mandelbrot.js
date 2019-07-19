@@ -42,7 +42,7 @@ function setup() {
     // Move the canvas so it’s inside our <div id="sketch-holder">.
     //canvas.parent('sketch-holder');
     
-    mandelbrot = new MandelbrotSet();
+    mandelbrot = new Mandelbrot();
     frameRate(60);
     smooth();
     
@@ -102,7 +102,7 @@ const KC_UNZOOM = 189;    // Zoom back -
 const KC_ZOOM = 187;    // Zoom in +
 const KC_RESET = 82;    // Reset zoom level and position R
 
-class MandelbrotSet {
+class Mandelbrot {
     
     constructor(){
         this.origSize = new p5.Vector(3, 3);
