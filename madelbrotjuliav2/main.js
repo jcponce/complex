@@ -1,7 +1,7 @@
 /* Written in p5.js (https://p5js.org/)
  * Under Creative Commons License
  * https://creativecommons.org/licenses/by-sa/4.0/
- * Written by Juan Carlos Ponce Campuzano, 28-Nov-2018
+ * Written by Juan Carlos Ponce Campuzano, 19-Jul-2019
  * Original code by Kato https://www.openprocessing.org/user/114431
  */
 
@@ -9,8 +9,8 @@
 
 
 let julia;
-let changeC;//Boolean to fix 'c'
-let c;
+let mandelbrot;
+
 let WIDTH = 490;
 let HEIGHT = 490;
 let ctlsBack = 00;//This is just need it when controls are inside canvas
