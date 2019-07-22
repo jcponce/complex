@@ -108,7 +108,7 @@ function draw() {
         ellipse(mx, my, radius, radius);
         
       } else{
-          fill(233, 2, 1)
+          fill(1, 200, 233)
           prevmx = mx;
           prevmy = my;
           ellipse(prevmx, prevmy, radius, radius);
@@ -118,6 +118,11 @@ function draw() {
     
     
     
+}
+
+function keyReleased() {
+    if (keyCode === 73)//I key
+        mandelbrot.printDebug = !mandelbrot.printDebug;
 }
 
 function mouseWheel() {

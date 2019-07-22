@@ -19,7 +19,7 @@ class MandelbrotSet {
         this.maxIter = 100;
         this.origZoom = 1;
         this.zoom = this.origZoom;
-        this.printDebug = true;
+        this.printDebug = false;
         this.cX = 0;
         this.cY = 0;
     }
