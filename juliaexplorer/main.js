@@ -35,7 +35,7 @@ function setup() {
     cursor(HAND);
     pixelDensity(1);//I need this for small devices
     
-    julia = new DomainColoring();
+    julia = new JuliaSet();
     changeC = true;
     c = new p5.Vector(0, 0);
     
@@ -60,7 +60,6 @@ function draw() {
     
     julia.update();
     julia.plot();
-    //console.log(changeC);
     
     up = 1;
     down = 2;
@@ -82,8 +81,11 @@ function keyReleased() {
         sizePlot = !sizePlot;
     }
     windowResized();
-    if(keyCode === 13){
+    if(keyCode === 13){//Enter key
         changeC = !changeC;
+    }
+    if (keyCode === 83){//S key
+        saveFractal();
     }
     
 }
@@ -104,7 +106,7 @@ const KC_ITERPLUS = 190;    // More Iterations >
 const KC_ITERMINUS = 188;    // Less Iteration <
 const KC_FIXEC = 13;    // Fix c Enter
 
-class DomainColoring {
+class JuliaSet {
     
     constructor(){
         this.origSize = new p5.Vector(3, 3);
@@ -131,14 +133,12 @@ class DomainColoring {
             this.zoomAt(width/2, height/2, 0.94, false);
         if (zoomin === -5 || keyIsDown(KC_ZOOM))
             this.zoomAt(width/2, height/2, 0.95, true);
-        if (reset === -7 ||keyIsDown(KC_RESET))
-        {
+        if (reset === -7 ||keyIsDown(KC_RESET)){
             this.size.x = this.origSize.x;
             this.size.y = this.origSize.y;
             this.pos.x = this.origPos.x;
             this.pos.y = this.origPos.y;
             this.zoom = this.origZoom;
-            //changeC = true;
         }
         
         /*const iteration = 5;
@@ -152,6 +152,7 @@ class DomainColoring {
                 this.maxIter -= iteration;
             }else this.maxIter = 0;
         }*/
+        
         this.maxIter = sliderIter.value();
         
     }
@@ -178,9 +179,9 @@ class DomainColoring {
         let cY = this.pos.y + map(my, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
         
         if (changeC==true) {
-            //fill(255);
-            //noStroke();
-            //ellipse(mx, my, 8, 8);
+            fill(255);
+            noStroke();
+            ellipse(mx, my, 8, 8);
        
             c = new p5.Vector(cX, cY);
         }
@@ -221,10 +222,10 @@ class DomainColoring {
             stroke(0);
             strokeWeight(4);
             textSize(18);
-            text("x: " + str( round( this.pos.x * 100 )/100 )
-                 + "\ny: " + str( round( this.pos.y * 100 )/100 )
-                 + "\nzoom: " + str( round(  (1 / this.zoom) * 100 )/100 )
-                 + "\niterations: " + str( round(  (this.maxIter) * 100 )/100 )
+            text("x: " + str( round( this.pos.x * 1000 )/1000 )
+                 + "\ny: " + str( round( this.pos.y * 1000 )/1000 )
+                 + "\nzoom: " + str( round(  (1 / this.zoom) * 1000 )/1000 )
+                 + "\niterations: " + str( round(  (this.maxIter) * 1000 )/1000 )
                  , 5, 15
                  );
         }
@@ -233,7 +234,7 @@ class DomainColoring {
         stroke(0);
         strokeWeight(2);
         textSize(18);
-        text("c is (" + str(round(c.x * 100)/100.0) + "," + str(round(c.y * 100)/100.0) + ")", 5, height-15);
+        text("c is (" + str(round(c.x * 1000)/1000.0) + "," + str(round(c.y * 1000)/1000.0) + ")", 5, height-15);
         
         if(changeC){
             fill(255);
@@ -241,25 +242,16 @@ class DomainColoring {
             ellipse(mx, my, 8, 8);
             prevmx = mx;
             prevmy = my;
-        }//else{
-            //fill(255);
-            //strokeWeight(3);
-            //ellipse(prevmx, prevmy, 8, 8);
-        //}
+        }else{
+            fill(255);
+            strokeWeight(3);
+            ellipse(prevmx, prevmy, 8, 8);
+        }
         
     }
     
 }
 
-/*function doubleClicked() {
-    if((mouseX < width || mouseX >0) && (mouseY < height || mouseY >0)){
-        if (changeC) {
-            changeC = false;
-        } else {
-            changeC = true;
-        }
-    }
-}*/
 
 function setPixelRGB(x, y, r, g, b) {
     var pixelID = (x + y * width) * 4;
@@ -290,45 +282,47 @@ function setPixelHSV(x, y, h, s, v) {
 
 function controlsUI(){
     document.getElementById("up").onclick = () => {
-        up = -1;//userUP();
+        up = -1;
     }
     document.getElementById("down").onclick = () => {
-        down = -2;//userDOWN();
+        down = -2;
     }
     document.getElementById("left").onclick = () => {
-        left = -3;//userLEFT();
+        left = -3;
     }
     document.getElementById("right").onclick = () => {
-        right = -4;//userRIGHT();
+        right = -4;
     }
     document.getElementById("zoomin").onclick = () => {
-        zoomin = -5;//userZOOMIN();
+        zoomin = -5;
     }
     document.getElementById("zoomout").onclick = () => {
-        zoomout = -6;//userZOOMOUT();
+        zoomout = -6;
     }
-    
     document.getElementById("reset").onclick = () => {
-        reset = -7;//userRESET();
+        reset = -7;
     }
-    
     document.getElementById("info").onclick = () => {
         userINFO();
     }
-    
     document.getElementById("screen").onclick = () => {
-        userSCREEN();
-        
+        if (sizePlot) {
+            sizePlot = false;
+        } else {
+            sizePlot = true;
+        }
+        windowResized();
+    }
+    document.getElementById("save").onclick = () => {
+        saveFractal();
     }
     
     sliderIter = createSlider(0, 300, 150, 1);
     sliderIter.parent('slider');
     sliderIter.style('width', '120px')
     
-    
-    
     /*
-     ---Old controls---
+     ---Old controls UI---
      buttonUP = createButton('&uarr;');
      buttonUP.position(80, 100);
      buttonUP.style('font-size','20');
@@ -370,39 +364,6 @@ function controlsUI(){
  */
 }
 
-/*
-//Now I just need to think to write better the next lines. I will do it soon :)
-function userUP() {
-    up = -1;
-}
-
-function userDOWN() {
-    down = -2;
-}
-
-function userLEFT() {
-    left = -3;
-}
-
-function userRIGHT() {
-    right = -4;
-}
-
-function userZOOMIN() {
-    zoomin = -5;
-}
-
-function userZOOMOUT() {
-    zoomout = -6;
-}
-
-function userRESET() {
-    reset = -7;
-}
-*/
- 
-//Need to refactor
-
 function userINFO() {
     if (info) {
         info = false;
@@ -412,11 +373,8 @@ function userINFO() {
     julia.printDebug = !julia.printDebug;
 }
 
-function userSCREEN() {
-    if (sizePlot) {
-        sizePlot = false;
-    } else {
-        sizePlot = true;
-    }
-    windowResized();
+function saveFractal(){
+    save('julia.jpg');
 }
+
+
