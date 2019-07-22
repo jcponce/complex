@@ -14,7 +14,8 @@ let sizeGraph = 2.7;
 let widthJulia = 480;
 let sizeGraphJ = 3;
 
-
+let mx = 1;
+let my = 1;
 
 // --Controls--
 let clts = {
@@ -27,6 +28,15 @@ User: false,
 Cx: 0,
 Cy: 0,
 };
+
+let changeC = false;
+let prevmx = 0;
+let prevmy = 0;
+
+let easing = 0.9;
+let radius = 5;
+let edge = 0;
+let inner = edge + radius;
 
 // KeyCodes available at: http://keycode.info/
 const KC_UP = 38;        // Move up W
@@ -52,7 +62,7 @@ function setup() {
     
   // create gui (dat.gui)
   let gui = new dat.GUI({
-                          width: 295
+                          width: 310
                           });
   gui.close();
   //gui.add(clts, 'title').name("Title:");
@@ -60,11 +70,11 @@ function setup() {
   gui.add(clts, 'iter', 0, 300).step(1).name("Iterations:");
   gui.add(clts, 'Save').name("Save (jpg)");
   
-  let folder = gui.addFolder('Input options');
-
+  let folder = gui.addFolder('More options');
+  
   folder.add(clts, 'User').name("Set c:");
-  folder.add(clts, 'Cx').min(-4).max(4).step(0.001).name("Re(c):");
-  folder.add(clts, 'Cy').min(-4).max(4).step(0.001).name("Im(c):");
+  folder.add(clts, 'Cx').min(-4).max(4).step(0.01).name("Re(c):");
+  folder.add(clts, 'Cy').min(-4).max(4).step(0.01).name("Im(c):");
 
 }
 
@@ -79,12 +89,48 @@ function draw() {
 
     julia.update();
     julia.plot();
-  
+    
+    if (!clts.User) {
+      if (!changeC) {
+        
+        
+        if (abs(mouseX - mx) > 0.1) {
+            mx = mx + (mouseX - mx) * easing;
+        }
+        if (abs(mouseY - my) > 0.1) {
+            my = my + (mouseY - my) * easing;
+        }
+        
+        mx = constrain(mx, inner, (width - inner) / 2);
+        my = constrain(my, inner, height - inner);
+        
+        fill(255);
+        ellipse(mx, my, radius, radius);
+        
+      } else{
+          fill(233, 2, 1)
+          prevmx = mx;
+          prevmy = my;
+          ellipse(prevmx, prevmy, radius, radius);
+      }
+    }
+    
+    
+    
     
 }
 
 function mouseWheel() {
     mandelbrot.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
+}
+
+function doubleClicked(){
+    if(changeC){
+        changeC = false;
+    } else {
+        changeC = true;
+    }
+    
 }
 
 
@@ -125,5 +171,5 @@ function setPixelHSV(x, y, h, s, v) {
       break;
   }
 
-  setPixelRGB(x, y, round(r * 30), round(g * 255), round(b * 255));
+  setPixelRGB(x, y, round(r * 200), round(g * 255), round(b * 255));
 }

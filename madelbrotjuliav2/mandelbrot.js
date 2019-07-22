@@ -19,7 +19,7 @@ class MandelbrotSet {
         this.maxIter = 100;
         this.origZoom = 1;
         this.zoom = this.origZoom;
-        this.printDebug = false;
+        this.printDebug = true;
         this.cX = 0;
         this.cY = 0;
     }
@@ -36,9 +36,9 @@ class MandelbrotSet {
         if ( keyIsDown(KC_RIGHT))
             this.pos.x += moveSpeed;
         if ( keyIsDown(KC_UNZOOM))
-            this.zoomAt(width/2, height/2, 0.95, false);
+            this.zoomAt(width/4, height/2, 0.95, false);
         if ( keyIsDown(KC_ZOOM))
-            this.zoomAt(width/2, height/2, 0.95, true);
+            this.zoomAt(width/4, height/2, 0.95, true);
         if (keyIsDown(KC_RESET))
         {
             this.size.x = this.origSize.x;
@@ -68,8 +68,8 @@ class MandelbrotSet {
         
         loadPixels();
         
-        this.cX = this.pos.x + map(mouseX, 0, this.widthSet, -this.size.x / 2, this.size.x / 2);//this is for Mandelbrot
-        this.cY = this.pos.y + map(mouseY, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Mandelbrot
+        this.cX = this.pos.x + map(mx, 0, this.widthSet, -this.size.x / 2, this.size.x / 2);//this is for Mandelbrot
+        this.cY = this.pos.y + map(my, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Mandelbrot
         
         for (var x = 0; x < this.widthSet; x++) {
             for (var y = 0; y < height; y++) {
@@ -94,23 +94,27 @@ class MandelbrotSet {
             }
         }
         updatePixels();
+        
+        let dgts = 100000;
         if (this.printDebug) {
             //Frame reference
             
-            stroke(220);
+            /*stroke(220);
             strokeWeight(2);
             line((width+ctlsBack)/2, 0, (width+ctlsBack)/2, height);
             line(ctlsBack, height/2, (width+ctlsBack), height/2);
             ellipse((width+ctlsBack)/2, height/2, 8, 8);
+             */
             
             fill(255);
             stroke(0);
-            strokeWeight(4);
+            strokeWeight(3);
             textSize(18);
-            text("x: " + str( round( this.pos.x * 1000 )/1000 )
-                 + "\ny: " + str( round( this.pos.y * 1000 )/1000 )
-                 + "\nzoom: " + str( round(  (1 / this.zoom) * 1000 )/1000 )
-                 + "\niterations: " + str( round(  (this.maxIter) * 1000 )/1000 )
+            
+            text("x: " + str( round( this.pos.x * dgts )/dgts )
+                 + "\ny: " + str( round( this.pos.y * dgts )/dgts )
+                 + "\nzoom: " + str( round(  (1 / this.zoom) * dgts )/dgts )
+                 + "\niterations: " + str( round(  (this.maxIter) * dgts )/dgts )
                  ,  10, 15
                  );
         }
@@ -118,9 +122,9 @@ class MandelbrotSet {
         //draw constant label
         fill(255);
         stroke(0);
-        strokeWeight(2);
+        strokeWeight(3);
         textSize(18);
-        text("c= (" + str(round(this.cX*1000)/1000.0) + "," + str(round(this.cY*1000)/1000.0) + ")",  10, height-15);
+        text("c = (" + str(round(this.cX *dgts)/dgts) + "," + str(round(this.cY*dgts)/dgts) + ")",  10, height-15);
         
         //var xc = mouseX;
         //var yc = mouseY;
@@ -129,28 +133,7 @@ class MandelbrotSet {
         //var radius = 2;
         //ellipse(xc, yc, radius*2, radius*2);
         
-        if (!clts.User) {
-            let mx = 1;
-            let my = 1;
-            let easing = 0.9;
-            let radius = 5;
-            let edge = 0;
-            let inner = edge + radius;
         
-            if (abs(mouseX - mx) > 0.1) {
-                mx = mx + (mouseX - mx) * easing;
-            }
-            if (abs(mouseY - my) > 0.1) {
-                my = my + (mouseY - my) * easing;
-            }
-        
-            mx = constrain(mx, inner, (width - inner) / 2);
-            my = constrain(my, inner, height - inner);
-        
-            fill(255);
-            ellipse(mx, my, radius, radius);
-        
-        }
         
     }
     
