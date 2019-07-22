@@ -7,11 +7,11 @@
 <title>Mandelbrot-Julia Sets Relationship explorer</title>
 <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
 <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
-<script language="javascript" type="text/javascript" src="libraries/p5.dom.min.js"></script>
+<script language="javascript" type="text/javascript" src="libraries/p5.dom.js"></script>
 <script language="javascript" type="text/javascript" src="libraries/dat.gui.min.js"></script>
 <script language="javascript" type="text/javascript" src="sketch.js"></script>
-<script language="javascript" type="text/javascript" src="Julia.js"></script>
-<script language="javascript" type="text/javascript" src="Mandelbrot.js"></script>
+<script language="javascript" type="text/javascript" src="julia.js"></script>
+<script language="javascript" type="text/javascript" src="mandelbrot.js"></script>
 
 <!--MathJax starts-->
 <script type="text/x-mathjax-config">
@@ -53,6 +53,7 @@
 <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity16.png" sizes="16x16">
 <link rel="stylesheet" href="libraries/dat-gui-light-theme.css">
 <link rel="stylesheet" href="https://jcponce.github.io/assets/style/w3.css">
+<link rel="stylesheet" href="https://jcponce.github.io/domain-coloring/styledc.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     
 <style>
@@ -70,8 +71,8 @@ canvas {
     padding: 0;
     margin: auto;
     display: block;
-    width: 800px;
-    height: 400px;
+    width: 960px;
+    height: 480px;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -94,30 +95,159 @@ canvas {
 &nbsp;
 <a href="https://github.com/jcponce/complex/tree/gh-pages/mandelbrotjulia" class="w3-button w3-hover-grey w3-opacity w3-round-xxlarge"> <i class="fas fa-code"></i></a>
 &nbsp;
-<a href="http://mathworld.wolfram.com/JuliaSet.html" class="w3-button w3-hover-grey w3-opacity w3-round-xxlarge"> <i class="fas fa-question"></i></a>
+<a class="myBtn_multi w3-button w3-hover-grey w3-opacity w3-round-xxlarge w3-hide-small" id="myBtn"> <i class="fas fa-question"></i></a>
+
 </div>
 </div>
 <!-- Navbar Ends-->
 
+<div class="w3-card-4 w3-light-grey w3-hide-small " style="width:180px;font-size:16px">
+<div class="w3-container">
+<p>Double click to fix <strong>c</strong>.</p>
+<p>Zoom In or Out with mouse wheel.</p>
+</div>
+</div>
 
-
-        <div class="w3-card-4 w3-light-grey w3-hide-small w3-hide-medium w3-small" style="width:150px">
+<!-- The Modal -->
+<div class="modal modal_multi">
+    
+    <!-- Modal content -->
+    <div class="modal-content w3-large">
+        <span class="close close_multi">&times;</span>
+        <div style="text-align:center">
+            <p class="w3-large"><b class="w3-xlarge">Mandelbrot and Julia Sets</b>
             
-            <div class="w3-container">
-                
-                <h5>$z_{n+1}=z_{n}^2+c$</h5>
-                
-                    <h5>Double click to fix/unfix <strong>c</strong></h5>
-            
-            </div>
+            <br>
             
         </div>
+        <p>Welcome! With this application you can explore the relationship between the Mandelbrot and Julia Sets. Move the mouse around to see different Julia sets.</p>
+        <p>Open the controls (upper right corner) to change the number of iterations or to set the value of <strong>c</strong>.</p>
+        
+        <p  style="text-align:center" class="w3-xlarge" ><strong>Control keys</strong></p>
+        <div  class="w3-center">
+        <table class="w3-table w3-centered">
+            <tr>
+                <td class="w3-left-align">
+                    <div>
+                        <p><i class="fas fa-arrow-up"></i> : Up</p>
+                        <p><i class="fas fa-arrow-down"></i> : Down</p>
+                        <p><i class="fas fa-arrow-right"></i> : Right</p>
+                        <p><i class="fas fa-arrow-left"></i> : Left</p>
+                        
+                    </div>
+                    
+                </td>
+                <td  class="w3-left-align">
+                <div >
+                    <p><strong><i class="fas fa-plus"></i></strong> : ZoomIn</p>
+                    <p><strong><i class="fas fa-minus"></i></strong> : ZoomOut</p>
+                    <p><strong>R</strong> : Reset</p>
+                    <p><strong>I</strong> : Info</p>
+                </div>
+                </td>
+            </tr>
+        </table>
+        </div>
+        
+        <p><span style="font-weight: bold;" class="w3-xlarge">That's it!</span>
+        If you found this tool useful, please let me know: <a href="mailto:j.ponce@uq.edu.au">j.ponce@uq.edu.au</a></p>
+        
+        <p class="w3-center"><i class="fas fa-infinity"></i></p>
+        
+    </div>
+    
+</div>
+        
+        
        
 
     
 </body>
 
+<script>
+    //XXXXXXXXXX    script for Modal button instructions    XXXXXXXXXXXXXXXXXX
+    // Get the modal
+    
+    var modalparent = document.getElementsByClassName("modal_multi");
+    
+    // Get the button that opens the modal
+    
+    var modal_btn_multi = document.getElementsByClassName("myBtn_multi");
+    
+    // Get the <span> element that closes the modal
+    var span_close_multi = document.getElementsByClassName("close_multi");
+    
+    // When the user clicks the button, open the modal
+    function setDataIndex() {
+        
+        for (i = 0; i < modal_btn_multi.length; i++)
+        {
+            modal_btn_multi[i].setAttribute('data-index', i);
+            modalparent[i].setAttribute('data-index', i);
+            span_close_multi[i].setAttribute('data-index', i);
+        }
+    }
 
+
+
+for (i = 0; i < modal_btn_multi.length; i++)
+{
+    modal_btn_multi[i].onclick = function() {
+        var ElementIndex = this.getAttribute('data-index');
+        modalparent[ElementIndex].style.display = "block";
+    };
+    
+    // When the user clicks on <span> (x), close the modal
+    span_close_multi[i].onclick = function() {
+        var ElementIndex = this.getAttribute('data-index');
+        modalparent[ElementIndex].style.display = "none";
+    };
+    
+}
+
+window.onload = function() {
+    
+    setDataIndex();
+};
+
+window.onclick = function(event) {
+    if (event.target === modalparent[event.target.getAttribute('data-index')]) {
+        modalparent[event.target.getAttribute('data-index')].style.display = "none";
+    }
+    
+    // OLD CODE
+    //if (event.target === modal) {
+    //    modal.style.display = "none";
+    //}
+};
+
+//XXXXXXXXXXXXXXXXXXXXXXX    Modified old code    XXXXXXXXXXXXXXXXXXXXXXXXXX
+/*
+ // Get the modal
+ 
+ var modal = document.getElementById('myModal');
+ 
+ // Get the button that opens the modal
+ var btn = document.getElementById("myBtn");
+ 
+ // Get the <span> element that closes the modal
+ var span = modal.getElementsByClassName("close")[0]; // Modified by dsones uk
+ 
+ // When the user clicks on the button, open the modal
+ 
+ btn.onclick = function() {
+ 
+ modal.style.display = "block";
+ }
+ 
+ // When the user clicks on <span> (x), close the modal
+ span.onclick = function() {
+ modal.style.display = "none";
+ }
+ */
+
+
+</script>
 
 
 </html>
