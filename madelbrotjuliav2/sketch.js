@@ -14,6 +14,8 @@ let sizeGraph = 2.7;
 let widthJulia = 480;
 let sizeGraphJ = 3;
 
+
+
 // --Controls--
 let clts = {
 title: 'Mandelbrot-Julia Sets',
@@ -42,8 +44,8 @@ function setup() {
   rectMode(CORNERS);
 
   pixelDensity(1);
-  frameRate(60);
-  smooth();
+  //frameRate(60);
+  //smooth();
     
   mandelbrot = new MandelbrotSet(widthMandel, sizeGraph);
   julia = new JuliaSet(widthJulia, sizeGraphJ);
@@ -61,8 +63,8 @@ function setup() {
   let folder = gui.addFolder('Input options');
 
   folder.add(clts, 'User').name("Set c:");
-  folder.add(clts, 'Cx').min(-6).max(6).step(0.001).name("Re(c):");
-  folder.add(clts, 'Cy').min(-6).max(6).step(0.001).name("Im(c):");
+  folder.add(clts, 'Cx').min(-4).max(4).step(0.001).name("Re(c):");
+  folder.add(clts, 'Cy').min(-4).max(4).step(0.001).name("Im(c):");
 
 }
 

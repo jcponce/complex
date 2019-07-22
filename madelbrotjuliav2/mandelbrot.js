@@ -114,6 +114,7 @@ class MandelbrotSet {
                  ,  10, 15
                  );
         }
+        
         //draw constant label
         fill(255);
         stroke(0);
@@ -121,12 +122,35 @@ class MandelbrotSet {
         textSize(18);
         text("c= (" + str(round(this.cX*1000)/1000.0) + "," + str(round(this.cY*1000)/1000.0) + ")",  10, height-15);
         
-        var xc = mouseX;
-        var yc = mouseY;
-        fill(255);
-        stroke(0);
-        var radius = 2;
-        ellipse(xc, yc, radius*2, radius*2);
+        //var xc = mouseX;
+        //var yc = mouseY;
+        //fill(255);
+        //stroke(0);
+        //var radius = 2;
+        //ellipse(xc, yc, radius*2, radius*2);
+        
+        if (!clts.User) {
+            let mx = 1;
+            let my = 1;
+            let easing = 0.9;
+            let radius = 5;
+            let edge = 0;
+            let inner = edge + radius;
+        
+            if (abs(mouseX - mx) > 0.1) {
+                mx = mx + (mouseX - mx) * easing;
+            }
+            if (abs(mouseY - my) > 0.1) {
+                my = my + (mouseY - my) * easing;
+            }
+        
+            mx = constrain(mx, inner, (width - inner) / 2);
+            my = constrain(my, inner, height - inner);
+        
+            fill(255);
+            ellipse(mx, my, radius, radius);
+        
+        }
         
     }
     
