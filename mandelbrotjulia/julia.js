@@ -84,15 +84,17 @@ class JuliaSet{
         if(clts.User==true){
             cX = clts.Cx;
             cY = clts.Cy;
-            col1 = map(cX, -mandelbrot.size.x / 2 - 0.7, mandelbrot.size.x / 2 - 0.7, 0, 200);
-            col2 = map(cY, -mandelbrot.size.x / 2, mandelbrot.size.x / 2, 0, 200);
+            col1 = map(cX, -mandelbrot.size.x / 2 - 0.7, mandelbrot.size.x / 2 - 0.7, 0, 250);
+            col2 = map(cY, -mandelbrot.size.x / 2, mandelbrot.size.x / 2, 0, 250);
         } else {
-        let mx = constrain(mouseX,  0, width/2);
-        let my = constrain(mouseY, 0, height);
-        cX = mandelbrot.cX;
-        cY = mandelbrot.cY;
-        col1 = map(mx, 0, width / 2, 0, 200);
-        col2 = map(my, 0, height, 0, 200);
+        //let mx = constrain(mouseX,  0, width/2);
+        //let my = constrain(mouseY, 0, height);
+        cX = map(mx, 0, width / 2, -mandelbrot.size.x / 2 + mandelbrot.pos.x, mandelbrot.size.x / 2 + mandelbrot.pos.x);
+        cY = map(my, height, 0, -mandelbrot.size.y / 2+ mandelbrot.pos.y, mandelbrot.size.y / 2+ mandelbrot.pos.y);
+        //cX = mandelbrot.cX;
+        //cY = mandelbrot.cY;
+        col1 = map(mx, 0, width / 2, 0, 150);
+        col2 = map(my, 0, height, 0, 150);
         }
         /*if (changeC==true) {
             fill(255);
