@@ -2,7 +2,7 @@
  * Under Creative Commons License
  * https://creativecommons.org/licenses/by-sa/4.0/
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2019
- * Original code by Kato https://www.openprocessing.org/user/114431
+ * Adapted from Kato's code https://www.openprocessing.org/user/114431
  */
 
 // Last update 19-Jul-2019
@@ -97,7 +97,7 @@ class MandelbrotSet {
         
         let dgts = 100000;
         if (this.printDebug) {
-            //Frame reference
+            //Frame reference maybe for later
             
             /*stroke(220);
             strokeWeight(2);
@@ -125,15 +125,6 @@ class MandelbrotSet {
         strokeWeight(3);
         textSize(18);
         text("c = (" + str(round(this.cX *dgts)/dgts) + "," + str(round(this.cY*dgts)/dgts) + ")",  10, height-15);
-        
-        //var xc = mouseX;
-        //var yc = mouseY;
-        //fill(255);
-        //stroke(0);
-        //var radius = 2;
-        //ellipse(xc, yc, radius*2, radius*2);
-        
-        
         
     }
     

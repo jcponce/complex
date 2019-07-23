@@ -2,12 +2,10 @@
  * Under Creative Commons License
  * https://creativecommons.org/licenses/by-sa/4.0/
  * Written by Juan Carlos Ponce Campuzano, 19-Jul-2019
- * Original code by Kato https://www.openprocessing.org/user/114431
+ * Adapted from Kato's code https://www.openprocessing.org/user/114431
  */
 
 // Last update 19-Jul-2019
-
-
 
 class JuliaSet{
     
@@ -25,21 +23,6 @@ class JuliaSet{
     }
     
     update(){
-        /*
-         var moveSpeed = 0.1 * this.zoom;
-        if (keyIsDown(KC_UP))
-            this.pos.y -= moveSpeed;
-        if ( keyIsDown(KC_DOWN))
-            this.pos.y += moveSpeed;
-        if (keyIsDown(KC_LEFT))
-            this.pos.x -= moveSpeed;
-        if (keyIsDown(KC_RIGHT))
-            this.pos.x += moveSpeed;
-        if ( keyIsDown(KC_UNZOOM))
-            this.zoomAt(width/2, height/2, 0.94, false);
-        if ( keyIsDown(KC_ZOOM))
-            this.zoomAt(width/2, height/2, 0.95, true);
-         */
         if (keyIsDown(KC_RESET)){
             this.size.x = this.origSize.x;
             this.size.y = this.origSize.y;
@@ -48,19 +31,7 @@ class JuliaSet{
             this.zoom = this.origZoom;
         }
         
-        /*const iteration = 5;
-        if(keyIsDown(KC_ITERPLUS)){
-            if(this.maxIter <=300){
-                this.maxIter += iteration;
-            }else this.maxIter = 300;
-        }
-        if(keyIsDown(KC_ITERMINUS)){
-            if(this.maxIter > 0){
-                this.maxIter -= iteration;
-            }else this.maxIter = 0;
-        }*/
-        
-        this.maxIter = clts.iter;//sliderIter.value();
+        this.maxIter = clts.iter;
         
     }
     
@@ -87,23 +58,14 @@ class JuliaSet{
             col1 = map(cX, -mandelbrot.size.x / 2 - 0.7, mandelbrot.size.x / 2 - 0.7, 0, 250);
             col2 = map(cY, -mandelbrot.size.x / 2, mandelbrot.size.x / 2, 0, 250);
         } else {
-        //let mx = constrain(mouseX,  0, width/2);
-        //let my = constrain(mouseY, 0, height);
-        cX = map(mx, 0, width / 2, -mandelbrot.size.x / 2 + mandelbrot.pos.x, mandelbrot.size.x / 2 + mandelbrot.pos.x);
-        cY = map(my, height, 0, -mandelbrot.size.y / 2+ mandelbrot.pos.y, mandelbrot.size.y / 2+ mandelbrot.pos.y);
-        //cX = mandelbrot.cX;
-        //cY = mandelbrot.cY;
-        col1 = map(mx, 0, width / 2, 0, 150);
-        col2 = map(my, 0, height, 0, 150);
+            cX = map(mx, 0, width / 2, -mandelbrot.size.x / 2 + mandelbrot.pos.x, mandelbrot.size.x / 2 + mandelbrot.pos.x);
+            cY = map(my, height, 0, -mandelbrot.size.y / 2+ mandelbrot.pos.y, mandelbrot.size.y / 2+ mandelbrot.pos.y);
+            col1 = map(mx, 0, width / 2, 0, 150);
+            col2 = map(my, 0, height, 0, 150);
         }
-        /*if (changeC==true) {
-            fill(255);
-            noStroke();
-            ellipse(mx, my, 8, 8);
-       
-            c = new p5.Vector(cX, cY);
-        }*/
+        
         let c = new p5.Vector(cX, cY);
+        
         for (let x = this.widthSet; x < 2*this.widthSet; x++) {
             for (let y = 0; y < height; y++) {
                 var sqZ = new p5.Vector(0, 0);
@@ -122,7 +84,6 @@ class JuliaSet{
                         break;
                     iter++;
                 }
-                //setPixelHSV(x, y, map(iter, 0, this.maxIter, 0, 1), 0.8, 1);
                 // We color each pixel based on how long it takes to get to infinity
                 // If we never got there, let's pick the color black
                 if (iter == this.maxIter) {
@@ -135,45 +96,6 @@ class JuliaSet{
             }
         }
         updatePixels();
-        if (this.printDebug) {
-            
-            //Frame reference
-            
-            stroke(220);
-            strokeWeight(2);
-            line(width/2, 0, width/2, height);
-            line(0, height/2, width, height/2);
-            ellipse(width/2, height/2, 8, 8);
-            
-            fill(255);
-            stroke(0);
-            strokeWeight(4);
-            textSize(18);
-            text("x: " + str( round( this.pos.x * 1000 )/1000 )
-                 + "\ny: " + str( round( this.pos.y * 1000 )/1000 )
-                 + "\nzoom: " + str( round(  (1 / this.zoom) * 1000 )/1000 )
-                 + "\niterations: " + str( round(  (this.maxIter) * 1000 )/1000 )
-                 , this.widthSet +5, 15
-                 );
-        }
-        //draw constant label
-        //fill(255);
-        //stroke(0);
-        //strokeWeight(2);
-        //textSize(18);
-        //text("c is (" + str(round(c.x * 1000)/1000.0) + "," + str(round(c.y * 1000)/1000.0) + ")", this.widthSet + 5, height-15);
-        
-        /*if(changeC){
-            fill(255);
-            strokeWeight(1);
-            ellipse(mx, my, 8, 8);
-            prevmx = mx;
-            prevmy = my;
-        }else{
-            fill(255);
-            strokeWeight(3);
-            ellipse(prevmx, prevmy, 8, 8);
-        }*/
         
     }
     
