@@ -14,22 +14,21 @@ let sizeGraph = 2.7;
 let widthJulia = 480;
 let sizeGraphJ = 3;
 
-let mx = 1;
-let my = 1;
+let WIDTH;
+let HEIGHT;
 
-// --Controls--
+// --Controls GUI--
 let clts = {
-title: 'Mandelbrot-Julia Sets',
-iter: 100,
-Save: function () {
-    save('mandelbrot-julia.jpg');
-},
+iter: 90,
+Save: function () { save('mandelbrot-julia.jpg'); },
 User: false,
 Cx: 0,
 Cy: 0,
 };
 
 let changeC = false;
+let mx = 0;
+let my = 0;
 let prevmx = 0;
 let prevmy = 0;
 
@@ -39,85 +38,85 @@ let edge = 0;
 let inner = edge + radius;
 
 // KeyCodes available at: http://keycode.info/
-const KC_UP = 38;        // Move up W
-const KC_DOWN = 40;        // Move down S
-const KC_LEFT = 37;        // Move left A
-const KC_RIGHT = 39;    // Move right D
+const KC_UP = 38;        // Move up Arrow up
+const KC_DOWN = 40;        // Move down Arrow down
+const KC_LEFT = 37;        // Move left Arrow left
+const KC_RIGHT = 39;    // Move right Arrow right
 const KC_UNZOOM = 189;    // Zoom back -
 const KC_ZOOM = 187;    // Zoom in +
 const KC_RESET = 82;    // Reset zoom level and position R
 
 function setup() {
-  createCanvas(960, 480);
-
-  ellipseMode(RADIUS);
-  rectMode(CORNERS);
-
-  pixelDensity(1);
-  //frameRate(60);
-  //smooth();
     
-  mandelbrot = new MandelbrotSet(widthMandel, sizeGraph);
-  julia = new JuliaSet(widthJulia, sizeGraphJ);
+    WIDTH = 2 * widthMandel;
+    HEIGHT = widthMandel;
     
-  // create gui (dat.gui)
-  let gui = new dat.GUI({
-                          width: 310
-                          });
-  gui.close();
-  //gui.add(clts, 'title').name("Title:");
-  //gui.add(clts, 'inst').name("Fixed point:");
-  gui.add(clts, 'iter', 0, 300).step(1).name("Iterations:");
-  gui.add(clts, 'Save').name("Save (jpg)");
-  
-  let folder = gui.addFolder('More options');
-  
-  folder.add(clts, 'User').name("Set c:");
-  folder.add(clts, 'Cx').min(-4).max(4).step(0.01).name("Re(c):");
-  folder.add(clts, 'Cy').min(-4).max(4).step(0.01).name("Im(c):");
+    createCanvas(WIDTH, HEIGHT);
+    ellipseMode(RADIUS);
+    pixelDensity(1);
+    cursor(HAND);
+    
+    mandelbrot = new MandelbrotSet(widthMandel, sizeGraph);
+    julia = new JuliaSet(widthJulia, sizeGraphJ);
+    
+    createGUI();
 
 }
 
 function draw() {
     
-  cursor(HAND);
-    
-  //mandelSet = new Mandelbrot(clts.iter, widthMandel, sizeGraph);
-
-  mandelbrot.update();
-  mandelbrot.plot();
+    mandelbrot.update();
+    mandelbrot.plot();
 
     julia.update();
     julia.plot();
     
+    pointGuide();
+    
+}
+
+//Auxiliary functions
+
+function createGUI(){
+    // create gui (dat.gui)
+    let gui = new dat.GUI({
+                          width: 310
+                          });
+    gui.close();
+    gui.add(clts, 'iter', 0, 300).step(1).name("Iterations:");
+    gui.add(clts, 'Save').name("Save (jpg)");
+    
+    let folder = gui.addFolder('More options');
+    
+    folder.add(clts, 'User').name("Set c:");
+    folder.add(clts, 'Cx').min(-4).max(4).step(0.01).name("Re(c):");
+    folder.add(clts, 'Cy').min(-4).max(4).step(0.01).name("Im(c):");
+}
+
+function pointGuide(){
     if (!clts.User) {
-      if (!changeC) {
-        
-        
-        if (abs(mouseX - mx) > 0.1) {
-            mx = mx + (mouseX - mx) * easing;
+        if (!changeC) {
+            
+            if (abs(mouseX - mx) > 0.1) {
+                mx = mx + (mouseX - mx) * easing;
+            }
+            if (abs(mouseY - my) > 0.1) {
+                my = my + (mouseY - my) * easing;
+            }
+            
+            mx = constrain(mx, inner, (width - inner) / 2);
+            my = constrain(my, inner, height - inner);
+            
+            fill(255);
+            ellipse(mx, my, radius, radius);
+            
+        } else{
+            fill(1, 200, 233)
+            prevmx = mx;
+            prevmy = my;
+            ellipse(prevmx, prevmy, radius, radius);
         }
-        if (abs(mouseY - my) > 0.1) {
-            my = my + (mouseY - my) * easing;
-        }
-        
-        mx = constrain(mx, inner, (width - inner) / 2);
-        my = constrain(my, inner, height - inner);
-        
-        fill(255);
-        ellipse(mx, my, radius, radius);
-        
-      } else{
-          fill(1, 200, 233)
-          prevmx = mx;
-          prevmy = my;
-          ellipse(prevmx, prevmy, radius, radius);
-      }
     }
-    
-    
-    
-    
 }
 
 function keyReleased() {
@@ -138,8 +137,7 @@ function doubleClicked(){
     
 }
 
-
-//Auxiliary functions
+//For colors
 function setPixelRGB(x, y, r, g, b) {
   let pixelID = (x + y * width) * 4;
   pixels[pixelID + 0] = r;
