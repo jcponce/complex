@@ -105,5 +105,5 @@ function setPixelHSV(x, y, h, s, v) {
             break;
     }
     
-    setPixelRGB(x, y, round(r * 200), round(g * 255), round(b * 255));
+    setPixelRGB(x, y, round(r * 255), round(g * 255), round(b * 255));
 }
