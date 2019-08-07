@@ -156,7 +156,7 @@ function displayGrid() {
     strokeWeight(2);
     line(0, height / 2, width, height / 2); //x-axis
     line(width / 2, 0, width / 2, height); //y-axis
-    textSize(12);
+    textSize(14);
     fill(1);
     text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
     
@@ -172,25 +172,32 @@ function displayGrid() {
     text('Re', width / 2 + posRe, height / 2 - 10);
     
     // Draw tick marks twice per step, and draw the halfway marks smaller.
-    textSize(14);
+    // Draw tick marks twice per step, and draw the halfway marks smaller.
+    let txtsize = map(size, 0, 15, 14, 8);
+    let txtStroke = map(size, 0, 15, 2, 0.5);
+    strokeWeight(txtStroke);
+    textSize(txtsize);
+    let r = 3;
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
-            line(width / 2 - 4, height/2 - j, width / 2 + 4, height/2 - j);//yAxis positive ticks
-            line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
-            line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
-            line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
-        
-            if(j>0){
-                let setPY = map(j, 0, height/2, 0, h/2) + clts.centerY;
-                let setNY = -(map(j, 0, height/2, 0, h/2) - clts.centerY);
-                text('' + str(round(setPY * 10)/10.0), width / 2 - 4+9, height/2 - j + 3);//Y-Positive
-                text('' + str(round(setNY * 10)/10.0), width / 2 - 4+9, height/2 + j + 3);//Y-Negative
+            ellipse(width / 2 - i, height / 2, r, r); //negative x
+            ellipse(width / 2, height / 2 - j, r, r); //positive y
+            ellipse(width / 2 + i, height / 2, r, r); //positive x
+            ellipse(width / 2, height / 2 + j, r, r); //negative y
+            
+            let sr = 4
+            if (j > 0) {
+                let setPY = map(j, 0, height / 2, 0, h / 2) + clts.centerY;
+                let setNY = -(map(j, 0, height / 2, 0, h / 2) - clts.centerY);
+                text('' + str(round(setPY * 10) / 10.0), width / 2 - sr + 9, height / 2 - j + 3); //Y-Positive
+                text('' + str(round(setNY * 10) / 10.0), width / 2 - sr + 9, height / 2 + j + 3); //Y-Negative
             }
-            if(i>0){
-                let setPX = map(i, 0, width/2, 0, w/2) + clts.centerX;
-                let setNX = -(map(i, 0, width/2, 0, w/2) - clts.centerX);
-                text('' + str(round(setPX * 10)/10.0), width / 2 + i, height/2 - 4 + 18);//X-Positive
-                text('' + str(round(setNX * 10)/10.0), width / 2 - i, height/2 - 4 + 18);//X-Negative
+            
+            if (i > 0) {
+                let setPX = map(i, 0, width / 2, 0, w / 2) + clts.centerX;
+                let setNX = -(map(i, 0, width / 2, 0, w / 2) - clts.centerX);
+                text('' + str(round(setPX * 10) / 10.0), width / 2 + i, height / 2 - sr + 18); //X-Positive
+                text('' + str(round(setNX * 10) / 10.0), width / 2 - i, height / 2 - sr + 18); //X-Negative
             }
             
         }

@@ -210,8 +210,8 @@ function plot() {
 
 function displayGrid() {
     stroke(1, 1, 1);
-    strokeWeight(3);
-    textSize(18);
+    strokeWeight(2);
+    //textSize(18);
     fill(1);
     text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
     
@@ -230,32 +230,31 @@ function displayGrid() {
     line(0, height / 2, width, height / 2); //x-axis
     line(width / 2, 0, width / 2, height); //y-axis
     // Draw tick marks twice per step, and draw the halfway marks smaller.
-    textSize(16);
+    let txtsize = map(clts.size, 0, 15, 14, 8);
+    textSize(txtsize);
+    let txtStroke = map(clts.size, 0, 15, 3, 0.5);
+    strokeWeight(txtStroke);
+    let r = 3;
     for (let j = 0; j <= height/2; j += height / ((clts.size * 2 * height) / width)) {
         for (let i = 0; i <= width/2; i += width / (clts.size * 2)) {
-            line(width / 2 - 4, height/2 - j, width / 2 + 4, height/2 - j);//yAxis positive ticks
-            line(width / 2 - 4, height/2 + j, width / 2 + 4, height/2 + j);//yAxis negative ticks
-            line(width / 2 + i, height/2 - 4, width/2 + i, height/2 + 4);//xAxis positive ticks
-            line(width / 2 - i, height/2 - 4, width/2 - i, height/2 + 4);//xAxis negative ticks
-            //var nX = Math.abs(clts.centerX);
-            //var decimalsX = nX - Math.floor(nX);
-            //var nY = Math.abs(clts.centerY);
-            //var decimalsY = nY - Math.floor(nY);
-            if(j>0){
-                let setPY = map(j, 0, height/2, 0, h/2) + clts.centerY;
-                let setNY = -(map(j, 0, height/2, 0, h/2) - clts.centerY);
-                //let setPY = map(j, 0, height/2, 0, h/2) + clts.centerY;
-                //let setNY = -map(j, 0, height/2, 0, h/2) + clts.centerY;
-                //let setPY = map(j, 0, height/2, 0, w/2) + clts.centerY;
-                //let setNY = -(map(j, 0, height/2, 0, w/2) - clts.centerY);
-                text('' + str(round(setPY * 10)/10.0), width / 2 - 4+9, height/2 - j + 3);//Y-Positive
-                text('' + str(round(setNY * 10)/10.0), width / 2 - 4+9, height/2 + j + 3);//Y-Negative
-            }//str(round(c.x * 100)/100.0)
-            if(i>0){
-                let setPX = map(i, 0, width/2, 0, w/2) + clts.centerX;
-                let setNX = -(map(i, 0, width/2, 0, w/2) - clts.centerX);
-                text('' + str(round(setPX * 10)/10.0), width / 2 + i, height/2 - 4 + 18);//X-Positive
-                text('' + str(round(setNX * 10)/10.0), width / 2 - i, height/2 - 4 + 18);//X-Negative
+            ellipse(width / 2 - i, height / 2, r, r); //negative x
+            ellipse(width / 2, height / 2 - j, r, r); //positive y
+            ellipse(width / 2 + i, height / 2, r, r); //positive x
+            ellipse(width / 2, height / 2 + j, r, r); //negative y
+
+            let sr = 4
+            if (j > 0) {
+                let setPY = map(j, 0, height / 2, 0, h / 2) + clts.centerY;
+                let setNY = -(map(j, 0, height / 2, 0, h / 2) - clts.centerY);
+                text('' + str(round(setPY * 10) / 10.0), width / 2 - sr + 9, height / 2 - j + 3); //Y-Positive
+                text('' + str(round(setNY * 10) / 10.0), width / 2 - sr + 9, height / 2 + j + 3); //Y-Negative
+            }
+            
+            if (i > 0) {
+                let setPX = map(i, 0, width / 2, 0, w / 2) +  clts.centerX;
+                let setNX = -(map(i, 0, width / 2, 0, w / 2) -  clts.centerX);
+                text('' + str(round(setPX * 10) / 10.0), width / 2 + i, height / 2 - sr + 18); //X-Positive
+                text('' + str(round(setNX * 10) / 10.0), width / 2 - i, height / 2 - sr + 18); //X-Negative
             }
             
         }
