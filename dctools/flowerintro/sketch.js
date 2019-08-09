@@ -93,12 +93,16 @@ function draw() {
   updatePixels();
   //noLoop();
   
+    push()
   //draw constant label
   fill(255);
+  stroke(0);
+  strokeWeight(1);
   textAlign(LEFT, CENTER);
-  textSize(16);
+  textSize(17);
   stroke(0,0, 0);
   text("c = (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", 5, height-15);
+    pop();
 
   //draw pointer for constant
   fill(0, 0, 100);
