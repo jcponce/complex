@@ -319,7 +319,7 @@ function controlsUI(){
     
     sliderIter = createSlider(0, 300, 150, 1);
     sliderIter.parent('slider');
-    sliderIter.style('width', '120px')
+    sliderIter.style('width', '120px');
     
     /*
      ---Old controls UI---
