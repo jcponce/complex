@@ -16,7 +16,22 @@ let system;
 let stepXY = 20;
 
 let expr = 'z/|z|';
-let inp;
+var reading_input = null;
+let inp, button, buttonClear, checkbox;
+let drawing = false;
+
+
+var requested = {
+fn: function(z) { return {r:0,i:0}; },
+expr: '',
+canon: '',
+extent: 2,
+width: 0,
+height: 0,
+parameterized: false,
+animode: null,
+mode: null
+};
 
 function setup() {
 	createCanvas(450, 450);
@@ -26,6 +41,7 @@ function setup() {
 	//dim = new Complex(width, height);
 	//stroke(255);
     
+    /*
     sel = createSelect();
     sel.position(10, 460);
     sel.option('z^2');
@@ -39,24 +55,47 @@ function setup() {
     sel.option('(i+z)/(i-z)');
     sel.style('font-size', '18')
     sel.changed(myFunctionEvent);
+     */
+    inp = createInput('z^2');
+    inp.position(10, 460);
+    inp.style('width:110px');
+    
+    button = createButton('Transform');
+    button.position(inp.x + 120, inp.y);
+    button.mousePressed(transformButton);
+    
+    checkbox = createCheckbox('Draw', false);
+    checkbox.position(inp.x + 210, inp.y);
+    checkbox.changed(myCheckedEvent);
+    
+    buttonClear = createButton('Press C to clear');
+    buttonClear.position(inp.x + 210, inp.y+20);
+    //buttonClear.mousePressed(myButtonClear);
     
     system = createSelect();
-    system.position(sel.x + 190, sel.y);
+    system.position(inp.x + 335, inp.y);
     system.option('Cartesian');
     system.option('Polar');
     system.option('None');
     system.style('font-size', '18')
     system.changed(mySystemEvent);
     
-    inp = createInput('z^2');
-    inp.position(40, 50);
-    inp.input(myInputEvent)
+   
+    //inp.input(myInputEvent)
 }
 
-function myInputEvent() {
-    noLoop();//redraw();
+function myCheckedEvent() {
+    drawing = !drawing;//redraw();
+    if(drawing==false){
+     points = [];
+    }
 }
 
+function myButtonClear(){
+    points = [];
+}
+
+/*
 function myFunctionEvent(){
     
     if (sel.value() == 'z^2') {
@@ -101,6 +140,7 @@ function myFunctionEvent(){
     redraw();
     
 }
+ */
 
 function mySystemEvent(){
     
@@ -157,10 +197,15 @@ function draw() {
 			}
 		}
 	}
+    if(drawing==true){
 	if(mouseIsPressed && u<=0){
 		//points.push({x: mouseX, y: mouseY});
-        points.push(createVector(mouseX, mouseY));
+        let cx = constrain(mouseX, 0, width);
+        let cy = constrain(mouseY, 0, height);
+        points.push(createVector(cx, cy));
 	}
+    }
+    
 	for(let i=1; i<points.length; i++){
 		let ppos = points[i-1];
 		let pos = points[i];
@@ -170,12 +215,18 @@ function draw() {
         strokeWeight(2);
 		line(ppos.x, ppos.y, pos.x, pos.y);
 	}
-    fill(1);
-    textSize(18);
-    stroke(0);
-    strokeWeight(1);
-    text('T: Apply', 20, 30);
+
     
+    //fill(1);
+    //textSize(18);
+    //stroke(0);
+    //strokeWeight(1);
+    //text('T: Apply', 20, 30);
+    
+}
+
+function transformButton(){
+    transform = !transform;
 }
 
 function keyTyped(){
@@ -189,15 +240,40 @@ function keyTyped(){
 	}
 }
 
+function readinput() {
+    reading_input = null;
+    var s = trimN(inp.value());
+    if (s == requested.expr) return;
+    var parsed = complex_expression(s);
+    if (parsed !== null) {
+        var animate = parsed.parameters.length > 0;
+        requested.fn = parsed.fn;
+        requested.expr = s;
+        requested.canon = parsed.fntext;
+        requested.extent = 2;
+        requested.parameterized = animate;
+        //requested.caption = animate ? parsed.parameters[0].caption : null;
+        //ebi('timecontrol').style.display = animate ? 'inline-table' : 'none';
+        //if (!animate) {
+        //  cancelplay();
+        //}
+        
+        //sethash();
+        //redraw();
+    }
+}
+
 function cmap(p){
 	let z = {
 		r: map(p.x, 0, width, -scale, scale),
 		i: map(p.y, 0, height, -scale, scale)
 	};
-    let zt = trimN(inp.value());
-    let parsed = complex_expression(zt);//Define function
+    readinput();
     
-    let w = parsed.fn(z);//wfun(z);
+    //let zt = trimN(inp.value());
+    //let parsed = complex_expression(zt);//Define function
+    
+    let w = requested.fn(z);//wfun(z);
 	let v = {
 		x: map(w.r * u + (1-u) * z.r, -scale, scale, 0, width),
 		y: map(w.i * u + (1-u) * z.i, -scale, scale, 0, height)
@@ -211,4 +287,6 @@ if (s.trim) {
 }
 return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 }
+
+
 
