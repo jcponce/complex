@@ -11,7 +11,7 @@ let clts = {
 
 lvlCurv: 'Modulus',
     
-funcZ: '(z-1)/(z^2+z+1)',
+funcZ: 'z',
     
 displayXY: false,
 size: 2.5,
@@ -160,7 +160,7 @@ function displayGrid() {
     strokeWeight(2);
     line(0, height / 2, width, height / 2); //x-axis
     line(width / 2, 0, width / 2, height); //y-axis
-    textSize(12);
+    textSize(14);
     fill(1);
     text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
     
