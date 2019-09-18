@@ -29,6 +29,8 @@ let checkboxc;
 
 let prevmx = 0;
 let prevmy = 0;
+let pmx = 0;
+let pmy = 0;
 
 function setup() {
     createCanvas(WIDTH, HEIGHT);
@@ -175,8 +177,17 @@ class JuliaSet {
         
         let mx = constrain(mouseX, 0, width);
         let my = constrain(mouseY, 0, height);
-        let cX = this.pos.x + map(mx, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Julia
-        let cY = this.pos.y + map(my, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
+        let cX, cY;
+        //I need this if/else so the fractal stops updating when mouse is outside the canvas
+        if(changeC === true && 0 < mouseX && mouseX < width && 0 < mouseY && mouseY < height){
+            cX = this.pos.x + map(mx, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Julia
+            cY = this.pos.y + map(my, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
+            pmx = mx;
+            pmy = my;
+        }else{
+            cX = this.pos.x + map(pmx, 0, width, -this.size.x / 2, this.size.x / 2);//this is for Julia
+            cY = this.pos.y + map(pmy, height, 0, -this.size.y / 2, this.size.y / 2);//this is for Julia
+        }
         
         if (changeC==true) {
             fill(255);
@@ -222,21 +233,25 @@ class JuliaSet {
             stroke(0);
             strokeWeight(4);
             textSize(18);
+            
             text("x: " + str( round( this.pos.x * 1000 )/1000 )
                  + "\ny: " + str( round( this.pos.y * 1000 )/1000 )
                  + "\nzoom: " + str( round(  (1 / this.zoom) * 1000 )/1000 )
                  + "\niterations: " + str( round(  (this.maxIter) * 1000 )/1000 )
                  , 5, 15
                  );
+            
         }
         //draw constant label
         fill(255);
         stroke(0);
         strokeWeight(2);
         textSize(18);
+        if(0 < mouseX && mouseX < width && 0 < mouseY && mouseY < height || changeC === false){
         text("c is (" + str(round(c.x * 1000)/1000.0) + "," + str(round(c.y * 1000)/1000.0) + ")", 5, height-15);
+        }
         
-        if(changeC){
+        if(changeC === true && 0 < mouseX && mouseX < width && 0 < mouseY && mouseY < height){
             fill(255);
             strokeWeight(1);
             ellipse(mx, my, 8, 8);

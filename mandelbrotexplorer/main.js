@@ -210,7 +210,9 @@ class MandelbrotSet {
         stroke(0);
         strokeWeight(2);
         textSize(18);
-        text("Mouse: (" + str(round(cX*1000)/1000.0) + "," + str(round(cY*1000)/1000.0) + ")", ctlsBack + 10, height-15);
+        if(0 < mouseX && mouseX < width && 0 < mouseY && mouseY < height){
+            text("Mouse: (" + str(round(cX*1000)/1000.0) + "," + str(round(cY*1000)/1000.0) + ")", ctlsBack + 10, height-15);
+        }
         
         var xc = mouseX;
         var yc = mouseY;
