@@ -1,4 +1,4 @@
-let fun = 'z^3';
+let fun = '1/z^5';
 
 function setup() {
   createCanvas(320, 320);
@@ -19,7 +19,7 @@ function draw() {
   // A different range will allow us to "zoom" in or out on the fractal
 
   // It all starts with the width, try higher or lower values
-  let w = 3.5;
+  let w = 4;
   let h = (w * height) / width;
 
   // Start at negative half the width and height
