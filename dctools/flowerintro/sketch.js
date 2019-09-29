@@ -97,9 +97,9 @@ function draw() {
   //draw constant label
   fill(255);
   stroke(0);
-  strokeWeight(1);
+  strokeWeight(3.5);
   textAlign(LEFT, CENTER);
-  textSize(17);
+  textSize(18);
   stroke(0,0, 0);
   text("c = (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", 5, height-15);
     pop();
