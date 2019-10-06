@@ -18,7 +18,7 @@ In this project I used [p5.js](https://p5js.org/) but there are similar projects
 
 Visit [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the different tools I made or if you prefer you can visit the [Domain Coloring Gallery](https://www.dynamicmath.xyz/domain-coloring/dcgallery.html).
 
-I also recomend the following galleries:
+I also recommend you the following galleries:
 
 * [Phase Plot Gallery](http://www.mathe.tu-freiberg.de/~wegert/PhasePlot/images.html)
 * [Gallery of Complex Functions](https://vqm.uni-graz.at/pages/complex/index.html)
