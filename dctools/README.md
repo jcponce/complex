@@ -14,13 +14,14 @@ I recommend you also the following resources with different programming language
 
 * [Complex Color Map](https://github.com/endolith/complex_colormap)
 * [C-plot](https://github.com/nschloe/cplot)
+* [Domain Coloring](https://github.com/fogleman/domaincoloring)
+
+Visit [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the different tools or visit the [Domain Coloring Gallery](https://www.dynamicmath.xyz/domain-coloring/dcgallery.html).
 
 ---
 
 #### Most recent update
 I was able to work out how to add a parser for complex functions. Now you can easily input a function such as 'f(z)=z^2+cos(z)'. 
-
-Visit [Domain coloring](https://jcponce.github.io/domain-coloring) to play with them or visit the gallery.
 
 ---
 
