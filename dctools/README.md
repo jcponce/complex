@@ -18,7 +18,7 @@ In this project I used [p5.js](https://p5js.org/) but there are similar projects
 * [C-plot](https://github.com/nschloe/cplot)
 * [Domain Coloring](https://github.com/fogleman/domaincoloring)
 * [The Complex Grapher](https://talbrenev.com/complexgrapher/)
-* [http://jutanium.github.io/ComplexNumberGrapher/](http://jutanium.github.io/ComplexNumberGrapher/)
+* [Complex Function Grapher](http://jutanium.github.io/ComplexNumberGrapher/)
 * [Conformal Map Viewer](http://davidbau.com/archives/2013/02/10/conformal_map_viewer.html)
 
 Visit [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the different tools I made or if you prefer you can visit the [Domain Coloring Gallery](https://www.dynamicmath.xyz/domain-coloring/dcgallery.html).
