@@ -20,6 +20,7 @@ In this project I used [p5.js](https://p5js.org/) but there are similar projects
 * [The Complex Grapher](https://talbrenev.com/complexgrapher/)
 * [Complex Function Grapher](http://jutanium.github.io/ComplexNumberGrapher/)
 * [Conformal Map Viewer](http://davidbau.com/archives/2013/02/10/conformal_map_viewer.html)
+* [Exploring complex function](https://cindyjs.org/gallery/cindygl/ComplexExplorer/index.html)
 
 Visit [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the different tools I made or if you prefer you can visit the [Domain Coloring Gallery](https://www.dynamicmath.xyz/domain-coloring/dcgallery.html).
 
