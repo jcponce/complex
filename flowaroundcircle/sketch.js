@@ -128,6 +128,7 @@ function controls(){
     buttonTrace.position(30, 15);
     buttonTrace.mousePressed(traceShow);
     buttonTrace.style('font-size', '20px');
+    buttonTrace.addClass('button');
     
     sliderRadius = createSlider(0.01, 250, 120, 0.01);
     sliderRadius.position(buttonTrace.x-10, buttonTrace.y + 65);
