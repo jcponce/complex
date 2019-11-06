@@ -27,7 +27,7 @@ canvasSize: 'Square'
 };
 
 function setup() {
-    createCanvas(470, 470);
+    createCanvas(700, 700);
     colorMode(HSB, 1);
     smooth();
     pixelDensity(1);
