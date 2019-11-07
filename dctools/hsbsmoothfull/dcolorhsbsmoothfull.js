@@ -26,6 +26,8 @@ canvasSize: 'Square'
     
 };
 
+let input;
+
 function setup() {
     createCanvas(470, 470);
     colorMode(HSB, 1);
@@ -36,16 +38,34 @@ function setup() {
     let gui = new dat.GUI({
                           width: 360
                           });
-    gui.add(clts, 'funcZ').name("f(z) =");
+    //gui.add(clts, 'funcZ').name("f(z) =");
     //gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
     gui.add(clts, 'Save').name("Save (png)");
     
+    gui.add(clts, 'displayXY').name("Axes").onChange(redraw);
+    gui.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
+    gui.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
+    gui.add(clts, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
+    
+    /*
     let cXY = gui.addFolder('Display Options');
     cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
     cXY.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
     cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
     cXY.add(clts, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
+     */
+    
+    input = createInput('(z^2-1) (z-2-i)^2/(z^2+2+2i)');
+    //input.size(200, 20);
+    input.addClass('body');
+    input.addClass('container');
+    input.addClass('full-width');
+    input.addClass('dark-translucent');
+    input.addClass('input-control');
+    //input.addClass('equation-input');
+    input.attribute('placeholder', 'Input complex expression, e.g. 1 / (z^2 + i)^2 - log(z)');
+    input.style('color: #ffffff');
     
     noLoop();
 }
@@ -114,7 +134,8 @@ function plot() {
     // Start y
     let ytemp = ymin;
     
-    let z = trimN(clts.funcZ);
+    //let z = trimN(clts.funcZ);
+    let z = trimN(input.value());
     let parsed = complex_expression(z);//Define function
     
     for (let j = 0; j < height; j++) {
