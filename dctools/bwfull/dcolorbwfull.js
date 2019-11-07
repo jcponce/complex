@@ -52,6 +52,7 @@ function setup() {
     gui.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
     gui.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
     gui.add(clts, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
+    gui.close();
     
     /*
     let cXY = gui.addFolder('Display Options');
@@ -69,7 +70,7 @@ function setup() {
     input.addClass('dark-translucent');
     input.addClass('input-control');
     //input.addClass('equation-input');
-    input.attribute('placeholder', 'Input complex expression, e.g. 1 / (z^2 + i)^2 - log(z)');
+    input.attribute('placeholder', 'Input complex expression, e.g. 1/(z^2 + iz)^2 - log(z)');
     input.style('color: #ffffff');
 
     noLoop();
