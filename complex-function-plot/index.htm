@@ -360,7 +360,7 @@
     			videoTexture.needsUpdate = true;
     	}
 
-      quad.material.uniforms.t.value = Math.sin( new Date().getTime() * 0.0001 );
+      quad.material.uniforms.t.value = Math.sin( new Date().getTime() * 0.0005 );
       quad.material.uniforms.t.needsUpdate = true;
       renderer.render(scene, camera);
 
