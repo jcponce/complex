@@ -31,7 +31,7 @@ canvasSize: 'Square'
 let input;
 
 function setup() {
-    createCanvas(470, 470);
+    createCanvas(1024, 1024);
     colorMode(HSB, 1);
     smooth();
     pixelDensity(1);
