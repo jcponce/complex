@@ -14,15 +14,16 @@ The method I used here is based on [Elias Wegert](http://www.visual.wegert.com/)
 
 In this project I used [p5.js](https://p5js.org/) but there are similar projects or online plotters using other programming languages: 
 
-* [Complex Color Map](https://github.com/endolith/complex_colormap)
-* [C-plot](https://github.com/nschloe/cplot)
+* [Complex Color Map](https://github.com/endolith/complex_colormap) (Python)
+* [C-plot](https://github.com/nschloe/cplot) (Python)
 * [Domain Coloring](https://github.com/fogleman/domaincoloring)
-* [The Complex Grapher](https://talbrenev.com/complexgrapher/)
-* [Complex Function Grapher](http://jutanium.github.io/ComplexNumberGrapher/)
-* [Conformal Map Viewer](http://davidbau.com/archives/2013/02/10/conformal_map_viewer.html)
-* [Exploring complex function](https://cindyjs.org/gallery/cindygl/ComplexExplorer/index.html)
+* [The Complex Grapher](https://talbrenev.com/complexgrapher/) (JavaScript)
+* [Complex Function Grapher](http://jutanium.github.io/ComplexNumberGrapher/) (JavaScript)
+* [Conformal Map Viewer](http://davidbau.com/archives/2013/02/10/conformal_map_viewer.html) (JavaScript)
+* [Exploring complex function](https://cindyjs.org/gallery/cindygl/ComplexExplorer/index.html) (Cindy.JS)
+* [Complex Function Explorer](https://cindyjs.org/gallery/cindygl/ComplexExplorer/index.html) (MATLAB)
 
-Visit [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the different tools I made or if you prefer you can visit the [Domain Coloring Gallery](https://www.dynamicmath.xyz/domain-coloring/dcgallery.html).
+Visit the site [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the different tools I made or if you prefer you can visit the [Domain Coloring Gallery](https://www.dynamicmath.xyz/domain-coloring/dcgallery.html).
 
 I also recommend you the following galleries:
 
