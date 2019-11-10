@@ -123,7 +123,7 @@
     / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'complex_log(' + arg + ')'; }
     / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cos(' + arg + ')'; }
     / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sin(' + arg + ')'; }
-    / _ "abs"  _ "(" _ arg:Expression _ ")" _ { return 'complex_abs(' + arg + ')'; }
+    / _ "abs"  _ "(" _ arg:Expression _ ")" _ { return 'abs(' + arg + ')'; }
     / _ "iter" _ "(" _ arg:Expression _ "," _ count:PositiveInteger _ ")" _ {
       var n = parseInt(count) - 1, Q = arg;
       for(var it=0; it < n; ++it) {
@@ -243,8 +243,7 @@
       return vec2( log( length(x) ), arg(x) );
     }
     
-    float complex_abs(vec2 x) {
-        
+    float abs(vec2 x) {
         return B*B+A*A;
     }
     
