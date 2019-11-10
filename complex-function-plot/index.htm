@@ -241,6 +241,17 @@
     vec2 complex_log(vec2 x) {
       return vec2( log( length(x) ), arg(x) );
     }
+    
+    //new function
+    vec2 complex_abs(vec2 x) {
+        float rho = length(x);
+        float theta = arg(x);
+        float angle = C * theta + D * log(rho);
+        float real = cos(angle);
+        float imag = sin(angle);
+        
+        return Math.sqrt(real*real + imag*imag);
+    }
 
     bool isNan(float val)
     {
