@@ -18,7 +18,7 @@ In this project I used [p5.js](https://p5js.org/) but there are similar projects
 * [C-plot](https://github.com/nschloe/cplot) (Python)
 * [Domain Coloring](https://github.com/fogleman/domaincoloring)
 * [The Complex Grapher](https://talbrenev.com/complexgrapher/) (JavaScript)
-* [Complex Function Grapher](http://jutanium.github.io/ComplexNumberGrapher/) (JavaScript)
+* [Complex Function Grapher](http://jutanium.github.io/ComplexNumberGrapher/) (Math.js)
 * [Conformal Map Viewer](http://davidbau.com/archives/2013/02/10/conformal_map_viewer.html) (JavaScript)
 * [Exploring complex function](https://cindyjs.org/gallery/cindygl/ComplexExplorer/index.html) (Cindy.JS)
 * [Complex Function Explorer](https://cindyjs.org/gallery/cindygl/ComplexExplorer/index.html) (MATLAB)
