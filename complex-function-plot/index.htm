@@ -243,10 +243,9 @@
       return vec2( log( length(x) ), arg(x) );
     }
     
-    vec2 complex_abs(vec2 x) {
+    float complex_abs(vec2 x) {
         float rho = length(x);
         float theta = arg(x);
-        
         float real = cos(theta);
         float imag = sin(theta);
         return real*real + imag*imag;
