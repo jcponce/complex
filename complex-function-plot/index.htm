@@ -245,7 +245,11 @@
     
     vec2 complex_abs(vec2 x) {
         float rho = length(x);
-        return rho;
+        float theta = arg(x);
+        float angle = C * theta + D * log(rho);
+        float real = cos(angle);
+        float imag = sin(angle);
+        return real*real + imag*imag;
     }
     
     
