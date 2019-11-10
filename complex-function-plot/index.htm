@@ -244,12 +244,11 @@
     }
     
     float complex_abs(vec2 x) {
-        float rho = length(x);
-        float theta = arg(x);
-        float real = cos(theta);
-        float imag = sin(theta);
-        return real*real + imag*imag;
+        
+        return B*B+A*A;
     }
+    
+    float arg(vec2 x) { return atan(B,A); }
     
     
 
