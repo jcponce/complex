@@ -8,7 +8,7 @@ Hi! Welcome. Here are the sketches about domain coloring for visualizing complex
 
 #### Introduction
 
-The method I used here is based on Elias Wegert's work from his book [Visual Complex Functions.](http://www.springer.com/de/book/9783034801799) He basically employs phase portraits with contour lines of phase and modulus, *enhanced phase portraits*, for the study of the theory of complex functions. I also added extra color schemes to explore different ways to visualize complex functions. In particular, I used some of the equations discussed in the *MATHEMATICA &amp; Wolfram Language* section from the *Stack Exchange* site:
+The method I used here is based on [Elias Wegert](http://www.visual.wegert.com/)'s work from his book [Visual Complex Functions.](http://www.springer.com/de/book/9783034801799) He basically employs phase portraits with contour lines of phase and modulus, *enhanced phase portraits*, for the study of the theory of complex functions. I also added extra color schemes to explore different ways to visualize complex functions. In particular, I used some of the equations discussed in the *MATHEMATICA &amp; Wolfram Language* section from the *Stack Exchange* site:
 
 [How can I generate this “domain coloring” plot?](https://mathematica.stackexchange.com/questions/7275/how-can-i-generate-this-domain-coloring-plot)
 
@@ -39,6 +39,8 @@ Feb-2019: Added Complex library.
 May-2019: Added more color schemes.
 
 Sep-2019: I was able to work out how to add a parser for complex functions thanks to [David Bau's work](http://davidbau.com/). Now you can easily input a function such as 'f(z)=z^2+cos(z)'. 
+
+Aug-2019: Added a new input box to enter the functions. It looks better :)
 
 ---
 
