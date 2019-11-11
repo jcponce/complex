@@ -72,6 +72,8 @@
        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/abstract.jpg"></a>
        <!--z*(1-(t+1)/2) + ((t+1)/2)*(z+1/z)
        (z*0.99+0.01*((1-z^(18))*z^2) )*(1+i*t)
+       
+       (z * 3)/2 * e^(t * pi * i * e^( -1 * abs( (z*3)/2 )^2 ))
        -->
        
        
@@ -124,6 +126,10 @@
     / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cos(' + arg + ')'; }
     / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sin(' + arg + ')'; }
     / _ "abs"  _ "(" _ arg:Expression _ ")" _ { return 'complex_abs(' + arg + ')'; }
+    /// _ "-log"  _ "(" _ arg:Expression _ ")" _ { return 'minus_complex_log(' + arg + ')'; }
+    /// _ "-cos"  _ "(" _ arg:Expression _ ")" _ { return 'minus_complex_cos(' + arg + ')'; }
+    /// _ "-sin"  _ "(" _ arg:Expression _ ")" _ { return 'minus_complex_sin(' + arg + ')'; }
+    /// _ "-abs"  _ "(" _ arg:Expression _ ")" _ { return 'minus_complex_abs(' + arg + ')'; }
     / _ "iter" _ "(" _ arg:Expression _ "," _ count:PositiveInteger _ ")" _ {
       var n = parseInt(count) - 1, Q = arg;
       for(var it=0; it < n; ++it) {
@@ -243,9 +249,11 @@
       return vec2( log( length(x) ), arg(x) );
     }
     
+    //New abs(z) function by Juan Carlos Ponce Campuzano
     vec2 complex_abs(vec2 x) {
       return vec2( length(x), 0 );
     }
+    
     
 
     bool isNan(float val)
