@@ -130,6 +130,7 @@
     / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'complex_tan(' + arg + ')'; }
     / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cos(' + arg + ')'; }
     / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sin(' + arg + ')'; }
+    / _ "tanh"  _ "(" _ arg:Expression _ ")" _ { return 'complex_tanh(' + arg + ')'; }
     / _ "cosh"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cosh(' + arg + ')'; }
     / _ "sinh"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sinh(' + arg + ')'; }
     / _ "abs"  _ "(" _ arg:Expression _ ")" _ { return 'complex_abs(' + arg + ')'; }
@@ -255,6 +256,12 @@
       return complex_div( eiz + einz, complex(2.0, 0.0));
     }
     
+    vec2 complex_log(vec2 x) {
+      return vec2( log( length(x) ), arg(x) );
+    }
+    
+    //New functions adde by Juan Carlos Ponce Campuzano 12-Nov-2019
+    
     vec2 complex_tan(vec2 x) {
         float real = sin(A+A)/(cos(A+A)+cosh(B+B));
         float imag = sinh(B+B)/(cos(A+A)+cosh(B+B));
@@ -273,41 +280,18 @@
       return complex( real, imag);
     }
     
-    
-    /*
-    //\frac{\sin(2x)}{\cosh(2y)+\cos(2x)}
-    //\frac{i\sinh(2y)}{\cosh(2y)+\cos(2x)}
-    //sinh(x) = (e^x - e^(-x) )/2
-    //cosh(x) = (e^x + e^(-x) )/2
-    
-    vec2 complex_tan(vec2 x) {
-      //vec2 iz = complex_mul(vec2(0.0, 1.0), x);
-      //vec2 inz = complex_mul(vec2(0.0, -1.0), x);
-      //vec2 eiz = complex_pow( vec2(M_E, 0.0), iz );
-      //vec2 einz = complex_pow( vec2(M_E, 0.0), inz );
-      float aa = 2 * A;
-      float bb = 2 * B;
-      float nbb = -1 * bb;
-      float sin2x = sin(aa);
-      float cos2x = cos(bb);
-      float sinh2y = (Math.pow(M_E, bb) - Math.pow(M_E, nbb) )/2;
-      float cosh2y = (Math.pow(M_E, bb) + Math.pow(M_E, nbb) )/2;
-      float real = sin2x / ( cosh2y + cos2x );
-      float imag = sinh2y / ( cosh2y + cos2x );
-      return vec2(real, imag);
+    vec2 complex_tanh(vec2 x) {
+        float real = sinh(A+A)/(cosh(A+A)*cos(B+B));
+        float imag = sin(B+B)/(cosh(A+A)*cos(B+B));
+      return complex( real, imag);
     }
-     */
 
-    vec2 complex_log(vec2 x) {
-      return vec2( log( length(x) ), arg(x) );
-    }
-    
-    //New abs(z) function by Juan Carlos Ponce Campuzano
     vec2 complex_abs(vec2 x) {
       return vec2( length(x), 0 );
     }
     
-    
+    //new functions ends
+
 
     bool isNan(float val)
     {
