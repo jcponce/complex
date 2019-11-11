@@ -1,4 +1,6 @@
 // Ripped from view-source:https://stemkoski.github.io/Three.js/Webcam-Texture.html
+
+
 window.URL = window.URL || window.webkitURL;
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 var camvideo = document.getElementById('monitor');
@@ -25,6 +27,7 @@ function noStream(e)
 
 /*
  //This part of the code no longer works, so I tried something different
+ //Changed code based on suggestions from this site: https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
  
 function gotStream(stream)
 {
