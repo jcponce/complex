@@ -127,6 +127,7 @@
   Factor
     = "(" _ expr:Expression _ ")" { return expr; }
     / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'complex_log(' + arg + ')'; }
+    / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'complex_tan(' + arg + ')'; }
     / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cos(' + arg + ')'; }
     / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sin(' + arg + ')'; }
     / _ "cosh"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cosh(' + arg + ')'; }
@@ -252,6 +253,12 @@
       vec2 eiz = complex_pow( vec2(M_E, 0.0), iz );
       vec2 einz = complex_pow( vec2(M_E, 0.0), inz );
       return complex_div( eiz + einz, complex(2.0, 0.0));
+    }
+    
+    vec2 complex_tan(vec2 x) {
+        float real = sin(A+A)/(cos(A+A)+cosh(B+B));
+        float imag = sinh(B+B)/(cos(A+A)+cosh(B+B));
+      return complex( real, imag);
     }
     
     vec2 complex_sinh(vec2 x) {
