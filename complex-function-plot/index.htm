@@ -281,8 +281,8 @@
     }
     
     vec2 complex_tanh(vec2 x) {
-        float real = sinh(A+A)/(cosh(A+A)*cos(B+B));
-        float imag = sin(B+B)/(cosh(A+A)*cos(B+B));
+        float real = sinh(A+A)/(cosh(A+A)+cos(B+B));
+        float imag = sin(B+B)/(cosh(A+A)+cos(B+B));
       return complex( real, imag);
     }
 
