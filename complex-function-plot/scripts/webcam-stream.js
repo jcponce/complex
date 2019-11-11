@@ -24,6 +24,8 @@ function noStream(e)
 }
 
 /*
+ //This part of the code no longer works, so I tried something different
+ 
 function gotStream(stream)
 {
   if (window.URL)
