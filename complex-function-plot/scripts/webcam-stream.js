@@ -3,6 +3,27 @@ window.URL = window.URL || window.webkitURL;
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 var camvideo = document.getElementById('monitor');
 
+function gotStream (stream){
+    if (navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+          camvideo.srcObject = stream;
+        })
+        .catch(function (err0r) {
+          console.log("Something went wrong!");
+        });
+    }
+}
+
+function noStream(e)
+{
+  var msg = 'No camera available.';
+  if (e.code == 1)
+  {   msg = 'User denied access to use camera.';   }
+  document.getElementById('errorMessage').textContent = msg;
+}
+
+/*
 function gotStream(stream)
 {
   if (window.URL)
@@ -17,7 +38,7 @@ function noStream(e)
   if (e.code == 1)
   {   msg = 'User denied access to use camera.';   }
   document.getElementById('errorMessage').textContent = msg;
-}
+}*/
 
 function initWebCam() {
   // TODO : This is really sloppy, just leaking into the global namespace.
