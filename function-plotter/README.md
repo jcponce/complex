@@ -5,7 +5,7 @@
 
 A WebGL-based complex expression parser and plotter. 
 
-This project was forked from the amazing work of [Brandon Pelfrey](https://github.com/brandonpelfrey/complex-function-plot). In this version I added a few extra complex functions and use textures that I designed.
+This project was forked from the amazing work of [Brandon Pelfrey](https://github.com/brandonpelfrey/complex-function-plot). In this version I added a few extra complex functions and used textures that I designed.
 
 ## What is this?
 
@@ -22,7 +22,7 @@ The rendered image is created by evaluating the user-supplied function and then 
 
 ## Available functions
 
-In this version I added a few extra functions. 
+In this version I added a few extra complex functions. 
 
 * Trigonometric functions --- "sin, cos, tan, csc, sec, cot".
 * Hyperbolic trigonometric functions --- "sinh, cosh, tanh, csch, sech, coth".
