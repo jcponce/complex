@@ -11,9 +11,9 @@ This tool allows you to visualize, in real-time, in a browser, how complex funct
 
 The rendered image is created by evaluating the user-supplied function and then using the results of that function to look up a color in an image which is infinitely tiled over the [Complex Plane](http://mathworld.wolfram.com/ComplexPlane.html). By changing the expression in the input field, you can visualize how various functions distort the plane.
 
-## Available Variables
+## Basic arithmetic operators, constants and parameters
 
-* Basic arithmetic operators -- "+ - * /" for combining various complex numbers
+* Basic arithmetic operators -- "+  -  *  /" for combining various complex numbers
 * Constants -- "<a,b>" for defining a complex number (a,b) from two real-values.
 * Pre-Defined Constants -- "pi, e, a, b" for using common constants. The constants "a" and "b" will take on the value of the real and complex part of the point in the complex plane.
 * "Animated" Parameter -- "t" can be used in place of a real value to provide some animation to your plot. It slowly oscillates between -1 and 1.
@@ -29,6 +29,7 @@ In this version I added a few extra functions.
 * Complex power --- "^".
 * Complex logarithm --- "log".
 * Real and Imaginary components --- "re, im".
+* Iteration function --- "iter( expr, n)" with n = 1, ..., 9.
 
 ## Some examples
 
