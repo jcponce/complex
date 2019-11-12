@@ -268,15 +268,20 @@
     //New functions added by Juan Carlos Ponce Campuzano 12-Nov-2019
     
     vec2 complex_re(vec2 x) {
+       vec2 z = complex_mul(vec2(0.5, 0.0), x);
         float real = A;
-       // float imag = B-B;
-       return vec2( real, 0.0);
+        float nimag = -B;
+        vec2 conjz = complex_mul(vec2(0.5, 0.0), vec2(real, nimag));
+        return complex_add( z, conjz );
     }
     
     vec2 complex_im(vec2 x) {
-        //float real = A-A;
-        float imag = B;
-        return vec2( 0.0, imag);
+       vec2 z = complex_mul(vec2(0.5, 0.0), x);
+       float real = A;
+       float nimag = -B;
+       vec2 conjz = complex_mul(vec2(0.5, 0.0), vec2(real, nimag));
+       vec2 sub = complex_sub( z, conjz );
+       return complex_div( sub, vec2(0.0, 1) );
     }
     
     vec2 complex_tan(vec2 x) {
