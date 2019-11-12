@@ -23,6 +23,8 @@ I added extra complex functions to explore.
 ## Some examples
 
 * [Fluid around cilinder](https://jcponce.github.io/complex/function-plotter/?expression=eiAqICgxIC0gKHQrMSkvMikgKyAodCsxKS8yICogKHorMS96KQ==)
+  * [Real component](https://jcponce.github.io/complex/function-plotter/?expression=cmUoKHorMS96KSApKiAodCsxKS8yICsgcmUoeikgKiAoMSAtICh0KzEpLzIp)
+  * [Imaginary component](https://jcponce.github.io/complex/function-plotter/?expression=aW0oKHorMS96KSApKiAodCsxKS8yICsgaW0oeikgKiAoMSAtICh0KzEpLzIp)
 * [Disk with a rotating tile](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAwLjk5ICsgMC4wMSAqICgoMSAtIHpeKDE4KSkgKiB6XjIpICkgKiAoMSArIGkgKiB0KQ==)
 * [Bending reality](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqIDAuNSAqICh6IC0gMyppKSArIGxvZyh6IC0gMyppKSkgKiAodCsxKS8yICsgeiAqICgxIC0gKHQrMSkvMik=)
 * [Vortex within a circle](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAzKS8yICogZV4odCAqIHBpICogaSAqIGVeKCAtMSAqIGFicyggKHoqMykvMiApXjIgKSk=)
