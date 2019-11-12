@@ -3,7 +3,9 @@
 ## Complex Function Plotter 
 #### [Live Demo](http://jcponce.github.io/complex/function-plotter/)
 
-A WebGL-based complex expression parser and plotter. This project was forked from the amazing work of [Brandon Pelfrey](https://github.com/brandonpelfrey/complex-function-plot). 
+A WebGL-based complex expression parser and plotter. 
+
+This project was forked from the amazing work of [Brandon Pelfrey](https://github.com/brandonpelfrey/complex-function-plot). In this version I added a few extra complex functions and use textures that I designed.
 
 ## What is this?
 
