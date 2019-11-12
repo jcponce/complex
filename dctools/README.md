@@ -6,7 +6,7 @@ Hi! Welcome. Here are the sketches about domain coloring for visualizing complex
 
 ---
 
-#### Introduction
+#### About the method
 
 The method I used here is based on [Elias Wegert](http://www.visual.wegert.com/)'s work from his book [Visual Complex Functions.](http://www.springer.com/de/book/9783034801799) He basically employs phase portraits with contour lines of phase and modulus, *enhanced phase portraits*, for the study of the theory of complex functions. I also added extra color schemes to explore different ways to visualize complex functions. In particular, I used some of the equations discussed in the *MATHEMATICA &amp; Wolfram Language* section from the *Stack Exchange* site:
 
@@ -30,6 +30,22 @@ I also recommend you the following galleries:
 * [Phase Plot Gallery](http://www.mathe.tu-freiberg.de/~wegert/PhasePlot/images.html)
 * [Gallery of Complex Functions](https://vqm.uni-graz.at/pages/complex/index.html)
 
+---
+
+## Available functions
+
+* Trigonometric functions --- "sin, cos, tan, csc, sec, cot, arcsin, arccos, arctan, arccsc, arcsec, arccot".
+* Hyperbolic trigonometric functions --- "sinh, cosh, tanh, csch, sech, coth, arcsinh, arccosh, arctanh, arccsch, arcsech, arccoth".
+* The conjugate --- "conj".
+* The absolute value, also known as modulus --- "abs".
+* Complex power --- "^, exp".
+* Complex logarithm --- "log".
+* Real and Imaginary components --- "re, im".
+* Jacobi Elliptic --- "sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])". 
+* Gamma function --- "gamma".
+* Taylor Series --- "sum( expr, positive integer)".
+* Multiplicative function --- "multIter( expr, positive integer)".
+* Iterated function --- "iter( expr, variable positive integer)".
 
 ---
 
