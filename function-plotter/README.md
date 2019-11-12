@@ -24,9 +24,10 @@ I added extra complex functions to explore.
 
 * [Fluid around cilinder](https://jcponce.github.io/complex/function-plotter/?expression=eiAqICgxIC0gKHQrMSkvMikgKyAodCsxKS8yICogKHorMS96KQ==)
 * [Disk with a rotating tile](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAwLjk5ICsgMC4wMSAqICgoMSAtIHpeKDE4KSkgKiB6XjIpICkgKiAoMSArIGkgKiB0KQ==)
-* [Dilatation](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqIDAuNSAqICh6IC0gMyppKSArIGxvZyh6IC0gMyppKSkgKiAodCsxKS8yICsgeiAqICgxIC0gKHQrMSkvMik=)
-* [Bending reality](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAzKS8yICogZV4odCAqIHBpICogaSAqIGVeKCAtMSAqIGFicyggKHoqMykvMiApXjIgKSk=)
+* [Bending reality](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqIDAuNSAqICh6IC0gMyppKSArIGxvZyh6IC0gMyppKSkgKiAodCsxKS8yICsgeiAqICgxIC0gKHQrMSkvMik=)
+* [Vortex within a circle](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAzKS8yICogZV4odCAqIHBpICogaSAqIGVeKCAtMSAqIGFicyggKHoqMykvMiApXjIgKSk=)
 * [Waves](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqICgxLjUgKiByKV41KSArIHQ=)
+* [Potential](https://jcponce.github.io/complex/function-plotter/?expression=KGxvZygoei0xKS8oeisxKSkpICogKHQrMSkvMiArIHogKiAoMSAtICh0KzEpLzIp)
 
 ## How does it work?
 #### This tool runs in real-time thanks to a few other libraries.
