@@ -5,6 +5,11 @@
 
 A WebGL-based complex expression parser and plotter. This project was forked from the amazing work of [Brandon Pelfrey](https://github.com/brandonpelfrey/complex-function-plot). 
 
+## What is this?
+
+This tool allows you to visualize, in real-time, in a browser, how complex functions distort the complex plane, like in the [Conformal Mapping](http://mathworld.wolfram.com/ConformalMapping.html) entry from Wolfram Mathworld.
+
+The rendered image is created by evaluating the user-supplied function and then using the results of that function to look up a color in an image which is infinitely tiled over the [Complex Plane](http://mathworld.wolfram.com/ComplexPlane.html). By changing the expression in the input field, you can visualize how various functions distort the plane.
 
 ## Available Functions and Variables
 I added extra complex functions to explore.
@@ -15,6 +20,14 @@ I added extra complex functions to explore.
 * Pre-Defined Constants -- "pi, e, a, b" for using common constants. The constants "a" and "b" will take on the value of the real and complex part of the point in the complex plane.
 * "Animated" Parameter -- "t" can be used in place of a real value to provide some animation to your plot. It slowly oscillates between -1 and 1.
 
+## Some examples
+
+* [Fluid around cilinder](https://jcponce.github.io/complex/function-plotter/?expression=eiAqICgxIC0gKHQrMSkvMikgKyAodCsxKS8yICogKHorMS96KQ==)
+* [Disk with a rotating tile](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAwLjk5ICsgMC4wMSAqICgoMSAtIHpeKDE4KSkgKiB6XjIpICkgKiAoMSArIGkgKiB0KQ==)
+* [Dilatation](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqIDAuNSAqICh6IC0gMyppKSArIGxvZyh6IC0gMyppKSkgKiAodCsxKS8yICsgeiAqICgxIC0gKHQrMSkvMik=)
+* [Disturbing reality](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAzKS8yICogZV4odCAqIHBpICogaSAqIGVeKCAtMSAqIGFicyggKHoqMykvMiApXjIgKSk=)
+* [Waves](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSooMS41KnIpXjUpK3Q=)
+
 ## How does it work?
 #### This tool runs in real-time thanks to a few other libraries.
 
@@ -23,5 +36,4 @@ I added extra complex functions to explore.
 * jQuery is used for some very minor setup logic (could be easily removed...)
 
 
-Refer to the [instructions in the wiki](https://github.com/brandonpelfrey/complex-function-plot/wiki/Complex-Function-Plotter) for information on usage and background info.
 
