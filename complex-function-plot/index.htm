@@ -78,6 +78,7 @@
        e^(i*0.5*(z-3*i)+log(z-3*i))*(t+1)/2+z*(1-(t+1)/2)
        (z * 3)/2 * e^(t * pi * i * e^( -1 * abs( (z*3)/2 )^2 ))
        (2*(z-1-2.5*i))^(1 - i*0.537)+t
+       e^(i*(2.5*r)^5)+t
        -->
        
        
@@ -136,10 +137,7 @@
     / _ "abs"  _ "(" _ arg:Expression _ ")" _ { return 'complex_abs(' + arg + ')'; }
     / _ "re"  _ "(" _ arg:Expression _ ")" _ { return 'complex_re(' + arg + ')'; }
     / _ "im"  _ "(" _ arg:Expression _ ")" _ { return 'complex_im(' + arg + ')'; }
-    /// _ "-log"  _ "(" _ arg:Expression _ ")" _ { return 'minus_complex_log(' + arg + ')'; }
-    /// _ "-cos"  _ "(" _ arg:Expression _ ")" _ { return 'minus_complex_cos(' + arg + ')'; }
-    /// _ "-sin"  _ "(" _ arg:Expression _ ")" _ { return 'minus_complex_sin(' + arg + ')'; }
-    /// _ "-abs"  _ "(" _ arg:Expression _ ")" _ { return 'minus_complex_abs(' + arg + ')'; }
+    / _ "conj"  _ "(" _ arg:Expression _ ")" _ { return 'complex_conj(' + arg + ')'; }
     / _ "iter" _ "(" _ arg:Expression _ "," _ count:PositiveInteger _ ")" _ {
       var n = parseInt(count) - 1, Q = arg;
       for(var it=0; it < n; ++it) {
@@ -265,7 +263,7 @@
       return vec2( log( length(x) ), arg(x) );
     }
     
-    //New functions added by Juan Carlos Ponce Campuzano 12-Nov-2019
+    //New complex functions added by Juan Carlos Ponce Campuzano 12-Nov-2019
     
     vec2 complex_re(vec2 x) {
        vec2 z = complex_mul(vec2(0.5, 0.0), x);
@@ -282,6 +280,12 @@
        vec2 conjz = complex_mul(vec2(0.5, 0.0), vec2(real, nimag));
        vec2 sub = complex_sub( z, conjz );
        return complex_div( sub, vec2(0.0, 1) );
+    }
+    
+    vec2 complex_conj(vec2 x) {
+        float real = A;
+        float nimag = -B;
+      return vec2( real, nimag);
     }
     
     vec2 complex_tan(vec2 x) {
