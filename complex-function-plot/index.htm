@@ -270,13 +270,13 @@
     vec2 complex_re(vec2 x) {
         float real = A;
        // float imag = B-B;
-        return vec2( real, 0);
+       return vec2( real, 0.0);
     }
     
     vec2 complex_im(vec2 x) {
         //float real = A-A;
         float imag = B;
-        return vec2( 0, imag);
+        return vec2( 0.0, imag);
     }
     
     vec2 complex_tan(vec2 x) {
