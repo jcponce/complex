@@ -125,7 +125,7 @@
   Powered
     =  _ left:Factor _ "^" _ right:Factor _ { return 'complex_pow(' + left + ',' + right + ')'; }
     / Factor
-
+  // Added a few extra functions by Juan Carlos Ponce Campuzano 12-Nov-2019
   Factor
     = "(" _ expr:Expression _ ")" { return expr; }
     / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'complex_log(' + arg + ')'; }
