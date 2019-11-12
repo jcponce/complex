@@ -11,14 +11,24 @@ This tool allows you to visualize, in real-time, in a browser, how complex funct
 
 The rendered image is created by evaluating the user-supplied function and then using the results of that function to look up a color in an image which is infinitely tiled over the [Complex Plane](http://mathworld.wolfram.com/ComplexPlane.html). By changing the expression in the input field, you can visualize how various functions distort the plane.
 
-## Available Functions and Variables
-I added extra complex functions to explore.
+## Available Variables
 
 * Basic arithmetic operators -- "+ - * /" for combining various complex numbers
-* Functions -- "sin, cos, tan, sinh, cosh, tanh, abs, conj, re, im, log, ^" for computing sine, cosine, tangent, hyperbolic trigonometric functions, the conjugate, real and imaginary components, along with complex power and logarithms
 * Constants -- "<a,b>" for defining a complex number (a,b) from two real-values.
 * Pre-Defined Constants -- "pi, e, a, b" for using common constants. The constants "a" and "b" will take on the value of the real and complex part of the point in the complex plane.
 * "Animated" Parameter -- "t" can be used in place of a real value to provide some animation to your plot. It slowly oscillates between -1 and 1.
+
+## Available functions
+
+In this version I added a few extra functions. 
+
+* Trigonometric functions --- "sin, cos, tan, csc, sec, cot".
+* Hyperbolic trigonometric functions --- "sinh, cosh, tanh, csch, sech, coth".
+* The conjugate --- "conj".
+* The absolute value, also known as modulus --- "abs".
+* Complex power --- "^".
+* Complex logarithm --- "log".
+* Real and Imaginary components --- "re, im".
 
 ## Some examples
 
