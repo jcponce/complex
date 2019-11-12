@@ -62,6 +62,16 @@
              id="equation-input"
              placeholder="Input complex expression, e.g. 1 / (z^2 + t * i)^t - log(z)"
              value="t - 0.09 * (z - 6)^2"></input>
+      
+      <!--
+      Some interesting examples
+      z * (1 - (t+1)/2) + (t+1)/2 * (z+1/z)
+      (z*0.99+0.01*((1-z^(18))*z^2) )*(1+i*t)
+      e^(i*0.5*(z-3*i)+log(z-3*i))*(t+1)/2+z*(1-(t+1)/2)
+      (z * 3)/2 * e^(t * pi * i * e^( -1 * abs( (z*3)/2 )^2 ))
+      (2*(z-1-2.5*i))^(1 - i*0.537)+t
+      e^(i*(2.5*r)^5)+t
+      -->
 
       <span id="texture-options">
        
@@ -72,16 +82,7 @@
        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/spiral.jpg"></a>
        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/abstract.jpg"></a>
        <a class="dark-translucent input-control" href="#"><i class="fa fa-video-camera"></i></a>
-       <!--
-       z * (1 - (t+1)/2) + (t+1)/2 * (z+1/z)
-       (z*0.99+0.01*((1-z^(18))*z^2) )*(1+i*t)
-       e^(i*0.5*(z-3*i)+log(z-3*i))*(t+1)/2+z*(1-(t+1)/2)
-       (z * 3)/2 * e^(t * pi * i * e^( -1 * abs( (z*3)/2 )^2 ))
-       (2*(z-1-2.5*i))^(1 - i*0.537)+t
-       e^(i*(2.5*r)^5)+t
-       -->
-       
-       
+
      </span>
     </div>
 
@@ -131,6 +132,12 @@
     / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'complex_tan(' + arg + ')'; }
     / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cos(' + arg + ')'; }
     / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sin(' + arg + ')'; }
+    / _ "sec"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sec(' + arg + ')'; }
+    / _ "csc"  _ "(" _ arg:Expression _ ")" _ { return 'complex_csc(' + arg + ')'; }
+    / _ "cot"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cot(' + arg + ')'; }
+    / _ "sech"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sech(' + arg + ')'; }
+    / _ "csch"  _ "(" _ arg:Expression _ ")" _ { return 'complex_csch(' + arg + ')'; }
+    / _ "coth"  _ "(" _ arg:Expression _ ")" _ { return 'complex_coth(' + arg + ')'; }
     / _ "tanh"  _ "(" _ arg:Expression _ ")" _ { return 'complex_tanh(' + arg + ')'; }
     / _ "cosh"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cosh(' + arg + ')'; }
     / _ "sinh"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sinh(' + arg + ')'; }
@@ -294,6 +301,24 @@
       return vec2( real, imag);
     }
     
+    vec2 complex_csc(vec2 x) {
+        float real = (-sin(A)*cosh(B)-sin(A)*cosh(B))/(cos(A+A)-cosh(B+B));
+        float imag = (cos(A)*sinh(B)+cos(A)*sinh(B))/(cos(A+A)-cosh(B+B));
+      return vec2( real, imag);
+    }
+    
+    vec2 complex_sec(vec2 x) {
+        float real = (cos(A)*cosh(B)+cos(A)*cosh(B))/(cos(A+A)+cosh(B+B));
+        float imag = (sin(A)*sinh(B)+sin(A)*sinh(B))/(cos(A+A)+cosh(B+B));
+      return vec2( real, imag);
+    }
+    
+    vec2 complex_cot(vec2 x) {
+        float real = sin(A+A)/(cos(A+A)-cosh(B+B));
+        float imag = sinh(B+B)/(cos(A+A)-cosh(B+B));
+      return vec2( real, imag);
+    }
+    
     vec2 complex_sinh(vec2 x) {
         float real = sinh(A)*cos(B);
         float imag = cosh(A)*sin(B);
@@ -309,6 +334,24 @@
     vec2 complex_tanh(vec2 x) {
         float real = sinh(A+A)/(cosh(A+A)+cos(B+B));
         float imag = sin(B+B)/(cosh(A+A)+cos(B+B));
+      return vec2( real, imag);
+    }
+    
+    vec2 complex_csch(vec2 x) {
+        float real = (-sinh(A)*cos(B)-sinh(A)*cos(B))/(-cosh(A+A)+cos(B+B));
+        float imag = (cosh(A)*sin(B)+cosh(A)*sin(B))/(-cosh(A+A)+cos(B+B));
+      return vec2( real, imag);
+    }
+    
+    vec2 complex_sech(vec2 x) {
+        float real = (+cosh(A)*cos(B)+cosh(A)*cos(B))/(cosh(A+A)+cos(B+B));
+        float imag = (-sinh(A)*sin(B)-sinh(A)*sin(B))/(cosh(A+A)+cos(B+B));
+      return vec2( real, imag);
+    }
+    
+    vec2 complex_coth(vec2 x) {
+        float real = -sinh(A+A)/(-cosh(A+A)+cos(B+B));
+        float imag = -sin(B+B)/(-cosh(A+A)+cos(B+B));
       return vec2( real, imag);
     }
 
