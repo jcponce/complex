@@ -134,6 +134,8 @@
     / _ "cosh"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cosh(' + arg + ')'; }
     / _ "sinh"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sinh(' + arg + ')'; }
     / _ "abs"  _ "(" _ arg:Expression _ ")" _ { return 'complex_abs(' + arg + ')'; }
+    / _ "re"  _ "(" _ arg:Expression _ ")" _ { return 'complex_re(' + arg + ')'; }
+    / _ "im"  _ "(" _ arg:Expression _ ")" _ { return 'complex_im(' + arg + ')'; }
     /// _ "-log"  _ "(" _ arg:Expression _ ")" _ { return 'minus_complex_log(' + arg + ')'; }
     /// _ "-cos"  _ "(" _ arg:Expression _ ")" _ { return 'minus_complex_cos(' + arg + ')'; }
     /// _ "-sin"  _ "(" _ arg:Expression _ ")" _ { return 'minus_complex_sin(' + arg + ')'; }
@@ -217,8 +219,11 @@
 
     float arg(vec2 x) { return atan(B,A); }
     
+    //New auxiliary functions by Juan Carlos Ponce Campuzano 12-Nov-2019
+    
     float sinh( float x ) { return (pow(M_E, x) - pow(M_E, -x))*0.5; }
     float cosh( float x ) { return (pow(M_E, x) + pow(M_E, -x))*0.5; }
+    //New auxiliary functions ends
     
     float complex_r(float x, float y) { return length(vec2(x,y)); }
     float complex_theta(float x, float y) { return arg(vec2(x,y)); }
@@ -260,30 +265,42 @@
       return vec2( log( length(x) ), arg(x) );
     }
     
-    //New functions adde by Juan Carlos Ponce Campuzano 12-Nov-2019
+    //New functions added by Juan Carlos Ponce Campuzano 12-Nov-2019
+    
+    vec2 complex_re(vec2 x) {
+        float real = A;
+       // float imag = B-B;
+        return vec2( real, 0);
+    }
+    
+    vec2 complex_im(vec2 x) {
+        //float real = A-A;
+        float imag = B;
+        return vec2( 0, imag);
+    }
     
     vec2 complex_tan(vec2 x) {
         float real = sin(A+A)/(cos(A+A)+cosh(B+B));
         float imag = sinh(B+B)/(cos(A+A)+cosh(B+B));
-      return complex( real, imag);
+      return vec2( real, imag);
     }
     
     vec2 complex_sinh(vec2 x) {
         float real = sinh(A)*cos(B);
         float imag = cosh(A)*sin(B);
-      return complex( real, imag);
+      return vec2( real, imag);
     }
     
     vec2 complex_cosh(vec2 x) {
         float real = cosh(A)*cos(B);
         float imag = sinh(A)*sin(B);
-      return complex( real, imag);
+      return vec2( real, imag);
     }
     
     vec2 complex_tanh(vec2 x) {
         float real = sinh(A+A)/(cosh(A+A)+cos(B+B));
         float imag = sin(B+B)/(cosh(A+A)+cos(B+B));
-      return complex( real, imag);
+      return vec2( real, imag);
     }
 
     vec2 complex_abs(vec2 x) {
