@@ -6,7 +6,7 @@ Hi! Welcome. Here are the sketches about domain coloring for visualizing complex
 
 ---
 
-#### About the method
+## About the method
 
 The method I used here is based on [Elias Wegert](http://www.visual.wegert.com/)'s work from his book [Visual Complex Functions.](http://www.springer.com/de/book/9783034801799) He basically employs phase portraits with contour lines of phase and modulus, *enhanced phase portraits*, for the study of the theory of complex functions. I also added extra color schemes to explore different ways to visualize complex functions. In particular, I used some of the equations discussed in the *MATHEMATICA &amp; Wolfram Language* section from the *Stack Exchange* site:
 
