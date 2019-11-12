@@ -29,7 +29,6 @@ In this version I added a few extra functions.
 * Complex power --- "^".
 * Complex logarithm --- "log".
 * Real and Imaginary components --- "re, im".
-* Iteration function --- "iter( expr, n)" with n = 1, ..., 8.
 
 ## Some examples
 

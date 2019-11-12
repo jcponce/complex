@@ -145,7 +145,8 @@
     / _ "re"  _ "(" _ arg:Expression _ ")" _ { return 'complex_re(' + arg + ')'; }
     / _ "im"  _ "(" _ arg:Expression _ ")" _ { return 'complex_im(' + arg + ')'; }
     / _ "conj"  _ "(" _ arg:Expression _ ")" _ { return 'complex_conj(' + arg + ')'; }
-    / _ "iter" _ "(" _ arg:Expression _ "," _ count:PositiveInteger _ ")" _ {
+    //This function is not working properly
+    /// _ "iter" _ "(" _ arg:Expression _ "," _ count:PositiveInteger _ ")" _ {
       var n = parseInt(count) - 1, Q = arg;
       for(var it=0; it < n; ++it) {
         Q = Q.replace(/complex\(a,b\)/g, '(' + Q + ')');
