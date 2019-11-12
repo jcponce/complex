@@ -57,7 +57,7 @@ May-2019: Added more color schemes.
 
 Sep-2019: I was able to work out how to add a parser for complex functions thanks to [David Bau's work](http://davidbau.com/). Now you can easily input a function such as 'f(z)=z^2+cos(z)'. 
 
-Aug-2019: Added a new input box to enter the functions. It looks better :)
+Nov-2019: Added a new input box to enter the functions. It looks better :)
 
 ---
 
