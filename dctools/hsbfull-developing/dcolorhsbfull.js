@@ -31,7 +31,7 @@ canvasSize: 'Square'
 let input;
 
 function setup() {
-    createCanvas(1024, 1024);
+    createCanvas(470, 470);
     colorMode(HSB, 1);
     smooth();
     pixelDensity(1);
@@ -93,12 +93,12 @@ function draw() {
 let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
 let sharp = 1/3;
-let nContour = 16;
+let nContour = 10;
 
-let funColor = (x, y) => sharp * ( log(sqrt(x * x + y * y)) / log(1.6) - floor(log(sqrt(x * x + y * y)) / log(1.6)) ) + 0.7;//sharp * (nContour * (PI - atan2(y, -x)) / (2 * PI) -  floor(nContour * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
+let funColor = (x, y) => sharp * ( log(sqrt(x * x + y * y)) / log(2) - floor(log(sqrt(x * x + y * y)) / log(2)) ) + 0.7;//sharp * (nContour * (PI - atan2(y, -x)) / (2 * PI) -  floor(nContour * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
 
 function sat(x, y) {
-    let satAux =  log(sqrt(x * x + y * y)) / log(1.6);
+    let satAux =  log(sqrt(x * x + y * y)) / log(2);
     return sharp * ( satAux - floor(satAux) ) + 0.7;
 }
 
