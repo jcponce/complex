@@ -4,7 +4,7 @@
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  */
 
-// Last update 07-Jul-2019
+// Last update 19-Nov-2019
 
 // --Control variables--
 
@@ -116,7 +116,6 @@ let w, h, posRe, posIm;
 
 function plot() {
     // Establish a range of values on the complex plane
-    // A different range will allow us to "zoom" in or out on the fractal
     
     // It all starts with the width, try higher or lower values
     w = clts.size * 2;
@@ -143,7 +142,7 @@ function plot() {
     let cY = map(mouseY, height, 0, ymin, ymax);
     
     // Start y
-    let ytemp = ymin;
+    let y = ymin;
     
     //let z = trimN(clts.funcZ);
     let z = trimN(input.value());
@@ -151,30 +150,30 @@ function plot() {
     
     for (let j = 0; j < height; j++) {
         // Start x
-        let xtemp = xmin;
+        let x = xmin;
         for (let i = 0; i < width; i++) {
             
-            let x = xtemp;
-            let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
+            //let x = xtemp;
+            //let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let vz = {r:x, i:y};
+            let vz = {r:x, i:-y};
             
             let w = parsed.fn(vz);
             
-            x = w.r;
-            y = w.i;
+            //x = w.r;
+            //y = w.i;
             
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = funPhase(x, y);//argument: 0 to pi/2??
+            let h = funPhase(w.r, w.i);//argument: 0 to pi/2??
             
-            let b = funColor(x, y);
+            let b = funColor(w.r, w.i);
             set(i, j, color(h, b * 0.8, 0.95));
             
-            xtemp += dx;
+            x += dx;
         }
-        ytemp += dy;
+        y += dy;
     }
     
     updatePixels();

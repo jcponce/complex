@@ -134,7 +134,7 @@ function plot() {
     let cY = map(mouseY, height, 0, ymin, ymax);
     
     // Start y
-    let ytemp = ymin;
+    let y = ymin;
     
     //let z = trimN(clts.funcZ);
     let z = trimN(input.value());
@@ -142,30 +142,30 @@ function plot() {
     
     for (let j = 0; j < height; j++) {
         // Start x
-        let xtemp = xmin;
+        let x = xmin;
         for (let i = 0; i < width; i++) {
             
-            let x = xtemp;
-            let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
+            //let x = xtemp;
+            //let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let vz = {r:x, i:y};
+            let vz = {r:x, i:-y};
             
             let w = parsed.fn(vz);
             
-            x = w.r;
-            y = w.i;
+            //x = w.r;
+            //y = w.i;
             
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = funPhase(x, y);
-            let s = funColorS(x, y);
-            let b = funColorV(x, y);
+            let h = funPhase(w.r, w.i);
+            let s = funColorS(w.r, w.i);
+            let b = funColorV(w.r, w.i);
             set(i, j, color(h, s, b));
             
-            xtemp += dx;
+            x += dx;
         }
-        ytemp += dy;
+        y += dy;
     }
     
     updatePixels();

@@ -3,7 +3,7 @@
  * https://creativecommons.org/licenses/by-sa/4.0/
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  
- * Last update 07-Jul-2019
+ * Last update 19-Nov-2019
  */
 
 // --Control variables--
@@ -137,7 +137,7 @@ function plot() {
     let cY = map(mouseY, height, 0, ymin, ymax);
     
     // Start y
-    let ytemp = ymin;
+    let y = ymin;
     
     //let z = trimN(clts.funcZ);
     let z = trimN(input.value());
@@ -145,25 +145,25 @@ function plot() {
     
     for (let j = 0; j < height; j++) {
         // Start x
-        let xtemp = xmin;
+        let x = xmin;
         for (let i = 0; i < width; i++) {
             
-            let x = xtemp;
-            let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
+            //let x = xtemp;
+            //let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
             
-            let vz = {r:x, i:y};
+            let vz = {r:x, i:-y};
             
             let w = parsed.fn(vz);//Evaluate function
             
-            x = w.r;
-            y = w.i;
+            //x = w.r;
+            //y = w.i;
             
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = funPhase(x, y);
+            let h = funPhase(w.r, w.i);
             
-            let b = funColor(x, y);
+            let b = funColor(w.r, w.i);
             
             if( (0 <= h && h < PI/6) || (-PI/6 <= h && h < 0)){
                 
@@ -195,9 +195,9 @@ function plot() {
                       
             } else set(i, j, color(1, 0, 0));//black
             
-            xtemp += dx;
+            x += dx;
         }
-        ytemp += dy;
+        y += dy;
     }
     
     updatePixels();
