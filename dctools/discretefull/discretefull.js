@@ -165,21 +165,34 @@ function plot() {
             
             let b = funColor(x, y);
             
-            //Let's color the pixels;
             if( (0 <= h && h < PI/6) || (-PI/6 <= h && h < 0)){
+                
                 set(i, j, color(0, 1, b));//red
+                
             } else if( -5*PI/6 <= h && h < -PI/2){
+                
                 set(i, j, color(0.66, 1, b));//blue
-            }else if( PI/2 + PI/20 < h && h < 5*PI/6){
+                
+            }else if( PI/2 + PI/20 <= h && h < 5*PI/6){
+                     
                 set(i, j, color(0.333, 1, b));//green
-            } else if( PI/2 - PI/20 < h && h < PI/2 + PI/20){
+                     
+            } else if( PI/2 - PI/20 <= h && h < PI/2 + PI/20){
+                     
                 set(i, j, color(0.166, 1, b));//yellow
-            } else if( PI/6 < h && h < PI/2 - PI/20){
+                     
+            } else if( PI/6 <= h && h < PI/2 - PI/20){
+                      
                 set(i, j, color(0.083, 1, b));//orange
-            } else if( -PI/2 < h && h < -PI/6){
+                      
+            } else if( -PI/2 <= h && h < -PI/6){
+                      
                 set(i, j, color(0.75, 1, b));//purple
-            } else if( (- PI < h && h < -5*PI/6) || (5*PI/6 < h && h < PI )){
+                      
+            } else if( (- PI <= h && h < -5*PI/6) || (5*PI/6 <= h && h < PI )){
+                      
                 set(i, j, color(0.499, 1, b));//blueish
+                      
             } else set(i, j, color(1, 0, 0));//black
             
             xtemp += dx;
