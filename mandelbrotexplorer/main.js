@@ -5,7 +5,7 @@
  * Original code by Kato https://www.openprocessing.org/user/114431
  */
 
-// Last update 18-Jul-2019
+// Last update 20-Nov-2019
 
 let mandelbrot;
 
@@ -22,6 +22,7 @@ let zoomout = 6;
 let reset = 7;
 let info = false;
 let sizePlot = false;
+let showOrbit = false;
 
 let buttonUP;
 let buttonDOWN;
@@ -84,6 +85,10 @@ function keyReleased() {
     if (keyCode === 66){//B key
         sizePlot = !sizePlot;
     }
+    if (keyCode === 79){//O key
+        showOrbit = !showOrbit;
+        mandelbrot.orbit = !mandelbrot.orbit;
+    }
     windowResized();
     if (keyCode === 83)//S key
         saveFractal();
@@ -112,6 +117,7 @@ class MandelbrotSet {
         this.maxIter = 180;
         this.origZoom = 1;
         this.zoom = this.origZoom;
+        this.orbit = false;
         this.printDebug = false;
     }
     
@@ -155,6 +161,55 @@ class MandelbrotSet {
         
     }
     
+    mandelbrotCalculation(z, c) {
+      let o = new p5.Vector(z.x * z.x - z.y * z.y + c.x, 2 * z.x * z.y + c.y);
+      return o;
+    }
+    
+    drawOrbit() {
+      let virtualPos;
+      let actualPos;
+      let mouseC;
+      let orbit = [];
+
+      let xt, yt;
+
+      actualPos = new p5.Vector(mouseX, mouseY);
+      
+      orbit.push(actualPos);
+        
+      xt = map(actualPos.x, ctlsBack, width, this.pos.x - this.size.x / 2, this.pos.x + this.size.x / 2);
+      yt = map(actualPos.y, height, 0, this.pos.y - this.size.y / 2, this.pos.y + this.size.y / 2);
+        
+      virtualPos = new p5.Vector(0, 0);
+      mouseC = new p5.Vector(xt, yt);
+
+      let count = 0;
+      while (count < this.maxIter && dist(virtualPos.x, virtualPos.y, 0, 0) < 10) {
+        let next = this.mandelbrotCalculation(virtualPos, mouseC);
+        xt = map(next.x, this.pos.x - this.size.x / 2, this.pos.x + this.size.x / 2, ctlsBack, width);
+        yt = map(next.y, this.pos.y - this.size.y / 2, this.pos.y + this.size.y / 2, height, 0);
+        actualPos = new p5.Vector(xt, yt);
+        orbit.push(actualPos);
+        virtualPos = next;
+        count++;
+      }
+
+      beginShape();
+      noFill();
+      if (count == this.maxIter) {
+        stroke(255);
+      } else {
+        stroke(51, 51, 255);
+      }
+      strokeWeight(0.99 / 300 * width);
+      for (let P of orbit) {
+        vertex(P.x, P.y);
+      }
+      endShape();
+
+    }
+    
     plot(){
         
         loadPixels();
@@ -185,6 +240,11 @@ class MandelbrotSet {
             }
         }
         updatePixels();
+        
+        if(this.orbit){
+          this.drawOrbit();
+        }
+        
         if (this.printDebug) {
             //Frame reference
             
@@ -287,11 +347,19 @@ function controlsUI(){
         }
         windowResized();//userSCREEN();
     }
+    document.getElementById("orbit").onclick = () => {
+        if (showOrbit) {
+            showOrbit = false;
+        } else {
+            showOrbit = true;
+        }
+        mandelbrot.orbit = !mandelbrot.orbit;
+    }
     document.getElementById("save").onclick = () => {
         saveFractal();
     }
  
-    sliderIter = createSlider(0, 300, 160, 1);
+    sliderIter = createSlider(0, 400, 160, 1);
     sliderIter.parent('slider');
     sliderIter.style('width', '120px')
     
