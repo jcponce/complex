@@ -11,8 +11,6 @@ let clts = {
 
 lvlCurv: 'Modulus',
     
-funcZ: '(z-1)/(z^2+z+1)',
-    
 displayXY: false,
 size: 2.5,
 centerX: 0,
@@ -38,7 +36,6 @@ function setup() {
     let gui = new dat.GUI({
                           width: 360
                           });
-    //gui.add(clts, 'funcZ').name("f(z) =");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
     gui.add(clts, 'Save').name("Save (png)");
@@ -49,13 +46,6 @@ function setup() {
     gui.add(clts, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
     gui.close();
     
-    /*
-    let cXY = gui.addFolder('Display Options');
-    cXY.add(clts, 'displayXY').name("Axes").onChange(redraw);
-    cXY.add(clts, 'centerX').name("Center x =").onChange(keyPressed);
-    cXY.add(clts, 'centerY').name("Center y =").onChange(keyPressed);
-    cXY.add(clts, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
-     */
     
     input = createInput('0.926(z+7.3857e-2 z^5+4.5458e-3 z^9)');
     //input.size(200, 20);
@@ -110,7 +100,6 @@ let w, h, posRe, posIm;
 
 function plot() {
     // Establish a range of values on the complex plane
-    // A different range will allow us to "zoom" in or out on the fractal
     
     // It all starts with the width, try higher or lower values
     w = clts.size * 2;
@@ -148,15 +137,9 @@ function plot() {
         let x = xmin;
         for (let i = 0; i < width; i++) {
             
-            //let x = xtemp;
-            //let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
-            
-            let vz = {r:x, i:-y};
+            let vz = {r:x, i:-y};//Here we need minus since the y-axis in canvas is upside down
             
             let w = parsed.fn(vz);//Evaluate function
-            
-            //x = w.r;
-            //y = w.i;
             
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
