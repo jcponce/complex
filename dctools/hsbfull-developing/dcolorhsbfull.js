@@ -3,7 +3,7 @@
  * https://creativecommons.org/licenses/by-sa/4.0/
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  
- * Last update 07-Nov-2019
+ * Last update 20-Nov-2019
  */
 
 // --Control variables--
@@ -29,6 +29,7 @@ canvasSize: 'Square'
 //var new_expression = $('#equation-input').val();
 
 let input;
+let domC;
 
 function setup() {
     createCanvas(470, 470);
@@ -70,13 +71,18 @@ function setup() {
     input.style('color: #ffffff');
     
     noLoop();
+    
+    
 }
 
 function draw() {
     
     background(255);
     
-    plot();
+    //plot();
+    domC =  new domainColoring( input.value(), clts.size, clts.centerX, clts.centerY);
+    
+    domC.plotter();
     
     if (clts.displayXY == true) {
         displayGrid();
@@ -114,7 +120,6 @@ let w, h, posRe, posIm;
 
 function plot() {
     // Establish a range of values on the complex plane
-    // A different range will allow us to "zoom" in or out on the fractal
     
     // It all starts with the width, try higher or lower values
     w = clts.size * 2;
@@ -176,6 +181,116 @@ function plot() {
     }
     
     updatePixels();
+}
+
+class domainColoring {
+    
+    constructor(fn, size, cX, cY){
+        this.fn = fn;
+        this.size = size;
+        this.cX = cX;
+        this.cY = cY;
+    }
+    
+    plotter() {
+        
+        //let z = trimN(clts.funcZ);
+        let z = trimN(this.fn);
+        let parsed = complex_expression(z);//Define function
+        
+        // Establish a range of values on the complex plane
+        
+        // It all starts with the width, try higher or lower values
+        let w = this.size * 2;
+        let h = (w * height) / width;
+        
+        // Start at negative half the width and height
+        let xmin = -w / 2 + this.cX;
+        let ymin = -h / 2 - this.cY;
+        
+        // Make sure we can write to the pixels[] array.
+        // Only need to do this once since we don't do any other drawing.
+        loadPixels();
+        
+        // x goes from xmin to xmax
+        let xmax = xmin + w;
+        // y goes from ymin to ymax
+        let ymax = ymin + h;
+        
+        // Calculate amount we increment x,y for each pixel
+        let dx = (xmax - xmin) / (width);
+        let dy = (ymax - ymin) / (height);
+        
+        let cX = map(mouseX, 0, width, xmin, xmax);
+        let cY = map(mouseY, height, 0, ymin, ymax);
+        
+        // Start y
+        let y = ymin;
+        for (let j = 0; j < height; j++) {
+            // Start x
+            let x = xmin;
+            for (let i = 0; i < width; i++) {
+
+                let vz = {r:x, i:-y};//Here we need minus since the y-axis in canvas is upside down
+                
+                let w = parsed.fn(vz);//Evaluate function
+
+                // We color each pixel based on some cool function
+                // Gosh, we could make fancy colors here if we wanted
+                
+                let h = funPhase(w.r, w.i);
+                
+                let b = funColor(w.r, w.i);
+                set(i, j, color(h, 1, b));
+                
+                x += dx;
+            }
+            y += dy;
+        }
+        
+        updatePixels();
+        
+        this.grid();
+    }//ends plot
+    
+    grid(){
+        stroke(0);
+        strokeWeight(2);
+        line(0, height / 2, width, height / 2); //x-axis
+        line(width / 2, 0, width / 2, height); //y-axis
+        textSize(14);
+        fill(1);
+        text('(' + this.cX + ',' + this.cY + ')', width / 2 + 2, height / 2 + 15);
+        
+        let nw;
+        if( this.size > 1 ){
+            nw = this.size;
+        } else{
+            let auxn = map(this.size, 0.00001, 1, 8, 4);
+            nw = round(auxn);
+        }
+        let r = 5;
+        let sr = 4
+        let txtsize = map(this.size, 0, 15, 17, 8);
+        let txtStroke = map(this.size, 0, 15, 2, 0.5);
+        strokeWeight(txtStroke);
+        
+        textSize(txtsize);
+        for(let i = 0; i <= width/2; i += width / (nw * 2)){
+            fill(1);
+            ellipse(width / 2 - i, height / 2, r, r); //negative x
+            ellipse(width / 2 + i, height / 2, r, r); //positive x
+            
+            if (i > 0) {
+                let setPX = map(i, 0, width / 2, 0, this.size / 2) + this.cX;
+                let setNX = -(map(i, 0, width / 2, 0, this.size / 2) - this.cX);
+                text('' + str(round(setPX * 10) / 10.0), width / 2 + i, height / 2 - sr + 18); //X-Positive
+                text('' + str(round(setNX * 10) / 10.0), width / 2 - i, height / 2 - sr + 18); //X-Negative
+            }
+        }
+        
+    }//ends grid
+    
 }
 
 
