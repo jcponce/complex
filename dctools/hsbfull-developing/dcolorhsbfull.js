@@ -271,23 +271,47 @@ class domainColoring {
         }
         let r = 5;
         let sr = 4
-        let txtsize = map(this.size, 0, 15, 17, 8);
-        let txtStroke = map(this.size, 0, 15, 2, 0.5);
+        let txtsize = map(this.size, 0, 15, 18, 13);
+        let txtStroke = map(this.size, 0, 15, 3, 2);
         strokeWeight(txtStroke);
+        //Sequence((i, 0), i, 0, floor(a))
+        //Sequence((i, 0), i, 0, a, a / 4)
         
         textSize(txtsize);
+        
+        let valx;
+        
+        if(this.size > 1) {
+            for(let i = 0; i <= this.size; i++){
+                valx = map(i, 0, this.size, width/2, width);
+                ellipse(valx, height / 2, r, r); //pos x
+                text('' + str(round(i * 10) / 10.0), valx, height / 2 - sr + 18); //X-Positive
+            }
+        } else{
+            let small = floor(map(this.size, 0, 1, 2, 8));
+            for(let i = 0; i <= this.size; i+=this.size/small){
+                valx = map(i, 0, this.size, width/2, width);
+                ellipse(valx, height / 2, r, r); //pos x
+                 text('' + str(round(i * 10) / 10.0), valx, height / 2 - sr + 18); //X-Positive
+            }
+        }
+        
+        
+        
+        /*
         for(let i = 0; i <= width/2; i += width / (nw * 2)){
             fill(1);
             ellipse(width / 2 - i, height / 2, r, r); //negative x
             ellipse(width / 2 + i, height / 2, r, r); //positive x
             
+            
             if (i > 0) {
-                let setPX = map(i, 0, width / 2, 0, this.size / 2) + this.cX;
-                let setNX = -(map(i, 0, width / 2, 0, this.size / 2) - this.cX);
+                let setPX = map(i, 0, width / 2, 0, this.size ) + this.cX;
+                let setNX = -(map(i, 0, width / 2, 0, this.size ) - this.cX);
                 text('' + str(round(setPX * 10) / 10.0), width / 2 + i, height / 2 - sr + 18); //X-Positive
                 text('' + str(round(setNX * 10) / 10.0), width / 2 - i, height / 2 - sr + 18); //X-Negative
             }
-        }
+        }*/
         
     }//ends grid
     
