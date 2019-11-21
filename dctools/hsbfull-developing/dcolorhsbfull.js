@@ -80,8 +80,8 @@ function draw() {
     background(255);
     
     //plot();
-    //domainColoring( function, |Re z|, center x, center y, canvasSize);
-    domC =  new domainColoring( input.value(), clts.size, clts.centerX, clts.centerY, clts.canvasSize);
+    //domainColoring( function, |Re z|, center x, center y, canvasSize text, axis boolean);
+    domC =  new domainColoring( input.value(), clts.size, clts.centerX, clts.centerY, clts.canvasSize, clts.displayXY);
     
     domC.plotter();
     
@@ -186,12 +186,13 @@ function plot() {
 
 class domainColoring {
     
-    constructor(fn, size, cX, cY, canvasSize){
+    constructor(fn, size, cX, cY, canvasSize, axis){
         this.fn = fn;
         this.size = size;
         this.cX = cX;
         this.cY = cY;
         this.canvasSize = canvasSize;
+        this.axis = axis;
     }
     
     plotter() {
@@ -252,7 +253,7 @@ class domainColoring {
         
         updatePixels();
         
-        if (clts.displayXY == true) {
+        if (this.axis == true) {
             this.grid();
         }
         
