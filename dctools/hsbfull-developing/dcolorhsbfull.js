@@ -84,9 +84,9 @@ function draw() {
     
     domC.plotter();
     
-    if (clts.displayXY == true) {
-        displayGrid();
-    }
+    //if (clts.displayXY == true) {
+    //    displayGrid();
+    //}
     //var z0 = trimN(new_expression);
     //var parsed = complex_expression(z0);//Define function
     //console.log();
@@ -250,7 +250,10 @@ class domainColoring {
         
         updatePixels();
         
-        this.grid();
+        if (clts.displayXY == true) {
+            this.grid();
+        }
+        
     }//ends plot
     
     grid(){
@@ -258,9 +261,7 @@ class domainColoring {
         strokeWeight(2);
         line(0, height / 2, width, height / 2); //x-axis
         line(width / 2, 0, width / 2, height); //y-axis
-        textSize(14);
-        fill(1);
-        text('(' + this.cX + ',' + this.cY + ')', width / 2 + 2, height / 2 + 15);
+        
         
         //let nw;
         //if( this.size > 1 ){
@@ -271,69 +272,62 @@ class domainColoring {
         //}
         let r = 5;
         let sr = 4
-        let txtsize = map(this.size, 0, 15, 13, 16);
-        let txtStroke = map(this.size, 0, 15, 2, 3);
+        let w = this.size;
+        let h = (w * height) / width;
+        
+        let txtsize = map(w, 0, 15, 13, 17);
+        let txtStroke = map(w, 0, 15, 3, 4);
         strokeWeight(txtStroke);
         //Sequence((i, 0), i, 0, floor(a))
         //Sequence((i, 0), i, 0, a, a / 4)
         
         textSize(txtsize);
         
+        
+        fill(1);
+        text('(' + this.cX + ',' + this.cY + ')', width / 2 + 2, height / 2 + 15);
+        
         let valx;
         let valy;
+        let valx2;
+        let valy2;
         let dec;
-        if(1 <= this.size ){
+        if(1 <= w ){
             dec = 10.0;
-        } else if( 0.01 <= this.size && this.size < 1){
+        } else if( 0.01 <= w && w < 1){
             dec = 1000.0;
-        } else if( 0.001 <= this.size && this.size < 0.01){
+        } else if( 0.001 <= w && w < 0.01){
             dec = 10000.0;
-        } if( 0.0001 <= this.size && this.size < 0.001){
+        } if( 0.0001 <= w && w < 0.001){
             dec = 100000.0;
-        } else if( 0.00001 <= this.size && this.size < 0.0001){
+        } else if( 0.00001 <= w && w < 0.0001){
             dec = 1000000.0;
         }
         
         //if(this.size>0.00001){
-            for(let i = this.size/4; i <= this.size; i+=this.size/4){
+            for(let i = w/4; i <= w; i+=w/4){
                 
-                valx = map(i, 0, this.size, width/2, width);
-                valy = map(i, 0, this.size, width/2, 0);
+                valx = map(i, 0, w, width/2, width);
+                valy = map(i, 0, w, width/2, 0);
                 ellipse(valx, height / 2, r, r); //pos x
                 ellipse(valy, height / 2, r, r); //neg x
                 text('' + str(round((i+this.cX) * dec) / dec), valx, height / 2 - sr + 18); //X-Positive
-                 
-                text('-' + str(round((i-this.cY) * dec) / dec), valy, height / 2 - sr + 18); //X-Positive
+                text('' + str(abs(round((i-this.cX) * dec)) / dec), valy, height / 2 - sr + 18); //X-negative
+  
+            }
                      
-                
-            }
-        //}
-        
-            /* else{
-            let small = floor(map(this.size, 0, 1, 4, 4));
-            for(let i = 0; i <= this.size; i+=this.size/small){
-                valx = map(i, 0, this.size, width/2, width);
-                ellipse(valx, height / 2, r, r); //pos x
-                 text('' + str(round(i * 10) / 10.0), valx, height / 2 - sr + 18); //X-Positive
-            }
-        }*/
-        
-        
-        
-        /*
-        for(let i = 0; i <= width/2; i += width / (nw * 2)){
-            fill(1);
-            ellipse(width / 2 - i, height / 2, r, r); //negative x
-            ellipse(width / 2 + i, height / 2, r, r); //positive x
             
-            
-            if (i > 0) {
-                let setPX = map(i, 0, width / 2, 0, this.size ) + this.cX;
-                let setNX = -(map(i, 0, width / 2, 0, this.size ) - this.cX);
-                text('' + str(round(setPX * 10) / 10.0), width / 2 + i, height / 2 - sr + 18); //X-Positive
-                text('' + str(round(setNX * 10) / 10.0), width / 2 - i, height / 2 - sr + 18); //X-Negative
+                     
+            for(let j = h/4; j <= h; j+=h/4){
+                 
+                valx2 = map(j, 0, h, height/2, 0);
+                valy2 = map(j, 0, h, height/2, height);
+                ellipse(width/2, valx2, r, r); //pos y
+                ellipse(width/2, valy2, r, r); //neg y
+                text('' + str(round((j+this.cY) * dec) / dec), height / 2 - sr + 9, valx2); //Y-Positive
+                text('-' + str(abs(round((j-this.cY) * dec)) / dec), height / 2 - sr + 9, valy2); //Y-negative
+ 
             }
-        }*/
         
     }//ends grid
     
