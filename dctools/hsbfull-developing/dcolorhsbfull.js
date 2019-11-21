@@ -262,17 +262,17 @@ class domainColoring {
         fill(1);
         text('(' + this.cX + ',' + this.cY + ')', width / 2 + 2, height / 2 + 15);
         
-        let nw;
-        if( this.size > 1 ){
-            nw = this.size;
-        } else{
-            let auxn = map(this.size, 0.00001, 1, 8, 4);
-            nw = round(auxn);
-        }
+        //let nw;
+        //if( this.size > 1 ){
+        //    nw = this.size;
+        //} else{
+        //    let auxn = map(this.size, 0.00001, 1, 8, 4);
+        //    nw = round(auxn);
+        //}
         let r = 5;
         let sr = 4
-        let txtsize = map(this.size, 0, 15, 18, 13);
-        let txtStroke = map(this.size, 0, 15, 3, 2);
+        let txtsize = map(this.size, 0, 15, 13, 16);
+        let txtStroke = map(this.size, 0, 15, 2, 3);
         strokeWeight(txtStroke);
         //Sequence((i, 0), i, 0, floor(a))
         //Sequence((i, 0), i, 0, a, a / 4)
@@ -280,21 +280,43 @@ class domainColoring {
         textSize(txtsize);
         
         let valx;
+        let valy;
+        let dec;
+        if(1 <= this.size ){
+            dec = 10.0;
+        } else if( 0.01 <= this.size && this.size < 1){
+            dec = 1000.0;
+        } else if( 0.001 <= this.size && this.size < 0.01){
+            dec = 10000.0;
+        } if( 0.0001 <= this.size && this.size < 0.001){
+            dec = 100000.0;
+        } else if( 0.00001 <= this.size && this.size < 0.0001){
+            dec = 1000000.0;
+        }
         
-        if(this.size > 1) {
-            for(let i = 0; i <= this.size; i++){
+        //if(this.size>0.00001){
+            for(let i = this.size/4; i <= this.size; i+=this.size/4){
+                
                 valx = map(i, 0, this.size, width/2, width);
+                valy = map(i, 0, this.size, width/2, 0);
                 ellipse(valx, height / 2, r, r); //pos x
-                text('' + str(round(i * 10) / 10.0), valx, height / 2 - sr + 18); //X-Positive
+                ellipse(valy, height / 2, r, r); //neg x
+                text('' + str(round((i+this.cX) * dec) / dec), valx, height / 2 - sr + 18); //X-Positive
+                 
+                text('-' + str(round((i-this.cY) * dec) / dec), valy, height / 2 - sr + 18); //X-Positive
+                     
+                
             }
-        } else{
-            let small = floor(map(this.size, 0, 1, 2, 8));
+        //}
+        
+            /* else{
+            let small = floor(map(this.size, 0, 1, 4, 4));
             for(let i = 0; i <= this.size; i+=this.size/small){
                 valx = map(i, 0, this.size, width/2, width);
                 ellipse(valx, height / 2, r, r); //pos x
                  text('' + str(round(i * 10) / 10.0), valx, height / 2 - sr + 18); //X-Positive
             }
-        }
+        }*/
         
         
         
