@@ -80,7 +80,8 @@ function draw() {
     background(255);
     
     //plot();
-    domC =  new domainColoring( input.value(), clts.size, clts.centerX, clts.centerY);
+    //domainColoring( function, |Re z|, center x, center y, canvasSize);
+    domC =  new domainColoring( input.value(), clts.size, clts.centerX, clts.centerY, clts.canvasSize);
     
     domC.plotter();
     
@@ -185,11 +186,12 @@ function plot() {
 
 class domainColoring {
     
-    constructor(fn, size, cX, cY){
+    constructor(fn, size, cX, cY, canvasSize){
         this.fn = fn;
         this.size = size;
         this.cX = cX;
         this.cY = cY;
+        this.canvasSize = canvasSize;
     }
     
     plotter() {
@@ -261,26 +263,31 @@ class domainColoring {
         strokeWeight(2);
         line(0, height / 2, width, height / 2); //x-axis
         line(width / 2, 0, width / 2, height); //y-axis
-        
-        
-        //let nw;
-        //if( this.size > 1 ){
-        //    nw = this.size;
-        //} else{
-        //    let auxn = map(this.size, 0.00001, 1, 8, 4);
-        //    nw = round(auxn);
-        //}
+
         let r = 5;
         let sr = 4
         let w = this.size;
         let h = (w * height) / width;
         
-        let txtsize = map(w, 0, 15, 13, 17);
-        let txtStroke = map(w, 0, 15, 3, 4);
-        strokeWeight(txtStroke);
-        //Sequence((i, 0), i, 0, floor(a))
-        //Sequence((i, 0), i, 0, a, a / 4)
+        let txtsize; //= map(w, 0, 15, 13, 17);
+        let txtStroke; //= map(w, 0, 15, 3, 4);
         
+        if (this.canvasSize == 'Square' && w >= 1) {
+            txtsize = 17;
+            txtStroke = 3;
+        } else if (this.canvasSize == 'Square' && w < 1) {
+            txtsize = 13;
+            txtStroke = 3;
+        } else if (this.canvasSize == 'Landscape') {
+            txtsize = 18;
+            txtStroke = 4;
+        } else if (this.canvasSize == 'Full-Screen') {
+            txtsize = 20;
+            txtStroke = 4;
+        }
+        
+
+        strokeWeight(txtStroke);
         textSize(txtsize);
         
         
@@ -304,28 +311,27 @@ class domainColoring {
             dec = 1000000.0;
         }
         
-        //if(this.size>0.00001){
+
             for(let i = w/4; i <= w; i+=w/4){
                 
                 valx = map(i, 0, w, width/2, width);
                 valy = map(i, 0, w, width/2, 0);
                 ellipse(valx, height / 2, r, r); //pos x
                 ellipse(valy, height / 2, r, r); //neg x
-                text('' + str(round((i+this.cX) * dec) / dec), valx, height / 2 - sr + 18); //X-Positive
-                text('' + str(abs(round((i-this.cX) * dec)) / dec), valy, height / 2 - sr + 18); //X-negative
+                text('' + str(round((i+this.cX) * dec) / dec), valx, height / 2 - sr + 19); //X-Positive
+                text('' + str(round((this.cX-i) * dec) / dec), valy, height / 2 - sr + 19); //X-negative
   
             }
                      
-            
-                     
+       
             for(let j = h/4; j <= h; j+=h/4){
                  
                 valx2 = map(j, 0, h, height/2, 0);
                 valy2 = map(j, 0, h, height/2, height);
                 ellipse(width/2, valx2, r, r); //pos y
                 ellipse(width/2, valy2, r, r); //neg y
-                text('' + str(round((j+this.cY) * dec) / dec), height / 2 - sr + 9, valx2); //Y-Positive
-                text('-' + str(abs(round((j-this.cY) * dec)) / dec), height / 2 - sr + 9, valy2); //Y-negative
+                text('' + str(round((j+this.cY) * dec) / dec) + 'i', width / 2 - sr + 9, valx2); //Y-Positive
+                text('' + str(round((this.cY-j) * dec) / dec) + 'i', width / 2 - sr + 9, valy2); //Y-negative
  
             }
         
