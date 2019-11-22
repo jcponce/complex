@@ -130,7 +130,7 @@ function complex_expression(s) {
     iter: 1,
     sum: 1,
     prod: 1,
-    blaschke: 1,
+    //blaschke: 1,
     };
     var symbols = {}
     var factorials = [];
@@ -788,9 +788,13 @@ function complex_expression(s) {
         i: i
         };
     }
-    /*New prod function by Juan Carlos Ponce Campuzano*/
+    /* New functions by Juan Carlos Ponce Campuzano
+     * prod(expr, iters)
+     * rationalBlaschke(z, complex numbers, multiplicity)
+     * blaschke(z, number of multiples)
+     */
     function prod(z, fn, iters) {
-        var result = fn(z, {
+        let result = fn(z, {
                         r: 0,
                         i: 0
                         }),
@@ -830,16 +834,12 @@ function complex_expression(s) {
         for (n = 1; n < end; n++) {
             result = mult(result, rationalBlaschke(z, values[n], mults[n]))
         }
-        //return result;
-       
         //let e = [];
-        
         //for(let k = 0; k < 50; k++){
         //    e[k] = rationalBlaschke(z, values[k], mults[k]);
         //}
         return mult( {r: 0.0256, i:0.1321}, result);//e[0];//result[0];//rationalBlaschke(z, values[0], mults[0]);
-        
-                          
+            
     }
                           
   //ends new functions
