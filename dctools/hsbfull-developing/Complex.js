@@ -134,12 +134,18 @@ function complex_expression(s) {
     };
     var symbols = {}
     var factorials = [];
+                            
+        let mds = [];
+        let args = [];
+        let mults = [];
+        let values = [];
     
     function run() {
         dictadd(symbols, consts);
         dictadd(symbols, vars);
         dictadd(symbols, funcs);
         init_constants();
+        init_ai();
         var state = {
         tok: tokenize(s),
         j: 0
@@ -178,6 +184,23 @@ function complex_expression(s) {
             factorials.push(factorials[factorials.length - 1] * factorials.length);
         }
     }
+    function init_ai(){
+       for(let i = 0; i < 4; i++){
+             mds[i] = Math.random();
+             args[i] = 2*Math.PI*Math.random();
+             mults[i] = {
+                          r: Math.floor(3*(Math.random()+1)),
+                          i:0
+                          };
+                          
+             values[i] = {
+               r: mds[i] * Math.cos(args[i]),
+               i: mds[i] * Math.sin(args[i])
+             }
+
+        }
+    }
+                            
     // Evaluate this function, and return a r, j tuple.
     function random() {
         while (true) {
@@ -801,36 +824,8 @@ function complex_expression(s) {
     
     function blaschke(z){
        
-            // let all=[];
-       // for(let i = 0; i < 10; i++){
-         //    all[i] = rationalBlaschke(z, values[i], mults[i]);
-        //}
-         var r = 1,
-        i = 0;
-        //result;// = {r:1, i:0};
-                          
-        let mds = [];
-        let args = [];
-        let mults = [];
-        //var end = Math.floor(k.r);
-        let values = [];
-        for(let i = 0; i < 4; i++){
-             mds[i] = Math.random(0.01, 0.85);
-             args[i] = Math.random(0.01, 2 * Math.PI);
-             mults[i] = {
-                          r: Math.floor(3*(Math.random(0, 1)+1)),
-                          i:0
-                          };
-             values[i] = {
-                         r: mds[i] * Math.cos(args[i]),
-                         i: mds[i] * Math.sin(args[i])
-             };
-
-        }
-        
-        
         //let result = rationalBlaschke(z, {r:0, i:i/2}, {r:2, i:0});
-        let result = rationalBlaschke(z, values[0], mults[0]);
+        let result = rationalBlaschke(z, values[1], mults[1]);
         return result;
         
         //modulus = Math.pow(realmodulus(y), r);
