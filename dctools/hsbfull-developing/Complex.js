@@ -73,6 +73,7 @@ function complex_expression(s) {
     gamma: 1,
     pow: 2,
     rationalBlaschke: 3,
+    mobius: 5,
     binomial: 2,
     sn: 2,
     cn: 2,
@@ -790,6 +791,7 @@ function complex_expression(s) {
     }
     /* New functions by Juan Carlos Ponce Campuzano
      * prod(expr, iters)
+     * mobius( expr, a, b, c, d) 
      * rationalBlaschke(z, complex numbers, multiplicity)
      * blaschke(z, number of multiples)
      */
@@ -807,6 +809,21 @@ function complex_expression(s) {
                                      }))
         }
         return result;
+    }
+                          
+    function mobius(z, a, b, c, d) {
+         //(az+b)/(cz+d)
+        //i (x2 y1 + y2 x1) + x2 x1 - y2 y1
+        let num = {
+            r: z.r * a.r - z.i * a.i + b.r,
+            i: z.r * a.i + z.i * a.r + b.i
+        };
+        let denom = {
+            r: z.r * c.r - z.i * c.i + d.r,
+            i: z.r * c.i + z.i * c.r + d.i
+        };
+                         
+        return  div( num, denom);
     }
                           
     function rationalBlaschke(z, a, n) {
