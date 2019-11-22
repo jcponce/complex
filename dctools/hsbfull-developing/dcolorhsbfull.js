@@ -60,7 +60,7 @@ function setup() {
      */
     
     //input = createInput('prod(e^((z+(e^(2*pi*i/5))^n )/(z-(e^(2*pi*i/5))^n)), 5)');
-    input = createInput('rationalBlaschke(z, i)');
+    input = createInput('blaschke(z)');
     //input.size(200, 20);
     input.addClass('body');
     input.addClass('container');

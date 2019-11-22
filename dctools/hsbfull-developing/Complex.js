@@ -72,7 +72,7 @@ function complex_expression(s) {
     arccsch: 1,
     gamma: 1,
     pow: 2,
-    rationalBlaschke: 2,
+    rationalBlaschke: 3,
     binomial: 2,
     sn: 2,
     cn: 2,
@@ -782,38 +782,55 @@ function complex_expression(s) {
         return result;
     }
                           
-    function rationalBlaschke(z, a) {
-        
-        var unity = {r:1, i:0};
-        var num = { r: z.r -a.r, i: z.i - a.i},
-        denom = {r: 1 - a.r, i: -a.i};
-        
-        return div(num, denom);
+    function rationalBlaschke(z, a, n) {
+        let n_power = Math.floor(n.r);
+                          
+        let y = div(
+        {
+          r: z.r -a.r,
+          i: z.i - a.i
+        },
+        {
+         r: 1-a.r * z.r -a.i * z.i,
+         i: a.i * z.r - a.r * z.i
+        }
+        );
+                         
+        return  intpow( y, n_power);
     }
     
     function blaschke(z){
-        var r = 1,
-        i = 0,
-        result;// = {r:1, i:0};
+       
+            // let all=[];
+       // for(let i = 0; i < 10; i++){
+         //    all[i] = rationalBlaschke(z, values[i], mults[i]);
+        //}
+         var r = 1,
+        i = 0;
+        //result;// = {r:1, i:0};
                           
         let mds = [];
         let args = [];
         let mults = [];
         //var end = Math.floor(k.r);
         let values = [];
-        for(let i = 0; i < 10; i++){
-             mds[i] = Math.random(0.0001, 0.9999);
-             args[i] = Math.random(0.0001, 2 * Math.PI);
-             mults[i] = Math.floor(Math.random(2, 8));
+        for(let i = 0; i < 4; i++){
+             mds[i] = Math.random(0.01, 0.85);
+             args[i] = Math.random(0.01, 2 * Math.PI);
+             mults[i] = {
+                          r: Math.floor(3*(Math.random(0, 1)+1)),
+                          i:0
+                          };
              values[i] = {
                          r: mds[i] * Math.cos(args[i]),
                          i: mds[i] * Math.sin(args[i])
-             }
-              result = {r:1, i:0};
-             result = mult(result, div( sub(z, values[i] ) , sub( 1, mult( conj(values[i]), z))  ) );
-                          //div( sub(z, values[i] ) , sub( 1, mult( conj(values[i]), z))  )
+             };
+
         }
-                          
+        
+        
+        //let result = rationalBlaschke(z, {r:0, i:i/2}, {r:2, i:0});
+        let result = rationalBlaschke(z, values[0], mults[0]);
         return result;
         
         //modulus = Math.pow(realmodulus(y), r);
