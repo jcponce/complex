@@ -79,7 +79,7 @@ function complex_expression(s) {
     dn: 2,
     sum: 2,
     prod: 2,
-    blaschke: 1,
+    blaschke: 2,
     iter: 3
     };
     var syns = {
@@ -185,11 +185,11 @@ function complex_expression(s) {
         }
     }
     function init_ai(){
-       for(let i = 0; i < 4; i++){
+       for(let i = 0; i < 60; i++){
              mds[i] = Math.random();
              args[i] = 2*Math.PI*Math.random();
              mults[i] = {
-                          r: Math.floor(3*(Math.random()+1)),
+                          r: 1,
                           i:0
                           };
                           
@@ -822,17 +822,23 @@ function complex_expression(s) {
         return  intpow( y, n_power);
     }
     
-    function blaschke(z){
-       
-        //let result = rationalBlaschke(z, {r:0, i:i/2}, {r:2, i:0});
-        let result = rationalBlaschke(z, values[1], mults[1]);
-        return result;
+    function blaschke(z, iters){
         
-        //modulus = Math.pow(realmodulus(y), r);
-        //return {
-        //r: mds * Math.cos(args),
-        //i: mds * Math.sin(args)
-        //};
+        var result = rationalBlaschke(z, values[0], mults[0]),
+        end = Math.floor(iters.r),
+        n;
+        for (n = 1; n < end; n++) {
+            result = mult(result, rationalBlaschke(z, values[n], mults[n]))
+        }
+        //return result;
+       
+        //let e = [];
+        
+        //for(let k = 0; k < 50; k++){
+        //    e[k] = rationalBlaschke(z, values[k], mults[k]);
+        //}
+        return mult( {r: 0.0256, i:0.1321}, result);//e[0];//result[0];//rationalBlaschke(z, values[0], mults[0]);
+        
                           
     }
                           

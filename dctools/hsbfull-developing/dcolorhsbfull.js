@@ -14,7 +14,7 @@ lvlCurv: 'Modulus',
 funcZ: 'z',
     
 displayXY: false,
-size: 2.5,
+size: 1,
 centerX: 0,
 centerY: 0,
 
@@ -60,7 +60,10 @@ function setup() {
      */
     
     //input = createInput('prod(e^((z+(e^(2*pi*i/5))^n )/(z-(e^(2*pi*i/5))^n)), 5)');
-    input = createInput('blaschke(z)');
+    //input = createInput('rationalBlaschke(z, i/2, 3)');
+    input = createInput('blaschke(z, 40)');
+    //input = createInput('(disk(z)blaschke(z))^2');
+    
     //input.size(200, 20);
     input.addClass('body');
     input.addClass('container');
