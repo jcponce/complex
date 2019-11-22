@@ -72,12 +72,14 @@ function complex_expression(s) {
     arccsch: 1,
     gamma: 1,
     pow: 2,
+    rationalBlaschke: 2,
     binomial: 2,
     sn: 2,
     cn: 2,
     dn: 2,
     sum: 2,
-    multIter: 2,
+    prod: 2,
+    blaschke: 1,
     iter: 3
     };
     var syns = {
@@ -127,7 +129,8 @@ function complex_expression(s) {
     var loops = {
     iter: 1,
     sum: 1,
-    multIter: 1
+    prod: 1,
+    blaschke: 1,
     };
     var symbols = {}
     var factorials = [];
@@ -762,14 +765,14 @@ function complex_expression(s) {
         i: i
         };
     }
-    /*New multIter function by Juan Carlos Ponce Campuzano*/
-    function multIter(z, fn, iters) {
+    /*New prod function by Juan Carlos Ponce Campuzano*/
+    function prod(z, fn, iters) {
         var result = fn(z, {
                         r: 0,
                         i: 0
-                        });
-        var end = Math.floor(iters.r),
-        n, result;
+                        }),
+        end = Math.floor(iters.r),
+        n;
         for (n = 1; n < end; ++n) {
             result = mult(result, fn(z, {
                                      r: n,
@@ -778,6 +781,50 @@ function complex_expression(s) {
         }
         return result;
     }
+                          
+    function rationalBlaschke(z, a) {
+        
+        var unity = {r:1, i:0};
+        var num = { r: z.r -a.r, i: z.i - a.i},
+        denom = {r: 1 - a.r, i: -a.i};
+        
+        return div(num, denom);
+    }
+    
+    function blaschke(z){
+        var r = 1,
+        i = 0,
+        result;// = {r:1, i:0};
+                          
+        let mds = [];
+        let args = [];
+        let mults = [];
+        //var end = Math.floor(k.r);
+        let values = [];
+        for(let i = 0; i < 10; i++){
+             mds[i] = Math.random(0.0001, 0.9999);
+             args[i] = Math.random(0.0001, 2 * Math.PI);
+             mults[i] = Math.floor(Math.random(2, 8));
+             values[i] = {
+                         r: mds[i] * Math.cos(args[i]),
+                         i: mds[i] * Math.sin(args[i])
+             }
+              result = {r:1, i:0};
+             result = mult(result, div( sub(z, values[i] ) , sub( 1, mult( conj(values[i]), z))  ) );
+                          //div( sub(z, values[i] ) , sub( 1, mult( conj(values[i]), z))  )
+        }
+                          
+        return result;
+        
+        //modulus = Math.pow(realmodulus(y), r);
+        //return {
+        //r: mds * Math.cos(args),
+        //i: mds * Math.sin(args)
+        //};
+                          
+    }
+                          
+  //ends new functions
     
     function iter(z, fn, start, iters) {
         var result = start,

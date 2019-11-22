@@ -59,7 +59,8 @@ function setup() {
     cXY.add(clts, 'canvasSize', ['Square', 'Landscape', 'Full-Screen'] ).name("Size: ").onChange(screenSize);
      */
     
-    input = createInput('(z-1)/(z^2+z+1)');
+    //input = createInput('prod(e^((z+(e^(2*pi*i/5))^n )/(z-(e^(2*pi*i/5))^n)), 5)');
+    input = createInput('rationalBlaschke(z, i)');
     //input.size(200, 20);
     input.addClass('body');
     input.addClass('container');
@@ -72,7 +73,7 @@ function setup() {
     
     noLoop();
     
-    
+    //blaschke(3);
 }
 
 function draw() {
