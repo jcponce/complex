@@ -43,9 +43,9 @@ I also recommend you the following galleries:
 * Complex power --- "^, exp".
 * Complex logarithm --- "log".
 * Real and Imaginary components --- "re, im".
-* Jacobi Elliptic --- "sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])". 
-* Gamma function --- "gamma( expr )".
-* Finite Blaschke product --- "blaschke( expr, positive integer )" 
+* [Jacobi Elliptic](https://en.wikipedia.org/wiki/Jacobi_elliptic_functions) --- "sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])". 
+* [Gamma function](https://en.wikipedia.org/wiki/Gamma_function) --- "gamma( expr )".
+* [Finite Blaschke product](https://en.wikipedia.org/wiki/Blaschke_product) --- "blaschke( expr, positive integer )" 
 * Sum series function--- "sum( expr, positive integer)".
 * Multiplicative function --- "prod( expr, positive integer)".
 * Iterated function --- "iter( expr, variable positive integer)".

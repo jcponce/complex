@@ -72,7 +72,7 @@ function complex_expression(s) {
     arccsch: 1,
     gamma: 1,
     pow: 2,
-    rationalBlaschke: 3,
+    rationalBlaschke: 2,
     mobius: 5,
     binomial: 2,
     sn: 2,
@@ -131,14 +131,13 @@ function complex_expression(s) {
     iter: 1,
     sum: 1,
     prod: 1,
-    //blaschke: 1,
     };
     var symbols = {}
     var factorials = [];
                             
         let mds = [];
         let args = [];
-        let mults = [];
+        //let mults = [];
         let values = [];
     
     function run() {
@@ -185,15 +184,17 @@ function complex_expression(s) {
             factorials.push(factorials[factorials.length - 1] * factorials.length);
         }
     }
+    //constants for Blaschke products
     function init_ai(){
-       for(let i = 0; i < 60; i++){
+       for(let i = 0; i < 100; i++){
              mds[i] = Math.random();
              args[i] = 2*Math.PI*Math.random();
+             /*
              mults[i] = {
-                          r: 1,
+                          r: Math.floor(4*Math.random()),
                           i:0
                           };
-                          
+             */
              values[i] = {
                r: mds[i] * Math.cos(args[i]),
                i: mds[i] * Math.sin(args[i])
@@ -826,37 +827,52 @@ function complex_expression(s) {
         return  div( num, denom);
     }
                           
-    function rationalBlaschke(z, a, n) {
-        let n_power = Math.floor(n.r);
-                          
+    function rationalBlaschke(z, a) {
+       
         let y = div(
         {
-          r: z.r -a.r,
+          r: z.r - a.r,
           i: z.i - a.i
         },
         {
-         r: 1-a.r * z.r -a.i * z.i,
-         i: a.i * z.r - a.r * z.i
+          r: 1 - a.r * z.r - a.i * z.i,
+          i: a.i * z.r - a.r * z.i
         }
         );
+        
+        let f = div(
+          {
+            r: Math.sqrt(a.r * a.r + a.i * a.i),
+            i: 0
+           },
+          {
+            r: a.r,
+            i: a.i
+           }
+         );
                          
-        return  intpow( y, n_power);
+        return  mult( f, y );
     }
     
     function blaschke(z, iters){
         
-        var result = rationalBlaschke(z, values[0], mults[0]),
+        var result = rationalBlaschke(z, values[0]),
         end = Math.floor(iters.r),
         n;
+       
+        if(end > 100 || end < 1){
+           return NaN;
+                          } else {
+                          
         for (n = 1; n < end; n++) {
-            result = mult(result, rationalBlaschke(z, values[n], mults[n]))
+            result = mult(result, rationalBlaschke(z, values[n]))
         }
         //let e = [];
         //for(let k = 0; k < 50; k++){
         //    e[k] = rationalBlaschke(z, values[k], mults[k]);
         //}
-        return mult( {r: 0.0256, i:0.1321}, result);//e[0];//result[0];//rationalBlaschke(z, values[0], mults[0]);
-            
+        return mult( {r: 0.0256, i:0.1321}, result);
+                          }
     }
                           
   //ends new functions
