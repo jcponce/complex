@@ -2,7 +2,7 @@
 
 Hi! Welcome. Here are the sketches about domain coloring for visualizing complex functions.
 
-#### [Live Demo](https://jcponce.github.io/domain-coloring/)
+#### [Demos here](https://jcponce.github.io/domain-coloring/)
 
 ![alt tag](https://github.com/jcponce/complex/blob/gh-pages/dctools/plotfz.png)
 
