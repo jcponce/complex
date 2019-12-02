@@ -2,6 +2,8 @@
 
 Hi! Welcome. Here are the sketches about domain coloring for visualizing complex functions.
 
+#### [Demos here](https://jcponce.github.io/domain-coloring/)
+
 ![alt tag](https://github.com/jcponce/complex/blob/gh-pages/dctools/plotfz.png)
 
 ---
@@ -41,10 +43,11 @@ I also recommend you the following galleries:
 * Complex power --- "^, exp".
 * Complex logarithm --- "log".
 * Real and Imaginary components --- "re, im".
-* Jacobi Elliptic --- "sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])". 
-* Gamma function --- "gamma".
+* [Jacobi Elliptic](https://en.wikipedia.org/wiki/Jacobi_elliptic_functions) --- "sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])". 
+* [Gamma function](https://en.wikipedia.org/wiki/Gamma_function) --- "gamma( expr )".
+* [Finite Blaschke product](https://en.wikipedia.org/wiki/Blaschke_product) --- "blaschke( expr, positive integer )" 
 * Sum series function--- "sum( expr, positive integer)".
-* Multiplicative function --- "multIter( expr, positive integer)".
+* Multiplicative function --- "prod( expr, positive integer)".
 * Iterated function --- "iter( expr, variable positive integer)".
 
 ---
@@ -57,7 +60,7 @@ May-2019: Added more color schemes.
 
 Sep-2019: I was able to work out how to add a parser for complex functions thanks to [David Bau's work](http://davidbau.com/). Now you can easily input a function such as 'f(z)=z^2+cos(z)'. 
 
-Nov-2019: Added a new input box to enter the functions. It looks better :). Also added a new color scheme.
+Nov-2019: Added a new input box to enter the functions. It looks better :). Also added a new color scheme and the Finite Blaschke product with randomly distributed points.
 
 ---
 

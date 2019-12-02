@@ -72,12 +72,15 @@ function complex_expression(s) {
     arccsch: 1,
     gamma: 1,
     pow: 2,
+    rationalBlaschke: 2,
+    mobius: 5,
     binomial: 2,
     sn: 2,
     cn: 2,
     dn: 2,
     sum: 2,
-    multIter: 2,
+    prod: 2,
+    blaschke: 2,
     iter: 3
     };
     var syns = {
@@ -127,16 +130,22 @@ function complex_expression(s) {
     var loops = {
     iter: 1,
     sum: 1,
-    multIter: 1
+    prod: 1,
     };
     var symbols = {}
     var factorials = [];
+                            
+        let mds = [];
+        let args = [];
+        //let mults = [];
+        let values = [];
     
     function run() {
         dictadd(symbols, consts);
         dictadd(symbols, vars);
         dictadd(symbols, funcs);
         init_constants();
+        init_ai();
         var state = {
         tok: tokenize(s),
         j: 0
@@ -175,6 +184,25 @@ function complex_expression(s) {
             factorials.push(factorials[factorials.length - 1] * factorials.length);
         }
     }
+    //constants for Blaschke products
+    function init_ai(){
+       for(let i = 0; i < 100; i++){
+             mds[i] = Math.random();
+             args[i] = 2*Math.PI*Math.random();
+             /*
+             mults[i] = {
+                          r: Math.floor(4*Math.random()),
+                          i:0
+                          };
+             */
+             values[i] = {
+               r: mds[i] * Math.cos(args[i]),
+               i: mds[i] * Math.sin(args[i])
+             }
+
+        }
+    }
+                            
     // Evaluate this function, and return a r, j tuple.
     function random() {
         while (true) {
@@ -762,14 +790,19 @@ function complex_expression(s) {
         i: i
         };
     }
-    /*New multIter function by Juan Carlos Ponce Campuzano*/
-    function multIter(z, fn, iters) {
-        var result = fn(z, {
+    /* New functions by Juan Carlos Ponce Campuzano
+     * prod(expr, iters)
+     * mobius( expr, a, b, c, d) 
+     * rationalBlaschke(z, complex numbers, multiplicity)
+     * blaschke(z, number of multiples)
+     */
+    function prod(z, fn, iters) {
+        let result = fn(z, {
                         r: 0,
                         i: 0
-                        });
-        var end = Math.floor(iters.r),
-        n, result;
+                        }),
+        end = Math.floor(iters.r),
+        n;
         for (n = 1; n < end; ++n) {
             result = mult(result, fn(z, {
                                      r: n,
@@ -778,6 +811,71 @@ function complex_expression(s) {
         }
         return result;
     }
+                          
+    function mobius(z, a, b, c, d) {
+         //(az+b)/(cz+d)
+        //i (x2 y1 + y2 x1) + x2 x1 - y2 y1
+        let num = {
+            r: z.r * a.r - z.i * a.i + b.r,
+            i: z.r * a.i + z.i * a.r + b.i
+        };
+        let denom = {
+            r: z.r * c.r - z.i * c.i + d.r,
+            i: z.r * c.i + z.i * c.r + d.i
+        };
+                         
+        return  div( num, denom);
+    }
+                          
+    function rationalBlaschke(z, a) {
+       
+        let y = div(
+        {
+          r: z.r - a.r,
+          i: z.i - a.i
+        },
+        {
+          r: 1 - a.r * z.r - a.i * z.i,
+          i: a.i * z.r - a.r * z.i
+        }
+        );
+        
+        let f = div(
+          {
+            r: Math.sqrt(a.r * a.r + a.i * a.i),
+            i: 0
+           },
+          {
+            r: a.r,
+            i: a.i
+           }
+         );
+                         
+        return  mult( f, y );
+    }
+    
+    function blaschke(z, iters){
+        
+        var result = rationalBlaschke(z, values[0]),
+        end = Math.floor(iters.r),
+        n;
+       
+        if(end > 100 || end < 1){
+           return NaN;
+                          } else {
+                          
+        for (n = 1; n < end; n++) {
+            result = mult(result, rationalBlaschke(z, values[n]))
+        }
+        //let e = [];
+        //for(let k = 0; k < 50; k++){
+        //    e[k] = rationalBlaschke(z, values[k], mults[k]);
+        //}
+        return mult( {r: 0.0256, i:0.1321}, result);
+                          }
+    }
+                          
+  //ends new functions
     
     function iter(z, fn, start, iters) {
         var result = start,
