@@ -52,7 +52,7 @@ function initWebCam() {
   if (navigator.getUserMedia)
     navigator.getUserMedia({video: true}, gotStream, noStream);
 
-  video = document.getElementById( 'monitor' );
+  video = document.getElementById( 'video' );
   videoImage = document.getElementById( 'videoImage' );
   videoImageContext = videoImage.getContext( '2d' );
 
