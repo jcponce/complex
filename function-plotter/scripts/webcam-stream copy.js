@@ -1,50 +1,6 @@
-
-function initWebCam(){
- 
-    
-    
-    video = document.getElementById( 'monitor' );
-    videoImage = document.getElementById( 'videoImage' );
-    videoImageContext = videoImage.getContext( '2d' );
-
-    // background color if no video present
-    videoImageContext.fillStyle = '#000000';
-    videoImageContext.fillRect( 0, 0, videoImage.width, videoImage.height );
-
-    videoTexture = new THREE.Texture( videoImage );
-    videoTexture.wrapS = videoTexture.wrapT = THREE.RepeatWrapping;
-    videoTexture.repeat.set( 2, 2  );
-    uniforms.gridTexture.value = videoTexture;
-    
-    if ( navigator.mediaDevices && navigator.mediaDevices.getUserMedia ) {
-
-        var constraints = { video: { width: 1280, height: 720, facingMode: 'user' } };
-
-        navigator.mediaDevices.getUserMedia( constraints ).then( function ( stream ) {
-
-            // apply the stream to the video element used in the texture
-
-            video.srcObject = stream;
-            video.play();
-
-        } ).catch( function ( error ) {
-
-            console.error( 'Unable to access the camera/webcam.', error );
-
-        } );
-
-    } else {
-
-        console.error( 'MediaDevices interface not available.' );
-
-    }
-    
-}
-
-
 // Ripped from view-source:https://stemkoski.github.io/Three.js/Webcam-Texture.html
 
-/*
+
 window.URL = window.URL || window.webkitURL;
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 var camvideo = document.getElementById('monitor');
@@ -69,8 +25,6 @@ function noStream(e)
   document.getElementById('errorMessage').textContent = msg;
 }
 
- 
- */
 /*
  //This part of the code no longer works, so I tried something different
  //Changed code based on suggestions from this site: https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
@@ -91,7 +45,6 @@ function noStream(e)
   document.getElementById('errorMessage').textContent = msg;
 }*/
 
-/*
 function initWebCam() {
   // TODO : This is really sloppy, just leaking into the global namespace.
   // Clean this up.
@@ -112,4 +65,3 @@ function initWebCam() {
   videoTexture.repeat.set( 2, 2  );
   uniforms.gridTexture.value = videoTexture;
 }
-*/
