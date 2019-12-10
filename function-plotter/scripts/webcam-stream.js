@@ -3,7 +3,7 @@
 
 window.URL = window.URL || window.webkitURL;
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-var camvideo = document.getElementById('monitor');
+var camvideo = document.getElementById('video');
 
 function gotStream (stream){
     if (navigator.mediaDevices.getUserMedia) {
