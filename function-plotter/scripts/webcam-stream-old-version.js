@@ -1,5 +1,5 @@
 // Ripped from view-source:https://stemkoski.github.io/Three.js/Webcam-Texture.html
-
+// This code does not work for tablets, so I had to rewrite it. :( JCPC 10-Dec-2019
 
 window.URL = window.URL || window.webkitURL;
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
