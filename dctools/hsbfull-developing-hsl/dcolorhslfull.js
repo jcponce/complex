@@ -33,7 +33,7 @@ let colores = ['#ff0000', '#0000ff', '#00e600', '#ffd11a', '#ff6600', '#993399',
 let input;
 
 function setup() {
-    createCanvas(600, 600);
+    createCanvas(470, 470);
     colorMode(HSL, 1);
     smooth();
     pixelDensity(1);
