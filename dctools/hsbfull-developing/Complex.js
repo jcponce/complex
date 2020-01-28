@@ -795,7 +795,10 @@ function complex_expression(s) {
      * mobius( expr, a, b, c, d) 
      * rationalBlaschke(z, complex numbers, multiplicity)
      * blaschke(z, number of multiples)
+     * Pochhammer symbol: pSymbol(z, iters) to make in the future
      */
+
+    
     function prod(z, fn, iters) {
         let result = fn(z, {
                         r: 0,
@@ -811,6 +814,7 @@ function complex_expression(s) {
         }
         return result;
     }
+
                           
     function mobius(z, a, b, c, d) {
          //(az+b)/(cz+d)
