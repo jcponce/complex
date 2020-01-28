@@ -22,7 +22,7 @@ In this project I used [p5.js](https://p5js.org/) but there are similar projects
 * [The Complex Grapher](https://talbrenev.com/complexgrapher/) (JavaScript)
 * [Complex Function Grapher](http://jutanium.github.io/ComplexNumberGrapher/) (Math.js)
 * [Conformal Map Viewer](http://davidbau.com/archives/2013/02/10/conformal_map_viewer.html) (JavaScript)
-* [Exploring complex function](https://cindyjs.org/gallery/cindygl/ComplexExplorer/index.html) (Cindy.JS)
+* [Exploring complex functions](https://cindyjs.org/gallery/cindygl/ComplexExplorer/index.html) (Cindy.JS)
 * [Complex Function Explorer](https://au.mathworks.com/matlabcentral/fileexchange/45464-complex-function-explorer) (MATLAB)
 
 Visit the site [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the different tools I made or if you prefer you can visit the [Domain Coloring Gallery](https://www.dynamicmath.xyz/domain-coloring/dcgallery.html).

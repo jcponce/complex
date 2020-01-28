@@ -74,6 +74,7 @@ function complex_expression(s) {
     pow: 2,
     rationalBlaschke: 2,
     mobius: 5,
+    psymbol: 2,
     binomial: 2,
     sn: 2,
     cn: 2,
@@ -322,10 +323,7 @@ function complex_expression(s) {
     
     function disk(z) {
         if (realmodulus(z) > 1) {
-            return {
-            r: 0,
-            i: 0
-            };
+            return NaN;//{r: -1,i: 0};
         }
         return {
         r: 1,
@@ -795,24 +793,52 @@ function complex_expression(s) {
      * mobius( expr, a, b, c, d) 
      * rationalBlaschke(z, complex numbers, multiplicity)
      * blaschke(z, number of multiples)
-     * Pochhammer symbol: pSymbol(z, iters) to make in the future
+     * Pochhammer Symbol: psymbol(z, n>=0) 
      */
 
-    
     function prod(z, fn, iters) {
         let result = fn(z, {
-                        r: 0,
-                        i: 0
-                        }),
-        end = Math.floor(iters.r),
-        n;
-        for (n = 1; n < end; ++n) {
-            result = mult(result, fn(z, {
-                                     r: n,
-                                     i: 0
-                                     }))
+                r: 1,
+                i: 0
+            }),
+            end = Math.floor(iters.r),
+            n;
+
+        if (end < 1) {
+            return NaN;
+        } else if (end === 1) {
+            return fn(z, {
+                r: 1,
+                i: 0
+            });
+        } else {
+            for (n = 2; n <= end; ++n) {
+                result = mult(result, fn(z, {
+                    r: n,
+                    i: 0
+                }))
+            }
+            return result;
         }
-        return result;
+    }
+
+    function psymbol(z, iters){
+        
+        var result = {r:1,i:0};
+        var end = Math.floor(iters.r),
+        n;
+        if(end === 0){
+            return {r:1, i:0};
+        } if(end>0){
+            
+
+            for (n = 1; n <= end; ++n) {
+                
+                result = mult(result, add(z, {r:n-1,i:0}));
+            }
+
+            return result;
+        }
     }
 
                           
