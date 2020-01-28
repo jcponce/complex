@@ -1,6 +1,6 @@
 // This is the parser for complex number formulae.
 // written by David Bau, durring snowstorm Nemo 2013
-// Adapted and updated by Juan Carlos Ponce Campuzano, 2019
+// Adapted and updated by Juan Carlos Ponce Campuzano in 2019
 function complex_expression(s) {
     var consts = {
     i: {
