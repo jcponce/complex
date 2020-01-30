@@ -61,7 +61,7 @@
       <input class="dark-translucent input-control"
              id="equation-input"
              placeholder="Input complex expression, e.g. 1 / (z^2 + t * i)^t - log(z)"
-             value="t - 0.09 * (z - 6)^2"></input>
+             value="(z-1)/(z^2+z+1)"></input>
       
       <!--
       Some interesting examples
@@ -75,32 +75,13 @@
 
       <span id="texture-options">
        
-       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/plotfz-2.png"></a>
-       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/hex.png"></a>
-       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/reim.png"></a>
-       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/rainbow.png"></a>
-       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/abstract.jpg"></a>
-       <a class="dark-translucent input-control" href="#"><i class="fa fa-video-camera"></i></a>
-       <a class="dark-translucent input-control" href="hsv-simple.htm"><img class="thumbnail" src="images/hsv.png" title="Domain coloring"></a>
-       
+        <a class="dark-translucent input-control" href="hsv-modulus.htm" ><img class="thumbnail" src="images/hsvmod.png"  title="Modulus"></a>
+        <a class="dark-translucent input-control" href="hsv-phase.htm" ><img class="thumbnail" src="images/hsvphase.png"  title="Phase"></a>
+        <a class="dark-translucent input-control" href="hsv-simple.htm"><img class="thumbnail" src="images/hsv.png"  title="Combined"></a>
+        <a class="dark-translucent input-control" href="index.htm"><img class="thumbnail" src="images/plotfz-2.png" title="Texture"></a>
 
      </span>
      
-    
-  
-    <script>
-      let testBool = true;
-  
-      console.log('Default value of bool is',
-        testBool);
-  
-      function toggle() {
-        testBool = !testBool;
-  
-        console.log('Toggled bool is',
-          testBool);
-      }
-    </script>
 
     </div>
 
@@ -110,7 +91,7 @@
 
   <script src="scripts/webcam-stream.js"></script>
 
-  <script type="peg-grammar" id="complex-expression-peg-grammar" src="scripts/grammar.js">
+  <script type="peg-grammar" id="complex-expression-peg-grammar">
   /*
    * Complex Arithmetic Grammar
    * (Utilizes http://pegjs.org/ to build a parser based on this grammar)
@@ -399,7 +380,7 @@
 
       vec2 final_expr = EXPRESSION;
 
-      bool opt = false;
+      bool opt = true;
 
       //bool  opt = OPT; 
 
@@ -413,14 +394,21 @@
         // HSV Domain Coloring
 
         float l = length(final_expr);
-        float _r = log(l);
+        
+        float _r = log(l) / 0.30102999566;
+
+        //log(2) approx 0.30102999566
+        //log(1.8) approx 0.2552725051
+        
         //_r = 0.8 + (sin(_r) + 1.0) * 0.5 * 0.3;
 
         _r = 0.6 + 0.35 * ( _r - floor( _r ) );
 
-        float _arg = (M_PI - atan(final_expr[1], -final_expr[0])) / ( M_PI + M_PI);
+        float _arg =  (M_PI - atan(final_expr[1], -final_expr[0])) / ( M_PI + M_PI);
 
-        vec3 hsv = vec3(_arg, 1, _r);
+        float _c = 0.35 * ( 16.0 * _arg - floor( 16.0 * _arg) ) + 0.7;
+
+        vec3 hsv = vec3(_arg, 1, _c * _r);
         vec3 rgb = hsv2rgb( hsv );
 
   			gl_FragColor = vec4(rgb, 1.0);
