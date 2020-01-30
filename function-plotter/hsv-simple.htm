@@ -77,9 +77,9 @@
 
       <span id="texture-options">
 
-        <a class="dark-translucent input-control" href="hsv-modulus.htm" ><img class="thumbnail" src="images/hsvmod.png"  title="Modulus"></a>
-        <a class="dark-translucent input-control" href="hsv-phase.htm" ><img class="thumbnail" src="images/hsvphase.png"  title="Phase"></a>
-        <a class="dark-translucent input-control" href="hsv-combined.htm"><img class="thumbnail" src="images/hsvcomb.png"  title="Combined"></a>
+        <a class="dark-translucent input-control" href="#" ><img class="thumbnail" src="images/hsvmod.png"  title="Modulus"></a>
+        <a class="dark-translucent input-control" href="#" ><img class="thumbnail" src="images/hsvphase.png"  title="Phase"></a>
+        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/hsvcomb.png"  title="Combined"></a>
         <a class="dark-translucent input-control" href="index.htm"><img class="thumbnail" src="images/plotfz-2.png" title="Texture"></a>
 
 
@@ -386,8 +386,6 @@
 
       bool opt = true;
 
-      //bool  opt = OPT; 
-
       float L = length(final_expr);
       if(isNan(length(final_expr)) || L > 1.0e10) {
         discard;
@@ -538,7 +536,6 @@
       $(this).click(function () {
         var texture_path = $(this).find('img').first().attr('src');
         if (texture_path) {
-
 
           setTexture(texture_path);
 

@@ -32,7 +32,7 @@ let input;
 let domC;
 
 function setup() {
-    createCanvas(470, 470);
+    createCanvas(470, 470, P2D);
     colorMode(HSB, 1);
     smooth();
     pixelDensity(1);
