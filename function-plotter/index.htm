@@ -86,21 +86,6 @@
 
      </span>
      
-    
-  
-    <script>
-      let testBool = true;
-  
-      console.log('Default value of bool is',
-        testBool);
-  
-      function toggle() {
-        testBool = !testBool;
-  
-        console.log('Toggled bool is',
-          testBool);
-      }
-    </script>
 
     </div>
 
@@ -459,7 +444,7 @@
     };
 
     function setTexture(url) {
-      var gridTexture = THREE.ImageUtils.TextureLoader(url);
+      var gridTexture = THREE.ImageUtils.loadTexture(url);
       gridTexture.wrapS = gridTexture.wrapT = THREE.RepeatWrapping;
       gridTexture.repeat.set( 2, 2  );
 
