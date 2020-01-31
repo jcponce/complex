@@ -1,4 +1,4 @@
-![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.pjg)
+![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.jpg)
 
 ## Complex Function Plotter 
 #### [Live Demo](http://jcponce.github.io/complex/function-plotter/)
