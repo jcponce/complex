@@ -86,6 +86,7 @@
             title="Combined"></a>
         <a class="dark-translucent input-control" href="index.htm"><img class="thumbnail" src="images/plotfz-2.png"
             title="Texture"></a>
+        <!--<a class="dark-translucent input-control" href="#"><i class="fa fa-video-camera"></i></a>-->
 
 
 
@@ -509,14 +510,17 @@
 
     /*//I don't need this function for domain coloring
     function setTexture(url) {
-      var gridTexture = THREE.ImageUtils.loadTexture(url);
-      gridTexture.wrapS = gridTexture.wrapT = THREE.RepeatWrapping;
+      //var gridTexture = THREE.ImageUtils.loadTexture(url);
+      //gridTexture.wrapS = gridTexture.wrapT = THREE.RepeatWrapping;
+      var gridTexture = new THREE.TextureLoader().load( url );
+      gridTexture.wrapS = THREE.RepeatWrapping;
+      gridTexture.wrapT = THREE.RepeatWrapping;
       gridTexture.repeat.set(2, 2);
 
       uniforms.gridTexture.value = gridTexture;
     }
-    setTexture("images/plotfz-2.png");
-    */
+    setTexture("images/plotfz-2.png");*/
+    
 
     // the camera starts at 0,0,0 so pull it back
     camera.position.z = 5;
@@ -557,6 +561,8 @@
     function update_expression() {
       var new_expression = $("#equation-input").val();
       var compiledExpression = pegParser.parse(new_expression);
+      
+      //console.log(compiledExpression);
 
       var shaderMaterial = new THREE.ShaderMaterial({
         uniforms: uniforms,
@@ -615,10 +621,10 @@
           console.log(uniforms._option.value);
           //setTexture(texture_path);
         } 
-        //else {
+        else {
           // Currently, the only other option here is to stream from the webcam.
-          //initWebCam();
-        //}
+          initWebCam();
+        }
       });
     });
 
