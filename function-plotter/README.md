@@ -48,6 +48,8 @@ In this version I added a few extra complex functions.
 * [Potential](https://jcponce.github.io/complex/function-plotter/?expression=KGxvZygoei0xKS8oeisxKSkpICogKHQrMSkvMiArIHogKiAoMSAtICh0KzEpLzIp)
 * [Domain coloring Example 1](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyB0KQ==)
 * [Domain coloring Example 2](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqIHQgKyAxL3Npbih6KQ==)
+* [Domain coloring Example 3](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=KHotMSkvKHpeMit6KzEpICogKHQrMSkvMiArIHogKiAoIDEtICh0LTEpLzIgKQ==)
+* [Domain coloring - Non-Analytic function](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=My8yICogeiAqICgwLjUgLSAzLzIgKiBpICogY29uaih6KSkgKiAodCsxKS8yICsgeiAqICggMS0gKHQtMSkvMiAp)
 
 ## How does it work?
 #### This tool runs in real-time thanks to a few other libraries.
