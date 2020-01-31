@@ -76,7 +76,7 @@
       -->
 
       <span id="texture-options">
-
+        <a class="dark-translucent input-control" href="#" ><img class="thumbnail" src="images/hsv.png"  title="Simple"></a>
         <a class="dark-translucent input-control" href="#" ><img class="thumbnail" src="images/hsvmod.png"  title="Modulus"></a>
         <a class="dark-translucent input-control" href="#" ><img class="thumbnail" src="images/hsvphase.png"  title="Phase"></a>
         <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/hsvcomb.png"  title="Combined"></a>
@@ -217,6 +217,7 @@
     uniform float t;
     uniform float width, height;
     uniform sampler2D gridTexture;
+    uniform float _option;
 
     // Convert from Hue,Saturation/Value to RGB
     // http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
@@ -384,7 +385,7 @@
 
       vec2 final_expr = EXPRESSION;
 
-      bool opt = true;
+      
 
       float L = length(final_expr);
       if(isNan(length(final_expr)) || L > 1.0e10) {
@@ -392,27 +393,60 @@
       }
 
       // TODO : Make this user-controlled
-      if(opt) {
+      if(_option == 0.0) {
         // HSV Domain Coloring
+        
+        float _arg = (M_PI - atan(final_expr[1], -final_expr[0])) / ( M_PI + M_PI);
 
+        vec3 hsv = vec3(_arg, 1.0, 1.0);
+        vec3 rgb = hsv2rgb( hsv );
+
+  			gl_FragColor = vec4(rgb, 1.0);
+
+      } else if(_option == 1.0){
         float l = length(final_expr);
         
-        float _r = log(l) / 0.30102999566;
-
-        //log(2) approx 0.30102999566
-        //log(1.8) approx 0.2552725051
-        
-        //_r = 0.8 + (sin(_r) + 1.0) * 0.5 * 0.3;
+        float _r = log(l) / log(2.0);
 
         _r = 0.6 + 0.35 * ( _r - floor( _r ) );
 
         float _arg = (M_PI - atan(final_expr[1], -final_expr[0])) / ( M_PI + M_PI);
 
-        vec3 hsv = vec3(_arg, 1, 1);
+        vec3 hsv = vec3(_arg, 1.0, _r);
         vec3 rgb = hsv2rgb( hsv );
 
   			gl_FragColor = vec4(rgb, 1.0);
 
+      } else if(_option == 2.0){
+        float l = length(final_expr);
+        
+        float _r = log(l) / log(2.0);
+
+        _r = 0.6 + 0.35 * ( _r - floor( _r ) );
+
+        float _arg =  (M_PI - atan(final_expr[1], -final_expr[0])) / ( M_PI + M_PI);
+
+        float _c = 0.35 * ( 16.0 * _arg - floor( 16.0 * _arg) ) + 0.7;
+
+        vec3 hsv = vec3(_arg, 1.0, _c);
+        vec3 rgb = hsv2rgb( hsv );
+
+  			gl_FragColor = vec4(rgb, 1.0);
+      } else if(_option == 3.0){
+        float l = length(final_expr);
+        
+        float _r = log(l) / log(2.0);
+
+        _r = 0.6 + 0.35 * ( _r - floor( _r ) );
+
+        float _arg =  (M_PI - atan(final_expr[1], -final_expr[0])) / ( M_PI + M_PI);
+
+        float _c = 0.35 * ( 16.0 * _arg - floor( 16.0 * _arg) ) + 0.7;
+
+        vec3 hsv = vec3(_arg, 1.0, _c * _r);
+        vec3 rgb = hsv2rgb( hsv );
+
+  			gl_FragColor = vec4(rgb, 1.0);
       } else {
         // Texture-based Domain Coloring
         //final_expr = min(vec2(1.0, 1.0), final_expr);
@@ -421,6 +455,7 @@
         gl_FragColor = vec4( tex.xyz, 1.0 );
 
       }
+
 		}
 	</script>
 
@@ -443,6 +478,10 @@
       t: {
         type: "f",
         value: 1.0
+      },
+      _option: {
+        type: "f",
+        value: 0.0
       },
       gridTexture: {
         type: 't',
@@ -530,20 +569,34 @@
 
       requestAnimationFrame(render);
     }
-    var opt = false;
+    
     // When the user clicks one of the images/webcam icon, change the background
     $('#texture-options a').each(function () {
       $(this).click(function () {
         var texture_path = $(this).find('img').first().attr('src');
-        if (texture_path) {
-          opt = !opt;
-          console.log(opt);
+        if (texture_path == "images/hsv.png") {
+          uniforms._option.value = 0.0;
+          console.log(uniforms._option.value);
 
 
-          setTexture(texture_path);
+          //setTexture(texture_path);
 
 
-        } else {
+        } else if(texture_path == "images/hsvmod.png"){
+          uniforms._option.value = 1.0;
+          console.log(uniforms._option.value);
+          //setTexture(texture_path);
+        } else if(texture_path == "images/hsvphase.png"){
+          uniforms._option.value = 2.0;
+          console.log(uniforms._option.value);
+          //setTexture(texture_path);
+        }else if(texture_path == "images/hsvcomb.png"){
+          uniforms._option.value = 3.0;
+          console.log(uniforms._option.value);
+          //setTexture(texture_path);
+        }
+
+        else {
           // Currently, the only other option here is to stream from the webcam.
           initWebCam();
         }
@@ -584,4 +637,4 @@
 
 </body>
 
-</html>
+</html> 
