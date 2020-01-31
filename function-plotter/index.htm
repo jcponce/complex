@@ -459,7 +459,7 @@
     };
 
     function setTexture(url) {
-      var gridTexture = THREE.ImageUtils.loadTexture(url);
+      var gridTexture = THREE.ImageUtils.TextureLoader(url);
       gridTexture.wrapS = gridTexture.wrapT = THREE.RepeatWrapping;
       gridTexture.repeat.set( 2, 2  );
 
