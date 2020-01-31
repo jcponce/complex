@@ -5,13 +5,15 @@
 
 A WebGL-based complex expression parser and plotter. 
 
-This project was forked from the amazing work of [Brandon Pelfrey](https://github.com/brandonpelfrey/complex-function-plot). In this version I added a few extra complex functions and used textures that I designed. Finally, I had to change the code for accessing the webcam since it was not working in the previous version.
+This project was forked from the amazing work of [Brandon Pelfrey](https://github.com/brandonpelfrey/complex-function-plot). In this version I added a few extra complex functions and used textures that I designed. I was also able to implement the domain coloring method (HSV scheme) with level curves of modulus and phase. Finally, I had to change the code for accessing the webcam since it was not working in the previous version.
 
 ## What is this?
 
 This tool allows you to visualize, in real-time, in a browser, how complex functions distort the complex plane, like in the [Conformal Mapping](http://mathworld.wolfram.com/ConformalMapping.html) entry from Wolfram Mathworld.
 
 The rendered image is created by evaluating the user-supplied function and then using the results of that function to look up a color in an image which is infinitely tiled over the [Complex Plane](http://mathworld.wolfram.com/ComplexPlane.html). By changing the expression in the input field, you can visualize how various functions distort the plane.
+
+This tool also allows you to visualize complex functions using the domain coloring method with the HSV scheme, including level curves of modulus and phase. Thus you can visualize zeros and singularities.
 
 ## Basic arithmetic operators, constants and parameters
 
@@ -42,6 +44,8 @@ In this version I added a few extra complex functions.
 * [Vortex within a circle](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAzKS8yICogZV4odCAqIHBpICogaSAqIGVeKCAtMSAqIGFicyggKHoqMykvMiApXjIgKSk=)
 * [Waves](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqICgxLjUgKiByKV41KSArIHQ=)
 * [Potential](https://jcponce.github.io/complex/function-plotter/?expression=KGxvZygoei0xKS8oeisxKSkpICogKHQrMSkvMiArIHogKiAoMSAtICh0KzEpLzIp)
+* [Domain coloring Example 1](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyB0KQ==)
+* [Domain coloring Example 2](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqIHQgKyAxL3Npbih6KQ==)
 
 ## How does it work?
 #### This tool runs in real-time thanks to a few other libraries.
