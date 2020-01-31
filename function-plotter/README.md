@@ -1,5 +1,3 @@
-![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.jpg)
-
 ## Complex Function Plotter 
 #### [Live Demo](http://jcponce.github.io/complex/function-plotter/)
 
@@ -12,6 +10,8 @@ This project was forked from the amazing work of [Brandon Pelfrey](https://githu
 This tool allows you to visualize, in real-time, in a browser, how complex functions distort the complex plane, like in the [Conformal Mapping](http://mathworld.wolfram.com/ConformalMapping.html) entry from Wolfram Mathworld.
 
 The rendered image is created by evaluating the user-supplied function and then using the results of that function to look up a color in an image which is infinitely tiled over the [Complex Plane](http://mathworld.wolfram.com/ComplexPlane.html). By changing the expression in the input field, you can visualize how various functions distort the plane.
+
+![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.jpg)
 
 This tool also allows you to visualize complex functions using the domain coloring method with the HSV scheme, including level curves of modulus and phase. Thus you can visualize zeros and singularities.
 
