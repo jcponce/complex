@@ -1,4 +1,4 @@
-![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/reim.png)
+![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.png)
 
 ## Complex Function Plotter 
 #### [Live Demo](http://jcponce.github.io/complex/function-plotter/)
@@ -14,6 +14,8 @@ This tool allows you to visualize, in real-time, in a browser, how complex funct
 The rendered image is created by evaluating the user-supplied function and then using the results of that function to look up a color in an image which is infinitely tiled over the [Complex Plane](http://mathworld.wolfram.com/ComplexPlane.html). By changing the expression in the input field, you can visualize how various functions distort the plane.
 
 This tool also allows you to visualize complex functions using the domain coloring method with the HSV scheme, including level curves of modulus and phase. Thus you can visualize zeros and singularities.
+
+![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/domain-coloring.png)
 
 ## Basic arithmetic operators, constants and parameters
 
