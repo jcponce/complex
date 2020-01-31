@@ -1,4 +1,4 @@
-![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.png)
+![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.pjg)
 
 ## Complex Function Plotter 
 #### [Live Demo](http://jcponce.github.io/complex/function-plotter/)
@@ -15,7 +15,7 @@ The rendered image is created by evaluating the user-supplied function and then 
 
 This tool also allows you to visualize complex functions using the domain coloring method with the HSV scheme, including level curves of modulus and phase. Thus you can visualize zeros and singularities.
 
-![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/domain-coloring.png)
+![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/domain-coloring.jpg)
 
 ## Basic arithmetic operators, constants and parameters
 
