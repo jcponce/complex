@@ -3,7 +3,7 @@
 
 A WebGL-based complex expression parser and plotter. 
 
-This project was forked from the amazing work of [Brandon Pelfrey](https://github.com/brandonpelfrey/complex-function-plot). In this version I added a few extra complex functions and used textures that I designed. I was also able to implement the domain coloring method (HSV scheme) with level curves of modulus and phase. Finally, I had to change the code for accessing the webcam since it was not working in the previous version.
+This project was forked from the amazing work of [Brandon Pelfrey](https://github.com/brandonpelfrey/complex-function-plot). In this version I added a few extra complex functions and used textures that I designed. I was also able to implement the domain coloring method (HSV scheme). Finally, I had to change the code for accessing the webcam since it was not working in the previous version.
 
 ## What is this?
 
