@@ -22,7 +22,7 @@ This tool also allows you to visualize complex functions using the domain colori
 * Basic arithmetic operators -- "+  -  *  /" for combining various complex numbers
 * Constants -- "<a,b>" for defining a complex number (a,b) from two real-values.
 * Pre-Defined Constants -- "pi, e, a, b" for using common constants. The constants "a" and "b" will take on the value of the real and complex part of the point in the complex plane.
-* "Animated" Parameter -- "t" can be used in place of a real value to provide some animation to your plot. It slowly oscillates between -1 and 1.
+* Animated Parameter -- "t" can be used in place of a real value to provide some animation to your plot. It slowly oscillates between -1 and 1.
 
 ## Available functions
 
