@@ -444,8 +444,12 @@
     };
 
     function setTexture(url) {
-      var gridTexture = THREE.ImageUtils.loadTexture(url);
-      gridTexture.wrapS = gridTexture.wrapT = THREE.RepeatWrapping;
+      // loadTexture was deprecated in version 110
+      //var gridTexture = THREE.ImageUtils.loadTexture(url);
+      //gridTexture.wrapS = gridTexture.wrapT = THREE.RepeatWrapping;
+      var gridTexture = new THREE.TextureLoader().load( url );
+      gridTexture.wrapS = THREE.RepeatWrapping;
+      gridTexture.wrapT = THREE.RepeatWrapping;
       gridTexture.repeat.set( 2, 2  );
 
       uniforms.gridTexture.value = gridTexture;
