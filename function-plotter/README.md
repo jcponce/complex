@@ -64,11 +64,11 @@ In this version I added a few extra complex functions.
 
 ## More examples about domain coloring
 
-* [Example 1](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyB0KQ==)
-* [Example 2](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqIHQgKyAxL3Npbih6KQ==)
-* [Example 3](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=KHotMSkvKHpeMit6KzEpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
-* [Non-Analytic function 1](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=KHorMSkgKiBjb25qKHop)
-* [Non-Analytic function 2](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=My8yICogeiAqICgxIC0gMy8yICogaSAqIGNvbmooeikpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
+* [Example 1: sin(z + t)](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyB0KQ==)
+* [Example 2: z * t + 1/sin(z)](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqIHQgKyAxL3Npbih6KQ==)
+* [Example 3: (z-1)/(z^2+z+1) * (t+1)/2 + z * ( 1- (t+1)/2 )](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=KHotMSkvKHpeMit6KzEpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
+* [Non-Analytic function 1: (z+1) * conj(z)](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=KHorMSkgKiBjb25qKHop)
+* [Non-Analytic function 2: conj(z) * (t+1)/2 + cos(z * ( 1- (t+1)/2 ))](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=Y29uaih6KSAqICh0KzEpLzIgKyBjb3MoeiAqICggMS0gKHQrMSkvMiApKQ==)
 
 
 ## How does it work?
