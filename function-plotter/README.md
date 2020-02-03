@@ -14,7 +14,7 @@ The rendered image is created by evaluating the user-supplied function and then 
 
 ![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.jpg)
 
-#### [Live Demo](http://jcponce.github.io/complex/function-plotter/)
+#### [Live Demo - Live Demo](http://jcponce.github.io/complex/function-plotter/)
 
 ### Domain coloring
 
@@ -22,7 +22,7 @@ You can also visualize complex functions plotted with the domain coloring method
 
 ![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/domain-coloring.jpg)
 
-#### [Live Demo](http://jcponce.github.io/complex/function-plotter/hsv.htm)
+#### [Live Demo - Domain coloring](http://jcponce.github.io/complex/function-plotter/hsv.htm)
 
 ## Basic arithmetic operators, constants and parameters
 
@@ -74,6 +74,3 @@ In this version I added a few extra complex functions.
 * Expressions given by the user are parsed using the [PEG.js](https://pegjs.org/) library along with a grammar written specifically for this plotter that encapsulates complex-valued arithmetic and functions. The grammar is fed to PEG.js which produces a parser, and that parser is then used to transform mathematical expressions into a WebGL-compatible snippet of code. The generated code is placed into a WebGL shader template and compiled to give a new rendering based on the expression supplied by the user. All of this happens ~instantly, even on a phone.
 * [THREE.js](https://threejs.org/) is used to set up the full-window Quad, manage GLSL uniforms, shader compilation, etc. (Basically all the boilerplate display logic).
 * jQuery is used for some very minor setup logic (could be easily removed...)
-
-
-
