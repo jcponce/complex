@@ -45,11 +45,13 @@ In this version I added a few extra complex functions.
 
 #### Some basic examples
 
-* [z * (1-z)](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqICgxLXop)
-* [1/z + i * z^(1/2)](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=MS96ICsgaSAqIHpeKDEvMik=)
-* [e^z + t](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=ZV56ICsgdA==)
+* [z * (1-z)](https://jcponce.github.io/complex/function-plotter/index.htm?expression=eiAqICgxLXop)
+* [1/z + i * z^(1/2)](https://jcponce.github.io/complex/function-plotter/index.htm?expression=MS96ICsgaSAqIHpeKDEvMik=)
+* [z + pi * log(z + e)](https://jcponce.github.io/complex/function-plotter/index.htm?expression=eiArIHBpICogbG9nKHogKyBlKQ==)
+* [e^z + t](https://jcponce.github.io/complex/function-plotter/index.htm?expression=ZV56ICsgdA==)
+* [log(z+1)/log(z-1)](https://jcponce.github.io/complex/function-plotter/index.htm?expression=bG9nKHorMSkvbG9nKHotMSk=)
 
-## Conformal mapping: Examples
+## Some interesting examples of conformal mapping
 
 * [Fluid around cilinder](https://jcponce.github.io/complex/function-plotter/?expression=eiAqICgxIC0gKHQrMSkvMikgKyAodCsxKS8yICogKHorMS96KQ==)
   * [Real component](https://jcponce.github.io/complex/function-plotter/?expression=cmUoKHorMS96KSApKiAodCsxKS8yICsgcmUoeikgKiAoMSAtICh0KzEpLzIp)
@@ -60,12 +62,13 @@ In this version I added a few extra complex functions.
 * [Waves](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqICgxLjUgKiByKV41KSArIHQ=)
 * [Potential](https://jcponce.github.io/complex/function-plotter/?expression=KGxvZygoei0xKS8oeisxKSkpICogKHQrMSkvMiArIHogKiAoMSAtICh0KzEpLzIp)
 
-## Domain coloring: Examples
+## More examples about domain coloring
 
-* [Domain coloring Example 1](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyB0KQ==)
-* [Domain coloring Example 2](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqIHQgKyAxL3Npbih6KQ==)
-* [Domain coloring Example 3](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=KHotMSkvKHpeMit6KzEpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
-* [Domain coloring - Non-Analytic function](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=My8yICogeiAqICgxIC0gMy8yICogaSAqIGNvbmooeikpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
+* [Example 1](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyB0KQ==)
+* [Example 2](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqIHQgKyAxL3Npbih6KQ==)
+* [Example 3](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=KHotMSkvKHpeMit6KzEpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
+* [Non-Analytic function 1]
+* [Non-Analytic function 2](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=My8yICogeiAqICgxIC0gMy8yICogaSAqIGNvbmooeikpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
 
 
 ## How does it work?
