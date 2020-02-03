@@ -51,7 +51,7 @@ You can also visualize complex functions plotted with the domain coloring method
 
 ## Some interesting examples of conformal mapping
 
-* [Fluid around cilinder](https://jcponce.github.io/complex/function-plotter/?expression=eiAqICgxIC0gKHQrMSkvMikgKyAodCsxKS8yICogKHorMS96KQ==)
+* [Fluid around cylinder](https://jcponce.github.io/complex/function-plotter/?expression=eiAqICgxIC0gKHQrMSkvMikgKyAodCsxKS8yICogKHorMS96KQ==)
   * [Real component](https://jcponce.github.io/complex/function-plotter/?expression=cmUoKHorMS96KSApKiAodCsxKS8yICsgcmUoeikgKiAoMSAtICh0KzEpLzIp)
   * [Imaginary component](https://jcponce.github.io/complex/function-plotter/?expression=aW0oKHorMS96KSApKiAodCsxKS8yICsgaW0oeikgKiAoMSAtICh0KzEpLzIp)
 * [Disk with a rotating tile](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAwLjk5ICsgMC4wMSAqICgoMSAtIHpeKDE4KSkgKiB6XjIpICkgKiAoMSArIGkgKiB0KQ==)
