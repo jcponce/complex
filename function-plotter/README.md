@@ -67,7 +67,7 @@ In this version I added a few extra complex functions.
 * [Example 1](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyB0KQ==)
 * [Example 2](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqIHQgKyAxL3Npbih6KQ==)
 * [Example 3](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=KHotMSkvKHpeMit6KzEpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
-* [Non-Analytic function 1]
+* [Non-Analytic function 1](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=KHorMSkgKiBjb25qKHop)
 * [Non-Analytic function 2](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=My8yICogeiAqICgxIC0gMy8yICogaSAqIGNvbmooeikpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
 
 
