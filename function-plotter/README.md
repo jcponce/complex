@@ -33,8 +33,6 @@ You can also visualize complex functions plotted with the domain coloring method
 
 ## Available functions
 
-In this version I added a few extra complex functions. 
-
 * Trigonometric functions --- "sin, cos, tan, csc, sec, cot".
 * Hyperbolic trigonometric functions --- "sinh, cosh, tanh, csch, sech, coth".
 * The conjugate --- "conj".
