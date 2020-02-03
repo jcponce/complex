@@ -47,7 +47,7 @@ You can also visualize complex functions plotted with the domain coloring method
 * [1/z + i * z^(1/2)](https://jcponce.github.io/complex/function-plotter/index.htm?expression=MS96ICsgaSAqIHpeKDEvMik=)
 * [z + pi * log(z + e)](https://jcponce.github.io/complex/function-plotter/index.htm?expression=eiArIHBpICogbG9nKHogKyBlKQ==)
 * [e^z + t](https://jcponce.github.io/complex/function-plotter/index.htm?expression=ZV56ICsgdA==)
-* [log(z+1)/log(z-1)](https://jcponce.github.io/complex/function-plotter/index.htm?expression=bG9nKHorMSkvbG9nKHotMSk=)
+* [sin(z + pi)/tanh(z^2 - i) + t](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyBwaSkvdGFuaCh6XjIgLSBpKSArIHQ=)
 
 ## Some interesting examples of conformal mapping
 
