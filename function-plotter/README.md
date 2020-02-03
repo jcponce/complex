@@ -1,5 +1,4 @@
 ## Complex Function Plotter 
-#### [Live Demo](http://jcponce.github.io/complex/function-plotter/)
 
 A WebGL-based complex expression parser and plotter. 
 
@@ -15,29 +14,15 @@ The rendered image is created by evaluating the user-supplied function and then 
 
 ![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.jpg)
 
-#### Some examples
-
-* [Fluid around cilinder](https://jcponce.github.io/complex/function-plotter/?expression=eiAqICgxIC0gKHQrMSkvMikgKyAodCsxKS8yICogKHorMS96KQ==)
-  * [Real component](https://jcponce.github.io/complex/function-plotter/?expression=cmUoKHorMS96KSApKiAodCsxKS8yICsgcmUoeikgKiAoMSAtICh0KzEpLzIp)
-  * [Imaginary component](https://jcponce.github.io/complex/function-plotter/?expression=aW0oKHorMS96KSApKiAodCsxKS8yICsgaW0oeikgKiAoMSAtICh0KzEpLzIp)
-* [Disk with a rotating tile](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAwLjk5ICsgMC4wMSAqICgoMSAtIHpeKDE4KSkgKiB6XjIpICkgKiAoMSArIGkgKiB0KQ==)
-* [Bending reality](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqIDAuNSAqICh6IC0gMyppKSArIGxvZyh6IC0gMyppKSkgKiAodCsxKS8yICsgeiAqICgxIC0gKHQrMSkvMik=)
-* [Vortex within a circle](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAzKS8yICogZV4odCAqIHBpICogaSAqIGVeKCAtMSAqIGFicyggKHoqMykvMiApXjIgKSk=)
-* [Waves](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqICgxLjUgKiByKV41KSArIHQ=)
-* [Potential](https://jcponce.github.io/complex/function-plotter/?expression=KGxvZygoei0xKS8oeisxKSkpICogKHQrMSkvMiArIHogKiAoMSAtICh0KzEpLzIp)
+#### [Live Demo](http://jcponce.github.io/complex/function-plotter/)
 
 ### Domain coloring
 
-On the other hand, this tool also allows you to visualize complex functions using the domain coloring method with the HSV scheme, including level curves of modulus and phase. Thus you can visualize zeros and singularities.
+You can also visualize complex functions plotted with the domain coloring method using the HSV scheme, including level curves of modulus and phase. Thus you can visualize zeros and singularities.
 
 ![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/domain-coloring.jpg)
 
-#### Some examples
-
-* [Domain coloring Example 1](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyB0KQ==)
-* [Domain coloring Example 2](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqIHQgKyAxL3Npbih6KQ==)
-* [Domain coloring Example 3](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=KHotMSkvKHpeMit6KzEpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
-* [Domain coloring - Non-Analytic function](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=My8yICogeiAqICgxIC0gMy8yICogaSAqIGNvbmooeikpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
+#### [Live Demo](http://jcponce.github.io/complex/function-plotter/hsv.htm)
 
 ## Basic arithmetic operators, constants and parameters
 
@@ -45,12 +30,6 @@ On the other hand, this tool also allows you to visualize complex functions usin
 * Constants: "<a,b>" for defining a complex number (a,b) from two real-values.
 * Pre-Defined Constants: "pi, e, a, b" for using common constants. The constants "a" and "b" will take on the value of the real and complex part of the point in the complex plane.
 * Animated Parameter: "t" can be used in place of a real value to provide some animation to your plot. It slowly oscillates between -1 and 1.
-
-#### Some examples
-
-* [z * (1-z)](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqICgxLXop)
-* [1/z + i * z^(1/2)](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=MS96ICsgaSAqIHpeKDEvMik=)
-* [e^z + t](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=ZV56ICsgdA==)
 
 ## Available functions
 
@@ -63,6 +42,30 @@ In this version I added a few extra complex functions.
 * Complex power --- "^".
 * Complex logarithm --- "log".
 * Real and Imaginary components --- "re, im".
+
+#### Some basic examples
+
+* [z * (1-z)](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqICgxLXop)
+* [1/z + i * z^(1/2)](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=MS96ICsgaSAqIHpeKDEvMik=)
+* [e^z + t](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=ZV56ICsgdA==)
+
+## Conformal mapping: Examples
+
+* [Fluid around cilinder](https://jcponce.github.io/complex/function-plotter/?expression=eiAqICgxIC0gKHQrMSkvMikgKyAodCsxKS8yICogKHorMS96KQ==)
+  * [Real component](https://jcponce.github.io/complex/function-plotter/?expression=cmUoKHorMS96KSApKiAodCsxKS8yICsgcmUoeikgKiAoMSAtICh0KzEpLzIp)
+  * [Imaginary component](https://jcponce.github.io/complex/function-plotter/?expression=aW0oKHorMS96KSApKiAodCsxKS8yICsgaW0oeikgKiAoMSAtICh0KzEpLzIp)
+* [Disk with a rotating tile](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAwLjk5ICsgMC4wMSAqICgoMSAtIHpeKDE4KSkgKiB6XjIpICkgKiAoMSArIGkgKiB0KQ==)
+* [Bending reality](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqIDAuNSAqICh6IC0gMyppKSArIGxvZyh6IC0gMyppKSkgKiAodCsxKS8yICsgeiAqICgxIC0gKHQrMSkvMik=)
+* [Vortex within a circle](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAzKS8yICogZV4odCAqIHBpICogaSAqIGVeKCAtMSAqIGFicyggKHoqMykvMiApXjIgKSk=)
+* [Waves](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqICgxLjUgKiByKV41KSArIHQ=)
+* [Potential](https://jcponce.github.io/complex/function-plotter/?expression=KGxvZygoei0xKS8oeisxKSkpICogKHQrMSkvMiArIHogKiAoMSAtICh0KzEpLzIp)
+
+## Domain coloring: Examples
+
+* [Domain coloring Example 1](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyB0KQ==)
+* [Domain coloring Example 2](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqIHQgKyAxL3Npbih6KQ==)
+* [Domain coloring Example 3](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=KHotMSkvKHpeMit6KzEpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
+* [Domain coloring - Non-Analytic function](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=My8yICogeiAqICgxIC0gMy8yICogaSAqIGNvbmooeikpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
 
 
 ## How does it work?
