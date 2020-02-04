@@ -161,8 +161,10 @@
 
   Complex
     = "<" _ a:Real _ "," _ b:Real _ ">" { return 'complex(' + a + ',' + b + ')'; }
+    / "-z"     { return 'complex(-a,-b)'; }
     / "z"     { return 'complex(a,b)'; }
     / "i"     { return 'complex(0.0,1.0)'; }
+    / "-i"     { return 'complex(0.0,1.0)'; }
     / a:Real  { return 'complex(' + a + ',0.0)'; }
 
   Real
@@ -206,7 +208,7 @@
     precision highp float;
 
     #define M_PI 3.1415926535897932384626433832795
-    #define M_E 2.7182818284
+    #define M_E  2.7182818284590452353602874713526
 
     #define A x.x
     #define B x.y
@@ -291,7 +293,7 @@
        float nimag = -B;
        vec2 conjz = complex_mul(vec2(0.5, 0.0), vec2(real, nimag));
        vec2 sub = complex_sub( z, conjz );
-       return complex_div( sub, vec2(0.0, 1) );
+       return complex_div( sub, vec2(0.0, 1.0) );
     }
     
     vec2 complex_conj(vec2 x) {
@@ -361,7 +363,7 @@
     }
 
     vec2 complex_abs(vec2 x) {
-      return vec2( length(x), 0 );
+      return vec2( length(x), 0.0 );
     }
     
     //new functions ends
