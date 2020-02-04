@@ -165,6 +165,7 @@
 
   Complex
     = "<" _ a:Real _ "," _ b:Real _ ">" { return 'complex(' + a + ',' + b + ')'; }
+    / "-z"     { return 'complex(-a,-b)'; }
     / "z"     { return 'complex(a,b)'; }
     / "i"     { return 'complex(0.0,1.0)'; }
     / a:Real  { return 'complex(' + a + ',0.0)'; }
@@ -238,7 +239,7 @@
     
     float sinh( float x ) { return (pow(M_E, x) - pow(M_E, -x))*0.5; }
     float cosh( float x ) { return (pow(M_E, x) + pow(M_E, -x))*0.5; }
-    
+
     //New auxiliary functions ends
     
     float complex_r(float x, float y) { return length(vec2(x,y)); }
