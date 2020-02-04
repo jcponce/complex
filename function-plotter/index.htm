@@ -164,6 +164,7 @@
     / "-z"     { return 'complex(-a,-b)'; }
     / "z"     { return 'complex(a,b)'; }
     / "i"     { return 'complex(0.0,1.0)'; }
+    / "-i"     { return 'complex(0.0,1.0)'; }
     / a:Real  { return 'complex(' + a + ',0.0)'; }
 
   Real
