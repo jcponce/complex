@@ -13,11 +13,17 @@ I recently discovered [Cindy.js](https://cindyjs.org/) and I am learning to use 
 
 [Taylor series](https://jcponce.github.io/complex/taylorseries/)
 
-Finally, one that I made about [Power functions](https://jcponce.github.io/complex/powerfunction/)
+Here is one that I made about [Power functions](https://jcponce.github.io/complex/powerfunction/)
 
 ![alt tag](https://github.com/jcponce/complex/blob/gh-pages/screenshot.png)
 
+## Complex function plotter
+
+I have been learning about shaders. Here is an experiment about complex mapping and domain coloring
+
+[Complex function plotter](https://jcponce.github.io/complex/function-plotter/)
+
 ## License
 
-This website is under the license [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+This content is under the license [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
