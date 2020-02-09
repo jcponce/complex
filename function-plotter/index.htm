@@ -141,6 +141,7 @@
   Factor
     = "(" _ expr:Expression _ ")" { return expr; }
     / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'complex_log(' + arg + ')'; }
+    / _ "exp"  _ "(" _ arg:Expression _ ")" _ { return 'complex_exp(' + arg + ')'; }
     / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'complex_tan(' + arg + ')'; }
     / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cos(' + arg + ')'; }
     / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sin(' + arg + ')'; }
@@ -306,71 +307,77 @@
     vec2 complex_conj(vec2 x) {
         float real = A;
         float nimag = -B;
-      return vec2( real, nimag);
+      return vec2(real, nimag);
     }
     
     vec2 complex_tan(vec2 x) {
         float real = sin(A+A)/(cos(A+A)+cosh(B+B));
         float imag = sinh(B+B)/(cos(A+A)+cosh(B+B));
-      return vec2( real, imag);
+      return vec2(real, imag);
     }
     
     vec2 complex_csc(vec2 x) {
         float real = (-sin(A)*cosh(B)-sin(A)*cosh(B))/(cos(A+A)-cosh(B+B));
         float imag = (cos(A)*sinh(B)+cos(A)*sinh(B))/(cos(A+A)-cosh(B+B));
-      return vec2( real, imag);
+      return vec2(real, imag);
     }
     
     vec2 complex_sec(vec2 x) {
         float real = (cos(A)*cosh(B)+cos(A)*cosh(B))/(cos(A+A)+cosh(B+B));
         float imag = (sin(A)*sinh(B)+sin(A)*sinh(B))/(cos(A+A)+cosh(B+B));
-      return vec2( real, imag);
+      return vec2(real, imag);
     }
     
     vec2 complex_cot(vec2 x) {
         float real = sin(A+A)/(cos(A+A)-cosh(B+B));
         float imag = sinh(B+B)/(cos(A+A)-cosh(B+B));
-      return vec2( real, imag);
+      return vec2(real, imag);
     }
     
     vec2 complex_sinh(vec2 x) {
         float real = sinh(A)*cos(B);
         float imag = cosh(A)*sin(B);
-      return vec2( real, imag);
+      return vec2(real, imag);
     }
     
     vec2 complex_cosh(vec2 x) {
         float real = cosh(A)*cos(B);
         float imag = sinh(A)*sin(B);
-      return vec2( real, imag);
+      return vec2(real, imag);
     }
     
     vec2 complex_tanh(vec2 x) {
         float real = sinh(A+A)/(cosh(A+A)+cos(B+B));
         float imag = sin(B+B)/(cosh(A+A)+cos(B+B));
-      return vec2( real, imag);
+      return vec2(real, imag);
     }
     
     vec2 complex_csch(vec2 x) {
         float real = (-sinh(A)*cos(B)-sinh(A)*cos(B))/(-cosh(A+A)+cos(B+B));
         float imag = (cosh(A)*sin(B)+cosh(A)*sin(B))/(-cosh(A+A)+cos(B+B));
-      return vec2( real, imag);
+      return vec2(real, imag);
     }
     
     vec2 complex_sech(vec2 x) {
         float real = (+cosh(A)*cos(B)+cosh(A)*cos(B))/(cosh(A+A)+cos(B+B));
         float imag = (-sinh(A)*sin(B)-sinh(A)*sin(B))/(cosh(A+A)+cos(B+B));
-      return vec2( real, imag);
+      return vec2(real, imag);
     }
     
     vec2 complex_coth(vec2 x) {
         float real = -sinh(A+A)/(-cosh(A+A)+cos(B+B));
         float imag = -sin(B+B)/(-cosh(A+A)+cos(B+B));
-      return vec2( real, imag);
+      return vec2(real, imag);
     }
 
     vec2 complex_abs(vec2 x) {
-      return vec2( length(x), 0.0 );
+      return vec2(length(x), 0.0 );
+    }
+
+    vec2 complex_exp(vec2 x) {
+      float real = pow(M_E, A) * cos(B);
+      float imag = pow(M_E, A) * sin(B);
+      return vec2(real, imag);
     }
     
     //new functions ends

@@ -142,6 +142,7 @@
   Factor
     = "(" _ expr:Expression _ ")" { return expr; }
     / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'complex_log(' + arg + ')'; }
+    / _ "exp"  _ "(" _ arg:Expression _ ")" _ { return 'complex_exp(' + arg + ')'; }
     / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'complex_tan(' + arg + ')'; }
     / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cos(' + arg + ')'; }
     / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'complex_sin(' + arg + ')'; }
@@ -374,6 +375,12 @@
 
     vec2 complex_abs(vec2 x) {
       return vec2( length(x), 0.0 );
+    }
+
+    vec2 complex_exp(vec2 x) {
+      float real = pow(M_E, A) * cos(B);
+      float imag = pow(M_E, A) * sin(B);
+      return vec2(real, imag);
     }
     
     //new functions ends
