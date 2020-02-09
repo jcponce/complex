@@ -55,6 +55,10 @@
         <input id="copyable-link" class="dark-translucent input-control" value=""></input>
       </div>
 
+      <div id="error-container">
+        <div id="parse-message" class="message error" class="dark-translucent input-control"></div>
+      </div>
+
       <a class="dark-translucent input-control" href="https://github.com/jcponce/complex/blob/gh-pages/function-plotter/README.md"
         target="_blank">
         <i id="show-instructions" class="fa fa-question-circle"></i>
@@ -559,13 +563,25 @@
     quad.position.z = 0;
     scene.add(quad);
 
+    function buildErrorMessage(e) {
+      return e.location !== undefined ?
+        "" + e.message :
+        e.message;
+    }
+
     // Whenever the user updates the input field, we need to parse and produce a
     // new shader to update what's being displayed.
     function update_expression() {
       var new_expression = $("#equation-input").val();
-      var compiledExpression = pegParser.parse(new_expression);
-      
-      //console.log(compiledExpression);
+      var result;
+      try {
+        var compiledExpression = pegParser.parse(new_expression);
+        result = true;
+      } catch (e) {
+        $("#parse-message").attr("class", "message error").text(buildErrorMessage(e));
+
+        result = false;
+      }
 
       var shaderMaterial = new THREE.ShaderMaterial({
         uniforms: uniforms,
@@ -574,6 +590,12 @@
           .text()
           .replace("EXPRESSION", compiledExpression)
       });
+      
+      console.log(compiledExpression);//debug:)
+
+      if (result === true) {
+        $('#error-container').hide();
+      } else $('#error-container').show();
 
       quad.material = shaderMaterial;
     }
