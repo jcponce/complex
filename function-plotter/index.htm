@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Complex Function Plotter</title>
   <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
@@ -7,16 +8,19 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity16.png" sizes="16x16">
-      
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
-<script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
+  <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
     gtag('js', new Date());
-    
+
     gtag('config', 'UA-121691678-1');
-    </script>
+  </script>
 
 
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -33,8 +37,9 @@
     }
   </style>
 
-  
+
 </head>
+
 <body>
 
   <video id="monitor" autoplay width="256" height="256" style="visibility: hidden; float:left;"></video>
@@ -50,19 +55,20 @@
         <input id="copyable-link" class="dark-translucent input-control" value=""></input>
       </div>
 
+      <div id="error-container">
+        <div id="parse-message" class="message error" class="dark-translucent input-control"></div>
+      </div>
+
       <a class="dark-translucent input-control"
-         href="https://github.com/jcponce/complex/blob/gh-pages/function-plotter/README.md"
-         target="_blank">
+        href="https://github.com/jcponce/complex/blob/gh-pages/function-plotter/README.md" target="_blank">
         <i id="show-instructions" class="fa fa-question-circle"></i>
       </a>
 
       <a id="show-link" class="dark-translucent input-control" href="#"><i class="fa fa-external-link"></a></i>
 
-      <input class="dark-translucent input-control"
-             id="equation-input"
-             placeholder="e.g. 1 / (z^2 + t * i)^t - z * log(z)"
-             value="t - 0.09 * (z - 6)^2"></input>
-      
+      <input class="dark-translucent input-control" id="equation-input"
+        placeholder="e.g. 1 / (z^2 + t * i)^t - z * log(z)" value="t - 0.09 * (z - 6)^2"></input>
+
       <!--
       Some interesting examples
       z * (1 - (t+1)/2) + (t+1)/2 * (z+1/z)
@@ -74,29 +80,30 @@
       -->
 
       <span id="texture-options">
-       
-       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/plotfz-2.png"></a>
-       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/hex.png"></a>
-       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/reim.png"></a>
-       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/rainbow.png"></a>
-       <!--<a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/abstract.jpg"></a>-->
-       <a class="dark-translucent input-control" href="#"><i class="fa fa-video-camera"></i></a>
-       <a class="dark-translucent input-control" href="hsv.htm"><img class="thumbnail" src="images/hsv.png" title="Domain coloring"></a>
-       
 
-     </span>
-     
+        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/plotfz-2.png"></a>
+        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/hex.png"></a>
+        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/reim.png"></a>
+        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/rainbow.png"></a>
+        <!--<a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/abstract.jpg"></a>-->
+        <a class="dark-translucent input-control" href="#"><i class="fa fa-video-camera"></i></a>
+        <a class="dark-translucent input-control" href="hsv.htm"><img class="thumbnail" src="images/hsv.png"
+            title="Domain coloring"></a>
+
+
+      </span>
+
 
     </div>
 
   </div>
 
-  
+
 
   <script src="scripts/webcam-stream.js"></script>
 
   <script type="peg-grammar" id="complex-expression-peg-grammar" src="scripts/grammar.js">
-  /*
+    /*
    * Complex Arithmetic Grammar
    * (Utilizes http://pegjs.org/ to build a parser based on this grammar)
    */
@@ -190,8 +197,8 @@
   </script>
 
   <!-- Shaders -->
-	<script type="x-shader/x-vertex" id="vertexshader">
-		// switch on high precision floats
+  <script type="x-shader/x-vertex" id="vertexshader">
+    // switch on high precision floats
     precision highp float;
 
     varying vec2 vUv;
@@ -204,7 +211,7 @@
 		}
 	</script>
 
-	<script type="x-shader/x-fragment" id="fragmentshader">
+  <script type="x-shader/x-fragment" id="fragmentshader">
     precision highp float;
 
     #define M_PI 3.1415926535897932384626433832795
@@ -426,45 +433,57 @@
   <script>
     // TODO : Clean this up a bit. It's still pretty messy.
 
-  	// Get the starting canvas size
-  	var WIDTH = $('#display-area').width(),
-  	    HEIGHT = $('#display-area').height();
+    // Get the starting canvas size
+    var WIDTH = $('#display-area').width(),
+      HEIGHT = $('#display-area').height();
 
-  	// Get the DOM element to attach the render canvas to
-  	var $container = $('#display-area');
+    // Get the DOM element to attach the render canvas to
+    var $container = $('#display-area');
 
-  	// Create a WebGL renderer, camera and a scene
-  	renderer = new THREE.WebGLRenderer();
-    camera = new THREE.OrthographicCamera( WIDTH / - 2, WIDTH / 2, HEIGHT / 2, HEIGHT / - 2, 1, 10 );
-  	scene = new THREE.Scene();
+    // Create a WebGL renderer, camera and a scene
+    renderer = new THREE.WebGLRenderer();
+    camera = new THREE.OrthographicCamera(WIDTH / -2, WIDTH / 2, HEIGHT / 2, HEIGHT / -2, 1, 10);
+    scene = new THREE.Scene();
 
     var uniforms = {
-      t: { type: "f", value: 1.0 },
-      gridTexture: { type: 't', value: null },
-      width: {type: "f", value: WIDTH},
-      height: {type: "f", value: HEIGHT}
+      t: {
+        type: "f",
+        value: 1.0
+      },
+      gridTexture: {
+        type: 't',
+        value: null
+      },
+      width: {
+        type: "f",
+        value: WIDTH
+      },
+      height: {
+        type: "f",
+        value: HEIGHT
+      }
     };
 
     function setTexture(url) {
       // loadTexture was deprecated in version 110
       //var gridTexture = THREE.ImageUtils.loadTexture(url);
       //gridTexture.wrapS = gridTexture.wrapT = THREE.RepeatWrapping;
-      var gridTexture = new THREE.TextureLoader().load( url );
+      var gridTexture = new THREE.TextureLoader().load(url);
       gridTexture.wrapS = THREE.RepeatWrapping;
       gridTexture.wrapT = THREE.RepeatWrapping;
-      gridTexture.repeat.set( 2, 2  );
+      gridTexture.repeat.set(2, 2);
 
       uniforms.gridTexture.value = gridTexture;
     }
     setTexture('images/plotfz-2.png');
 
-  	// the camera starts at 0,0,0 so pull it back
-  	camera.position.z = 5;
+    // the camera starts at 0,0,0 so pull it back
+    camera.position.z = 5;
     renderer.setSize(WIDTH, HEIGHT);
 
     function reset_camera() {
       var WIDTH = $('#display-area').width(),
-    	    HEIGHT = $('#display-area').height();
+        HEIGHT = $('#display-area').height();
 
       // We need to update the uniforms passed to the shader so it can later
       // compute the aspect ratio and maintain square pixels.
@@ -476,31 +495,53 @@
 
     reset_camera();
 
-  	// attach the render-supplied DOM element
-  	$container.append(renderer.domElement);
+    // attach the render-supplied DOM element
+    $container.append(renderer.domElement);
 
     // Produce the Parser based on our grammar
-    $(function(){
-        window.pegParser = PEG.buildParser( $('#complex-expression-peg-grammar').text() );
+    $(function () {
+      window.pegParser = PEG.buildParser($('#complex-expression-peg-grammar').text());
     });
 
     // Make a full-screen quad and add it to the THREE.js scene
-    var plane = new THREE.PlaneBufferGeometry( WIDTH, HEIGHT );
-    var quad = new THREE.Mesh( plane, null );
+    var plane = new THREE.PlaneBufferGeometry(WIDTH, HEIGHT);
+    var quad = new THREE.Mesh(plane, null);
     quad.position.z = 0;
-		scene.add( quad );
+    scene.add(quad);
+
+    function buildErrorMessage(e) {
+      return e.location !== undefined ?
+        "" + e.message :
+        e.message;
+    }
 
     // Whenever the user updates the input field, we need to parse and produce a
     // new shader to update what's being displayed.
     function update_expression() {
-      var new_expression = $('#equation-input').val();
-      var compiledExpression = pegParser.parse(new_expression);
+      var new_expression = $("#equation-input").val();
+      var result;
+      try {
+        var compiledExpression = pegParser.parse(new_expression);
+        result = true;
+      } catch (e) {
+        $("#parse-message").attr("class", "message error").text(buildErrorMessage(e));
 
-    	var shaderMaterial = new THREE.ShaderMaterial({
+        result = false;
+      }
+
+      var shaderMaterial = new THREE.ShaderMaterial({
         uniforms: uniforms,
-    		vertexShader:   $('#vertexshader').text(),
-        fragmentShader: $('#fragmentshader').text().replace('EXPRESSION', compiledExpression)
-    	});
+        vertexShader: $("#vertexshader").text(),
+        fragmentShader: $("#fragmentshader")
+          .text()
+          .replace("EXPRESSION", compiledExpression)
+      });
+      
+      console.log(compiledExpression);//debug:)
+
+      if (result === true) {
+        $('#error-container').hide();
+      } else $('#error-container').show();
 
       quad.material = shaderMaterial;
     }
@@ -509,14 +550,13 @@
     // up-to-date before we render.
     function render() {
       // If we're rendering video, update that.
-      if(window.video && video.readyState === video.HAVE_ENOUGH_DATA )
-    	{
-    		videoImageContext.drawImage( video, 0, 0, videoImage.width, videoImage.height );
-    		if ( videoTexture )
-    			videoTexture.needsUpdate = true;
-    	}
+      if (window.video && video.readyState === video.HAVE_ENOUGH_DATA) {
+        videoImageContext.drawImage(video, 0, 0, videoImage.width, videoImage.height);
+        if (videoTexture)
+          videoTexture.needsUpdate = true;
+      }
 
-      quad.material.uniforms.t.value = Math.sin( new Date().getTime() * 0.0005 );
+      quad.material.uniforms.t.value = Math.sin(new Date().getTime() * 0.0005);
       quad.material.uniforms.t.needsUpdate = true;
       renderer.render(scene, camera);
 
@@ -524,14 +564,14 @@
     }
 
     // When the user clicks one of the images/webcam icon, change the background
-    $('#texture-options a').each(function() {
-      $(this).click(function() {
+    $('#texture-options a').each(function () {
+      $(this).click(function () {
         var texture_path = $(this).find('img').first().attr('src');
-        if(texture_path) {
-          
+        if (texture_path) {
+
 
           setTexture(texture_path);
-          
+
 
         } else {
           // Currently, the only other option here is to stream from the webcam.
@@ -542,7 +582,7 @@
 
     // When the user presses the button, show some copyable text
     function showLink() {
-      var expression_base64 = btoa( $('#equation-input').val() );
+      var expression_base64 = btoa($('#equation-input').val());
 
       var url = [location.protocol, '//', location.host, location.pathname].join('');
       url = url + "?expression=" + expression_base64;
@@ -551,26 +591,27 @@
       $('#link-container').show();
       $('#copyable-link').select();
     }
-    $('#copyable-link').blur(function(){
+    $('#copyable-link').blur(function () {
       $('#link-container').hide();
     });
 
     // If the user already specified
-    $(function(){
+    $(function () {
       var expression_base64 = getQueryVariable('expression');
       console.log(expression_base64);
-      if( expression_base64 ) {
-        $('#equation-input').val( atob(expression_base64.replace('/', '')) );
+      if (expression_base64) {
+        $('#equation-input').val(atob(expression_base64.replace('/', '')));
       }
     });
 
     // Get things started.
-    $('#equation-input').change( update_expression );
-    $('#show-link').click( showLink );
-    $( window ).resize( reset_camera );
-    $( update_expression );
-    $( render );
-	</script>
+    $('#equation-input').change(update_expression);
+    $('#show-link').click(showLink);
+    $(window).resize(reset_camera);
+    $(update_expression);
+    $(render);
+  </script>
 
 </body>
+
 </html>
