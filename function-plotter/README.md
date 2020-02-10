@@ -83,7 +83,7 @@ You can also visualize complex functions plotted with the domain coloring method
 This content is under the license [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ## Thanks!
-I learned a lot working on this project. I hope you too liked it too. 
+I learned a lot working on this project. I hope you liked it too. 
 
 Please [let me know](https://twitter.com/PonceCampuzano) what you think.
 
