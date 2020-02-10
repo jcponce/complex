@@ -14,7 +14,7 @@ The rendered image is created by evaluating the user-supplied function and then 
 
 ![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.jpg)
 
-#### [Live Demo - Live Demo](http://jcponce.github.io/complex/function-plotter/)
+#### [Live Demo - Conformal Mapping](http://jcponce.github.io/complex/function-plotter/)
 
 ### Domain coloring
 
@@ -39,9 +39,10 @@ You can also visualize complex functions plotted with the domain coloring method
 * The absolute value, also known as modulus --- "abs".
 * Complex power --- "^".
 * Complex logarithm --- "log".
+* Complex exponential --- "exp".
 * Real and Imaginary components --- "re, im".
 
-#### Some basic examples
+#### Examples
 
 * [z * (1-z)](https://jcponce.github.io/complex/function-plotter/index.htm?expression=eiAqICgxLXop)
 * [1/z + i * z^(1/2)](https://jcponce.github.io/complex/function-plotter/index.htm?expression=MS96ICsgaSAqIHpeKDEvMik=)
@@ -49,7 +50,7 @@ You can also visualize complex functions plotted with the domain coloring method
 * [e^z + t](https://jcponce.github.io/complex/function-plotter/index.htm?expression=ZV56ICsgdA==)
 * [sin(z + pi)/tanh(z^2 - i) + t](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyBwaSkvdGFuaCh6XjIgLSBpKSArIHQ=)
 
-## Some interesting examples of conformal mapping
+## Some interesting examples about conformal mapping
 
 * [Fluid around cylinder](https://jcponce.github.io/complex/function-plotter/?expression=eiAqICgxIC0gKHQrMSkvMikgKyAodCsxKS8yICogKHorMS96KQ==)
   * [Real component](https://jcponce.github.io/complex/function-plotter/?expression=cmUoKHorMS96KSApKiAodCsxKS8yICsgcmUoeikgKiAoMSAtICh0KzEpLzIp)
@@ -76,3 +77,14 @@ You can also visualize complex functions plotted with the domain coloring method
 * Expressions given by the user are parsed using the [PEG.js](https://pegjs.org/) library along with a grammar written specifically for this plotter that encapsulates complex-valued arithmetic and functions. The grammar is fed to PEG.js which produces a parser, and that parser is then used to transform mathematical expressions into a WebGL-compatible snippet of code. The generated code is placed into a WebGL shader template and compiled to give a new rendering based on the expression supplied by the user. All of this happens ~instantly, even on a phone.
 * [THREE.js](https://threejs.org/) is used to set up the full-window Quad, manage GLSL uniforms, shader compilation, etc. (Basically all the boilerplate display logic).
 * jQuery is used for some very minor setup logic (could be easily removed...)
+
+## License
+
+This content is under the license [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+## Thanks!
+I learned a lot working on this project. I hope you too liked it too. 
+
+Please [let me know](https://twitter.com/PonceCampuzano) what you think.
+
+Have fun!
