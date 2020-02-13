@@ -1,8 +1,12 @@
-// This is the parser for complex number formulae,
-// written by David Bau, during snowstorm Nemo 2013.
-// Adapted and updated with new functions 
-// by Juan Carlos Ponce Campuzano in the Australian summer of 2019
-function complex_expression(s) {
+/* 
+This is the JavaScript parser for complex number formulae,
+written by David Bau, during snowstorm Nemo 2013.
+
+Adapted and updated with new functions by Juan Carlos Ponce Campuzano 
+in the Australian summer of 2019.
+*/
+
+   function complex_expression(s) {
     var consts = {
         i: {
             r: 0,
@@ -74,7 +78,6 @@ function complex_expression(s) {
         gamma: 1,
         pow: 2,
         rationalBlaschke: 2,
-        rationalZeta: 2,
         mobius: 5,
         psymbol: 2,
         binomial: 2,
@@ -84,7 +87,6 @@ function complex_expression(s) {
         sum: 2,
         prod: 2,
         blaschke: 2,
-        riemannZeta: 1,
         iter: 3
     };
     var syns = {
@@ -139,11 +141,10 @@ function complex_expression(s) {
     var symbols = {}
     var factorials = [];
 
-    let mds = [];
-    let args = [];
-    //let mults = [];
-    let values = [];
-    let primes = [];
+    //I need these array for Blaschke products
+    var mds = [];
+    var args = [];
+    var values = [];
 
     function run() {
         dictadd(symbols, consts);
@@ -151,7 +152,6 @@ function complex_expression(s) {
         dictadd(symbols, funcs);
         init_constants();
         init_ai();
-        init_primes();
         var state = {
             tok: tokenize(s),
             j: 0
@@ -191,27 +191,11 @@ function complex_expression(s) {
         }
     }
 
-    function init_primes() {
-        let _p = primeFactorsTo(100);
-        for (var i = 0; i < _p.length; ++i) {
-            primes[i] = {
-                r: _p[i],
-                i: 0
-            }
-        }
-        console.log(primes.length);
-    }
-    //constants for Blaschke products
+    //Constants for Blaschke products
     function init_ai() {
         for (let i = 0; i < 100; i++) {
             mds[i] = Math.random();
             args[i] = 2 * Math.PI * Math.random();
-            /*
-            mults[i] = {
-                         r: Math.floor(4*Math.random()),
-                         i:0
-                         };
-            */
             values[i] = {
                 r: mds[i] * Math.cos(args[i]),
                 i: mds[i] * Math.sin(args[i])
@@ -890,45 +874,7 @@ function complex_expression(s) {
         }
     }
 
-    function rationalZeta(z, a) {
-
-        let minusz = {
-            r: -z.r,
-            i: -z.i
-        };
-        let y = pow({
-            r: a.r,
-            i: a.i
-        }, minusz);
-
-        let unit = {
-            r: 1,
-            i: 0
-        };
-
-        return div(unit, sub(unit, y));
-    }
-
-    function riemannZeta(z) {
-
-        var result = rationalZeta(z, primes[0]),
-            end = primes.length,
-            n;
-
-        if (end > 100 || end < 1) {
-            return NaN;
-        } else {
-
-            for (n = 1; n < end; n++) {
-                result = mult(result, rationalZeta(z, primes[n]))
-            }
-            
-            return result;
-        }
-    }
-
-
-
+    
     function mobius(z, a, b, c, d) {
         //(az+b)/(cz+d)
         //i (x2 y1 + y2 x1) + x2 x1 - y2 y1
