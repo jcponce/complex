@@ -151,7 +151,7 @@ function complex_expression(s) {
         dictadd(symbols, vars);
         dictadd(symbols, funcs);
         init_constants();
-        init_ai();
+        init_ai();//This is for Blaschke products
         var state = {
             tok: tokenize(s),
             j: 0
@@ -232,7 +232,8 @@ function complex_expression(s) {
         }
     }
 
-    //Auxiliary functions 
+    //Auxiliary functions
+    /*
     function re(z) {
         return {
             r: z.r,
@@ -285,9 +286,63 @@ function complex_expression(s) {
             i: 0
         };
     }
+    */
+
+    let re = (z) => {
+        return {
+            r: z.r,
+            i: 0
+        };
+    }
+
+    let im = (z) => {
+        return {
+            r: z.i,
+            i: 0
+        };
+    }
+
+    let scale = (s, z) => {
+        return {
+            r: z.r * s,
+            i: z.i * s
+        };
+    }
+
+    let modulussquared = (z) => {
+        return z.r * z.r + z.i * z.i;
+    }
+
+    let realmodulus = (z) => {
+        return Math.sqrt(modulussquared(z));
+    }
+
+    let modulus = (z) => {
+        if (z.i == 0) {
+            return {
+                r: Math.abs(z.r),
+                i: 0
+            };
+        }
+        return {
+            r: realmodulus(z),
+            i: 0
+        };
+    }
+
+    let realarg = (z) => {
+        return Math.atan2(z.i, z.r);
+    }
+
+    let arg = (z) => {
+        return {
+            r: realarg(z),
+            i: 0
+        };
+    }
 
     //Basic arithmetic
-    function add(y, z) {
+    /*function add(y, z) {
         return {
             r: y.r + z.r,
             i: y.i + z.i
@@ -337,6 +392,59 @@ function complex_expression(s) {
             i: -z.i
         };
     }
+    
+    */
+
+    let add = (y, z) => { 
+        return {
+            r: y.r + z.r,
+            i: y.i + z.i
+        };
+    }
+
+    let sub = (y, z) => {
+        return {
+            r: y.r - z.r,
+            i: y.i - z.i
+        };
+    }
+
+    let mult = (y, z) => {
+        return {
+            r: y.r * z.r - y.i * z.i,
+            i: y.r * z.i + y.i * z.r
+        };
+    }
+
+    let div = (y, z) => {
+        var m2 = modulussquared(z);
+        return {
+            r: (y.r * z.r + y.i * z.i) / m2,
+            i: (y.i * z.r - y.r * z.i) / m2
+        };
+    }
+
+    let recip = (z) => {
+        var m2 = modulussquared(z);
+        return {
+            r: z.r / m2,
+            i: -z.i / m2
+        };
+    }
+
+    let neg = (z) => {
+        return {
+            r: -z.r,
+            i: -z.i
+        };
+    }
+
+    let conj = (z) => {
+        return {
+            r: z.r,
+            i: -z.i
+        };
+    }
 
     //Draws a unit circle
     function disk(z) {
@@ -374,6 +482,7 @@ function complex_expression(s) {
     }
 
     //Auxiliary real functions
+    /*
     function realsinh(x) {
         return (-Math.exp(-x) + Math.exp(x)) / 2;
     }
@@ -383,6 +492,18 @@ function complex_expression(s) {
     }
 
     function realtanh(x) {
+        return (1 - Math.exp(-2 * x)) / (1 + Math.exp(-2 * x));
+    }
+    */
+    let realsinh = (x) => {
+        return (-Math.exp(-x) + Math.exp(x)) / 2;
+    }
+
+    let realcosh = (x) => {
+        return (Math.exp(-x) + Math.exp(x)) / 2;
+    }
+
+    let realtanh = (x) => {
         return (1 - Math.exp(-2 * x)) / (1 + Math.exp(-2 * x));
     }
 
