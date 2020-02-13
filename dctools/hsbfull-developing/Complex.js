@@ -151,7 +151,7 @@ function complex_expression(s) {
         dictadd(symbols, vars);
         dictadd(symbols, funcs);
         init_constants();
-        init_ai();//This is for Blaschke products
+        init_ai(); //This is for Blaschke products
         var state = {
             tok: tokenize(s),
             j: 0
@@ -395,7 +395,7 @@ function complex_expression(s) {
     
     */
 
-    let add = (y, z) => { 
+    let add = (y, z) => {
         return {
             r: y.r + z.r,
             i: y.i + z.i
@@ -508,6 +508,7 @@ function complex_expression(s) {
     }
 
     //Elementary functions part 2: Trigonometric hiperbolic functions
+    /*
     function sin(z) {
         var er = Math.exp(z.i);
         var enr = 1 / er;
@@ -587,6 +588,88 @@ function complex_expression(s) {
     }
 
     function csch(z) {
+        return itimes(csc(itimes(z)));
+    }
+    */
+    let sin = (z) => {
+        var er = Math.exp(z.i);
+        var enr = 1 / er;
+        return {
+            r: (er + enr) * 0.5 * Math.sin(z.r),
+            i: (er - enr) * 0.5 * Math.cos(z.r)
+        };
+    }
+
+    let cos = (z) => {
+        var er = Math.exp(z.i);
+        var enr = 1 / er;
+        return {
+            r: (enr + er) * 0.5 * Math.cos(z.r),
+            i: (enr - er) * 0.5 * Math.sin(z.r)
+        };
+    }
+
+    let sec = (z) => {
+        return recip(cos(z));
+    }
+
+    let csc = (z) => {
+        return recip(sin(z));
+    }
+
+    let tan = (z) => {
+        var er = Math.exp(z.i),
+            enr = 1 / er,
+            es = er + enr,
+            ed = er - enr,
+            s = Math.sin(z.r),
+            c = Math.cos(z.r);
+        return div({
+            r: es * s,
+            i: ed * c
+        }, {
+            r: es * c,
+            i: -ed * s
+        });
+    }
+
+    let cot = (z) => {
+        var er = Math.exp(z.i),
+            enr = 1 / er,
+            es = er + enr,
+            ed = er - enr,
+            s = Math.sin(z.r),
+            c = Math.cos(z.r);
+        return div({
+            r: es * c,
+            i: -ed * s
+        }, {
+            r: es * s,
+            i: ed * c
+        });
+    }
+
+    let sinh = (z) => {
+        return negitimes(sin(itimes(z)));
+    }
+
+    let cosh = (z) => {
+        return cos(itimes(z));
+    }
+
+    let tanh = (z) => {
+        return negitimes(tan(itimes(z)));
+    }
+
+    let coth = (z) => {
+        return itimes(cot(itimes(z)));
+    }
+
+    let sech = (z) => {
+        return sec(itimes(z));
+    }
+
+    let csch = (z) => {
         return itimes(csc(itimes(z)));
     }
 
@@ -738,6 +821,7 @@ function complex_expression(s) {
     }
 
     //Inverse trigonometric functions
+    /*
     function arcsin(z) {
         return negitimes(log(add(itimes(z), sqrt(oneminus(square(z))))));
     }
@@ -794,6 +878,66 @@ function complex_expression(s) {
     }
 
     function arccsch(z) {
+        return negitimes(arccsc(negitimes(z)));
+    }
+    */
+
+    let arcsin = (z) => {
+        return negitimes(log(add(itimes(z), sqrt(oneminus(square(z))))));
+    }
+
+    let arccos = (z) => {
+        return negitimes(log(add(z, itimes(sqrt(oneminus(square(z)))))));
+    }
+
+    let arctan = (z) => {
+        return scale(0.5, itimes(
+            sub(log(oneminus(itimes(z))), log(oneplus(itimes(z))))));
+    }
+
+    let arccot = (z) => {
+        return arctan(recip(z));
+    }
+
+    let arcsec = (z) => {
+        return arccos(recip(z));
+    }
+
+    let arccsc = (z) => {
+        return arcsin(recip(z));
+    }
+
+    let arcsinh = (z) => {
+        var opsz = oneplus(square(z));
+        return log(add(z, scale(Math.sqrt(realmodulus(opsz)),
+            exp({
+                r: 0,
+                i: realarg(opsz) / 2
+            }))));
+    }
+
+    let arccosh = (z) => {
+        var szmo = minusone(square(z));
+        return log(add(z, scale(Math.sqrt(realmodulus(szmo)),
+            exp({
+                r: 0,
+                i: realarg(szmo) / 2
+            }))));
+    }
+
+    let arctanh = (z) => {
+        return scale(0.5, sub(log(oneplus(z)), log(oneminus(z))));
+    }
+
+    let arccoth = (z) => {
+        return scale(0.5, sub(log(oneplus(z)), log(minusone(z))));
+    }
+
+    let arcsech = (z) => {
+        return negitimes(arcsec(z));
+    }
+
+    let arccsch = (z) => {
         return negitimes(arccsc(negitimes(z)));
     }
 
@@ -1113,7 +1257,7 @@ function complex_expression(s) {
       Real and Imaginary components: x1 x2 - y1 y2 + i (x2 y1 + y2 x1) 
     */
     function mobius(z, a, b, c, d) {
-        
+
         let num = {
             r: z.r * a.r - z.i * a.i + b.r,
             i: z.r * a.i + z.i * a.r + b.i
@@ -1626,5 +1770,5 @@ function complex_expression(s) {
             if (d2.hasOwnProperty(key)) d1[key] = d2[key];
     }
     return run();
-} 
+}
 // end of complex_expression
