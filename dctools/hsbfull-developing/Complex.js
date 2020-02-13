@@ -797,7 +797,10 @@ function complex_expression(s) {
         return negitimes(arccsc(negitimes(z)));
     }
 
-    //Binomial function
+    /*
+      Binomial function
+      https://en.wikipedia.org/wiki/Binomial_coefficient#Two_real_or_complex_valued_arguments
+    */
     function binomial(n, c) {
         if (n.i == 0 && n.r == Math.floor(n.r) && n.r >= 0 &&
             c.i == 0 && c.r == Math.floor(c.r) && c.r >= 0 && c.r <= n.r) {
@@ -826,6 +829,9 @@ function complex_expression(s) {
             mult(gamma(oneplus(c)), gamma(oneplus(sub(n, c)))));
     }
 
+    /*
+      https://en.wikipedia.org/wiki/Factorial#The_gamma_and_pi_functions
+    */
     function factorial(z) {
         if (z.i == 0 && z.r == Math.floor(z.r) && z.r >= 0) {
             if (z.r < factorials.length) {
@@ -838,6 +844,10 @@ function complex_expression(s) {
         return gamma(oneplus(z));
     }
 
+    /*
+       Lanczos approximation of the Gamma function.
+       https://en.wikipedia.org/wiki/Lanczos_approximation
+    */
     function gamma(z) {
         var sqrt2pi = Math.sqrt(2 * Math.PI),
             gamma_coeff = [
@@ -1021,13 +1031,13 @@ function complex_expression(s) {
     /* 
       New functions by Juan Carlos Ponce Campuzano 2019
      
-      prod(expr, iters)
+      1. prod(expr, iters)
      
-      mobius( expr, a, b, c, d) 
+      2. mobius( expr, a, b, c, d) 
 
-      psymbol(z, n>=0) 
+      3. psymbol(z, n>=0) 
       
-      blaschke(z, number of multiples) 
+      4. blaschke(z, number of multiples) 
 
      */
 
