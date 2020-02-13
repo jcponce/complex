@@ -7,7 +7,7 @@ in the Australian summer of 2019.
 */
 
 function complex_expression(s) {
-    var consts = {
+    const consts = {
         i: {
             r: 0,
             i: 1
@@ -458,7 +458,7 @@ function complex_expression(s) {
     }
 
     //Elementary functions part 1
-    function exp(z) {
+    /*function exp(z) {
         var er = Math.exp(z.r);
         return {
             r: er * Math.cos(z.i),
@@ -475,6 +475,30 @@ function complex_expression(s) {
     }
 
     function log(z) {
+        return {
+            r: Math.log(realmodulus(z)),
+            i: realarg(z)
+        };
+    }
+    */
+
+    let exp = (z) => {
+        var er = Math.exp(z.r);
+        return {
+            r: er * Math.cos(z.i),
+            i: er * Math.sin(z.i)
+        };
+    }
+
+    let expi = (z) => {
+        var er = Math.exp(-z.i);
+        return {
+            r: er * Math.cos(z.r),
+            i: er * Math.sin(z.r)
+        };
+    }
+
+    let log = (z) => {
         return {
             r: Math.log(realmodulus(z)),
             i: realarg(z)
