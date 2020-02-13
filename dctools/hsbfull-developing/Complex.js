@@ -141,7 +141,7 @@ function complex_expression(s) {
     var symbols = {}
     var factorials = [];
 
-    //I need these array for Blaschke products
+    //I need these arrays for Blaschke products
     var mds = [];
     var args = [];
     var values = [];
