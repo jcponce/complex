@@ -939,6 +939,11 @@ function complex_expression(s) {
     /*
       Pochhammer Symbol:
       http://mathworld.wolfram.com/PochhammerSymbol.html
+
+      This function is for calculating Hypergeometric functions: 
+      https://en.wikipedia.org/wiki/Hypergeometric_function
+
+      e.g. sum( psymbol(2-3i, n) * (z)^n/n!, 20)
       
     */
     function psymbol(z, iters) {
@@ -1047,7 +1052,7 @@ function complex_expression(s) {
     }
 
     /*
-     * ends new functions
+      ends new functions
      */
 
 
