@@ -74,6 +74,7 @@ function complex_expression(s) {
         gamma: 1,
         pow: 2,
         rationalBlaschke: 2,
+        rationalZeta: 2,
         mobius: 5,
         psymbol: 2,
         binomial: 2,
@@ -83,6 +84,7 @@ function complex_expression(s) {
         sum: 2,
         prod: 2,
         blaschke: 2,
+        riemannZeta: 1,
         iter: 3
     };
     var syns = {
@@ -141,6 +143,7 @@ function complex_expression(s) {
     let args = [];
     //let mults = [];
     let values = [];
+    let primes = [];
 
     function run() {
         dictadd(symbols, consts);
@@ -148,6 +151,7 @@ function complex_expression(s) {
         dictadd(symbols, funcs);
         init_constants();
         init_ai();
+        init_primes();
         var state = {
             tok: tokenize(s),
             j: 0
@@ -186,6 +190,17 @@ function complex_expression(s) {
             factorials.push(factorials[factorials.length - 1] * factorials.length);
         }
     }
+
+    function init_primes() {
+        let _p = primeFactorsTo(100);
+        for (var i = 0; i < _p.length; ++i) {
+            primes[i] = {
+                r: _p[i],
+                i: 0
+            }
+        }
+        console.log(primes.length);
+    }
     //constants for Blaschke products
     function init_ai() {
         for (let i = 0; i < 100; i++) {
@@ -203,6 +218,21 @@ function complex_expression(s) {
             }
 
         }
+    }
+
+    //Calculates prime numbers 
+    function primeFactorsTo(max) {
+        var store = [],
+            i, j, p = [];
+        for (i = 2; i <= max; ++i) {
+            if (!store[i]) {
+                p.push(i);
+                for (j = i << 1; j <= max; j += i) {
+                    store[j] = true;
+                }
+            }
+        }
+        return p;
     }
 
     // Evaluate this function, and return a r, j tuple.
@@ -860,6 +890,44 @@ function complex_expression(s) {
         }
     }
 
+    function rationalZeta(z, a) {
+
+        let minusz = {
+            r: -z.r,
+            i: -z.i
+        };
+        let y = pow({
+            r: a.r,
+            i: a.i
+        }, minusz);
+
+        let unit = {
+            r: 1,
+            i: 0
+        };
+
+        return div(unit, sub(unit, y));
+    }
+
+    function riemannZeta(z) {
+
+        var result = rationalZeta(z, primes[0]),
+            end = primes.length,
+            n;
+
+        if (end > 100 || end < 1) {
+            return NaN;
+        } else {
+
+            for (n = 1; n < end; n++) {
+                result = mult(result, rationalZeta(z, primes[n]))
+            }
+            
+            return result;
+        }
+    }
+
+
 
     function mobius(z, a, b, c, d) {
         //(az+b)/(cz+d)
@@ -914,7 +982,7 @@ function complex_expression(s) {
             //for(let k = 0; k < 50; k++){
             //    e[k] = rationalBlaschke(z, values[k], mults[k]);
             //}
-            
+
             //Multiply by a complex number z such that |z|<1
             return mult({
                 r: 0.0256,

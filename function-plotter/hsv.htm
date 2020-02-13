@@ -570,6 +570,7 @@
     quad.position.z = 0;
     scene.add(quad);
 
+    //I need an error message to show when the user enters an incomplete expression
     function buildErrorMessage(e) {
       return e.location !== undefined ?
         "" + e.message :
@@ -578,6 +579,7 @@
 
     // Whenever the user updates the input field, we need to parse and produce a
     // new shader to update what's being displayed.
+    // Also, I need to check the input expression is correct
     function update_expression() {
       var new_expression = $("#equation-input").val();
       var result;
@@ -598,8 +600,9 @@
           .replace("EXPRESSION", compiledExpression)
       });
       
-      console.log(compiledExpression);//debug:)
+      //console.log(compiledExpression);//debug:)
 
+      //Show or hide error message
       if (result === true) {
         $('#error-container').hide();
       } else $('#error-container').show();
