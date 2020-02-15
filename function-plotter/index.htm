@@ -186,6 +186,7 @@
     / "theta" { return 'complex_theta(a,b)'; }
     / "t" { return 't'; }
     / "r"     { return 'complex_r(a,b)'; }
+    / "|z|"     { return 'complex_r(a,b)'; }
 
   Integer "integer"
     = "-" int:Integer { return "-" + int;}
