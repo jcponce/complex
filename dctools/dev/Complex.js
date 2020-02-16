@@ -1,9 +1,13 @@
-// This is the parser for complex number formulae,
-// written by David Bau, during snowstorm Nemo 2013.
-// Adapted and updated with new functions 
-// by Juan Carlos Ponce Campuzano in the Australian summer of 2019
+/* 
+This is the JavaScript parser for complex number formulae,
+written by David Bau, during snowstorm Nemo 2013.
+
+Adapted and updated with new functions by Juan Carlos Ponce Campuzano 
+in the Australian summer of 2019.
+*/
+
 function complex_expression(s) {
-    var consts = {
+    const consts = {
         i: {
             r: 0,
             i: 1
@@ -137,17 +141,17 @@ function complex_expression(s) {
     var symbols = {}
     var factorials = [];
 
-    let mds = [];
-    let args = [];
-    //let mults = [];
-    let values = [];
+    //I need these arrays for Blaschke products
+    var mds = [];
+    var args = [];
+    var values = [];
 
     function run() {
         dictadd(symbols, consts);
         dictadd(symbols, vars);
         dictadd(symbols, funcs);
         init_constants();
-        init_ai();
+        init_ai(); //This is for Blaschke products
         var state = {
             tok: tokenize(s),
             j: 0
@@ -186,23 +190,33 @@ function complex_expression(s) {
             factorials.push(factorials[factorials.length - 1] * factorials.length);
         }
     }
-    //constants for Blaschke products
+
+    //Constants for Blaschke products
     function init_ai() {
         for (let i = 0; i < 100; i++) {
             mds[i] = Math.random();
             args[i] = 2 * Math.PI * Math.random();
-            /*
-            mults[i] = {
-                         r: Math.floor(4*Math.random()),
-                         i:0
-                         };
-            */
             values[i] = {
                 r: mds[i] * Math.cos(args[i]),
                 i: mds[i] * Math.sin(args[i])
             }
 
         }
+    }
+
+    //Calculates prime numbers 
+    function primeFactorsTo(max) {
+        var store = [],
+            i, j, p = [];
+        for (i = 2; i <= max; ++i) {
+            if (!store[i]) {
+                p.push(i);
+                for (j = i << 1; j <= max; j += i) {
+                    store[j] = true;
+                }
+            }
+        }
+        return p;
     }
 
     // Evaluate this function, and return a r, j tuple.
@@ -218,6 +232,8 @@ function complex_expression(s) {
         }
     }
 
+    //Auxiliary functions
+    /*
     function re(z) {
         return {
             r: z.r,
@@ -270,8 +286,63 @@ function complex_expression(s) {
             i: 0
         };
     }
+    */
 
-    function add(y, z) {
+    let re = (z) => {
+        return {
+            r: z.r,
+            i: 0
+        };
+    }
+
+    let im = (z) => {
+        return {
+            r: z.i,
+            i: 0
+        };
+    }
+
+    let scale = (s, z) => {
+        return {
+            r: z.r * s,
+            i: z.i * s
+        };
+    }
+
+    let modulussquared = (z) => {
+        return z.r * z.r + z.i * z.i;
+    }
+
+    let realmodulus = (z) => {
+        return Math.sqrt(modulussquared(z));
+    }
+
+    let modulus = (z) => {
+        if (z.i == 0) {
+            return {
+                r: Math.abs(z.r),
+                i: 0
+            };
+        }
+        return {
+            r: realmodulus(z),
+            i: 0
+        };
+    }
+
+    let realarg = (z) => {
+        return Math.atan2(z.i, z.r);
+    }
+
+    let arg = (z) => {
+        return {
+            r: realarg(z),
+            i: 0
+        };
+    }
+
+    //Basic arithmetic
+    /*function add(y, z) {
         return {
             r: y.r + z.r,
             i: y.i + z.i
@@ -321,7 +392,61 @@ function complex_expression(s) {
             i: -z.i
         };
     }
+    
+    */
 
+    let add = (y, z) => {
+        return {
+            r: y.r + z.r,
+            i: y.i + z.i
+        };
+    }
+
+    let sub = (y, z) => {
+        return {
+            r: y.r - z.r,
+            i: y.i - z.i
+        };
+    }
+
+    let mult = (y, z) => {
+        return {
+            r: y.r * z.r - y.i * z.i,
+            i: y.r * z.i + y.i * z.r
+        };
+    }
+
+    let div = (y, z) => {
+        var m2 = modulussquared(z);
+        return {
+            r: (y.r * z.r + y.i * z.i) / m2,
+            i: (y.i * z.r - y.r * z.i) / m2
+        };
+    }
+
+    let recip = (z) => {
+        var m2 = modulussquared(z);
+        return {
+            r: z.r / m2,
+            i: -z.i / m2
+        };
+    }
+
+    let neg = (z) => {
+        return {
+            r: -z.r,
+            i: -z.i
+        };
+    }
+
+    let conj = (z) => {
+        return {
+            r: z.r,
+            i: -z.i
+        };
+    }
+
+    //Draws a unit circle
     function disk(z) {
         if (realmodulus(z) > 1) {
             return NaN; //{r: -1,i: 0};
@@ -332,7 +457,8 @@ function complex_expression(s) {
         };
     }
 
-    function exp(z) {
+    //Elementary functions part 1
+    /*function exp(z) {
         var er = Math.exp(z.r);
         return {
             r: er * Math.cos(z.i),
@@ -354,7 +480,33 @@ function complex_expression(s) {
             i: realarg(z)
         };
     }
+    */
 
+    let exp = (z) => {
+        var er = Math.exp(z.r);
+        return {
+            r: er * Math.cos(z.i),
+            i: er * Math.sin(z.i)
+        };
+    }
+
+    let expi = (z) => {
+        var er = Math.exp(-z.i);
+        return {
+            r: er * Math.cos(z.r),
+            i: er * Math.sin(z.r)
+        };
+    }
+
+    let log = (z) => {
+        return {
+            r: Math.log(realmodulus(z)),
+            i: realarg(z)
+        };
+    }
+
+    //Auxiliary real functions
+    /*
     function realsinh(x) {
         return (-Math.exp(-x) + Math.exp(x)) / 2;
     }
@@ -366,7 +518,21 @@ function complex_expression(s) {
     function realtanh(x) {
         return (1 - Math.exp(-2 * x)) / (1 + Math.exp(-2 * x));
     }
+    */
+    let realsinh = (x) => {
+        return (-Math.exp(-x) + Math.exp(x)) / 2;
+    }
 
+    let realcosh = (x) => {
+        return (Math.exp(-x) + Math.exp(x)) / 2;
+    }
+
+    let realtanh = (x) => {
+        return (1 - Math.exp(-2 * x)) / (1 + Math.exp(-2 * x));
+    }
+
+    //Elementary functions part 2: Trigonometric hiperbolic functions
+    /*
     function sin(z) {
         var er = Math.exp(z.i);
         var enr = 1 / er;
@@ -448,7 +614,90 @@ function complex_expression(s) {
     function csch(z) {
         return itimes(csc(itimes(z)));
     }
+    */
+    let sin = (z) => {
+        var er = Math.exp(z.i);
+        var enr = 1 / er;
+        return {
+            r: (er + enr) * 0.5 * Math.sin(z.r),
+            i: (er - enr) * 0.5 * Math.cos(z.r)
+        };
+    }
 
+    let cos = (z) => {
+        var er = Math.exp(z.i);
+        var enr = 1 / er;
+        return {
+            r: (enr + er) * 0.5 * Math.cos(z.r),
+            i: (enr - er) * 0.5 * Math.sin(z.r)
+        };
+    }
+
+    let sec = (z) => {
+        return recip(cos(z));
+    }
+
+    let csc = (z) => {
+        return recip(sin(z));
+    }
+
+    let tan = (z) => {
+        var er = Math.exp(z.i),
+            enr = 1 / er,
+            es = er + enr,
+            ed = er - enr,
+            s = Math.sin(z.r),
+            c = Math.cos(z.r);
+        return div({
+            r: es * s,
+            i: ed * c
+        }, {
+            r: es * c,
+            i: -ed * s
+        });
+    }
+
+    let cot = (z) => {
+        var er = Math.exp(z.i),
+            enr = 1 / er,
+            es = er + enr,
+            ed = er - enr,
+            s = Math.sin(z.r),
+            c = Math.cos(z.r);
+        return div({
+            r: es * c,
+            i: -ed * s
+        }, {
+            r: es * s,
+            i: ed * c
+        });
+    }
+
+    let sinh = (z) => {
+        return negitimes(sin(itimes(z)));
+    }
+
+    let cosh = (z) => {
+        return cos(itimes(z));
+    }
+
+    let tanh = (z) => {
+        return negitimes(tan(itimes(z)));
+    }
+
+    let coth = (z) => {
+        return itimes(cot(itimes(z)));
+    }
+
+    let sech = (z) => {
+        return sec(itimes(z));
+    }
+
+    let csch = (z) => {
+        return itimes(csc(itimes(z)));
+    }
+
+    //Power functions
     function intpow(y, c) {
         if (c == 1) return y;
         if (c % 2 == 0) return square(intpow(y, c / 2));
@@ -595,6 +844,8 @@ function complex_expression(s) {
         };
     }
 
+    //Inverse trigonometric functions
+    /*
     function arcsin(z) {
         return negitimes(log(add(itimes(z), sqrt(oneminus(square(z))))));
     }
@@ -653,7 +904,71 @@ function complex_expression(s) {
     function arccsch(z) {
         return negitimes(arccsc(negitimes(z)));
     }
+    */
 
+    let arcsin = (z) => {
+        return negitimes(log(add(itimes(z), sqrt(oneminus(square(z))))));
+    }
+
+    let arccos = (z) => {
+        return negitimes(log(add(z, itimes(sqrt(oneminus(square(z)))))));
+    }
+
+    let arctan = (z) => {
+        return scale(0.5, itimes(
+            sub(log(oneminus(itimes(z))), log(oneplus(itimes(z))))));
+    }
+
+    let arccot = (z) => {
+        return arctan(recip(z));
+    }
+
+    let arcsec = (z) => {
+        return arccos(recip(z));
+    }
+
+    let arccsc = (z) => {
+        return arcsin(recip(z));
+    }
+
+    let arcsinh = (z) => {
+        var opsz = oneplus(square(z));
+        return log(add(z, scale(Math.sqrt(realmodulus(opsz)),
+            exp({
+                r: 0,
+                i: realarg(opsz) / 2
+            }))));
+    }
+
+    let arccosh = (z) => {
+        var szmo = minusone(square(z));
+        return log(add(z, scale(Math.sqrt(realmodulus(szmo)),
+            exp({
+                r: 0,
+                i: realarg(szmo) / 2
+            }))));
+    }
+
+    let arctanh = (z) => {
+        return scale(0.5, sub(log(oneplus(z)), log(oneminus(z))));
+    }
+
+    let arccoth = (z) => {
+        return scale(0.5, sub(log(oneplus(z)), log(minusone(z))));
+    }
+
+    let arcsech = (z) => {
+        return negitimes(arcsec(z));
+    }
+
+    let arccsch = (z) => {
+        return negitimes(arccsc(negitimes(z)));
+    }
+
+    /*
+      Binomial function
+      https://en.wikipedia.org/wiki/Binomial_coefficient#Two_real_or_complex_valued_arguments
+    */
     function binomial(n, c) {
         if (n.i == 0 && n.r == Math.floor(n.r) && n.r >= 0 &&
             c.i == 0 && c.r == Math.floor(c.r) && c.r >= 0 && c.r <= n.r) {
@@ -682,6 +997,9 @@ function complex_expression(s) {
             mult(gamma(oneplus(c)), gamma(oneplus(sub(n, c)))));
     }
 
+    /*
+      https://en.wikipedia.org/wiki/Factorial#The_gamma_and_pi_functions
+    */
     function factorial(z) {
         if (z.i == 0 && z.r == Math.floor(z.r) && z.r >= 0) {
             if (z.r < factorials.length) {
@@ -694,6 +1012,10 @@ function complex_expression(s) {
         return gamma(oneplus(z));
     }
 
+    /*
+       Lanczos approximation of the Gamma function.
+       https://en.wikipedia.org/wiki/Lanczos_approximation
+    */
     function gamma(z) {
         var sqrt2pi = Math.sqrt(2 * Math.PI),
             gamma_coeff = [
@@ -729,6 +1051,8 @@ function complex_expression(s) {
             }), exp(neg(t))), x));
     }
 
+    //Jacobi elliptic functions
+    //https://en.wikipedia.org/wiki/Jacobi_elliptic_functions
     function sn(z, k) {
         if (typeof (k) == "object") {
             k = k.r;
@@ -789,143 +1113,6 @@ function complex_expression(s) {
             i: i
         };
     }
-    /* New functions by Juan Carlos Ponce Campuzano 2019
-     *
-     * prod(expr, iters)
-     *
-     * mobius( expr, a, b, c, d) 
-     * 
-     * Finite Blaschke products:
-     * https://en.wikipedia.org/wiki/Blaschke_product#Finite_Blaschke_products
-     * rationalBlaschke(z, complex numbers, multiplicity)
-     * blaschke(z, number of multiples) 
-     * 
-     * Pochhammer Symbol:
-     * http://mathworld.wolfram.com/PochhammerSymbol.html
-     * psymbol(z, n>=0) 
-     */
-
-    function prod(z, fn, iters) {
-        let result = fn(z, {
-                r: 1,
-                i: 0
-            }),
-            end = Math.floor(iters.r),
-            n;
-
-        if (end < 1) {
-            return NaN;
-        } else if (end === 1) {
-            return fn(z, {
-                r: 1,
-                i: 0
-            });
-        } else {
-            for (n = 2; n <= end; ++n) {
-                result = mult(result, fn(z, {
-                    r: n,
-                    i: 0
-                }))
-            }
-            return result;
-        }
-    }
-
-    function psymbol(z, iters) {
-
-        var result = {
-            r: 1,
-            i: 0
-        };
-        var end = Math.floor(iters.r),
-            n;
-        if (end === 0) {
-            return {
-                r: 1,
-                i: 0
-            };
-        }
-        if (end > 0) {
-
-
-            for (n = 1; n <= end; ++n) {
-
-                result = mult(result, add(z, {
-                    r: n - 1,
-                    i: 0
-                }));
-            }
-
-            return result;
-        }
-    }
-
-
-    function mobius(z, a, b, c, d) {
-        //(az+b)/(cz+d)
-        //i (x2 y1 + y2 x1) + x2 x1 - y2 y1
-        let num = {
-            r: z.r * a.r - z.i * a.i + b.r,
-            i: z.r * a.i + z.i * a.r + b.i
-        };
-        let denom = {
-            r: z.r * c.r - z.i * c.i + d.r,
-            i: z.r * c.i + z.i * c.r + d.i
-        };
-
-        return div(num, denom);
-    }
-
-    function rationalBlaschke(z, a) {
-
-        let y = div({
-            r: z.r - a.r,
-            i: z.i - a.i
-        }, {
-            r: 1 - a.r * z.r - a.i * z.i,
-            i: a.i * z.r - a.r * z.i
-        });
-
-        let f = div({
-            r: Math.sqrt(a.r * a.r + a.i * a.i),
-            i: 0
-        }, {
-            r: a.r,
-            i: a.i
-        });
-
-        return mult(f, y);
-    }
-
-    function blaschke(z, iters) {
-
-        var result = rationalBlaschke(z, values[0]),
-            end = Math.floor(iters.r),
-            n;
-
-        if (end > 100 || end < 1) {
-            return NaN;
-        } else {
-
-            for (n = 1; n < end; n++) {
-                result = mult(result, rationalBlaschke(z, values[n]))
-            }
-            //let e = [];
-            //for(let k = 0; k < 50; k++){
-            //    e[k] = rationalBlaschke(z, values[k], mults[k]);
-            //}
-            
-            //Multiply by a complex number z such that |z|<1
-            return mult({
-                r: 0.0256,
-                i: 0.1321
-            }, result);
-        }
-    }
-
-    /*
-     * ends new functions
-     */
 
     function iter(z, fn, start, iters) {
         var result = start,
@@ -1008,6 +1195,166 @@ function complex_expression(s) {
             ph: phi
         };
     }
+
+    /* 
+      New functions by Juan Carlos Ponce Campuzano 2019
+     
+      1. prod(expr, iters)
+     
+      2. mobius( expr, a, b, c, d) 
+
+      3. psymbol(z, n>=0) 
+      
+      4. blaschke(z, number of multiples) 
+
+     */
+
+    function prod(z, fn, iters) {
+        let result = fn(z, {
+                r: 1,
+                i: 0
+            }),
+            end = Math.floor(iters.r),
+            n;
+
+        if (end < 1) {
+            return NaN;
+        } else if (end === 1) {
+            return fn(z, {
+                r: 1,
+                i: 0
+            });
+        } else {
+            for (n = 2; n <= end; ++n) {
+                result = mult(result, fn(z, {
+                    r: n,
+                    i: 0
+                }))
+            }
+            return result;
+        }
+    }
+
+    /*
+      Pochhammer Symbol:
+      http://mathworld.wolfram.com/PochhammerSymbol.html
+
+      This function is for calculating Hypergeometric functions: 
+      https://en.wikipedia.org/wiki/Hypergeometric_function
+
+      e.g. sum( psymbol(2-3i, n) * (z)^n/n!, 20)
+      
+    */
+    function psymbol(z, iters) {
+
+        var result = {
+            r: 1,
+            i: 0
+        };
+        var end = Math.floor(iters.r),
+            n;
+        if (end === 0) {
+            return {
+                r: 1,
+                i: 0
+            };
+        }
+        if (end > 0) {
+
+
+            for (n = 1; n <= end; ++n) {
+
+                result = mult(result, add(z, {
+                    r: n - 1,
+                    i: 0
+                }));
+            }
+
+            return result;
+        }
+    }
+
+    /* 
+      Mobius transformation
+      https://en.wikipedia.org/wiki/M%C3%B6bius_transformation 
+      f(z)=(az+b)/(cz+d), ad − bc ≠ 0
+      Real and Imaginary components: x1 x2 - y1 y2 + i (x2 y1 + y2 x1) 
+    */
+    function mobius(z, a, b, c, d) {
+
+        let num = {
+            r: z.r * a.r - z.i * a.i + b.r,
+            i: z.r * a.i + z.i * a.r + b.i
+        };
+        let denom = {
+            r: z.r * c.r - z.i * c.i + d.r,
+            i: z.r * c.i + z.i * c.r + d.i
+        };
+        let cond = sub(mult(a, d), mult(b, c));
+        if (cond.r === 0 && cond.i === 0) {
+            return null; //{r: Math.cos(2*Math.PI* 0.625), i:Math.cos(2*Math.PI* 0.625)};
+        } else {
+            return div(num, denom);
+        }
+    }
+
+    /* 
+      Finite Blaschke products:
+      https://en.wikipedia.org/wiki/Blaschke_product#Finite_Blaschke_products
+      rationalBlaschke(z, complex numbers, multiplicity)
+    */
+    function rationalBlaschke(z, a) {
+
+        let y = div({
+            r: z.r - a.r,
+            i: z.i - a.i
+        }, {
+            r: 1 - a.r * z.r - a.i * z.i,
+            i: a.i * z.r - a.r * z.i
+        });
+
+        let f = div({
+            r: Math.sqrt(a.r * a.r + a.i * a.i),
+            i: 0
+        }, {
+            r: a.r,
+            i: a.i
+        });
+
+        return mult(f, y);
+    }
+
+    function blaschke(z, iters) {
+
+        var result = rationalBlaschke(z, values[0]),
+            end = Math.floor(iters.r),
+            n;
+
+        if (end > 100 || end < 1) {
+            return NaN;
+        } else {
+
+            for (n = 1; n < end; n++) {
+                result = mult(result, rationalBlaschke(z, values[n]))
+            }
+            //let e = [];
+            //for(let k = 0; k < 50; k++){
+            //    e[k] = rationalBlaschke(z, values[k], mults[k]);
+            //}
+
+            //Multiply by a complex number z such that |z|<1
+            return mult({
+                r: 0.0256,
+                i: 0.1321
+            }, result);
+        }
+    }
+
+    /*
+      ends new functions
+     */
+
+
 
     function splitwords(tok) {
         var s = tok.text;
@@ -1447,4 +1794,5 @@ function complex_expression(s) {
             if (d2.hasOwnProperty(key)) d1[key] = d2[key];
     }
     return run();
-} // end of complex_expression
+}
+// end of complex_expression

@@ -205,7 +205,7 @@ class domainColoring {
         //let z = trimN(clts.funcZ);
         let z = trimN(this.fn);
         let parsed = complex_expression(z);//Define function
-        
+        console.log(parsed);
         // Establish a range of values on the complex plane
         
         // It all starts with the width, try higher or lower values

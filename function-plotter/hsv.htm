@@ -142,6 +142,7 @@
   Factor
     = "(" _ expr:Expression _ ")" { return expr; }
     / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'complex_log(' + arg + ')'; }
+    / _ "arg"  _ "(" _ arg:Expression _ ")" _ { return 'complex_arg(' + arg + ')'; }
     / _ "exp"  _ "(" _ arg:Expression _ ")" _ { return 'complex_exp(' + arg + ')'; }
     / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'complex_tan(' + arg + ')'; }
     / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'complex_cos(' + arg + ')'; }
@@ -186,6 +187,7 @@
     / "theta" { return 'complex_theta(a,b)'; }
     / "t" { return 't'; }
     / "r"     { return 'complex_r(a,b)'; }
+    / "|z|"     { return 'complex_r(a,b)'; }
 
   Integer "integer"
     = "-" int:Integer { return "-" + int;}
@@ -382,6 +384,10 @@
       float imag = pow(M_E, A) * sin(B);
       return vec2(real, imag);
     }
+
+    vec2 complex_arg(vec2 x) {
+      return vec2(atan(B,A), 0.0);
+    }
     
     //new functions ends
 
@@ -570,6 +576,7 @@
     quad.position.z = 0;
     scene.add(quad);
 
+    //I need an error message to show when the user enters an incomplete expression
     function buildErrorMessage(e) {
       return e.location !== undefined ?
         "" + e.message :
@@ -578,6 +585,7 @@
 
     // Whenever the user updates the input field, we need to parse and produce a
     // new shader to update what's being displayed.
+    // Also, I need to check the input expression is correct
     function update_expression() {
       var new_expression = $("#equation-input").val();
       var result;
@@ -598,8 +606,9 @@
           .replace("EXPRESSION", compiledExpression)
       });
       
-      console.log(compiledExpression);//debug:)
+      //console.log(compiledExpression);//debug:)
 
+      //Show or hide error message
       if (result === true) {
         $('#error-container').hide();
       } else $('#error-container').show();
