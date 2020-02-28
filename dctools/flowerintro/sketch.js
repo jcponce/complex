@@ -99,3 +99,7 @@ function trimN(s) {
     }
     return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 }
+
+function mousePressed(){
+  redraw();
+}
