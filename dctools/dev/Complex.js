@@ -1,6 +1,6 @@
 /* 
 This is the JavaScript parser for complex number formulae,
-written by David Bau, during snowstorm Nemo 2013.
+inspired by the work of David Bau, during snowstorm Nemo 2013.
 
 Adapted and updated with new functions by Juan Carlos Ponce Campuzano 
 in the Australian summer of 2019.
