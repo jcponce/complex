@@ -1354,7 +1354,10 @@ function complex_expression(s) {
       ends new functions
      */
 
-
+/*
+The following are parsing functions for all 
+the basic arithmetic of complex numbers
+*/
 
     function splitwords(tok) {
         var s = tok.text;
