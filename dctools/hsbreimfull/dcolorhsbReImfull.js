@@ -55,15 +55,24 @@ function draw() {
 
 var funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
 
-var sat = (x, y) => (abs(3 * sin(2 * PI * (log(sqrt(x * x + y * y)) / log(2) - floor(log(sqrt(x * x + y * y)) / log(2))))));
+var sat = (x, y) => {
+  let c = log(sqrt(x * x + y * y)) / log(2);
+  return (abs(3 * sin(2 * PI * (c - floor(c)))));
+}
 
-var val = (x, y) => sqrt(sqrt(abs(sin(3 * PI * y) * sin(3 * PI * x))));
+var val = (x, y) => {
+  let c = abs(sin(3 * PI * y) * sin(3 * PI * x))
+  return sqrt(sqrt(c));
+}
 
-var bothSatVal = (x, y) => 0.5 * ((1 - sat(x, y)) + val(x, y) + sqrt((1 - sat(x, y) - val(x, y)) * (1 - sat(x, y) - val(x, y)) + 0.01));
+var SatVal = (x, y) => {
+  let c = 1 - sat(x, y) - val(x, y);
+  return 0.5 * ((1 - sat(x, y)) + val(x, y) + sqrt( c * c + 0.01));
+}
 
 var funColorS = (x, y) => 1;
 
-var funColorV = (x, y) => val(x, y);
+var funColorB = (x, y) => val(x, y);
 //end coloring functions
 
 //Class for domain coloring
@@ -126,7 +135,7 @@ class domainColoring {
 
         let h = funPhase(w.r, w.i);
         let s = funColorS(w.r, w.i);
-        let b = funColorV(w.r, w.i);
+        let b = funColorB(w.r, w.i);
         set(i, j, color(h, s, b));
 
         x += dx;
@@ -219,7 +228,7 @@ class domainColoring {
   } //ends grid
 
 }
-
+/*
 // Now we color the pixels
 
 let w, h, posRe, posIm;
@@ -348,6 +357,7 @@ function displayGrid() {
   }
 
 }
+*/
 
 // Auxiliary functions
 function uiControls() {
@@ -391,22 +401,22 @@ function trimN(s) {
 function mySelectOption() {
   if (clts.lvlCurv == 'Real') {
     funColorS = (x, y) => 1;
-    funColorV = (x, y) => sqrt(sqrt(abs(sin(3 * PI * x))));
+    funColorB = (x, y) => sqrt(sqrt(abs(sin(3 * PI * x))));
   } else if (clts.lvlCurv == 'Imaginary') {
     funColorS = (x, y) => 1;
-    funColorV = (x, y) => sqrt(sqrt(abs(sin(3 * PI * y))));
+    funColorB = (x, y) => sqrt(sqrt(abs(sin(3 * PI * y))));
   } else if (clts.lvlCurv == 'Re/Im') {
     funColorS = (x, y) => 1;
-    funColorV = (x, y) => sqrt(sqrt(abs(sin(3 * PI * y) * sin(3 * PI * x))));
+    funColorB = (x, y) => sqrt(sqrt(abs(sin(3 * PI * y) * sin(3 * PI * x))));
   } else if (clts.lvlCurv == 'Modulus') {
     funColorS = (x, y) => sat(x, y);
-    funColorV = (x, y) => 1;
+    funColorB = (x, y) => 1;
   } else if (clts.lvlCurv == 'All') {
     funColorS = (x, y) => sat(x, y);
-    funColorV = (x, y) => bothSatVal(x, y);
+    funColorB = (x, y) => SatVal(x, y);
   } else if (clts.lvlCurv == 'None') {
     funColorS = (x, y) => 1;
-    funColorV = (x, y) => 1;
+    funColorB = (x, y) => 1;
   }
   redraw();
 }
