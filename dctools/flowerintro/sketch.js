@@ -1,4 +1,4 @@
-let fun = '1/z^5';
+let fun = 'blaschke(z, 50)';
 
 function setup() {
   createCanvas(320, 320);
@@ -6,7 +6,7 @@ function setup() {
   //frameRate(60);
   pixelDensity(1);
   //noCursor();
-  //noLoop(); 
+  noLoop(); 
   //console.log(dim.im);
 	
 }
@@ -19,7 +19,7 @@ function draw() {
   // A different range will allow us to "zoom" in or out on the fractal
 
   // It all starts with the width, try higher or lower values
-  let w = 4;
+  let w = 5;
   let h = (w * height) / width;
 
   // Start at negative half the width and height
@@ -58,7 +58,7 @@ function draw() {
     let x1 = xmin;
     for (let i = 0; i < width; i++) {
 
-      // Now we test, as we iterate z = z^2 + cm does z tend towards infinity?
+      
       let x = x1;
       let y = -y1;
       
@@ -67,16 +67,13 @@ function draw() {
 		  	i: y
 	    };
         
-	    //let v = {
-		  //	x: w.re,
-		  //	y: w.im,
-	    //};
+	   
         let vz = {r:x, i:y};
         
         let we = parsed.fn(vz);//Evaluate function
         
-        x = we.r+cX;
-        y = we.i+cY;
+        x = we.r;
+        y = we.i;
 
 
       // We color each pixel based on something
@@ -84,30 +81,16 @@ function draw() {
       let h = (PI-atan2(y, -x))/(2*PI);
       
       let b = funColor(x, y);
-      set(i, j, color(h, 1, b));
+      set(i, j, color(h, 1, 1));
 
       x1 += dx;
     }
     y1 += dy;
   }
   updatePixels();
-  //noLoop();
   
-    push()
-  //draw constant label
-  fill(255);
-  stroke(0);
-  strokeWeight(3.5);
-  textAlign(LEFT, CENTER);
-  textSize(18);
-  stroke(0,0, 0);
-  text("c = (" + str(round(cX*100)/100.0) + "," + str(round(cY*100)/100.0) + ")", 5, height-15);
-    pop();
-
-  //draw pointer for constant
-  fill(0, 0, 100);
-  stroke(0,0, 0);
-  ellipse(mouseX, mouseY, 9);
+  
+  
 }
 
 function trimN(s) {
@@ -115,4 +98,8 @@ function trimN(s) {
         return s.trim();
     }
     return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+}
+
+function mousePressed(){
+  redraw();
 }
