@@ -51,22 +51,29 @@ function draw() {
 // --Coloring the pixels--
 // First I need to define the functions to color pixels
 
-let funPhase = (x, y) => (PI - atan2(y, -x)) / (2 * PI);
+let funPhase = (x, y) => (PI - Math.atan2(y, -x)) / (2 * PI); // defines color hue based on phase 
 
-let sharp = 1 / 3;
-let nContour = 16;
+let sharp = 0.39; // delay
+let b = 0.655; // brightness 0 -> dark, 1 -> bright
+let nMod = 2; // num of level curves mod
+let nPhase = 16; // num. of level curves phase
+let base = 2;
 
-let funColor = (x, y) => sharp * (log(sqrt(x * x + y * y)) / log(1.8) - floor(log(sqrt(x * x + y * y)) / log(1.8))) + 0.7; //sharp * (nContour * (PI - atan2(y, -x)) / (2 * PI) -  floor(nContour * (PI - atan2(y, -x)) / (2 * PI))) + 0.7;
-
-function sat(x, y) {
-  let satAux = log(sqrt(x * x + y * y)) / log(1.8);
-  return sharp * (satAux - floor(satAux)) + 0.7;
+let cPhase = (x, y) => {
+    let c = nPhase * funPhase(x,y);
+    return sharp * ( c - floor(c) ) + b;
 }
 
-function val(x, y) {
-  let valAux = nContour * funPhase(x, y);
-  return sharp * (valAux - floor(valAux)) + 0.7;
-} //end coloring functions
+let cMod = (x, y) => {
+    let c = nMod * log(sqrt(x * x + y * y));
+    return sharp * ( c - floor(c) ) + b;
+}
+
+let cPhaMod = (x, y) => cPhase(x, y) * cMod(x, y);
+
+let funColor = (x, y) => cMod(x, y);
+
+//ends coloring functions
 
 //Class for domain coloring
 class domainColoring {
@@ -126,7 +133,6 @@ class domainColoring {
         // Gosh, we could make fancy colors here if we wanted
 
         let h = funPhase(w.r, w.i);
-
         let b = funColor(w.r, w.i);
         set(i, j, color(h, 1, b));
 
@@ -261,13 +267,13 @@ function trimN(s) {
 
 function mySelectOption() {
   if (clts.lvlCurv == 'Phase') {
-    funColor = (x, y) => val(x, y);
+      funColor = (x, y) => cPhase(x, y);
   } else if (clts.lvlCurv == 'Modulus') {
-    funColor = (x, y) => sat(x, y);
+      funColor = (x, y) => cMod(x, y);
   } else if (clts.lvlCurv == 'Phase/Modulus') {
-    funColor = (x, y) => val(x, y) * sat(x, y);
+      funColor = (x, y) => cPhaMod(x, y);
   } else if (clts.lvlCurv == 'None') {
-    funColor = (x, y) => 1;
+      funColor = (x, y) => 1;
   }
   redraw();
 }
