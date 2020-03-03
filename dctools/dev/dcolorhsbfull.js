@@ -32,7 +32,7 @@ let input;
 let domC;
 
 function setup() {
-    createCanvas(470, 470, P2D);
+    createCanvas(470, 470);
     colorMode(HSB, 1);
     smooth();
     pixelDensity(1);
@@ -107,7 +107,7 @@ let funPhase = (x, y) => (PI - Math.atan2(y, -x)) / (2 * PI); // defines color h
 let sharp = 0.39; // delay
 let b = 0.655; // brightness 0 -> dark, 1 -> bright
 let nMod = 2; // num of level curves mod
-let nPhase = 16; // num. of level curves phase
+let nPhase = 20; // num. of level curves phase
 let base = 2;
 
 let cPhase = (x, y) => {
