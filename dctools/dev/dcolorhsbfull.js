@@ -14,7 +14,7 @@ lvlCurv: 'Modulus',
 funcZ: 'z',
     
 displayXY: false,
-size: 2,
+size: 3,
 centerX: 0,
 centerY: 0,
 
@@ -61,7 +61,8 @@ function setup() {
     
     //input = createInput('prod(e^((z+(e^(2*pi*i/5))^n )/(z-(e^(2*pi*i/5))^n)), 5)');
     //input = createInput('rationalBlaschke(z, i/2, 3)');
-    input = createInput('z^(2/3+i)');
+    //input = createInput('z^(2/3+i)');
+    input = createInput('joukowsky(z, -0.15+0.23*i,0.23*(13*2)^1/2)');
      //input = createInput('(disk(z)blaschke(z, 40))^2');
     //input = createInput('(disk(z)blaschke(z))^2');
     //input = createInput('mobius(z, 2+i, -i, i, 1/2-2/3i)');

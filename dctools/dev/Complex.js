@@ -1353,37 +1353,77 @@ function complex_expression(s) {
 
     function joukowsky(z, c, rad) {
         //center=-0.15+0.23*i;
-        let sq = sqrt( sub(pow({r:z.r, i:z.i}, {r:2, i:0}), {r:4,i:0}) );
-        let vn = sub(z, sq );
-        let vp = add(z, sq );
+        let sq = sqrt(sub(pow({
+            r: z.r,
+            i: z.i
+        }, {
+            r: 2,
+            i: 0
+        }), {
+            r: 4,
+            i: 0
+        }));
+        let vn = sub(z, sq);
+        let vp = add(z, sq);
         let z1 = div(vn, {
-                r: 2,
-                i: 0
-            })
-        
+            r: 2,
+            i: 0
+        })
+
         let z2 = div(vp, {
-                r: 2,
-                i: 0
-            });
-        
-        let center = {r:c.r, i:c.i};
-        let zr;
-        if(abs(sub(z1, center)) > abs(sub(z2, center))){
-            //zr = {r:z1.r, i:z1.i};
-            zr= div(sub(z1, center), {r:rad.r, i:0});
-            return zr;
-        } else {
-            //zr = {r:z2.r, i:z2.i};
-            zr_= div(sub(z2, center), {r:rad.r, i:0});
-            return zr;
-        }
+            r: 2,
+            i: 0
+        });
+
         //z1=(z-sqrt(z^2-4))/2;
         //z2=(z+sqrt(z^2-4))/2;
         //z=(1-T)*z+T*if(|z1-center|>|z2-center|,z1,z2);
         //z=(z-center)/r;
         //if(|z|<|a|,0,(U*z+(U*a^2)/z-(i*C)/(2*pi)*log(z)))/10;
-        //return add(zr_, div({r:1,i:0}, zr_));
-        
+
+        let center = {
+            r: c.r,
+            i: c.i
+        };
+        let zr;
+
+        //if(abs(sub(z1, center)) > abs(sub(z2, center))){
+
+        if (modulus(sub(z1, center)) > modulus(sub(z2, center))) {
+            //zr = {r:z1.r, i:z1.i};
+            zr = div(sub(z1, center), {
+                r: rad.r,
+                i: 0
+            });
+            //return zr;
+        } else {
+            //zr = {r:z2.r, i:z2.i};
+            zr = div(sub(z2, center), {
+                r: rad.r,
+                i: 0
+            });
+            //return zr;
+        }
+
+        let zr_;
+        if (modulus(z) < modulus({
+                r: 1,
+                i: 0
+            })) {
+            zr_ = 0;
+        } else {
+            zr_ = add(zr, div({
+                r: 1,
+                i: 0
+            }, zr));
+        }
+
+
+
+        return zr_;
+
+        //return div(sub(z1, center), {r:rad.r, i:0});
+
 
     }
 
