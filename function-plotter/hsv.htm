@@ -141,6 +141,7 @@
   // Added a few extra functions by Juan Carlos Ponce Campuzano 12-Nov-2019
   Factor
     = "(" _ expr:Expression _ ")" { return expr; }
+    / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
     / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
     / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'c_log(' + arg + ')'; }
     / _ "arg"  _ "(" _ arg:Expression _ ")" _ { return 'c_arg(' + arg + ')'; }
@@ -427,6 +428,14 @@
     } else {
         return sqrt(2.0*M_PI) * c_mul(c_mul(c_pow(t, x+vec2(0.5,0.0)), c_exp(-t)), w);
     }
+}
+
+vec2 mandelbrot(vec2 z) {
+  vec2 c = z;
+  for (int i=0; i<90; i++) {
+    z = c_mul(z, z) + c;
+  }
+  return z;
 }
     
     //new functions ends
