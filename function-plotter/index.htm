@@ -102,7 +102,7 @@
 
   <script src="scripts/webcam-stream.js"></script>
 
-  <script type="peg-grammar" id="complex-expression-peg-grammar" src="scripts/grammar.js">
+  <script type="peg-grammar" id="complex-expression-peg-grammar">
     /*
    * Complex Arithmetic Grammar
    * (Utilizes http://pegjs.org/ to build a parser based on this grammar)
@@ -121,46 +121,63 @@
   Expression
     = first:Term rest:(_ ("+" / "-") _ Term)* _ {
         return combine(first, rest, {
-          "+": function(left, right) { return 'c_add(' + left + ',' + right + ')'; },
-          "-": function(left, right) { return 'c_sub(' + left + ',' + right + ')'; }
+          "+": function(left, right) { return 'cadd(' + left + ',' + right + ')'; },
+          "-": function(left, right) { return 'csub(' + left + ',' + right + ')'; }
         });
       }
 
   Term
     = first:Powered rest:(_ ("*" / "/") _ Powered)* {
         return combine(first, rest, {
-          "*": function(left, right) { return 'c_mul(' + left + ',' + right + ')'; },
-          "/": function(left, right) { return 'c_div(' + left + ',' + right + ')'; }
+          "*": function(left, right) { return 'cmul(' + left + ',' + right + ')'; },
+          "/": function(left, right) { return 'cdiv(' + left + ',' + right + ')'; }
         });
       }
 
   Powered
-    =  _ left:Factor _ "^" _ right:Factor _ { return 'c_pow(' + left + ',' + right + ')'; }
+    =  _ left:Factor _ "^" _ right:Factor _ { return 'cpow(' + left + ',' + right + ')'; }
     / Factor
   // Added a few extra functions by Juan Carlos Ponce Campuzano 12-Nov-2019
   Factor
     = "(" _ expr:Expression _ ")" { return expr; }
+    / _ "zeta"  _ "(" _ arg:Expression _ ")" _ { return 'zeta(' + arg + ')'; }
     / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
     / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
-    / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'c_log(' + arg + ')'; }
-    / _ "arg"  _ "(" _ arg:Expression _ ")" _ { return 'c_arg(' + arg + ')'; }
-    / _ "exp"  _ "(" _ arg:Expression _ ")" _ { return 'c_exp(' + arg + ')'; }
-    / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'c_tan(' + arg + ')'; }
-    / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'c_cos(' + arg + ')'; }
-    / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'c_sin(' + arg + ')'; }
-    / _ "sec"  _ "(" _ arg:Expression _ ")" _ { return 'c_sec(' + arg + ')'; }
-    / _ "csc"  _ "(" _ arg:Expression _ ")" _ { return 'c_csc(' + arg + ')'; }
-    / _ "cot"  _ "(" _ arg:Expression _ ")" _ { return 'c_cot(' + arg + ')'; }
-    / _ "sech"  _ "(" _ arg:Expression _ ")" _ { return 'c_sech(' + arg + ')'; }
-    / _ "csch"  _ "(" _ arg:Expression _ ")" _ { return 'c_csch(' + arg + ')'; }
-    / _ "coth"  _ "(" _ arg:Expression _ ")" _ { return 'c_coth(' + arg + ')'; }
-    / _ "tanh"  _ "(" _ arg:Expression _ ")" _ { return 'c_tanh(' + arg + ')'; }
-    / _ "cosh"  _ "(" _ arg:Expression _ ")" _ { return 'c_cosh(' + arg + ')'; }
-    / _ "sinh"  _ "(" _ arg:Expression _ ")" _ { return 'c_sinh(' + arg + ')'; }
-    / _ "abs"  _ "(" _ arg:Expression _ ")" _ { return 'c_abs(' + arg + ')'; }
-    / _ "re"  _ "(" _ arg:Expression _ ")" _ { return 'c_re(' + arg + ')'; }
-    / _ "im"  _ "(" _ arg:Expression _ ")" _ { return 'c_im(' + arg + ')'; }
-    / _ "conj"  _ "(" _ arg:Expression _ ")" _ { return 'c_conj(' + arg + ')'; }
+    / _ "map"  _ "(" _ arg:Expression _ ")" _ { return 'map(' + arg + ')'; }
+    / _ "disk"  _ "(" _ arg:Expression _ ")" _ { return 'disk(' + arg + ')'; }
+    / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'clog(' + arg + ')'; }
+    / _ "arg"  _ "(" _ arg:Expression _ ")" _ { return 'carg(' + arg + ')'; }
+    / _ "exp"  _ "(" _ arg:Expression _ ")" _ { return 'cexp(' + arg + ')'; }
+    / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'ctan(' + arg + ')'; }
+    / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'ccos(' + arg + ')'; }
+    / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'csin(' + arg + ')'; }
+    / _ "sec"  _ "(" _ arg:Expression _ ")" _ { return 'csec(' + arg + ')'; }
+    / _ "csc"  _ "(" _ arg:Expression _ ")" _ { return 'ccsc(' + arg + ')'; }
+    / _ "cot"  _ "(" _ arg:Expression _ ")" _ { return 'ccot(' + arg + ')'; }
+    / _ "arctan"  _ "(" _ arg:Expression _ ")" _ { return 'actan(' + arg + ')'; }
+    / _ "arccos"  _ "(" _ arg:Expression _ ")" _ { return 'accos(' + arg + ')'; }
+    / _ "arcsin"  _ "(" _ arg:Expression _ ")" _ { return 'acsin(' + arg + ')'; }
+    / _ "arcsec"  _ "(" _ arg:Expression _ ")" _ { return 'acsec(' + arg + ')'; }
+    / _ "arccsc"  _ "(" _ arg:Expression _ ")" _ { return 'accsc(' + arg + ')'; }
+    / _ "arccot"  _ "(" _ arg:Expression _ ")" _ { return 'accot(' + arg + ')'; }
+    / _ "sech"  _ "(" _ arg:Expression _ ")" _ { return 'csech(' + arg + ')'; }
+    / _ "csch"  _ "(" _ arg:Expression _ ")" _ { return 'ccsch(' + arg + ')'; }
+    / _ "coth"  _ "(" _ arg:Expression _ ")" _ { return 'ccoth(' + arg + ')'; }
+    / _ "tanh"  _ "(" _ arg:Expression _ ")" _ { return 'ctanh(' + arg + ')'; }
+    / _ "cosh"  _ "(" _ arg:Expression _ ")" _ { return 'ccosh(' + arg + ')'; }
+    / _ "sinh"  _ "(" _ arg:Expression _ ")" _ { return 'csinh(' + arg + ')'; }
+    / _ "sech"  _ "(" _ arg:Expression _ ")" _ { return 'csech(' + arg + ')'; }
+    / _ "arccsch"  _ "(" _ arg:Expression _ ")" _ { return 'accsch(' + arg + ')'; }
+    / _ "arccoth"  _ "(" _ arg:Expression _ ")" _ { return 'accoth(' + arg + ')'; }
+    / _ "arctanh"  _ "(" _ arg:Expression _ ")" _ { return 'actanh(' + arg + ')'; }
+    / _ "arccosh"  _ "(" _ arg:Expression _ ")" _ { return 'accosh(' + arg + ')'; }
+    / _ "arcsinh"  _ "(" _ arg:Expression _ ")" _ { return 'acsinh(' + arg + ')'; }
+    / _ "arcsech"  _ "(" _ arg:Expression _ ")" _ { return 'acsech(' + arg + ')'; }
+    / _ "abs"  _ "(" _ arg:Expression _ ")" _ { return 'cabs(' + arg + ')'; }
+    / _ "|" _ arg:Expression _ "|"  _ { return 'cabs(' + arg + ')'; }
+    / _ "re"  _ "(" _ arg:Expression _ ")" _ { return 're(' + arg + ')'; }
+    / _ "im"  _ "(" _ arg:Expression _ ")" _ { return 'im(' + arg + ')'; }
+    / _ "conj"  _ "(" _ arg:Expression _ ")" _ { return 'conjugate(' + arg + ')'; }
     / _ "iter" _ "(" _ arg:Expression _ "," _ count:PositiveInteger _ ")" _ {
       var n = parseInt(count) - 1, Q = arg;
       for(var it=0; it < n; ++it) {
@@ -181,14 +198,14 @@
   Real
     = whole:Integer "." fractional:Integer { return '' + whole + '.' + fractional; }
     / whole:Integer { return '' + whole + '.0'; }
-    / "pi" { return '3.14159265359'; }
-    / "e" { return '2.7182818284'; }
+    / "pi" { return '3.14159265358979'; }
+    / "e" { return '2.71828182845904'; }
     / "a" { return 'a'; }
     / "b" { return 'b'; }
-    / "theta" { return 'c_theta(a,b)'; }
+    / "theta" { return 'theta(a,b)'; }
     / "t" { return 't'; }
-    / "r"     { return 'c_r(a,b)'; }
-    / "|z|"     { return 'c_r(a,b)'; }
+    / "r"     { return 'r(a,b)'; }
+    // / "|" + arg + "|"     { return 'cabs( ' +arg + ' )'; }
 
   Integer "integer"
     = "-" int:Integer { return "-" + int;}
@@ -214,23 +231,38 @@
       vUv = uv;
 			gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
 		}
-	</script>
+  </script>
 
   <script type="x-shader/x-fragment" id="fragmentshader">
     precision highp float;
 
-    #define M_PI 3.1415926535897932384626433832795
-    #define M_E  2.7182818284590452353602874713526
+    #define M_PI 3.14159265358979
+    #define M_E  2.71828182845904
 
-    #define A x.x
-    #define B x.y
-    #define C y.x
-    #define D y.y
+    //#define A x.x
+    //#define B x.y
+    //#define C y.x
+    //#define D y.y
 
     varying vec2 vUv;
+
+    #define complex vec2
+
+    const float pi = 3.14159265358979;
+    const complex cpi = complex(3.14159265358979, 0.0);
+    
+    const float e = 2.71828182845904;
+    const complex ce = complex(2.71828182845904, 0.0);
+
+    const complex i = complex(0.0, 1.0);
+    const complex one = complex(1.0, 0.0);
+    const complex zero = complex(0.0, 0.0);
+    
+
     uniform float t;
     uniform float width, height;
     uniform sampler2D gridTexture;
+    uniform float _option;
 
     // Convert from Hue,Saturation/Value to RGB
     // http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
@@ -241,201 +273,1012 @@
       return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
     }
 
-    float arg(vec2 x) { return atan(B,A); }
+
+    //float arg(vec2 z) { return atan(z.y, z.x); }
+    float arg(complex z) {
+      return atan(z.y, z.x);
+  }
     
     //New auxiliary functions by Juan Carlos Ponce Campuzano 12-Nov-2019
     
-    float sinh( float x ) { return (pow(M_E, x) - pow(M_E, -x))*0.5; }
-    float cosh( float x ) { return (pow(M_E, x) + pow(M_E, -x))*0.5; }
+    //float sinh( float x ) { return (pow(M_E, x) - pow(M_E, -x))*0.5; }
+    //float cosh( float x ) { return (pow(M_E, x) + pow(M_E, -x))*0.5; }
+
     //New auxiliary functions ends
     
-    float c_r(float x, float y) { return length(vec2(x,y)); }
-    float c_theta(float x, float y) { return arg(vec2(x,y)); }
-    vec2 complex(float x, float y) { return vec2(x,y); }
+    float r(float x, float y) { return length(vec2(x,y)); }
+    float theta(float x, float y) { return arg(vec2(x,y)); }
 
+    //vec2 complex(float x, float y) { return vec2(x,y); }
+
+    
     // https://en.wikipedia.org/wiki/c_number#Elementary_operations
-    vec2 c_add(vec2 x, vec2 y) { return x + y; }
-    vec2 c_sub(vec2 x, vec2 y) { return x - y; }
-    vec2 c_mul(vec2 x, vec2 y) { return vec2( A*C-B*D, B*C+A*D); }
-    vec2 c_div(vec2 x, vec2 y) { return vec2( (A*C+B*D)/(C*C+D*D), (B*C-A*D)/(C*C+D*D)); }
+    complex cadd(vec2 z, vec2 v) { return z + v; }
+    complex csub(vec2 z, vec2 v) { return z - v; }
 
-    // http://www.abecedarical.com/zenosamples/zs_complexnumbers.html
-    vec2 c_pow(vec2 x, vec2 y) {
-      float rho = length(x);
-      float theta = arg(x);
-      float angle = C * theta + D * log(rho);
-      float real = cos(angle);
-      float imag = sin(angle);
-      return vec2(real, imag) * (pow(rho, C) * pow(M_E, -D * theta));
-    }
-
-    vec2 c_sin(vec2 x) {
-      vec2 iz = c_mul(vec2(0.0, 1.0), x);
-      vec2 inz = c_mul(vec2(0.0, -1.0), x);
-      vec2 eiz = c_pow( vec2(M_E, 0.0), iz );
-      vec2 einz = c_pow( vec2(M_E, 0.0), inz );
-      return c_div( eiz - einz, complex(0.0, 2.0));
-    }
-
-    vec2 c_cos(vec2 x) {
-      vec2 iz = c_mul(vec2(0.0, 1.0), x);
-      vec2 inz = c_mul(vec2(0.0, -1.0), x);
-      vec2 eiz = c_pow( vec2(M_E, 0.0), iz );
-      vec2 einz = c_pow( vec2(M_E, 0.0), inz );
-      return c_div( eiz + einz, complex(2.0, 0.0));
-    }
-    
-    vec2 c_log(vec2 x) {
-      return vec2( log( length(x) ), arg(x) );
-    }
-    
-    //New complex functions added by Juan Carlos Ponce Campuzano 12-Nov-2019
-    
-    vec2 c_re(vec2 x) {
-       vec2 z = c_mul(vec2(0.5, 0.0), x);
-        float real = A;
-        float nimag = -B;
-        vec2 conjz = c_mul(vec2(0.5, 0.0), vec2(real, nimag));
-        return c_add( z, conjz );
-    }
-    
-    vec2 c_im(vec2 x) {
-       vec2 z = c_mul(vec2(0.5, 0.0), x);
-       float real = A;
-       float nimag = -B;
-       vec2 conjz = c_mul(vec2(0.5, 0.0), vec2(real, nimag));
-       vec2 sub = c_sub( z, conjz );
-       return c_div( sub, vec2(0.0, 1.0) );
-    }
-    
-    vec2 c_conj(vec2 x) {
-        float real = A;
-        float nimag = -B;
-      return vec2(real, nimag);
-    }
-    
-    vec2 c_tan(vec2 x) {
-        float real = sin(A+A)/(cos(A+A)+cosh(B+B));
-        float imag = sinh(B+B)/(cos(A+A)+cosh(B+B));
-      return vec2(real, imag);
-    }
-    
-    vec2 c_csc(vec2 x) {
-        float real = (-sin(A)*cosh(B)-sin(A)*cosh(B))/(cos(A+A)-cosh(B+B));
-        float imag = (cos(A)*sinh(B)+cos(A)*sinh(B))/(cos(A+A)-cosh(B+B));
-      return vec2(real, imag);
-    }
-    
-    vec2 c_sec(vec2 x) {
-        float real = (cos(A)*cosh(B)+cos(A)*cosh(B))/(cos(A+A)+cosh(B+B));
-        float imag = (sin(A)*sinh(B)+sin(A)*sinh(B))/(cos(A+A)+cosh(B+B));
-      return vec2(real, imag);
-    }
-    
-    vec2 c_cot(vec2 x) {
-        float real = sin(A+A)/(cos(A+A)-cosh(B+B));
-        float imag = sinh(B+B)/(cos(A+A)-cosh(B+B));
-      return vec2(real, imag);
-    }
-    
-    vec2 c_sinh(vec2 x) {
-        float real = sinh(A)*cos(B);
-        float imag = cosh(A)*sin(B);
-      return vec2(real, imag);
-    }
-    
-    vec2 c_cosh(vec2 x) {
-        float real = cosh(A)*cos(B);
-        float imag = sinh(A)*sin(B);
-      return vec2(real, imag);
-    }
-    
-    vec2 c_tanh(vec2 x) {
-        float real = sinh(A+A)/(cosh(A+A)+cos(B+B));
-        float imag = sin(B+B)/(cosh(A+A)+cos(B+B));
-      return vec2(real, imag);
-    }
-    
-    vec2 c_csch(vec2 x) {
-        float real = (-sinh(A)*cos(B)-sinh(A)*cos(B))/(-cosh(A+A)+cos(B+B));
-        float imag = (cosh(A)*sin(B)+cosh(A)*sin(B))/(-cosh(A+A)+cos(B+B));
-      return vec2(real, imag);
-    }
-    
-    vec2 c_sech(vec2 x) {
-        float real = (+cosh(A)*cos(B)+cosh(A)*cos(B))/(cosh(A+A)+cos(B+B));
-        float imag = (-sinh(A)*sin(B)-sinh(A)*sin(B))/(cosh(A+A)+cos(B+B));
-      return vec2(real, imag);
-    }
-    
-    vec2 c_coth(vec2 x) {
-        float real = -sinh(A+A)/(-cosh(A+A)+cos(B+B));
-        float imag = -sin(B+B)/(-cosh(A+A)+cos(B+B));
-      return vec2(real, imag);
-    }
-
-    vec2 c_abs(vec2 x) {
-      return vec2(length(x), 0.0 );
-    }
-
-    vec2 c_exp(vec2 x) {
-      float real = pow(M_E, A) * cos(B);
-      float imag = pow(M_E, A) * sin(B);
-      return vec2(real, imag);
-    }
-
-    vec2 c_arg(vec2 x) {
-      return vec2(atan(B,A), 0.0);
-    }
-
-    vec2 gamma(vec2 x) {
-      //https://en.wikipedia.org/wiki/Lanczos_approximation
-
-      const int plength = 8;
-      float p[plength];
-      p[0] = 676.5203681218851;
-      p[1] = -1259.1392167224028;  
-      p[2] = 771.32342877765313;
-      p[3] = -176.61502916214059;
-      p[4] = 12.507343278686905;
-      p[5] = -0.13857109526572012;
-      p[6] = 9.9843695780195716e-6;
-      p[7] = 1.5056327351493116e-7;
-
-      vec2 ref;
-      bool inv = false;
-      vec2 cpi = vec2(M_PI,0);
-      vec2 one = vec2(1, 0);
-
-      if(A < 0.5){
-        ref = c_div(cpi, c_sin(M_PI*x));
-        x = one-x;
-        inv = true;
-    } 
-    x = x-one;
-    vec2 w = one;
-    
-    for(int n = 0; n < plength; n++){
-        w += c_div(vec2(p[n],0.0), x + vec2(n+1,0));
-    }
-    vec2 t = x + vec2(plength,0) - vec2(0.5,0.0);
-
-    if(inv) {
-        return c_div(ref, sqrt(2.0*M_PI) * c_mul(c_mul(c_pow(t, x+vec2(0.5,0.0)), c_exp(-t)), w));
-    } else {
-        return sqrt(2.0*M_PI) * c_mul(c_mul(c_pow(t, x+vec2(0.5,0.0)), c_exp(-t)), w);
-    }
-}
-
-vec2 mandelbrot(vec2 z) {
-  vec2 c = z;
-  for (int i=0; i<90; i++) {
-    z = c_mul(z, z) + c;
+  
+ 
+  
+    bool isinf(float val) {
+      return (val != 0.0 && val * 2.0 == val) ? true : false;
   }
-  return z;
+
+  complex conjugate(complex z) {
+    return complex(z.x, -z.y);
 }
-    
-    //new functions ends
+
+complex cmul(complex z, complex v) {
+  return complex(z.x*v.x - z.y*v.y, z.x*v.y + z.y*v.x);
+}
+
+complex cdiv(complex z, complex v) {
+  if(isinf(v.x) || isinf(v.y)) return zero;
+  //if(isnan(v.x) || isnan(v.y)) return -one;
+  return cmul(z, conjugate(v))/(v.x*v.x + v.y*v.y); //(mul(v, conjugate(v)).x);
+}
+
+complex re(complex z) {
+  return complex(z.x, 0.0);
+}
+
+complex im(complex z) {
+  return complex(z.y, 0.0);
+}
+
+float modulussquared(complex z){
+  return z.x * z.x + z.y * z.y;
+}
+
+float realmodulus(complex z){
+  return pow(modulussquared(z), 0.5);
+}
+
+
+complex modulus(complex z){
+  if(z.y == 0.0){
+    return complex(abs(z.x), 0.0);
+  }
+  return complex(realmodulus(z), 0.0);
+}
+
+
+//z * disk(30*(abs(z)-1))
+//z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|))
+complex disk(complex z){
+  if(realmodulus(z) > 1.0 ){
+    return complex(0.0,0.0);
+  }
+  return complex(1.0, 0.0);
+}
+
+//map(z*(1-(t+1)/2) + (t+1)/2 * (1/2*(1.17*z+(-0.15+0.23))+1/2*((1.17*z+(-0.15+0.23*i))^2-4)^(1/2)) )
+complex map(complex z){
+
+  complex untCir = disk(cdiv(one, cmul(complex(40.0, 0.0), modulus(z)-one)));
+  
+  //cmult(complex(40.0, cabs(z) - one )) );
+  complex origin =  disk(cdiv(one, cmul(complex(40.0, 0.0), modulus(z))));
+
+  return cmul( z, cmul(untCir, origin));//cmul(z, cmul(unitCircle, origin) ); //z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|));
+}
+
+
+complex cabs(complex z) {
+  return complex(length(z), 0.0);
+}
+
+complex carg(complex z) {
+  return complex(arg(z), 0.0);
+}
+
+complex cargi(complex z) {
+  return complex(0.0, arg(z));
+}
+
+//Log base e
+complex clog(complex z) {
+  return complex(log(length(z)), arg(z));
+}
+
+complex ln(complex z) {
+  return clog(z);
+}
+
+//Log base b
+complex clog(complex z, complex b) {
+  return cdiv(clog(z),clog(b));
+}
+
+
+complex clen(complex z) {
+ return complex(length(z), 0.0);
+}
+
+//Special case of cpow, e^z
+complex cexp(complex z) {
+  // Computes e^z = e^(x+iy) = e^x (cos(y) + isin(y))
+  return exp(z.x)*complex(cos(z.y), sin(z.y));
+}
+
+//Special case, for efficiency
+complex cpow(float r, complex z) {
+  //Computes r^z = r^(c+di) = r^z r^di = r^z e^log(r)di
+  return pow(r,z.x) *complex(cos(z.y*log(r)), sin(z.y* log(r)));
+}
+complex cpow(complex z, complex w) {
+  // Computes z^w = (|z|^2)^(0.5w.x) * e^(-w.y*arg(z)) * e^(i(w.x*arg(z) + 0.5*w.y*log(|z|^2)))
+  //if(z.y == 0.0 ) return cpow(z.x, w);
+  if(z == zero) return zero;
+  //return cexp(cmul(w,clog(z)));
+  return pow(dot(z, z), 0.5*w.x) * cexp(complex(-w.y*arg(z), w.x*arg(z) + 0.5*w.y*log(dot(z,z))));
+}
+
+complex csqrt(complex z) {
+  return cpow(z, complex(0.5, 0));
+}
+
+//Trigonometric functions
+
+complex csin(complex z) {
+  // Computes 0.5i * (e^-iz - e^iz)
+  return cmul(0.5*i, cexp(cmul(i, -z)) - cexp(cmul(i, z)));
+}
+
+complex ccos(complex z) {
+  // Computes 0.5*(e^-iz + e^iz)
+  return 0.5*(cexp(cmul(i, -z)) + cexp(cmul(i, z)));
+}
+
+complex ctan(complex z) {
+  return cdiv(csin(z), ccos(z));
+}
+
+complex acsin(complex z) {
+return cmul(-i, clog(cmul(i, z) + cpow(complex(1.0, 0.0)-cmul(z,z), complex(0.5, 0.0))));
+}
+
+complex accos(complex z) {
+return 0.5*cpi + acsin(z);
+}
+
+complex actan(complex z) {
+return 0.5*cmul(i, (clog(complex(1,0)-cmul(i,z)) - clog(complex(1,0)+cmul(i,z))));
+}
+
+
+
+
+complex csec(complex z){
+  return cdiv(one,ccos(z));
+}
+
+complex ccsc(complex z){
+  return cdiv(one,csin(z));
+}
+
+complex ccot(complex z){
+  return cdiv(ccos(z),csin(z));
+}
+
+complex acsec(complex z){
+  return accos(cdiv(one,z));
+}
+
+complex accsc(complex z){
+  return acsin(cdiv(one,z));
+}
+
+complex accot(complex z){
+  return actan(cdiv(one,z));
+}
+
+//Hyperbolic trig
+//I need to check correct values for arccosh and arcsech
+
+complex csinh(complex z) {
+  return 0.5*(cexp(z) - cexp(-z));
+}
+
+complex ccosh(complex z) {
+  return 0.5*(cexp(z) + cexp(-z));
+}
+
+complex ctanh(complex z) {
+  return cdiv(csinh(z), ccosh(z));
+}
+
+complex acsinh(complex z) {
+  return clog(z + cpow(cmul(z,z) + complex(1,0),complex(0.5, 0.0)));
+}
+
+complex accosh(complex z) {
+  //return clog(z + cpow(cmul(z,z) - one,complex(0.5, 0.0)));
+  return clog(z + cmul(cpow(z + complex(1,0),complex(0.5, 0.0)),cpow(z - complex(1,0),complex(0.5, 0.0))));
+}
+
+complex actanh(complex z) {
+  return 0.5*(clog(complex(1,0)+z) - clog(complex(1,0)-z));
+}
+
+complex csech(complex z){
+  return cdiv(one,ccosh(z));
+}
+
+complex ccsch(complex z){
+  return cdiv(one,csinh(z));
+}
+
+complex ccoth(complex z){
+  return cdiv(ccosh(z),csinh(z));
+}
+
+complex acsech(complex z){
+  return accosh(cdiv(one,z));
+}
+
+complex accsch(complex z){
+  return acsinh(cdiv(one,z));
+}
+
+complex accoth(complex z){
+  return actanh(cdiv(one,z));
+}
+
+complex mandelbrot(complex z) {
+  
+  complex zp = complex(0.0);
+  for(int n = 0; n < 100; n++) {
+      zp  = cmul(zp, zp) + z;
+  }
+  return zp;
+}
+
+
+complex gamma(complex z) {
+  //https://en.wikipedia.org/wiki/Lanczos_approximation
+
+  const int plength = 8;
+  float p[plength];
+  p[0] = 676.5203681218851;
+  p[1] = -1259.1392167224028;  
+  p[2] = 771.32342877765313;
+  p[3] = -176.61502916214059;
+  p[4] = 12.507343278686905;
+  p[5] = -0.13857109526572012;
+  p[6] = 9.9843695780195716e-6;
+  p[7] = 1.5056327351493116e-7;
+
+  complex ref;
+  bool inv = false;
+
+  if(z.x < 0.5){
+      ref = cdiv(cpi, csin(pi*z));
+      z = one-z;
+      inv = true;
+  } 
+  z = z-one;
+  complex x = one;
+  for(int n = 0; n < plength; n++){
+      x += cdiv(complex(p[n],0.0), z + complex(n+1,0));
+  }
+  complex t = z + complex(plength,0) - complex(0.5,0.0);
+
+  if(inv) {
+      return cdiv(ref, sqrt(2.0*pi) * cmul(cmul(cpow(t, z+complex(0.5,0.0)), cexp(-t)), x));
+  } else {
+      return sqrt(2.0*pi) * cmul(cmul(cpow(t, z+complex(0.5,0.0)), cexp(-t)), x);
+  }
+}
+
+// float factorial(float x) {
+//     //return 5.0;
+//     if(x==0.0) return 1.0;
+//     if(x==1.0) return 1.0;
+//     float tot = 1.0;
+//     for(float n = 1.0; n <= 5.0; n++){
+//         if(n > x) break;
+//         tot *= n;
+//     }
+//     return tot;
+// }
+
+//float stirling(float n) {
+//   if(n <= 1.0) return 1.0;
+//    return sqrt(2.0*pi*n)*pow((n/e), n);
+//}
+
+complex factorial(complex z) {
+  //if(z.y == 0.0 ) return complex(stirling(z.x),0.0);
+  return gamma(z+one);
+}
+
+
+
+
+//float binomial(float n, float k) {
+//    return factorial(n)/(factorial(n-k)*factorial(k));
+//}
+
+complex binomial(complex n, complex k) {
+  return cdiv(factorial(n), cmul(factorial(n-k),factorial(k)));
+}
+
+
+float d20(float n) {
+  return 1.02268/(1.0+0.000003 * exp(0.867237*n))-0.017144; 
+}
+
+float d70(float n){
+
+  
+ if(n < 27.0) {
+     return 1.0;
+ } else { 
+      //y = -0.09699716 + (0.9818753 - -0.09699716)/(1 + (x/0.2604921)^4.245834) //r2 0.999
+      //n = n/27.0;
+
+      return 1.00622/(1.0 + 4.2364e-11 * exp(0.477878*n));
+      return -0.01026294 + (1.005786 - -0.01026294)/(1.0+ pow(pow(n/0.9574826,8.804597),2.22099));
+      //return -0.04648318 + (0.9967216 - -0.04648318)/(1.0 + pow(n/0.8590162,10.26419));
+      //return -0.09699716 + (0.9818753 - -0.09699716)/(1.0 + pow(n/0.2604921,4.245834));
+     //return -0.02594087 + (1.003729 - -0.02594087)/(1.0 + pow(n/50.09641,22.79802)); 
+ }
+}
+
+
+//formerly zetag
+        complex zeta(complex z){
+
+            complex ref;
+            bool inv = false;
+            if(z.x <= -1.0 && abs(z.y) < 55.0) {
+                ref = cmul(cmul(cmul(cpow(complex(2,0),z),cpow(cpi,z-one)),
+                                  csin(pi*z/2.0)),
+                                  gamma(one - z));
+                z = one - z;
+                inv = true;
+            }
+
+
+            //for efficiency, unrolled loop with precomputed dk
+            complex total = zero;
+            total += 1.0 *cpow( 1.0 ,-z);
+            total -= 1.0 *cpow( 2.0 ,-z);
+            total += 1.0 *cpow( 3.0 ,-z);
+            total -= 1.0 *cpow( 4.0 ,-z);
+            total += 1.0 *cpow( 5.0 ,-z);
+            total -= 1.0 *cpow( 6.0 ,-z);
+            total += 1.0 *cpow( 7.0 ,-z);
+            total -= 1.0 *cpow( 8.0 ,-z);
+            total += 1.0 *cpow( 9.0 ,-z);
+            total -= 0.999999999999 *cpow( 10.0 ,-z);
+            total += 0.99999999998 *cpow( 11.0 ,-z);
+            total -= 0.999999999735 *cpow( 12.0 ,-z);
+            total += 0.999999997107 *cpow( 13.0 ,-z);
+            total -= 0.999999973564 *cpow( 14.0 ,-z);
+            total += 0.99999979531 *cpow( 15.0 ,-z);
+            total -= 0.999998644649 *cpow( 16.0 ,-z);
+            total += 0.999992264978 *cpow( 17.0 ,-z);
+            total -= 0.99996169714 *cpow( 18.0 ,-z);
+            total += 0.999834476711 *cpow( 19.0 ,-z);
+            total -= 0.999372646647 *cpow( 20.0 ,-z);
+            total += 0.997905448059 *cpow( 21.0 ,-z);
+            total -= 0.993815695896 *cpow( 22.0 ,-z);
+            total += 0.983794506135 *cpow( 23.0 ,-z);
+            total -= 0.962183592565 *cpow( 24.0 ,-z);
+            total += 0.921145847114 *cpow( 25.0 ,-z);
+            total -= 0.852537436761 *cpow( 26.0 ,-z);
+            total += 0.751642715653 *cpow( 27.0 ,-z);
+            total -= 0.621346807473 *cpow( 28.0 ,-z);
+            total += 0.47396013731 *cpow( 29.0 ,-z);
+            total -= 0.328445893083 *cpow( 30.0 ,-z);
+            total += 0.203648931086 *cpow( 31.0 ,-z);
+            total -= 0.111255622362 *cpow( 32.0 ,-z);
+            total += 0.0526848641535 *cpow( 33.0 ,-z);
+            total -= 0.0212286807239 *cpow( 34.0 ,-z);
+            total += 0.0071162051027 *cpow( 35.0 ,-z);
+            total -= 0.00192702152025 *cpow( 36.0 ,-z);
+            total += 0.000404373755448 *cpow( 37.0 ,-z);
+            total -= 6.16229812906e-05 *cpow( 38.0 ,-z);
+            total += 6.06127684826e-06 *cpow( 39.0 ,-z);
+            total -= 2.8863223087e-07 *cpow( 40.0 ,-z);
+
+            total = cdiv(total, one-cpow(2.0,one-z));
+
+            if (inv) {
+                total = cmul(ref, total);
+            }
+
+            return total;
+        }  <script type="peg-grammar" id="complex-expression-peg-grammar">
+          /*
+         * Complex Arithmetic Grammar
+         * (Utilizes http://pegjs.org/ to build a parser based on this grammar)
+         */
+      
+        {
+          function combine(first, rest, combiners) {
+            var result = first, i;
+            for (i = 0; i < rest.length; i++) {
+              result = combiners[rest[i][1]](result, rest[i][3]);
+            }
+            return result;
+          }
+        }
+      
+        Expression
+          = first:Term rest:(_ ("+" / "-") _ Term)* _ {
+              return combine(first, rest, {
+                "+": function(left, right) { return 'cadd(' + left + ',' + right + ')'; },
+                "-": function(left, right) { return 'csub(' + left + ',' + right + ')'; }
+              });
+            }
+      
+        Term
+          = first:Powered rest:(_ ("*" / "/") _ Powered)* {
+              return combine(first, rest, {
+                "*": function(left, right) { return 'cmul(' + left + ',' + right + ')'; },
+                "/": function(left, right) { return 'cdiv(' + left + ',' + right + ')'; }
+              });
+            }
+      
+        Powered
+          =  _ left:Factor _ "^" _ right:Factor _ { return 'cpow(' + left + ',' + right + ')'; }
+          / Factor
+        // Added a few extra functions by Juan Carlos Ponce Campuzano 12-Nov-2019
+        Factor
+          = "(" _ expr:Expression _ ")" { return expr; }
+          / _ "zeta"  _ "(" _ arg:Expression _ ")" _ { return 'zeta(' + arg + ')'; }
+          / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
+          / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
+          / _ "map"  _ "(" _ arg:Expression _ ")" _ { return 'map(' + arg + ')'; }
+          / _ "disk"  _ "(" _ arg:Expression _ ")" _ { return 'disk(' + arg + ')'; }
+          / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'clog(' + arg + ')'; }
+          / _ "arg"  _ "(" _ arg:Expression _ ")" _ { return 'carg(' + arg + ')'; }
+          / _ "exp"  _ "(" _ arg:Expression _ ")" _ { return 'cexp(' + arg + ')'; }
+          / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'ctan(' + arg + ')'; }
+          / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'ccos(' + arg + ')'; }
+          / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'csin(' + arg + ')'; }
+          / _ "sec"  _ "(" _ arg:Expression _ ")" _ { return 'csec(' + arg + ')'; }
+          / _ "csc"  _ "(" _ arg:Expression _ ")" _ { return 'ccsc(' + arg + ')'; }
+          / _ "cot"  _ "(" _ arg:Expression _ ")" _ { return 'ccot(' + arg + ')'; }
+          / _ "arctan"  _ "(" _ arg:Expression _ ")" _ { return 'actan(' + arg + ')'; }
+          / _ "arccos"  _ "(" _ arg:Expression _ ")" _ { return 'accos(' + arg + ')'; }
+          / _ "arcsin"  _ "(" _ arg:Expression _ ")" _ { return 'acsin(' + arg + ')'; }
+          / _ "arcsec"  _ "(" _ arg:Expression _ ")" _ { return 'acsec(' + arg + ')'; }
+          / _ "arccsc"  _ "(" _ arg:Expression _ ")" _ { return 'accsc(' + arg + ')'; }
+          / _ "arccot"  _ "(" _ arg:Expression _ ")" _ { return 'accot(' + arg + ')'; }
+          / _ "sech"  _ "(" _ arg:Expression _ ")" _ { return 'csech(' + arg + ')'; }
+          / _ "csch"  _ "(" _ arg:Expression _ ")" _ { return 'ccsch(' + arg + ')'; }
+          / _ "coth"  _ "(" _ arg:Expression _ ")" _ { return 'ccoth(' + arg + ')'; }
+          / _ "tanh"  _ "(" _ arg:Expression _ ")" _ { return 'ctanh(' + arg + ')'; }
+          / _ "cosh"  _ "(" _ arg:Expression _ ")" _ { return 'ccosh(' + arg + ')'; }
+          / _ "sinh"  _ "(" _ arg:Expression _ ")" _ { return 'csinh(' + arg + ')'; }
+          / _ "sech"  _ "(" _ arg:Expression _ ")" _ { return 'csech(' + arg + ')'; }
+          / _ "arccsch"  _ "(" _ arg:Expression _ ")" _ { return 'accsch(' + arg + ')'; }
+          / _ "arccoth"  _ "(" _ arg:Expression _ ")" _ { return 'accoth(' + arg + ')'; }
+          / _ "arctanh"  _ "(" _ arg:Expression _ ")" _ { return 'actanh(' + arg + ')'; }
+          / _ "arccosh"  _ "(" _ arg:Expression _ ")" _ { return 'accosh(' + arg + ')'; }
+          / _ "arcsinh"  _ "(" _ arg:Expression _ ")" _ { return 'acsinh(' + arg + ')'; }
+          / _ "arcsech"  _ "(" _ arg:Expression _ ")" _ { return 'acsech(' + arg + ')'; }
+          / _ "abs"  _ "(" _ arg:Expression _ ")" _ { return 'cabs(' + arg + ')'; }
+          / _ "|" _ arg:Expression _ "|"  _ { return 'cabs(' + arg + ')'; }
+          / _ "re"  _ "(" _ arg:Expression _ ")" _ { return 're(' + arg + ')'; }
+          / _ "im"  _ "(" _ arg:Expression _ ")" _ { return 'im(' + arg + ')'; }
+          / _ "conj"  _ "(" _ arg:Expression _ ")" _ { return 'conjugate(' + arg + ')'; }
+          / _ "iter" _ "(" _ arg:Expression _ "," _ count:PositiveInteger _ ")" _ {
+            var n = parseInt(count) - 1, Q = arg;
+            for(var it=0; it < n; ++it) {
+              Q = Q.replace(/complex\(a,b\)/g, '(' + Q + ')');
+            }
+            return Q;
+          }
+          / Complex
+      
+        Complex
+          = "<" _ a:Real _ "," _ b:Real _ ">" { return 'complex(' + a + ',' + b + ')'; }
+          / "-z"     { return 'complex(-a,-b)'; }
+          / "z"     { return 'complex(a,b)'; }
+          / "i"     { return 'complex(0.0,1.0)'; }
+          / "-i"     { return 'complex(0.0,-1.0)'; }
+          / a:Real  { return 'complex(' + a + ',0.0)'; }
+      
+        Real
+          = whole:Integer "." fractional:Integer { return '' + whole + '.' + fractional; }
+          / whole:Integer { return '' + whole + '.0'; }
+          / "pi" { return '3.14159265358979'; }
+          / "e" { return '2.71828182845904'; }
+          / "a" { return 'a'; }
+          / "b" { return 'b'; }
+          / "theta" { return 'theta(a,b)'; }
+          / "t" { return 't'; }
+          / "r"     { return 'r(a,b)'; }
+          // / "|" + arg + "|"     { return 'cabs( ' +arg + ' )'; }
+      
+        Integer "integer"
+          = "-" int:Integer { return "-" + int;}
+          / PositiveInteger
+      
+        PositiveInteger
+          = [0-9]+ { return text(); }
+      
+        _ "whitespace"
+          = [ \t\n\r]*
+        </script>
+      
+        <!-- Shaders -->
+        <script type="x-shader/x-vertex" id="vertexshader">
+          // switch on high precision floats
+          precision highp float;
+      
+          varying vec2 vUv;
+          uniform float t;
+      
+          void main()
+          {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+          }
+        </script>
+      
+        <script type="x-shader/x-fragment" id="fragmentshader">
+          precision highp float;
+      
+          #define M_PI 3.14159265358979
+          #define M_E  2.71828182845904
+      
+          //#define A x.x
+          //#define B x.y
+          //#define C y.x
+          //#define D y.y
+      
+          varying vec2 vUv;
+      
+          #define complex vec2
+      
+          const float pi = 3.14159265358979;
+          const complex cpi = complex(3.14159265358979, 0.0);
+          
+          const float e = 2.71828182845904;
+          const complex ce = complex(2.71828182845904, 0.0);
+      
+          const complex i = complex(0.0, 1.0);
+          const complex one = complex(1.0, 0.0);
+          const complex zero = complex(0.0, 0.0);
+          
+      
+          uniform float t;
+          uniform float width, height;
+          uniform sampler2D gridTexture;
+          uniform float _option;
+      
+          // Convert from Hue,Saturation/Value to RGB
+          // http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
+          vec3 hsv2rgb(vec3 c)
+          {
+            vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+            vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+            return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+          }
+      
+      
+          //float arg(vec2 z) { return atan(z.y, z.x); }
+          float arg(complex z) {
+            return atan(z.y, z.x);
+        }
+          
+          //New auxiliary functions by Juan Carlos Ponce Campuzano 12-Nov-2019
+          
+          //float sinh( float x ) { return (pow(M_E, x) - pow(M_E, -x))*0.5; }
+          //float cosh( float x ) { return (pow(M_E, x) + pow(M_E, -x))*0.5; }
+      
+          //New auxiliary functions ends
+          
+          float r(float x, float y) { return length(vec2(x,y)); }
+          float theta(float x, float y) { return arg(vec2(x,y)); }
+      
+          //vec2 complex(float x, float y) { return vec2(x,y); }
+      
+          
+          // https://en.wikipedia.org/wiki/c_number#Elementary_operations
+          complex cadd(vec2 z, vec2 v) { return z + v; }
+          complex csub(vec2 z, vec2 v) { return z - v; }
+      
+        
+       
+        
+          bool isinf(float val) {
+            return (val != 0.0 && val * 2.0 == val) ? true : false;
+        }
+      
+        complex conjugate(complex z) {
+          return complex(z.x, -z.y);
+      }
+      
+      complex cmul(complex z, complex v) {
+        return complex(z.x*v.x - z.y*v.y, z.x*v.y + z.y*v.x);
+      }
+      
+      complex cdiv(complex z, complex v) {
+        if(isinf(v.x) || isinf(v.y)) return zero;
+        //if(isnan(v.x) || isnan(v.y)) return -one;
+        return cmul(z, conjugate(v))/(v.x*v.x + v.y*v.y); //(mul(v, conjugate(v)).x);
+      }
+      
+      complex re(complex z) {
+        return complex(z.x, 0.0);
+      }
+      
+      complex im(complex z) {
+        return complex(z.y, 0.0);
+      }
+      
+      float modulussquared(complex z){
+        return z.x * z.x + z.y * z.y;
+      }
+      
+      float realmodulus(complex z){
+        return pow(modulussquared(z), 0.5);
+      }
+      
+      
+      complex modulus(complex z){
+        if(z.y == 0.0){
+          return complex(abs(z.x), 0.0);
+        }
+        return complex(realmodulus(z), 0.0);
+      }
+      
+      
+      //z * disk(30*(abs(z)-1))
+      //z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|))
+      complex disk(complex z){
+        if(realmodulus(z) > 1.0 ){
+          return complex(0.0,0.0);
+        }
+        return complex(1.0, 0.0);
+      }
+      
+      //map(z*(1-(t+1)/2) + (t+1)/2 * (1/2*(1.17*z+(-0.15+0.23))+1/2*((1.17*z+(-0.15+0.23*i))^2-4)^(1/2)) )
+      complex map(complex z){
+      
+        complex untCir = disk(cdiv(one, cmul(complex(40.0, 0.0), modulus(z)-one)));
+        
+        //cmult(complex(40.0, cabs(z) - one )) );
+        complex origin =  disk(cdiv(one, cmul(complex(40.0, 0.0), modulus(z))));
+      
+        return cmul( z, cmul(untCir, origin));//cmul(z, cmul(unitCircle, origin) ); //z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|));
+      }
+      
+      
+      complex cabs(complex z) {
+        return complex(length(z), 0.0);
+      }
+      
+      complex carg(complex z) {
+        return complex(arg(z), 0.0);
+      }
+      
+      complex cargi(complex z) {
+        return complex(0.0, arg(z));
+      }
+      
+      //Log base e
+      complex clog(complex z) {
+        return complex(log(length(z)), arg(z));
+      }
+      
+      complex ln(complex z) {
+        return clog(z);
+      }
+      
+      //Log base b
+      complex clog(complex z, complex b) {
+        return cdiv(clog(z),clog(b));
+      }
+      
+      
+      complex clen(complex z) {
+       return complex(length(z), 0.0);
+      }
+      
+      //Special case of cpow, e^z
+      complex cexp(complex z) {
+        // Computes e^z = e^(x+iy) = e^x (cos(y) + isin(y))
+        return exp(z.x)*complex(cos(z.y), sin(z.y));
+      }
+      
+      //Special case, for efficiency
+      complex cpow(float r, complex z) {
+        //Computes r^z = r^(c+di) = r^z r^di = r^z e^log(r)di
+        return pow(r,z.x) *complex(cos(z.y*log(r)), sin(z.y* log(r)));
+      }
+      complex cpow(complex z, complex w) {
+        // Computes z^w = (|z|^2)^(0.5w.x) * e^(-w.y*arg(z)) * e^(i(w.x*arg(z) + 0.5*w.y*log(|z|^2)))
+        //if(z.y == 0.0 ) return cpow(z.x, w);
+        if(z == zero) return zero;
+        //return cexp(cmul(w,clog(z)));
+        return pow(dot(z, z), 0.5*w.x) * cexp(complex(-w.y*arg(z), w.x*arg(z) + 0.5*w.y*log(dot(z,z))));
+      }
+      
+      complex csqrt(complex z) {
+        return cpow(z, complex(0.5, 0));
+      }
+      
+      //Trigonometric functions
+      
+      complex csin(complex z) {
+        // Computes 0.5i * (e^-iz - e^iz)
+        return cmul(0.5*i, cexp(cmul(i, -z)) - cexp(cmul(i, z)));
+      }
+      
+      complex ccos(complex z) {
+        // Computes 0.5*(e^-iz + e^iz)
+        return 0.5*(cexp(cmul(i, -z)) + cexp(cmul(i, z)));
+      }
+      
+      complex ctan(complex z) {
+        return cdiv(csin(z), ccos(z));
+      }
+      
+      complex acsin(complex z) {
+      return cmul(-i, clog(cmul(i, z) + cpow(complex(1.0, 0.0)-cmul(z,z), complex(0.5, 0.0))));
+      }
+      
+      complex accos(complex z) {
+      return 0.5*cpi + acsin(z);
+      }
+      
+      complex actan(complex z) {
+      return 0.5*cmul(i, (clog(complex(1,0)-cmul(i,z)) - clog(complex(1,0)+cmul(i,z))));
+      }
+      
+      
+      
+      
+      complex csec(complex z){
+        return cdiv(one,ccos(z));
+      }
+      
+      complex ccsc(complex z){
+        return cdiv(one,csin(z));
+      }
+      
+      complex ccot(complex z){
+        return cdiv(ccos(z),csin(z));
+      }
+      
+      complex acsec(complex z){
+        return accos(cdiv(one,z));
+      }
+      
+      complex accsc(complex z){
+        return acsin(cdiv(one,z));
+      }
+      
+      complex accot(complex z){
+        return actan(cdiv(one,z));
+      }
+      
+      //Hyperbolic trig
+      //I need to check correct values for arccosh and arcsech
+      
+      complex csinh(complex z) {
+        return 0.5*(cexp(z) - cexp(-z));
+      }
+      
+      complex ccosh(complex z) {
+        return 0.5*(cexp(z) + cexp(-z));
+      }
+      
+      complex ctanh(complex z) {
+        return cdiv(csinh(z), ccosh(z));
+      }
+      
+      complex acsinh(complex z) {
+        return clog(z + cpow(cmul(z,z) + complex(1,0),complex(0.5, 0.0)));
+      }
+      
+      complex accosh(complex z) {
+        //return clog(z + cpow(cmul(z,z) - one,complex(0.5, 0.0)));
+        return clog(z + cmul(cpow(z + complex(1,0),complex(0.5, 0.0)),cpow(z - complex(1,0),complex(0.5, 0.0))));
+      }
+      
+      complex actanh(complex z) {
+        return 0.5*(clog(complex(1,0)+z) - clog(complex(1,0)-z));
+      }
+      
+      complex csech(complex z){
+        return cdiv(one,ccosh(z));
+      }
+      
+      complex ccsch(complex z){
+        return cdiv(one,csinh(z));
+      }
+      
+      complex ccoth(complex z){
+        return cdiv(ccosh(z),csinh(z));
+      }
+      
+      complex acsech(complex z){
+        return accosh(cdiv(one,z));
+      }
+      
+      complex accsch(complex z){
+        return acsinh(cdiv(one,z));
+      }
+      
+      complex accoth(complex z){
+        return actanh(cdiv(one,z));
+      }
+      
+      complex mandelbrot(complex z) {
+        
+        complex zp = complex(0.0);
+        for(int n = 0; n < 100; n++) {
+            zp  = cmul(zp, zp) + z;
+        }
+        return zp;
+      }
+      
+      
+      complex gamma(complex z) {
+        //https://en.wikipedia.org/wiki/Lanczos_approximation
+      
+        const int plength = 8;
+        float p[plength];
+        p[0] = 676.5203681218851;
+        p[1] = -1259.1392167224028;  
+        p[2] = 771.32342877765313;
+        p[3] = -176.61502916214059;
+        p[4] = 12.507343278686905;
+        p[5] = -0.13857109526572012;
+        p[6] = 9.9843695780195716e-6;
+        p[7] = 1.5056327351493116e-7;
+      
+        complex ref;
+        bool inv = false;
+      
+        if(z.x < 0.5){
+            ref = cdiv(cpi, csin(pi*z));
+            z = one-z;
+            inv = true;
+        } 
+        z = z-one;
+        complex x = one;
+        for(int n = 0; n < plength; n++){
+            x += cdiv(complex(p[n],0.0), z + complex(n+1,0));
+        }
+        complex t = z + complex(plength,0) - complex(0.5,0.0);
+      
+        if(inv) {
+            return cdiv(ref, sqrt(2.0*pi) * cmul(cmul(cpow(t, z+complex(0.5,0.0)), cexp(-t)), x));
+        } else {
+            return sqrt(2.0*pi) * cmul(cmul(cpow(t, z+complex(0.5,0.0)), cexp(-t)), x);
+        }
+      }
+      
+      // float factorial(float x) {
+      //     //return 5.0;
+      //     if(x==0.0) return 1.0;
+      //     if(x==1.0) return 1.0;
+      //     float tot = 1.0;
+      //     for(float n = 1.0; n <= 5.0; n++){
+      //         if(n > x) break;
+      //         tot *= n;
+      //     }
+      //     return tot;
+      // }
+      
+      //float stirling(float n) {
+      //   if(n <= 1.0) return 1.0;
+      //    return sqrt(2.0*pi*n)*pow((n/e), n);
+      //}
+      
+      complex factorial(complex z) {
+        //if(z.y == 0.0 ) return complex(stirling(z.x),0.0);
+        return gamma(z+one);
+      }
+      
+      
+      
+      
+      //float binomial(float n, float k) {
+      //    return factorial(n)/(factorial(n-k)*factorial(k));
+      //}
+      
+      complex binomial(complex n, complex k) {
+        return cdiv(factorial(n), cmul(factorial(n-k),factorial(k)));
+      }
+      
+      
+      float d20(float n) {
+        return 1.02268/(1.0+0.000003 * exp(0.867237*n))-0.017144; 
+      }
+      
+      float d70(float n){
+      
+        
+       if(n < 27.0) {
+           return 1.0;
+       } else { 
+            //y = -0.09699716 + (0.9818753 - -0.09699716)/(1 + (x/0.2604921)^4.245834) //r2 0.999
+            //n = n/27.0;
+      
+            return 1.00622/(1.0 + 4.2364e-11 * exp(0.477878*n));
+            return -0.01026294 + (1.005786 - -0.01026294)/(1.0+ pow(pow(n/0.9574826,8.804597),2.22099));
+            //return -0.04648318 + (0.9967216 - -0.04648318)/(1.0 + pow(n/0.8590162,10.26419));
+            //return -0.09699716 + (0.9818753 - -0.09699716)/(1.0 + pow(n/0.2604921,4.245834));
+           //return -0.02594087 + (1.003729 - -0.02594087)/(1.0 + pow(n/50.09641,22.79802)); 
+       }
+      }
+      
+      
+      //formerly zetag
+              complex zeta(complex z){
+      
+                  complex ref;
+                  bool inv = false;
+                  if(z.x <= -1.0 && abs(z.y) < 55.0) {
+                      ref = cmul(cmul(cmul(cpow(complex(2,0),z),cpow(cpi,z-one)),
+                                        csin(pi*z/2.0)),
+                                        gamma(one - z));
+                      z = one - z;
+                      inv = true;
+                  }
+      
+      
+                  //for efficiency, unrolled loop with precomputed dk
+                  complex total = zero;
+                  total += 1.0 *cpow( 1.0 ,-z);
+                  total -= 1.0 *cpow( 2.0 ,-z);
+                  total += 1.0 *cpow( 3.0 ,-z);
+                  total -= 1.0 *cpow( 4.0 ,-z);
+                  total += 1.0 *cpow( 5.0 ,-z);
+                  total -= 1.0 *cpow( 6.0 ,-z);
+                  total += 1.0 *cpow( 7.0 ,-z);
+                  total -= 1.0 *cpow( 8.0 ,-z);
+                  total += 1.0 *cpow( 9.0 ,-z);
+                  total -= 0.999999999999 *cpow( 10.0 ,-z);
+                  total += 0.99999999998 *cpow( 11.0 ,-z);
+                  total -= 0.999999999735 *cpow( 12.0 ,-z);
+                  total += 0.999999997107 *cpow( 13.0 ,-z);
+                  total -= 0.999999973564 *cpow( 14.0 ,-z);
+                  total += 0.99999979531 *cpow( 15.0 ,-z);
+                  total -= 0.999998644649 *cpow( 16.0 ,-z);
+                  total += 0.999992264978 *cpow( 17.0 ,-z);
+                  total -= 0.99996169714 *cpow( 18.0 ,-z);
+                  total += 0.999834476711 *cpow( 19.0 ,-z);
+                  total -= 0.999372646647 *cpow( 20.0 ,-z);
+                  total += 0.997905448059 *cpow( 21.0 ,-z);
+                  total -= 0.993815695896 *cpow( 22.0 ,-z);
+                  total += 0.983794506135 *cpow( 23.0 ,-z);
+                  total -= 0.962183592565 *cpow( 24.0 ,-z);
+                  total += 0.921145847114 *cpow( 25.0 ,-z);
+                  total -= 0.852537436761 *cpow( 26.0 ,-z);
+                  total += 0.751642715653 *cpow( 27.0 ,-z);
+                  total -= 0.621346807473 *cpow( 28.0 ,-z);
+                  total += 0.47396013731 *cpow( 29.0 ,-z);
+                  total -= 0.328445893083 *cpow( 30.0 ,-z);
+                  total += 0.203648931086 *cpow( 31.0 ,-z);
+                  total -= 0.111255622362 *cpow( 32.0 ,-z);
+                  total += 0.0526848641535 *cpow( 33.0 ,-z);
+                  total -= 0.0212286807239 *cpow( 34.0 ,-z);
+                  total += 0.0071162051027 *cpow( 35.0 ,-z);
+                  total -= 0.00192702152025 *cpow( 36.0 ,-z);
+                  total += 0.000404373755448 *cpow( 37.0 ,-z);
+                  total -= 6.16229812906e-05 *cpow( 38.0 ,-z);
+                  total += 6.06127684826e-06 *cpow( 39.0 ,-z);
+                  total -= 2.8863223087e-07 *cpow( 40.0 ,-z);
+      
+                  total = cdiv(total, one-cpow(2.0,one-z));
+      
+                  if (inv) {
+                      total = cmul(ref, total);
+                  }
+      
+                  return total;
+              }  
 
 
     bool isNan(float val)
@@ -598,8 +1441,8 @@ vec2 mandelbrot(vec2 z) {
           .text()
           .replace("EXPRESSION", compiledExpression)
       });
-      
-      console.log(compiledExpression);//debug:)
+
+      console.log(compiledExpression); //debug:)
 
       if (result === true) {
         $('#error-container').hide();
