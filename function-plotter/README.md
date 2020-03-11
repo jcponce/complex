@@ -2,7 +2,7 @@
 
 A WebGL-based complex expression parser and plotter. 
 
-This project was forked from the amazing work of [Brandon Pelfrey](https://github.com/brandonpelfrey/complex-function-plot). In this version I added a few extra complex functions and used textures that I designed. I was also able to implement the domain coloring method (HSV scheme). Finally, I had to change the code for accessing the webcam since it was not working in the previous version.
+This project was forked from the amazing work of [Brandon Pelfrey](https://github.com/brandonpelfrey/complex-function-plot). In this version I re-wrote the syntax for the arithmetic of complex numbers and added extra complex functions. It also has new textures that I designed and I was also able to implement the method of domain coloring (HSV scheme). Finally, I had to change the code for accessing the webcam since it was not working in the previous version.
 
 ## What is this?
 
@@ -35,8 +35,10 @@ You can also visualize complex functions plotted with the domain coloring method
 
 * Trigonometric functions --- "sin, cos, tan, csc, sec, cot".
 * Hyperbolic trigonometric functions --- "sinh, cosh, tanh, csch, sech, coth".
+* Gamma function --- "gamma"
+* Riemann zeta function --- "zeta"
 * The conjugate --- "conj".
-* The absolute value, also known as modulus --- "abs".
+* The absolute value, also known as modulus --- "abs, |z|".
 * Complex power --- "^".
 * Complex logarithm --- "log".
 * Complex exponential --- "exp".
@@ -74,7 +76,7 @@ You can also visualize complex functions plotted with the domain coloring method
 ## How does it work?
 #### This tool runs in real-time thanks to a few other libraries.
 
-* Expressions given by the user are parsed using the [PEG.js](https://pegjs.org/) library along with a grammar written specifically for this plotter that encapsulates complex-valued arithmetic and functions. The grammar is fed to PEG.js which produces a parser, and that parser is then used to transform mathematical expressions into a WebGL-compatible snippet of code. The generated code is placed into a WebGL shader template and compiled to give a new rendering based on the expression supplied by the user. All of this happens ~instantly, even on a phone.
+* Expressions given by the user are parsed using the [PEG.js](https://pegjs.org/) library along with a grammar written specifically for this plotter that encapsulates complex-valued arithmetic and functions. The grammar is fed to PEG.js which produces a parser, and that parser is then used to transform mathematical expressions into a WebGL-compatible snippet of code. The generated code is placed into a WebGL shader template and compiled to give a new rendering based on the expression supplied by the user. All of this happens instantly, even on a phone.
 * [THREE.js](https://threejs.org/) is used to set up the full-window Quad, manage GLSL uniforms, shader compilation, etc. (Basically all the boilerplate display logic).
 * jQuery is used for some very minor setup logic (could be easily removed...)
 
