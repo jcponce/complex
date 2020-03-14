@@ -328,7 +328,7 @@ class domainColoring {
         let valy2;
         let dec;
         if(1 <= w ){
-            dec = 10.0;
+            dec = 100.0;
         } else if( 0.01 <= w && w < 1){
             dec = 1000.0;
         } else if( 0.001 <= w && w < 0.01){
