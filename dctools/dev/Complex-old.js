@@ -153,7 +153,6 @@ function complex_expression(s) {
         dictadd(symbols, funcs);
         init_constants();
         init_ai(); //This is for Blaschke products
-
         var state = {
             tok: tokenize(s),
             j: 0
@@ -235,7 +234,61 @@ function complex_expression(s) {
     }
 
     //Auxiliary functions
-    
+    /*
+    function re(z) {
+        return {
+            r: z.r,
+            i: 0
+        };
+    }
+
+    function im(z) {
+        return {
+            r: z.i,
+            i: 0
+        };
+    }
+
+    function scale(s, z) {
+        return {
+            r: z.r * s,
+            i: z.i * s
+        };
+    }
+
+    function modulussquared(z) {
+        return z.r * z.r + z.i * z.i;
+    }
+
+    function realmodulus(z) {
+        return Math.sqrt(modulussquared(z));
+    }
+
+    function modulus(z) {
+        if (z.i == 0) {
+            return {
+                r: Math.abs(z.r),
+                i: 0
+            };
+        }
+        return {
+            r: realmodulus(z),
+            i: 0
+        };
+    }
+
+    function realarg(z) {
+        return Math.atan2(z.i, z.r);
+    }
+
+    function arg(z) {
+        return {
+            r: realarg(z),
+            i: 0
+        };
+    }
+    */
+
     let re = (z) => {
         return {
             r: z.r,
@@ -290,6 +343,58 @@ function complex_expression(s) {
     }
 
     //Basic arithmetic
+    /*function add(y, z) {
+        return {
+            r: y.r + z.r,
+            i: y.i + z.i
+        };
+    }
+
+    function sub(y, z) {
+        return {
+            r: y.r - z.r,
+            i: y.i - z.i
+        };
+    }
+
+    function mult(y, z) {
+        return {
+            r: y.r * z.r - y.i * z.i,
+            i: y.r * z.i + y.i * z.r
+        };
+    }
+
+    function div(y, z) {
+        var m2 = modulussquared(z);
+        return {
+            r: (y.r * z.r + y.i * z.i) / m2,
+            i: (y.i * z.r - y.r * z.i) / m2
+        };
+    }
+
+    function recip(z) {
+        var m2 = modulussquared(z);
+        return {
+            r: z.r / m2,
+            i: -z.i / m2
+        };
+    }
+
+    function neg(z) {
+        return {
+            r: -z.r,
+            i: -z.i
+        };
+    }
+
+    function conj(z) {
+        return {
+            r: z.r,
+            i: -z.i
+        };
+    }
+    
+    */
 
     let add = (y, z) => {
         return {
@@ -354,7 +459,29 @@ function complex_expression(s) {
     }
 
     //Elementary functions part 1
-    
+    /*function exp(z) {
+        var er = Math.exp(z.r);
+        return {
+            r: er * Math.cos(z.i),
+            i: er * Math.sin(z.i)
+        };
+    }
+
+    function expi(z) {
+        var er = Math.exp(-z.i);
+        return {
+            r: er * Math.cos(z.r),
+            i: er * Math.sin(z.r)
+        };
+    }
+
+    function log(z) {
+        return {
+            r: Math.log(realmodulus(z)),
+            i: realarg(z)
+        };
+    }
+    */
 
     let exp = (z) => {
         var er = Math.exp(z.r);
@@ -380,7 +507,19 @@ function complex_expression(s) {
     }
 
     //Auxiliary real functions
+    /*
+    function realsinh(x) {
+        return (-Math.exp(-x) + Math.exp(x)) / 2;
+    }
 
+    function realcosh(x) {
+        return (Math.exp(-x) + Math.exp(x)) / 2;
+    }
+
+    function realtanh(x) {
+        return (1 - Math.exp(-2 * x)) / (1 + Math.exp(-2 * x));
+    }
+    */
     let realsinh = (x) => {
         return (-Math.exp(-x) + Math.exp(x)) / 2;
     }
@@ -394,7 +533,89 @@ function complex_expression(s) {
     }
 
     //Elementary functions part 2: Trigonometric hiperbolic functions
-    
+    /*
+    function sin(z) {
+        var er = Math.exp(z.i);
+        var enr = 1 / er;
+        return {
+            r: (er + enr) * 0.5 * Math.sin(z.r),
+            i: (er - enr) * 0.5 * Math.cos(z.r)
+        };
+    }
+
+    function cos(z) {
+        var er = Math.exp(z.i);
+        var enr = 1 / er;
+        return {
+            r: (enr + er) * 0.5 * Math.cos(z.r),
+            i: (enr - er) * 0.5 * Math.sin(z.r)
+        };
+    }
+
+    function sec(z) {
+        return recip(cos(z));
+    }
+
+    function csc(z) {
+        return recip(sin(z));
+    }
+
+    function tan(z) {
+        var er = Math.exp(z.i),
+            enr = 1 / er,
+            es = er + enr,
+            ed = er - enr,
+            s = Math.sin(z.r),
+            c = Math.cos(z.r);
+        return div({
+            r: es * s,
+            i: ed * c
+        }, {
+            r: es * c,
+            i: -ed * s
+        });
+    }
+
+    function cot(z) {
+        var er = Math.exp(z.i),
+            enr = 1 / er,
+            es = er + enr,
+            ed = er - enr,
+            s = Math.sin(z.r),
+            c = Math.cos(z.r);
+        return div({
+            r: es * c,
+            i: -ed * s
+        }, {
+            r: es * s,
+            i: ed * c
+        });
+    }
+
+    function sinh(z) {
+        return negitimes(sin(itimes(z)));
+    }
+
+    function cosh(z) {
+        return cos(itimes(z));
+    }
+
+    function tanh(z) {
+        return negitimes(tan(itimes(z)));
+    }
+
+    function coth(z) {
+        return itimes(cot(itimes(z)));
+    }
+
+    function sech(z) {
+        return sec(itimes(z));
+    }
+
+    function csch(z) {
+        return itimes(csc(itimes(z)));
+    }
+    */
     let sin = (z) => {
         var er = Math.exp(z.i);
         var enr = 1 / er;
@@ -625,6 +846,66 @@ function complex_expression(s) {
     }
 
     //Inverse trigonometric functions
+    /*
+    function arcsin(z) {
+        return negitimes(log(add(itimes(z), sqrt(oneminus(square(z))))));
+    }
+
+    function arccos(z) {
+        return negitimes(log(add(z, itimes(sqrt(oneminus(square(z)))))));
+    }
+
+    function arctan(z) {
+        return scale(0.5, itimes(
+            sub(log(oneminus(itimes(z))), log(oneplus(itimes(z))))));
+    }
+
+    function arccot(z) {
+        return arctan(recip(z));
+    }
+
+    function arcsec(z) {
+        return arccos(recip(z));
+    }
+
+    function arccsc(z) {
+        return arcsin(recip(z));
+    }
+
+    function arcsinh(z) {
+        var opsz = oneplus(square(z));
+        return log(add(z, scale(Math.sqrt(realmodulus(opsz)),
+            exp({
+                r: 0,
+                i: realarg(opsz) / 2
+            }))));
+    }
+
+    function arccosh(z) {
+        var szmo = minusone(square(z));
+        return log(add(z, scale(Math.sqrt(realmodulus(szmo)),
+            exp({
+                r: 0,
+                i: realarg(szmo) / 2
+            }))));
+    }
+
+    function arctanh(z) {
+        return scale(0.5, sub(log(oneplus(z)), log(oneminus(z))));
+    }
+
+    function arccoth(z) {
+        return scale(0.5, sub(log(oneplus(z)), log(minusone(z))));
+    }
+
+    function arcsech(z) {
+        return negitimes(arcsec(z));
+    }
+
+    function arccsch(z) {
+        return negitimes(arccsc(negitimes(z)));
+    }
+    */
 
     let arcsin = (z) => {
         return negitimes(log(add(itimes(z), sqrt(oneminus(square(z))))));
