@@ -80,7 +80,7 @@ function complex_expression(s) {
         rationalBlaschke: 2,
         mobius: 5,
         psymbol: 2,
-        joukowsky: 3,
+        joukowsky: 1,
         binomial: 2,
         sn: 2,
         cn: 2,
@@ -235,7 +235,7 @@ function complex_expression(s) {
     }
 
     //Auxiliary functions
-    
+
     let re = (z) => {
         return {
             r: z.r,
@@ -354,7 +354,7 @@ function complex_expression(s) {
     }
 
     //Elementary functions part 1
-    
+
 
     let exp = (z) => {
         var er = Math.exp(z.r);
@@ -394,7 +394,7 @@ function complex_expression(s) {
     }
 
     //Elementary functions part 2: Trigonometric hiperbolic functions
-    
+
     let sin = (z) => {
         var er = Math.exp(z.i);
         var enr = 1 / er;
@@ -478,7 +478,7 @@ function complex_expression(s) {
     }
 
     //Power functions
-    function intpow(y, c) {
+    let intpow = (y, c) => {
         if (c == 1) return y;
         if (c % 2 == 0) return square(intpow(y, c / 2));
         if (c % 3 == 0) return cube(intpow(y, c / 3));
@@ -486,7 +486,7 @@ function complex_expression(s) {
         return mult(y, intpow(y, c - 1));
     }
 
-    function realpow(y, r) {
+    let realpow = (y, r) => {
         if (r == Math.floor(r)) {
             if (r > 0 && r <= 64) {
                 return intpow(y, r);
@@ -509,11 +509,11 @@ function complex_expression(s) {
         };
     }
 
-    function powreal(r, z) {
+    let powreal = (r, z) => {
         return exp(scale(Math.log(r), z));
     }
 
-    function pow(y, z) {
+    let pow = (y, z) => {
         if (z.i == 0) {
             return realpow(y, z.r);
         }
@@ -523,21 +523,21 @@ function complex_expression(s) {
         return exp(mult(log(y), z));
     }
 
-    function floor(z) {
+    let floor = (z) => {
         return {
             r: Math.floor(z.r),
             i: Math.floor(z.i)
         };
     }
 
-    function ceil(z) {
+    let ceil = (z) => {
         return {
             r: Math.ceil(z.r),
             i: Math.ceil(z.i)
         };
     }
 
-    function square(z) {
+    let square = (z) => {
         var t = z.r * z.i;
         return {
             r: z.r * z.r - z.i * z.i,
@@ -545,7 +545,7 @@ function complex_expression(s) {
         };
     }
 
-    function cube(z) {
+    let cube = (z) => {
         var r2 = z.r * z.r,
             i2 = z.i * z.i;
         return {
@@ -554,7 +554,7 @@ function complex_expression(s) {
         }
     }
 
-    function p5(z) {
+    let p5 = (z) => {
         var r2 = z.r * z.r,
             i2 = z.i * z.i,
             p2 = r2 * i2,
@@ -567,7 +567,7 @@ function complex_expression(s) {
         };
     }
 
-    function sqrt(z) {
+    let sqrt = (z) => {
         var a = Math.sqrt((Math.abs(z.r) + realmodulus(z)) / 2),
             b = z.i / a / 2;
         if (z.r < 0) {
@@ -589,35 +589,35 @@ function complex_expression(s) {
         };
     }
 
-    function itimes(z) {
+    let itimes = (z) => {
         return {
             r: -z.i,
             i: z.r
         };
     }
 
-    function negitimes(z) {
+    let negitimes = (z) => {
         return {
             r: z.i,
             i: -z.r
         };
     }
 
-    function oneminus(z) {
+    let oneminus = (z) => {
         return {
             r: 1 - z.r,
             i: -z.i
         };
     }
 
-    function oneplus(z) {
+    let oneplus = (z) => {
         return {
             r: 1 + z.r,
             i: z.i
         };
     }
 
-    function minusone(z) {
+    let minusone = (z) => {
         return {
             r: z.r - 1,
             i: z.i
@@ -720,7 +720,7 @@ function complex_expression(s) {
     /*
       https://en.wikipedia.org/wiki/Factorial#The_gamma_and_pi_functions
     */
-    function factorial(z) {
+    let factorial = (z) => {
         if (z.i == 0 && z.r == Math.floor(z.r) && z.r >= 0) {
             if (z.r < factorials.length) {
                 return {
@@ -736,7 +736,7 @@ function complex_expression(s) {
        Lanczos approximation of the Gamma function.
        https://en.wikipedia.org/wiki/Lanczos_approximation
     */
-    function gamma(z) {
+    let gamma = (z) => {
         var sqrt2pi = Math.sqrt(2 * Math.PI),
             gamma_coeff = [
                 0.99999999999980993, 676.5203681218851, -1259.1392167224028,
@@ -773,7 +773,7 @@ function complex_expression(s) {
 
     //Jacobi elliptic functions
     //https://en.wikipedia.org/wiki/Jacobi_elliptic_functions
-    function sn(z, k) {
+    let sn = (z, k) => {
         if (typeof (k) == "object") {
             k = k.r;
         }
@@ -787,7 +787,7 @@ function complex_expression(s) {
         };
     }
 
-    function cn(z, k) {
+    let cn = (z, k) => {
         if (typeof (k) == "object") {
             k = k.r;
         }
@@ -801,7 +801,7 @@ function complex_expression(s) {
         };
     }
 
-    function dn(z, k) {
+    let dn = (z, k) => {
         if (typeof (k) == "object") {
             k = k.r;
         }
@@ -815,7 +815,7 @@ function complex_expression(s) {
         };
     }
 
-    function sum(z, fn, iters) {
+    let sum = (z, fn, iters) => {
         var r = 0,
             i = 0,
             end = Math.floor(iters.r),
@@ -834,7 +834,7 @@ function complex_expression(s) {
         };
     }
 
-    function iter(z, fn, start, iters) {
+    let iter = (z, fn, start, iters) => {
         var result = start,
             end = Math.floor(iters.r),
             n;
@@ -1070,79 +1070,42 @@ function complex_expression(s) {
         }
     }
 
-    function joukowsky(z, c, rad) {
-        //center=-0.15+0.23*i;
-        let sq = sqrt(sub(pow({
-            r: z.r,
-            i: z.i
-        }, {
-            r: 2,
-            i: 0
-        }), {
-            r: 4,
-            i: 0
-        }));
-        let vn = sub(z, sq);
-        let vp = add(z, sq);
-        let z1 = div(vn, {
-            r: 2,
-            i: 0
-        })
-
-        let z2 = div(vp, {
-            r: 2,
-            i: 0
-        });
-
-        //z1=(z-sqrt(z^2-4))/2;
-        //z2=(z+sqrt(z^2-4))/2;
-        //z=(1-T)*z+T*if(|z1-center|>|z2-center|,z1,z2);
-        //z=(z-center)/r;
-        //if(|z|<|a|,0,(U*z+(U*a^2)/z-(i*C)/(2*pi)*log(z)))/10;
-
+    let joukowsky = (z) => {
+        /*
+        a=1;
+        r=0.23*sqrt(13*2);
+        center=-0.15+0.23*i;
+        z1=(z-sqrt(z^2-4))/2;
+        z2=(z+sqrt(z^2-4))/2;
+        z=(1-T)*z+T*if(|z1-center|>|z2-center|,z1,z2);
+        z=(z-center)/r;
+        if(|z|<|a|,0,(U*z+(U*a^2)/z-(i*C)/(2*pi)*log(z)))/10;
+        */
+        let a = {r:1,i:0};
+        let ra = {r:0.23 * Math.sqrt(13 * 2), i:0};
         let center = {
-            r: c.r,
-            i: c.i
+            r: -0.15,
+            i: 0.23
         };
-        let zr;
+        
+        let sq = sqrt(sub(square(z), {r:4, i:0}));
+        let z1 = div(sub(z, sq), {r:2, i:0});
+        let z2 = div(add(z, sq), {r:2, i:0});
 
-        //if(abs(sub(z1, center)) > abs(sub(z2, center))){
+        let d1 = sub(z1, center);
+        let d2 = sub(z2, center);
 
-        if (modulus(sub(z1, center)) > modulus(sub(z2, center))) {
-            //zr = {r:z1.r, i:z1.i};
-            zr = div(sub(z1, center), {
-                r: rad.r,
-                i: 0
-            });
-            //return zr;
-        } else {
-            //zr = {r:z2.r, i:z2.i};
-            zr = div(sub(z2, center), {
-                r: rad.r,
-                i: 0
-            });
-            //return zr;
+        let za;
+
+        if(realmodulus(d1) > realmodulus(d2)){
+            za = div( sub(z1, center), ra);
+        } else{
+            za = div( sub(z2, center), ra);
         }
 
-        let zr_;
-        if (modulus(z) < modulus({
-                r: 1,
-                i: 0
-            })) {
-            zr_ = 0;
-        } else {
-            zr_ = add(zr, div({
-                r: 1,
-                i: 0
-            }, zr));
-        }
-
-
-
-        return zr_;
-
-        //return div(sub(z1, center), {r:rad.r, i:0});
-
+        if(realmodulus(za) < realmodulus(a)){
+            return 0;
+        } return add(za, div(a, za));
 
     }
 
