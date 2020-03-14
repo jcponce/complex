@@ -1081,31 +1081,47 @@ function complex_expression(s) {
         z=(z-center)/r;
         if(|z|<|a|,0,(U*z+(U*a^2)/z-(i*C)/(2*pi)*log(z)))/10;
         */
-        let a = {r:1,i:0};
-        let ra = {r:0.23 * Math.sqrt(13 * 2), i:0};
+        let a = {
+            r: 1,
+            i: 0
+        };
+        let ra = {
+            r: 0.23 * Math.sqrt(13 * 2),
+            i: 0
+        };
         let center = {
             r: -0.15,
             i: 0.23
         };
-        
-        let sq = sqrt(sub(square(z), {r:4, i:0}));
-        let z1 = div(sub(z, sq), {r:2, i:0});
-        let z2 = div(add(z, sq), {r:2, i:0});
+
+        let sq = sqrt(sub(square(z), {
+            r: 4,
+            i: 0
+        }));
+        let z1 = div(sub(z, sq), {
+            r: 2,
+            i: 0
+        });
+        let z2 = div(add(z, sq), {
+            r: 2,
+            i: 0
+        });
 
         let d1 = sub(z1, center);
         let d2 = sub(z2, center);
 
         let za;
 
-        if(realmodulus(d1) > realmodulus(d2)){
-            za = div( sub(z1, center), ra);
-        } else{
-            za = div( sub(z2, center), ra);
+        if (realmodulus(d1) > realmodulus(d2)) {
+            za = div(sub(z1, center), ra);
+        } else {
+            za = div(sub(z2, center), ra);
         }
 
-        if(realmodulus(za) < realmodulus(a)){
+        if (realmodulus(za) < realmodulus(a)) {
             return 0;
-        } return add(za, div(a, za));
+        }
+        return add(za, div(a, za));
 
     }
 
