@@ -81,6 +81,7 @@ function complex_expression(s) {
         mobius: 5,
         psymbol: 2,
         joukowsky: 1,
+        zeta: 1,
         binomial: 2,
         sn: 2,
         cn: 2,
@@ -1123,6 +1124,91 @@ function complex_expression(s) {
         }
         return add(za, div(a, za));
 
+    }
+
+
+    //formerly zetag
+    function zeta(z) {
+
+        let ref;
+        let inv = false;
+        let one = {
+            r: 1,
+            i: 0
+        };
+        let two = {
+            r: 2,
+            i: 0
+        };
+        let pi = {
+            r: Math.PI,
+            i: 0
+        };
+        let za;
+        let cpi = {
+            r: 3.14159265358979,
+            i: 0
+        };
+        if (z.r <= -1.0 && Math.abs(z.i) < 55.0) {
+            ref = mult(mult(mult(pow(two, z), pow(cpi, sub(z, one))), sin(mult(pi, div(z, two)))), gamma(sub(one, z)));
+            za = sub(two, z);
+            inv = true;
+        }
+
+
+        //for efficiency, unrolled loop with precomputed dk
+        let total = {r:0, i:0};
+        total += mult(one , pow( {r:1, i:0}, neg(z)));
+        total -= mult(one , pow( {r:2, i:0}, neg(z)));
+        total += mult(one , pow( {r:3, i:0}, neg(z)));
+        total -= mult(one , pow( {r:4, i:0}, neg(z)));
+        total += mult(one , pow( {r:5, i:0}, neg(z)));
+        total -= mult(one , pow( {r:6, i:0}, neg(z)));
+        total += mult(one , pow( {r:7, i:0}, neg(z)));
+        total -= mult(one , pow( {r:8, i:0}, neg(z)));
+        total += mult(one , pow( {r:9, i:0}, neg(z)));
+        /*
+        
+        total -= 0.999999999999 *pow( 10.0 ,-z);
+        total += 0.99999999998 *pow( 11.0 ,-z);
+        total -= 0.999999999735 *pow( 12.0 ,-z);
+        total += 0.999999997107 *pow( 13.0 ,-z);
+        total -= 0.999999973564 *pow( 14.0 ,-z);
+        total += 0.99999979531 *pow( 15.0 ,-z);
+        total -= 0.999998644649 *pow( 16.0 ,-z);
+        total += 0.999992264978 *pow( 17.0 ,-z);
+        total -= 0.99996169714 *pow( 18.0 ,-z);
+        total += 0.999834476711 *pow( 19.0 ,-z);
+        total -= 0.999372646647 *pow( 20.0 ,-z);
+        total += 0.997905448059 *pow( 21.0 ,-z);
+        total -= 0.993815695896 *pow( 22.0 ,-z);
+        total += 0.983794506135 *pow( 23.0 ,-z);
+        total -= 0.962183592565 *pow( 24.0 ,-z);
+        total += 0.921145847114 *pow( 25.0 ,-z);
+        total -= 0.852537436761 *pow( 26.0 ,-z);
+        total += 0.751642715653 *pow( 27.0 ,-z);
+        total -= 0.621346807473 *pow( 28.0 ,-z);
+        total += 0.47396013731 *pow( 29.0 ,-z);
+        total -= 0.328445893083 *pow( 30.0 ,-z);
+        total += 0.203648931086 *pow( 31.0 ,-z);
+        total -= 0.111255622362 *pow( 32.0 ,-z);
+        total += 0.0526848641535 *pow( 33.0 ,-z);
+        total -= 0.0212286807239 *pow( 34.0 ,-z);
+        total += 0.0071162051027 *pow( 35.0 ,-z);
+        total -= 0.00192702152025 *pow( 36.0 ,-z);
+        total += 0.000404373755448 *pow( 37.0 ,-z);
+        total -= 6.16229812906e-05 *pow( 38.0 ,-z);
+        total += 6.06127684826e-06 *pow( 39.0 ,-z);
+        total -= 2.8863223087e-07 *pow( 40.0 ,-z);
+        */
+
+        total = div(total, sub(one, pow(two, sub(one,z)) ) );
+
+        if (inv) {
+            total = mult(ref, total);
+        }
+
+        return ref;
     }
 
     /*
