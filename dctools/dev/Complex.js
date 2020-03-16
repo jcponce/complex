@@ -80,7 +80,7 @@ function complex_expression(s) {
         rationalBlaschke: 2,
         mobius: 5,
         psymbol: 2,
-        joukowsky: 1,
+        joukowsky: 3,
         zeta: 1,
         binomial: 2,
         sn: 2,
@@ -1071,7 +1071,7 @@ function complex_expression(s) {
         }
     }
 
-    let joukowsky = (z) => {
+    let joukowsky = (z, c, rd) => {
         /*
         a=1;
         r=0.23*sqrt(13*2);
@@ -1087,12 +1087,12 @@ function complex_expression(s) {
             i: 0
         };
         let ra = {
-            r: 0.23 * Math.sqrt(13 * 2),
+            r: rd.r,//0.23 * Math.sqrt(13 * 2),
             i: 0
         };
         let center = {
-            r: -0.15,
-            i: 0.23
+            r: c.r,//-0.15,
+            i: c.i//0.23
         };
 
         let sq = sqrt(sub(square(z), {
@@ -1120,7 +1120,7 @@ function complex_expression(s) {
         }
 
         if (realmodulus(za) < realmodulus(a)) {
-            return 0;
+            return NaN;
         }
         return add(za, div(a, za));
 
