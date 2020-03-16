@@ -140,7 +140,7 @@
   // Added a few extra functions by Juan Carlos Ponce Campuzano 12-Nov-2019
   Factor
     = "(" _ expr:Expression _ ")" { return expr; }
-    / _ "joukowsky"  _ "(" _ arg:Expression _ ")" _ { return 'joukowsky(' + arg + ')'; }
+    / _ "joukowsky"  _ "(" _ arg:Expression _ "," _ c:Expression _ ", " _ a:Real _ ")" _ { return 'joukowsky(' + arg + ', ' + c + ' , '+ a +')'; }
     / _ "zeta"  _ "(" _ arg:Expression _ ")" _ { return 'zeta(' + arg + ')'; }
     / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
     / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
@@ -698,12 +698,12 @@ float d70(float n){
           return complex( z.x * z.x - z.y * z.y, t + t);
       }
 
-      complex joukowsky(complex z){
+      complex joukowsky(complex z, complex ce, float r){
         
         complex a = complex(1.0, 0);//{r:1,i:0};
-        complex ra = complex(0.23 * sqrt(13.0 * 2.0), 0.0);
+        complex ra = complex(r, 0.0);//complex(0.23 * sqrt(13.0 * 2.0), 0.0);
       
-        complex center = complex(-0.15, 0.23);
+        complex center = complex(ce.x, ce.y);//complex(-0.15, 0.23);
         
         
         complex sq = csqrt(csub(square(z), complex(4.0,0.0)));
@@ -728,7 +728,7 @@ float d70(float n){
             return complex(0.0, 0.0);
         } return cadd(za, cdiv(a, za));
 
-    }
+      }
 
 
     bool isNan(float val)

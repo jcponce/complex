@@ -141,7 +141,7 @@
   // Added a few extra functions by Juan Carlos Ponce Campuzano 12-Nov-2019
   Factor
     = "(" _ expr:Expression _ ")" { return expr; }
-    / _ "joukowsky"  _ "(" _ arg:Expression _ ")" _ { return 'joukowsky(' + arg + ')'; }
+    / _ "joukowsky"  _ "(" _ arg:Expression _ "," _ c:Expression _ ", " _ a:Real _ ")" _ { return 'joukowsky(' + arg + ', ' + c + ' , '+ a +')'; }
     / _ "zeta"  _ "(" _ arg:Expression _ ")" _ { return 'zeta(' + arg + ')'; }
     / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
     / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
@@ -699,12 +699,12 @@ float d70(float n){
           return complex( z.x * z.x - z.y * z.y, t + t);
       }
 
-      complex joukowsky(complex z){
+      complex joukowsky(complex z, complex ce, float r){
         
         complex a = complex(1.0, 0);//{r:1,i:0};
-        complex ra = complex(0.23 * sqrt(13.0 * 2.0), 0.0);
+        complex ra = complex(r, 0.0);//complex(0.23 * sqrt(13.0 * 2.0), 0.0);
       
-        complex center = complex(-0.15, 0.23);
+        complex center = complex(ce.x, ce.y);//complex(-0.15, 0.23);
         
         
         complex sq = csqrt(csub(square(z), complex(4.0,0.0)));
@@ -729,7 +729,7 @@ float d70(float n){
             return complex(0.0, 0.0);
         } return cadd(za, cdiv(a, za));
 
-    }
+      }
 
     
     bool isNan(float val)
@@ -756,11 +756,11 @@ float d70(float n){
         discard;
       }
 
-      // TODO : Make this user-controlled
+      // TODO : Write this better
       if(_option == 0.0) {
-        // HSV Domain Coloring
+        // HSV Domain Coloring - Plane 
         
-        float _arg = (M_PI - atan(final_expr[1], -final_expr[0])) / ( M_PI + M_PI);
+        float _arg = (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
 
         vec3 hsv = vec3(_arg, 1.0, 1.0);
         vec3 rgb = hsv2rgb( hsv );
@@ -768,13 +768,15 @@ float d70(float n){
   			gl_FragColor = vec4(rgb, 1.0);
 
       } else if(_option == 1.0){
+        // HSV Domain Coloring - Modulus curves
+
         float l = length(final_expr);
         
-        float _r = log(l) / log(2.0);
+        float _r = 2.0 * log(l);
 
-        _r = 0.6 + 0.35 * ( _r - floor( _r ) );
+        _r = 0.655 + 0.39 * ( _r - floor( _r ) );
 
-        float _arg = (M_PI - atan(final_expr[1], -final_expr[0])) / ( M_PI + M_PI);
+        float _arg = (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
 
         vec3 hsv = vec3(_arg, 1.0, _r);
         vec3 rgb = hsv2rgb( hsv );
@@ -782,35 +784,33 @@ float d70(float n){
   			gl_FragColor = vec4(rgb, 1.0);
 
       } else if(_option == 2.0){
-        float l = length(final_expr);
-        
-        float _r = log(l) / log(2.0);
+        // HSV Domain coloring - Phase curves
 
-        _r = 0.6 + 0.35 * ( _r - floor( _r ) );
+        float _arg =  (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
 
-        float _arg =  (M_PI - atan(final_expr[1], -final_expr[0])) / ( M_PI + M_PI);
-
-        float _c = 0.35 * ( 16.0 * _arg - floor( 16.0 * _arg) ) + 0.7;
+        float _c = 0.39 * ( 20.0 * _arg - floor( 20.0 * _arg) ) + 0.655;
 
         vec3 hsv = vec3(_arg, 1.0, _c);
         vec3 rgb = hsv2rgb( hsv );
 
   			gl_FragColor = vec4(rgb, 1.0);
       } else if(_option == 3.0){
+        // HSV Domain coloring - Combined
         float l = length(final_expr);
         
         float _r = log(l) / log(2.0);
 
-        _r = 0.6 + 0.35 * ( _r - floor( _r ) );
+        _r = 0.65 + 0.39 * ( _r - floor( _r ) );
 
-        float _arg =  (M_PI - atan(final_expr[1], -final_expr[0])) / ( M_PI + M_PI);
+        float _arg = (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
 
-        float _c = 0.35 * ( 16.0 * _arg - floor( 16.0 * _arg) ) + 0.7;
+        float _c = 0.39 * ( 20.0 * _arg - floor( 20.0 * _arg) ) + 0.655;
 
         vec3 hsv = vec3(_arg, 1.0, _c * _r);
         vec3 rgb = hsv2rgb( hsv );
 
-  			gl_FragColor = vec4(rgb, 1.0);
+        gl_FragColor = vec4(rgb, 1.0);
+        
       } else {
         // Texture-based Domain Coloring
         //final_expr = min(vec2(1.0, 1.0), final_expr);
