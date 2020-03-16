@@ -206,6 +206,9 @@
     / "b" { return 'b'; }
     / "theta" { return 'theta(a,b)'; }
     / "t" { return 't'; }
+    / "s" { return 's'; }
+    / "-t" { return '-t'; }
+    / "-s" { return '-s'; }
     / "r"     { return 'r(a,b)'; }
     // / "|" + arg + "|"     { return 'cabs( ' +arg + ' )'; }
 
@@ -227,6 +230,7 @@
 
     varying vec2 vUv;
     uniform float t;
+    uniform float s;
 
 		void main()
 		{
@@ -262,6 +266,7 @@
     
 
     uniform float t;
+    uniform float s;
     uniform float width, height;
     uniform sampler2D gridTexture;
     uniform float _option;
@@ -698,8 +703,7 @@ float d70(float n){
           float t = z.x * z.y;
           return complex( z.x * z.x - z.y * z.y, t + t);
       }
-
-      complex joukowsky(complex z, complex ce, float r){
+complex joukowsky(complex z, complex ce, float r){
         
         complex a = complex(1.0, 0);//{r:1,i:0};
         complex ra = complex(r, 0.0);//complex(0.23 * sqrt(13.0 * 2.0), 0.0);
@@ -730,6 +734,7 @@ float d70(float n){
         } return cadd(za, cdiv(a, za));
 
       }
+      
 
     
     bool isNan(float val)
@@ -798,7 +803,7 @@ float d70(float n){
         // HSV Domain coloring - Combined
         float l = length(final_expr);
         
-        float _r = log(l) / log(2.0);
+        float _r = 2.0 * log(l);
 
         _r = 0.65 + 0.39 * ( _r - floor( _r ) );
 
@@ -815,6 +820,17 @@ float d70(float n){
         // Texture-based Domain Coloring
         //final_expr = min(vec2(1.0, 1.0), final_expr);
         //final_expr = max(vec2(-1.0, -1.0), final_expr);
+
+        //float l = length(final_expr);
+        
+        //float _r = 2.0 * log(l);
+
+        //_r = 0.65 + 0.39 * ( _r - floor( _r ) );
+
+        //float _arg =  (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
+
+        //float _c = 0.39 * ( 20.0 * _arg - floor( 20.0 * _arg) ) + 0.655;
+
         vec4 tex = texture2D(gridTexture, final_expr / (2.0*scale) + vec2(0.5,-0.5));
         gl_FragColor = vec4( tex.xyz, 1.0 );
 
@@ -849,6 +865,10 @@ float d70(float n){
       t: {
         type: "f",
         value: 1.0
+      },
+      s: {
+        type: "s",
+        value: 0.0
       },
       _option: {
         type: "f",
@@ -958,6 +978,8 @@ float d70(float n){
 
     // When rendering, we just need to make sure our convenience variables are
     // up-to-date before we render.
+    var start = Date.now();
+    //var s;
     function render() {
       // If we're rendering video, update that.
       if (window.video && video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -971,8 +993,13 @@ float d70(float n){
         if (videoTexture) videoTexture.needsUpdate = true;
       }
 
+      var count = Date.now();
+      s = -Math.abs(start - count)*0.0005;
+
       quad.material.uniforms.t.value = Math.sin(new Date().getTime() * 0.0005);
       quad.material.uniforms.t.needsUpdate = true;
+      quad.material.uniforms.s.value = s;
+      quad.material.uniforms.s.needsUpdate = true;
       renderer.render(scene, camera);
 
       requestAnimationFrame(render);
@@ -1002,10 +1029,11 @@ float d70(float n){
           //console.log(uniforms._option.value);
           //setTexture(texture_path);
         }
-        //else {
-        // Currently, the only other option here is to stream from the webcam.
-        // initWebCam();
-        //}
+        else {
+          uniforms._option.value = 4.0;
+         //Currently, the only other option here is to stream from the webcam.
+         initWebCam();
+        }
       });
     });
 
@@ -1035,8 +1063,12 @@ float d70(float n){
       }
     });
 
+    function resetConstant(){
+      s = 0.0;
+    }
     // Get things started.
     $("#equation-input").change(update_expression);
+    //$("#equation-input").change(resetConstant);
     $("#show-link").click(showLink);
     $(window).resize(reset_camera);
     $(update_expression);
