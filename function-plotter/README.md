@@ -35,14 +35,15 @@ You can also visualize complex functions plotted with the domain coloring method
 
 * Trigonometric functions --- "sin, cos, tan, csc, sec, cot".
 * Hyperbolic trigonometric functions --- "sinh, cosh, tanh, csch, sech, coth".
-* Gamma function --- "gamma"
-* Riemann zeta function --- "zeta"
 * The conjugate --- "conj".
 * The absolute value, also known as modulus --- "abs, |z|".
 * Complex power --- "^".
 * Complex logarithm --- "log".
 * Complex exponential --- "exp".
 * Real and Imaginary components --- "re, im".
+* Gamma function --- "gamma"
+* Riemann zeta function --- "zeta"
+* Joukowsky function --- "joukowsky( variable z, center: a+b*i, radius: real number)"
 
 #### Examples
 
