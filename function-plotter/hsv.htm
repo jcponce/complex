@@ -77,9 +77,9 @@
             title="Phase"></a>
         <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/hsvcomb.png"
             title="Combined"></a>
-        <a class="dark-translucent input-control" href="index.htm"><img class="thumbnail" src="images/plotfz-2.png"
-            title="Texture"></a>
-        <!--<a class="dark-translucent input-control" href="#"><i class="fa fa-video-camera"></i></a>-->
+        <!--<a class="dark-translucent input-control" href="index.htm"><img class="thumbnail" src="images/plotfz-2.png"
+            title="Texture"></a>-->
+        <a class="dark-translucent input-control" href="#"><i class="fa fa-video-camera"></i></a>
 
       </span>
 
@@ -783,20 +783,8 @@
         
       } else {
         // Texture-based Domain Coloring
-        //final_expr = min(vec2(1.0, 1.0), final_expr);
-        //final_expr = max(vec2(-1.0, -1.0), final_expr);
-
-        //float l = length(final_expr);
-        
-        //float _r = 2.0 * log(l);
-
-        //_r = 0.65 + 0.39 * ( _r - floor( _r ) );
-
-        //float _arg =  (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
-
-        //float _c = 0.39 * ( 20.0 * _arg - floor( 20.0 * _arg) ) + 0.655;
-
-        vec4 tex = texture2D(gridTexture, final_expr / (2.0*scale) + vec2(0.5,-0.5));
+      
+        vec4 tex = texture2D(gridTexture, clog(final_expr) / (0.4 * scale));
         gl_FragColor = vec4( tex.xyz, 1.0 );
 
       }
@@ -1003,7 +991,7 @@
           //setTexture(texture_path);
         } else {
           uniforms._option.value = 4.0;
-          //Currently, the only other option here is to stream from the webcam.
+          //Stream from the webcam.
           initWebCam();
         }
       });
