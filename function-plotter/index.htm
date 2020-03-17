@@ -74,10 +74,9 @@
     <span id="texture-options">
 
       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/plotfz-2.png"></a>
-      <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/hex.png"></a>
       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/reim.png"></a>
+      <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/hex.png"></a>
       <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/rainbow.png"></a>
-      <!--<a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/abstract.jpg"></a>-->
       <a class="dark-translucent input-control" href="#"><i class="fa fa-video-camera"></i></a>
       <a class="dark-translucent input-control" href="hsv.htm"><img class="thumbnail" src="images/hsv.png"
           title="Domain coloring"></a>
@@ -236,14 +235,6 @@ _ "whitespace"
 
 <script type="x-shader/x-fragment" id="fragmentshader">
   precision highp float;
-
-  #define M_PI 3.14159265358979
-  #define M_E  2.71828182845904
-
-  //#define A x.x
-  //#define B x.y
-  //#define C y.x
-  //#define D y.y
 
   varying vec2 vUv;
 
@@ -776,7 +767,7 @@ if(n < 27.0) {
 
       _r = 0.6 + 0.35 * ( _r - floor( _r ) );
 
-      float _arg = (M_PI - atan(final_expr[1], -final_expr[0])) / ( M_PI + M_PI);
+      float _arg = (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
 
       vec3 hsv = vec3(_arg, 1, _r);
       vec3 rgb = hsv2rgb( hsv );
