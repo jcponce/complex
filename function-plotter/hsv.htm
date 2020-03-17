@@ -22,7 +22,6 @@
     gtag('config', 'UA-121691678-1');
   </script>
 
-
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="scripts/query-string-helper.js"></script>
   <script src="peg-0.9.0.min.js"></script>
@@ -36,7 +35,6 @@
       font-size: large;
     }
   </style>
-
 
 </head>
 
@@ -69,15 +67,6 @@
       <input class="dark-translucent input-control" id="equation-input"
         placeholder="e.g. 1 / (z^2 + t * i)^t - z * log(z)" value="(z-1)/(z^2+z+1)"></input>
 
-      <!--
-      Some interesting examples
-      z * (1 - (t+1)/2) + (t+1)/2 * (z+1/z)
-      (z*0.99+0.01*((1-z^(18))*z^2) )*(1+i*t)
-      e^(i*0.5*(z-3*i)+log(z-3*i))*(t+1)/2+z*(1-(t+1)/2)
-      (z * 3)/2 * e^(t * pi * i * e^( -1 * abs( (z*3)/2 )^2 ))
-      (2*(z-1-2.5*i))^(1 - i*0.537)+t
-      e^(i*(2.5*r)^5)+t
-      -->
 
       <span id="texture-options">
         <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/hsv.png"
@@ -91,8 +80,6 @@
         <a class="dark-translucent input-control" href="index.htm"><img class="thumbnail" src="images/plotfz-2.png"
             title="Texture"></a>
         <!--<a class="dark-translucent input-control" href="#"><i class="fa fa-video-camera"></i></a>-->
-
-
 
       </span>
 
@@ -225,7 +212,7 @@
 
   <!-- Shaders -->
   <script type="x-shader/x-vertex" id="vertexshader">
-    // switch on high precision floats
+    // Switch on high precision floats
     precision highp float;
 
     varying vec2 vUv;
@@ -241,14 +228,6 @@
 
   <script type="x-shader/x-fragment" id="fragmentshader">
     precision highp float;
-
-    #define M_PI 3.14159265358979
-    #define M_E  2.71828182845904
-
-    //#define A x.x
-    //#define B x.y
-    //#define C y.x
-    //#define D y.y
 
     varying vec2 vUv;
 
@@ -286,457 +265,433 @@
       return atan(z.y, z.x);
   }
     
-    //New auxiliary functions by Juan Carlos Ponce Campuzano 12-Nov-2019
-    
-    //float sinh( float x ) { return (pow(M_E, x) - pow(M_E, -x))*0.5; }
-    //float cosh( float x ) { return (pow(M_E, x) + pow(M_E, -x))*0.5; }
-
-    //New auxiliary functions ends
-    
     float r(float x, float y) { return length(vec2(x,y)); }
     float theta(float x, float y) { return arg(vec2(x,y)); }
 
     //vec2 complex(float x, float y) { return vec2(x,y); }
 
-    
     // https://en.wikipedia.org/wiki/c_number#Elementary_operations
     complex cadd(vec2 z, vec2 v) { return z + v; }
     complex csub(vec2 z, vec2 v) { return z - v; }
 
-  
- 
-  
     bool isinf(float val) {
       return (val != 0.0 && val * 2.0 == val) ? true : false;
   }
 
   complex conjugate(complex z) {
     return complex(z.x, -z.y);
-}
-
-complex cmul(complex z, complex v) {
-  return complex(z.x*v.x - z.y*v.y, z.x*v.y + z.y*v.x);
-}
-
-complex cdiv(complex z, complex v) {
-  if(isinf(v.x) || isinf(v.y)) return zero;
-  //if(isnan(v.x) || isnan(v.y)) return -one;
-  return cmul(z, conjugate(v))/(v.x*v.x + v.y*v.y); //(mul(v, conjugate(v)).x);
-}
-
-complex re(complex z) {
-  return complex(z.x, 0.0);
-}
-
-complex im(complex z) {
-  return complex(z.y, 0.0);
-}
-
-float modulussquared(complex z){
-  return z.x * z.x + z.y * z.y;
-}
-
-float realmodulus(complex z){
-  return pow(modulussquared(z), 0.5);
-}
-
-
-complex modulus(complex z){
-  if(z.y == 0.0){
-    return complex(abs(z.x), 0.0);
   }
-  return complex(realmodulus(z), 0.0);
-}
 
-
-//z * disk(30*(abs(z)-1))
-//z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|))
-complex disk(complex z){
-  if(realmodulus(z) > 1.0 ){
-    return complex(0.0,0.0);
+  complex cmul(complex z, complex v) {
+    return complex(z.x*v.x - z.y*v.y, z.x*v.y + z.y*v.x);
   }
-  return complex(1.0, 0.0);
-}
 
-//map(z*(1-(t+1)/2) + (t+1)/2 * (1/2*(1.17*z+(-0.15+0.23))+1/2*((1.17*z+(-0.15+0.23*i))^2-4)^(1/2)) )
-complex map(complex z){
+  complex cdiv(complex z, complex v) {
+    if(isinf(v.x) || isinf(v.y)) return zero;
+    //if(isnan(v.x) || isnan(v.y)) return -one;
+    return cmul(z, conjugate(v))/(v.x*v.x + v.y*v.y); //(mul(v, conjugate(v)).x);
+  }
 
-  complex untCir = disk(cdiv(one, cmul(complex(40.0, 0.0), modulus(z)-one)));
+  complex re(complex z) {
+    return complex(z.x, 0.0);
+  }
+
+  complex im(complex z) {
+    return complex(z.y, 0.0);
+  }
+
+  float modulussquared(complex z){
+    return z.x * z.x + z.y * z.y;
+  }
   
-  //cmult(complex(40.0, cabs(z) - one )) );
-  complex origin =  disk(cdiv(one, cmul(complex(40.0, 0.0), modulus(z))));
-
-  return cmul( z, cmul(untCir, origin));//cmul(z, cmul(unitCircle, origin) ); //z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|));
-}
-
-
-complex cabs(complex z) {
-  return complex(length(z), 0.0);
-}
-
-complex carg(complex z) {
-  return complex(arg(z), 0.0);
-}
-
-complex cargi(complex z) {
-  return complex(0.0, arg(z));
-}
-
-//Log base e
-complex clog(complex z) {
-  return complex(log(length(z)), arg(z));
-}
-
-complex ln(complex z) {
-  return clog(z);
-}
-
-//Log base b
-complex clog(complex z, complex b) {
-  return cdiv(clog(z),clog(b));
-}
-
-
-complex clen(complex z) {
- return complex(length(z), 0.0);
-}
-
-//Special case of cpow, e^z
-complex cexp(complex z) {
-  // Computes e^z = e^(x+iy) = e^x (cos(y) + isin(y))
-  return exp(z.x)*complex(cos(z.y), sin(z.y));
-}
-
-//Special case, for efficiency
-complex cpow(float r, complex z) {
-  //Computes r^z = r^(c+di) = r^z r^di = r^z e^log(r)di
-  return pow(r,z.x) *complex(cos(z.y*log(r)), sin(z.y* log(r)));
-}
-complex cpow(complex z, complex w) {
-  // Computes z^w = (|z|^2)^(0.5w.x) * e^(-w.y*arg(z)) * e^(i(w.x*arg(z) + 0.5*w.y*log(|z|^2)))
-  //if(z.y == 0.0 ) return cpow(z.x, w);
-  if(z == zero) return zero;
-  //return cexp(cmul(w,clog(z)));
-  return pow(dot(z, z), 0.5*w.x) * cexp(complex(-w.y*arg(z), w.x*arg(z) + 0.5*w.y*log(dot(z,z))));
-}
-
-complex csqrt(complex z) {
-  return cpow(z, complex(0.5, 0));
-}
-
-//Trigonometric functions
-
-complex csin(complex z) {
-  // Computes 0.5i * (e^-iz - e^iz)
-  return cmul(0.5*i, cexp(cmul(i, -z)) - cexp(cmul(i, z)));
-}
-
-complex ccos(complex z) {
-  // Computes 0.5*(e^-iz + e^iz)
-  return 0.5*(cexp(cmul(i, -z)) + cexp(cmul(i, z)));
-}
-
-complex ctan(complex z) {
-  return cdiv(csin(z), ccos(z));
-}
-
-complex acsin(complex z) {
-return cmul(-i, clog(cmul(i, z) + cpow(complex(1.0, 0.0)-cmul(z,z), complex(0.5, 0.0))));
-}
-
-complex accos(complex z) {
-return 0.5*cpi + acsin(z);
-}
-
-complex actan(complex z) {
-return 0.5*cmul(i, (clog(complex(1,0)-cmul(i,z)) - clog(complex(1,0)+cmul(i,z))));
-}
-
-
-
-
-complex csec(complex z){
-  return cdiv(one,ccos(z));
-}
-
-complex ccsc(complex z){
-  return cdiv(one,csin(z));
-}
-
-complex ccot(complex z){
-  return cdiv(ccos(z),csin(z));
-}
-
-complex acsec(complex z){
-  return accos(cdiv(one,z));
-}
-
-complex accsc(complex z){
-  return acsin(cdiv(one,z));
-}
-
-complex accot(complex z){
-  return actan(cdiv(one,z));
-}
-
-//Hyperbolic trig
-//I need to check correct values for arccosh and arcsech
-
-complex csinh(complex z) {
-  return 0.5*(cexp(z) - cexp(-z));
-}
-
-complex ccosh(complex z) {
-  return 0.5*(cexp(z) + cexp(-z));
-}
-
-complex ctanh(complex z) {
-  return cdiv(csinh(z), ccosh(z));
-}
-
-complex acsinh(complex z) {
-  return clog(z + cpow(cmul(z,z) + complex(1,0),complex(0.5, 0.0)));
-}
-
-complex accosh(complex z) {
-  //return clog(z + cpow(cmul(z,z) - one,complex(0.5, 0.0)));
-  return clog(z + cmul(cpow(z + complex(1,0),complex(0.5, 0.0)),cpow(z - complex(1,0),complex(0.5, 0.0))));
-}
-
-complex actanh(complex z) {
-  return 0.5*(clog(complex(1,0)+z) - clog(complex(1,0)-z));
-}
-
-complex csech(complex z){
-  return cdiv(one,ccosh(z));
-}
-
-complex ccsch(complex z){
-  return cdiv(one,csinh(z));
-}
-
-complex ccoth(complex z){
-  return cdiv(ccosh(z),csinh(z));
-}
-
-complex acsech(complex z){
-  return accosh(cdiv(one,z));
-}
-
-complex accsch(complex z){
-  return acsinh(cdiv(one,z));
-}
-
-complex accoth(complex z){
-  return actanh(cdiv(one,z));
-}
-
-complex mandelbrot(complex z) {
+  float realmodulus(complex z){
+    return pow(modulussquared(z), 0.5);
+  }
   
-  complex zp = complex(0.0);
-  for(int n = 0; n < 100; n++) {
-      zp  = cmul(zp, zp) + z;
-  }
-  return zp;
-}
-
-
-complex gamma(complex z) {
-  //https://en.wikipedia.org/wiki/Lanczos_approximation
-
-  const int plength = 8;
-  float p[plength];
-  p[0] = 676.5203681218851;
-  p[1] = -1259.1392167224028;  
-  p[2] = 771.32342877765313;
-  p[3] = -176.61502916214059;
-  p[4] = 12.507343278686905;
-  p[5] = -0.13857109526572012;
-  p[6] = 9.9843695780195716e-6;
-  p[7] = 1.5056327351493116e-7;
-
-  complex ref;
-  bool inv = false;
-
-  if(z.x < 0.5){
-      ref = cdiv(cpi, csin(pi*z));
-      z = one-z;
-      inv = true;
-  } 
-  z = z-one;
-  complex x = one;
-  for(int n = 0; n < plength; n++){
-      x += cdiv(complex(p[n],0.0), z + complex(n+1,0));
-  }
-  complex t = z + complex(plength,0) - complex(0.5,0.0);
-
-  if(inv) {
-      return cdiv(ref, sqrt(2.0*pi) * cmul(cmul(cpow(t, z+complex(0.5,0.0)), cexp(-t)), x));
-  } else {
-      return sqrt(2.0*pi) * cmul(cmul(cpow(t, z+complex(0.5,0.0)), cexp(-t)), x);
-  }
-}
-
-// float factorial(float x) {
-//     //return 5.0;
-//     if(x==0.0) return 1.0;
-//     if(x==1.0) return 1.0;
-//     float tot = 1.0;
-//     for(float n = 1.0; n <= 5.0; n++){
-//         if(n > x) break;
-//         tot *= n;
-//     }
-//     return tot;
-// }
-
-//float stirling(float n) {
-//   if(n <= 1.0) return 1.0;
-//    return sqrt(2.0*pi*n)*pow((n/e), n);
-//}
-
-complex factorial(complex z) {
-  //if(z.y == 0.0 ) return complex(stirling(z.x),0.0);
-  return gamma(z+one);
-}
-
-
-
-
-//float binomial(float n, float k) {
-//    return factorial(n)/(factorial(n-k)*factorial(k));
-//}
-
-complex binomial(complex n, complex k) {
-  return cdiv(factorial(n), cmul(factorial(n-k),factorial(k)));
-}
-
-
-float d20(float n) {
-  return 1.02268/(1.0+0.000003 * exp(0.867237*n))-0.017144; 
-}
-
-float d70(float n){
-
   
- if(n < 27.0) {
-     return 1.0;
- } else { 
-      //y = -0.09699716 + (0.9818753 - -0.09699716)/(1 + (x/0.2604921)^4.245834) //r2 0.999
-      //n = n/27.0;
-
-      return 1.00622/(1.0 + 4.2364e-11 * exp(0.477878*n));
-      return -0.01026294 + (1.005786 - -0.01026294)/(1.0+ pow(pow(n/0.9574826,8.804597),2.22099));
-      //return -0.04648318 + (0.9967216 - -0.04648318)/(1.0 + pow(n/0.8590162,10.26419));
-      //return -0.09699716 + (0.9818753 - -0.09699716)/(1.0 + pow(n/0.2604921,4.245834));
-     //return -0.02594087 + (1.003729 - -0.02594087)/(1.0 + pow(n/50.09641,22.79802)); 
- }
-}
-
-
-//formerly zetag
-        complex zeta(complex z){
-
-            complex ref;
-            bool inv = false;
-            if(z.x <= -1.0 && abs(z.y) < 55.0) {
-                ref = cmul(cmul(cmul(cpow(complex(2,0),z),cpow(cpi,z-one)),
-                                  csin(pi*z/2.0)),
-                                  gamma(one - z));
-                z = one - z;
-                inv = true;
-            }
-
-
-            //for efficiency, unrolled loop with precomputed dk
-            complex total = zero;
-            total += 1.0 *cpow( 1.0 ,-z);
-            total -= 1.0 *cpow( 2.0 ,-z);
-            total += 1.0 *cpow( 3.0 ,-z);
-            total -= 1.0 *cpow( 4.0 ,-z);
-            total += 1.0 *cpow( 5.0 ,-z);
-            total -= 1.0 *cpow( 6.0 ,-z);
-            total += 1.0 *cpow( 7.0 ,-z);
-            total -= 1.0 *cpow( 8.0 ,-z);
-            total += 1.0 *cpow( 9.0 ,-z);
-            total -= 0.999999999999 *cpow( 10.0 ,-z);
-            total += 0.99999999998 *cpow( 11.0 ,-z);
-            total -= 0.999999999735 *cpow( 12.0 ,-z);
-            total += 0.999999997107 *cpow( 13.0 ,-z);
-            total -= 0.999999973564 *cpow( 14.0 ,-z);
-            total += 0.99999979531 *cpow( 15.0 ,-z);
-            total -= 0.999998644649 *cpow( 16.0 ,-z);
-            total += 0.999992264978 *cpow( 17.0 ,-z);
-            total -= 0.99996169714 *cpow( 18.0 ,-z);
-            total += 0.999834476711 *cpow( 19.0 ,-z);
-            total -= 0.999372646647 *cpow( 20.0 ,-z);
-            total += 0.997905448059 *cpow( 21.0 ,-z);
-            total -= 0.993815695896 *cpow( 22.0 ,-z);
-            total += 0.983794506135 *cpow( 23.0 ,-z);
-            total -= 0.962183592565 *cpow( 24.0 ,-z);
-            total += 0.921145847114 *cpow( 25.0 ,-z);
-            total -= 0.852537436761 *cpow( 26.0 ,-z);
-            total += 0.751642715653 *cpow( 27.0 ,-z);
-            total -= 0.621346807473 *cpow( 28.0 ,-z);
-            total += 0.47396013731 *cpow( 29.0 ,-z);
-            total -= 0.328445893083 *cpow( 30.0 ,-z);
-            total += 0.203648931086 *cpow( 31.0 ,-z);
-            total -= 0.111255622362 *cpow( 32.0 ,-z);
-            total += 0.0526848641535 *cpow( 33.0 ,-z);
-            total -= 0.0212286807239 *cpow( 34.0 ,-z);
-            total += 0.0071162051027 *cpow( 35.0 ,-z);
-            total -= 0.00192702152025 *cpow( 36.0 ,-z);
-            total += 0.000404373755448 *cpow( 37.0 ,-z);
-            total -= 6.16229812906e-05 *cpow( 38.0 ,-z);
-            total += 6.06127684826e-06 *cpow( 39.0 ,-z);
-            total -= 2.8863223087e-07 *cpow( 40.0 ,-z);
-
-            total = cdiv(total, one-cpow(2.0,one-z));
-
-            if (inv) {
-                total = cmul(ref, total);
-            }
-
-            return total;
-        }   
-
-        complex square(complex z) {
-          float t = z.x * z.y;
-          return complex( z.x * z.x - z.y * z.y, t + t);
-      }
-complex joukowsky(complex z, complex ce, float r){
-        
-        complex a = complex(1.0, 0);//{r:1,i:0};
-        complex ra = complex(r, 0.0);//complex(0.23 * sqrt(13.0 * 2.0), 0.0);
-      
-        complex center = complex(ce.x, ce.y);//complex(-0.15, 0.23);
-        
-        
-        complex sq = csqrt(csub(square(z), complex(4.0,0.0)));
-        
-        complex z1 = cdiv(csub(z, sq), complex(2.0, 0.0));
-        
-
-        complex z2 = cdiv(cadd(z, sq), complex(2.0, 0.0));
-        
-        complex d1 = csub(z1, center);
-        complex d2 = csub(z2, center);
-        
-        complex za;
-
-        if(realmodulus(d1) > realmodulus(d2)){
-            za = cdiv( csub(z1, center), ra);
-        } else{
-            za = cdiv( csub(z2, center), ra);
-        }
-
-        if(realmodulus(za) < realmodulus(a)){
-            return complex(0.0, 0.0);
-        } return cadd(za, cdiv(a, za));
-
-      }
-      
-
+  complex modulus(complex z){
+    if(z.y == 0.0){
+      return complex(abs(z.x), 0.0);
+    }
+    return complex(realmodulus(z), 0.0);
+  }
+  
+  //z * disk(30*(abs(z)-1))
+  //z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|))
+  complex disk(complex z){
+    if(realmodulus(z) > 1.0 ){
+      return complex(0.0,0.0);
+    }
+    return complex(1.0, 0.0);
+  }
+  
+  //map(z*(1-(t+1)/2) + (t+1)/2 * (1/2*(1.17*z+(-0.15+0.23))+1/2*((1.17*z+(-0.15+0.23*i))^2-4)^(1/2)) )
+  complex map(complex z){
+  
+    complex untCir = disk(cdiv(one, cmul(complex(40.0, 0.0), modulus(z)-one)));
     
+    //cmult(complex(40.0, cabs(z) - one )) );
+    complex origin =  disk(cdiv(one, cmul(complex(40.0, 0.0), modulus(z))));
+  
+    return cmul( z, cmul(untCir, origin));//cmul(z, cmul(unitCircle, origin) ); //z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|));
+  }
+  
+  complex cabs(complex z) {
+    return complex(length(z), 0.0);
+  }
+  
+  complex carg(complex z) {
+    return complex(arg(z), 0.0);
+  }
+  
+  complex cargi(complex z) {
+    return complex(0.0, arg(z));
+  }
+  
+  //Log base e
+  complex clog(complex z) {
+    return complex(log(length(z)), arg(z));
+  }
+  
+  complex ln(complex z) {
+    return clog(z);
+  }
+  
+  //Log base b
+  complex clog(complex z, complex b) {
+    return cdiv(clog(z),clog(b));
+  }
+  
+  complex clen(complex z) {
+   return complex(length(z), 0.0);
+  }
+  
+  //Special case of cpow, e^z
+  complex cexp(complex z) {
+    // Computes e^z = e^(x+iy) = e^x (cos(y) + isin(y))
+    return exp(z.x)*complex(cos(z.y), sin(z.y));
+  }
+  
+  //Special case, for efficiency
+  complex cpow(float r, complex z) {
+    //Computes r^z = r^(c+di) = r^z r^di = r^z e^log(r)di
+    return pow(r,z.x) *complex(cos(z.y*log(r)), sin(z.y* log(r)));
+  }
+  complex cpow(complex z, complex w) {
+    // Computes z^w = (|z|^2)^(0.5w.x) * e^(-w.y*arg(z)) * e^(i(w.x*arg(z) + 0.5*w.y*log(|z|^2)))
+    //if(z.y == 0.0 ) return cpow(z.x, w);
+    if(z == zero) return zero;
+    //return cexp(cmul(w,clog(z)));
+    return pow(dot(z, z), 0.5*w.x) * cexp(complex(-w.y*arg(z), w.x*arg(z) + 0.5*w.y*log(dot(z,z))));
+  }
+  
+  complex csqrt(complex z) {
+    return cpow(z, complex(0.5, 0));
+  }
+  
+  //Trigonometric functions
+  
+  complex csin(complex z) {
+    // Computes 0.5i * (e^-iz - e^iz)
+    return cmul(0.5*i, cexp(cmul(i, -z)) - cexp(cmul(i, z)));
+  }
+  
+  complex ccos(complex z) {
+    // Computes 0.5*(e^-iz + e^iz)
+    return 0.5*(cexp(cmul(i, -z)) + cexp(cmul(i, z)));
+  }
+  
+  complex ctan(complex z) {
+    return cdiv(csin(z), ccos(z));
+  }
+  
+  complex acsin(complex z) {
+  return cmul(-i, clog(cmul(i, z) + cpow(complex(1.0, 0.0)-cmul(z,z), complex(0.5, 0.0))));
+  }
+  
+  complex accos(complex z) {
+  return 0.5*cpi + acsin(z);
+  }
+  
+  complex actan(complex z) {
+  return 0.5*cmul(i, (clog(complex(1,0)-cmul(i,z)) - clog(complex(1,0)+cmul(i,z))));
+  }
+  
+  complex csec(complex z){
+    return cdiv(one,ccos(z));
+  }
+  
+  complex ccsc(complex z){
+    return cdiv(one,csin(z));
+  }
+  
+  complex ccot(complex z){
+    return cdiv(ccos(z),csin(z));
+  }
+  
+  complex acsec(complex z){
+    return accos(cdiv(one,z));
+  }
+  
+  complex accsc(complex z){
+    return acsin(cdiv(one,z));
+  }
+  
+  complex accot(complex z){
+    return actan(cdiv(one,z));
+  }
+  
+  //Hyperbolic trig
+  //I need to check correct values for arccosh and arcsech
+  
+  complex csinh(complex z) {
+    return 0.5*(cexp(z) - cexp(-z));
+  }
+  
+  complex ccosh(complex z) {
+    return 0.5*(cexp(z) + cexp(-z));
+  }
+  
+  complex ctanh(complex z) {
+    return cdiv(csinh(z), ccosh(z));
+  }
+  
+  complex acsinh(complex z) {
+    return clog(z + cpow(cmul(z,z) + complex(1,0),complex(0.5, 0.0)));
+  }
+  
+  complex accosh(complex z) {
+    //return clog(z + cpow(cmul(z,z) - one,complex(0.5, 0.0)));
+    return clog(z + cmul(cpow(z + complex(1,0),complex(0.5, 0.0)),cpow(z - complex(1,0),complex(0.5, 0.0))));
+  }
+  
+  complex actanh(complex z) {
+    return 0.5*(clog(complex(1,0)+z) - clog(complex(1,0)-z));
+  }
+  
+  complex csech(complex z){
+    return cdiv(one,ccosh(z));
+  }
+  
+  complex ccsch(complex z){
+    return cdiv(one,csinh(z));
+  }
+  
+  complex ccoth(complex z){
+    return cdiv(ccosh(z),csinh(z));
+  }
+  
+  complex acsech(complex z){
+    return accosh(cdiv(one,z));
+  }
+  
+  complex accsch(complex z){
+    return acsinh(cdiv(one,z));
+  }
+  
+  complex accoth(complex z){
+    return actanh(cdiv(one,z));
+  }
+  
+  complex mandelbrot(complex z) {
+    
+    complex zp = complex(0.0);
+    for(int n = 0; n < 100; n++) {
+        zp  = cmul(zp, zp) + z;
+    }
+    return zp;
+  }
+  
+  complex gamma(complex z) {
+    //https://en.wikipedia.org/wiki/Lanczos_approximation
+  
+    const int plength = 8;
+    float p[plength];
+    p[0] = 676.5203681218851;
+    p[1] = -1259.1392167224028;  
+    p[2] = 771.32342877765313;
+    p[3] = -176.61502916214059;
+    p[4] = 12.507343278686905;
+    p[5] = -0.13857109526572012;
+    p[6] = 9.9843695780195716e-6;
+    p[7] = 1.5056327351493116e-7;
+  
+    complex ref;
+    bool inv = false;
+  
+    if(z.x < 0.5){
+        ref = cdiv(cpi, csin(pi*z));
+        z = one-z;
+        inv = true;
+    } 
+    z = z-one;
+    complex x = one;
+    for(int n = 0; n < plength; n++){
+        x += cdiv(complex(p[n],0.0), z + complex(n+1,0));
+    }
+    complex t = z + complex(plength,0) - complex(0.5,0.0);
+  
+    if(inv) {
+        return cdiv(ref, sqrt(2.0*pi) * cmul(cmul(cpow(t, z+complex(0.5,0.0)), cexp(-t)), x));
+    } else {
+        return sqrt(2.0*pi) * cmul(cmul(cpow(t, z+complex(0.5,0.0)), cexp(-t)), x);
+    }
+  }
+  
+  // float factorial(float x) {
+  //     //return 5.0;
+  //     if(x==0.0) return 1.0;
+  //     if(x==1.0) return 1.0;
+  //     float tot = 1.0;
+  //     for(float n = 1.0; n <= 5.0; n++){
+  //         if(n > x) break;
+  //         tot *= n;
+  //     }
+  //     return tot;
+  // }
+  
+  //float stirling(float n) {
+  //   if(n <= 1.0) return 1.0;
+  //    return sqrt(2.0*pi*n)*pow((n/e), n);
+  //}
+  
+  complex factorial(complex z) {
+    //if(z.y == 0.0 ) return complex(stirling(z.x),0.0);
+    return gamma(z+one);
+  }
+  
+  
+  //float binomial(float n, float k) {
+  //    return factorial(n)/(factorial(n-k)*factorial(k));
+  //}
+  
+  complex binomial(complex n, complex k) {
+    return cdiv(factorial(n), cmul(factorial(n-k),factorial(k)));
+  }
+  
+  
+  float d20(float n) {
+    return 1.02268/(1.0+0.000003 * exp(0.867237*n))-0.017144; 
+  }
+  
+  float d70(float n){
+  
+    
+   if(n < 27.0) {
+       return 1.0;
+   } else { 
+        //y = -0.09699716 + (0.9818753 - -0.09699716)/(1 + (x/0.2604921)^4.245834) //r2 0.999
+        //n = n/27.0;
+  
+        return 1.00622/(1.0 + 4.2364e-11 * exp(0.477878*n));
+        return -0.01026294 + (1.005786 - -0.01026294)/(1.0+ pow(pow(n/0.9574826,8.804597),2.22099));
+        //return -0.04648318 + (0.9967216 - -0.04648318)/(1.0 + pow(n/0.8590162,10.26419));
+        //return -0.09699716 + (0.9818753 - -0.09699716)/(1.0 + pow(n/0.2604921,4.245834));
+       //return -0.02594087 + (1.003729 - -0.02594087)/(1.0 + pow(n/50.09641,22.79802)); 
+   }
+  }
+
+  //formerly zetag
+  complex zeta(complex z){
+
+    complex ref;
+    bool inv = false;
+    if(z.x <= -1.0 && abs(z.y) < 55.0) {
+      ref = cmul(cmul(cmul(cpow(complex(2,0),z),cpow(cpi,z-one)),
+            csin(pi*z/2.0)),
+            gamma(one - z));
+      z = one - z;
+      inv = true;
+    }
+
+    //for efficiency, unrolled loop with precomputed dk
+    complex total = zero;
+    total += 1.0 *cpow( 1.0 ,-z);
+    total -= 1.0 *cpow( 2.0 ,-z);
+    total += 1.0 *cpow( 3.0 ,-z);
+    total -= 1.0 *cpow( 4.0 ,-z);
+    total += 1.0 *cpow( 5.0 ,-z);
+    total -= 1.0 *cpow( 6.0 ,-z);
+    total += 1.0 *cpow( 7.0 ,-z);
+    total -= 1.0 *cpow( 8.0 ,-z);
+    total += 1.0 *cpow( 9.0 ,-z);
+    total -= 0.999999999999 *cpow( 10.0 ,-z);
+    total += 0.99999999998 *cpow( 11.0 ,-z);
+    total -= 0.999999999735 *cpow( 12.0 ,-z);
+    total += 0.999999997107 *cpow( 13.0 ,-z);
+    total -= 0.999999973564 *cpow( 14.0 ,-z);
+    total += 0.99999979531 *cpow( 15.0 ,-z);
+    total -= 0.999998644649 *cpow( 16.0 ,-z);
+    total += 0.999992264978 *cpow( 17.0 ,-z);
+    total -= 0.99996169714 *cpow( 18.0 ,-z);
+    total += 0.999834476711 *cpow( 19.0 ,-z);
+    total -= 0.999372646647 *cpow( 20.0 ,-z);
+    total += 0.997905448059 *cpow( 21.0 ,-z);
+    total -= 0.993815695896 *cpow( 22.0 ,-z);
+    total += 0.983794506135 *cpow( 23.0 ,-z);
+    total -= 0.962183592565 *cpow( 24.0 ,-z);
+    total += 0.921145847114 *cpow( 25.0 ,-z);
+    total -= 0.852537436761 *cpow( 26.0 ,-z);
+    total += 0.751642715653 *cpow( 27.0 ,-z);
+    total -= 0.621346807473 *cpow( 28.0 ,-z);
+    total += 0.47396013731 *cpow( 29.0 ,-z);
+    total -= 0.328445893083 *cpow( 30.0 ,-z);
+    total += 0.203648931086 *cpow( 31.0 ,-z);
+    total -= 0.111255622362 *cpow( 32.0 ,-z);
+    total += 0.0526848641535 *cpow( 33.0 ,-z);
+    total -= 0.0212286807239 *cpow( 34.0 ,-z);
+    total += 0.0071162051027 *cpow( 35.0 ,-z);
+    total -= 0.00192702152025 *cpow( 36.0 ,-z);
+    total += 0.000404373755448 *cpow( 37.0 ,-z);
+    total -= 6.16229812906e-05 *cpow( 38.0 ,-z);
+    total += 6.06127684826e-06 *cpow( 39.0 ,-z);
+    total -= 2.8863223087e-07 *cpow( 40.0 ,-z);
+
+    total = cdiv(total, one-cpow(2.0,one-z));
+
+    if (inv) {
+       total = cmul(ref, total);
+    }
+
+    return total;
+
+  }
+
+  complex square(complex z) {
+    float t = z.x * z.y;
+    return complex( z.x * z.x - z.y * z.y, t + t);
+  }
+
+  complex joukowsky(complex z, complex ce, float r){
+        
+    complex a = complex(1.0, 0);//{r:1,i:0};
+    complex ra = complex(r, 0.0);//complex(0.23 * sqrt(13.0 * 2.0), 0.0);
+      
+    complex center = complex(ce.x, ce.y);//complex(-0.15, 0.23);
+        
+    complex sq = csqrt(csub(square(z), complex(4.0,0.0)));
+        
+   complex z1 = cdiv(csub(z, sq), complex(2.0, 0.0));
+   complex z2 = cdiv(cadd(z, sq), complex(2.0, 0.0));
+        
+    complex d1 = csub(z1, center);
+    complex d2 = csub(z2, center);
+        
+    complex za;
+
+    if(realmodulus(d1) > realmodulus(d2)){
+        za = cdiv( csub(z1, center), ra);
+    } else{
+        za = cdiv( csub(z2, center), ra);
+    }
+
+    if(realmodulus(za) < realmodulus(a)){
+        return complex(0.0, 0.0);
+    } return cadd(za, cdiv(a, za));
+
+  }
+      
+
     bool isNan(float val)
     {
         return (val <= 0.0 || 0.0 <= val) ? false : true;
@@ -943,6 +898,13 @@ complex joukowsky(complex z, complex ce, float r){
         e.message;
     }
 
+    // I need this function to define a parameter s changing at a constant rate
+    var begin;
+
+    function getNow() {
+      begin = Date.now();
+    }
+
     // Whenever the user updates the input field, we need to parse and produce a
     // new shader to update what's being displayed.
     // Also, I need to check the input expression is correct
@@ -974,12 +936,12 @@ complex joukowsky(complex z, complex ce, float r){
       } else $('#error-container').show();
 
       quad.material = shaderMaterial;
+      getNow(); // Reset parameter s
     }
 
     // When rendering, we just need to make sure our convenience variables are
     // up-to-date before we render.
-    var start = Date.now();
-    //var s;
+
     function render() {
       // If we're rendering video, update that.
       if (window.video && video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -994,12 +956,13 @@ complex joukowsky(complex z, complex ce, float r){
       }
 
       var count = Date.now();
-      s = -Math.abs(start - count)*0.0005;
+      s = -Math.abs(begin - count) * 0.00025;
 
       quad.material.uniforms.t.value = Math.sin(new Date().getTime() * 0.0005);
       quad.material.uniforms.t.needsUpdate = true;
       quad.material.uniforms.s.value = s;
       quad.material.uniforms.s.needsUpdate = true;
+
       renderer.render(scene, camera);
 
       requestAnimationFrame(render);
@@ -1028,11 +991,10 @@ complex joukowsky(complex z, complex ce, float r){
           uniforms._option.value = 3.0;
           //console.log(uniforms._option.value);
           //setTexture(texture_path);
-        }
-        else {
+        } else {
           uniforms._option.value = 4.0;
-         //Currently, the only other option here is to stream from the webcam.
-         initWebCam();
+          //Currently, the only other option here is to stream from the webcam.
+          initWebCam();
         }
       });
     });
@@ -1063,7 +1025,7 @@ complex joukowsky(complex z, complex ce, float r){
       }
     });
 
-    function resetConstant(){
+    function resetConstant() {
       s = 0.0;
     }
     // Get things started.
