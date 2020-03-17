@@ -29,7 +29,9 @@ You can also visualize complex functions plotted with the domain coloring method
 * Basic arithmetic operators: "+  -  *  /" for combining various complex numbers
 * Constants: "<a,b>" for defining a complex number (a,b) from two real-values.
 * Pre-Defined Constants: "pi, e, a, b" for using common constants. The constants "a" and "b" will take on the value of the real and complex part of the point in the complex plane.
-* Animated Parameter: "t" can be used in place of a real value to provide some animation to your plot. It slowly oscillates between -1 and 1.
+* Animated Parameters: 
+  * "t" can be used in place of a real value to provide some animation to your plot. It slowly oscillates between -1 and 1.
+  * "s" is a real value chaging at a constant rate over time. It will be reset every time you update the expression in the input.
 
 ## Available functions
 
@@ -51,6 +53,7 @@ You can also visualize complex functions plotted with the domain coloring method
 * [1/z + i * z^(1/2)](https://jcponce.github.io/complex/function-plotter/index.htm?expression=MS96ICsgaSAqIHpeKDEvMik=)
 * [z + pi * log(z + e)](https://jcponce.github.io/complex/function-plotter/index.htm?expression=eiArIHBpICogbG9nKHogKyBlKQ==)
 * [e^z + t](https://jcponce.github.io/complex/function-plotter/index.htm?expression=ZV56ICsgdA==)
+* [s * i + s - 0.09 * (z - 6)^2](https://jcponce.github.io/complex/function-plotter/index.htm?expression=cyAqIGkgKyBzIC0gMC4wOSAqICh6IC0gNileMg==)
 * [sin(z + pi)/tanh(z^2 - i) + t](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyBwaSkvdGFuaCh6XjIgLSBpKSArIHQ=)
 
 ## Some interesting examples about conformal mapping
@@ -64,7 +67,7 @@ You can also visualize complex functions plotted with the domain coloring method
 * [Waves](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqICgxLjUgKiByKV41KSArIHQ=)
 * [Potential](https://jcponce.github.io/complex/function-plotter/?expression=KGxvZygoei0xKS8oeisxKSkpICogKHQrMSkvMiArIHogKiAoMSAtICh0KzEpLzIp)
 
-## More examples about domain coloring
+## Examples about domain coloring
 
 * [Example 1: sin(z + t)](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=c2luKHogKyB0KQ==)
 * [Example 2: z * t + 1/sin(z)](https://jcponce.github.io/complex/function-plotter/hsv.htm?expression=eiAqIHQgKyAxL3Npbih6KQ==)
