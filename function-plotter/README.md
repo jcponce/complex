@@ -20,7 +20,7 @@ The rendered image is created by evaluating the user-supplied function and then 
 
 You can also visualize complex functions plotted with the domain coloring method using the HSV scheme, including level curves of modulus and phase. Thus you can visualize zeros and singularities.
 
-![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/domain-coloring.png)
+![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/hsv.png)
 
 #### [Live Demo - Domain coloring](http://jcponce.github.io/complex/function-plotter/hsv.htm)
 
