@@ -136,6 +136,8 @@ Factor
   / _ "zeta"  _ "(" _ arg:Expression _ ")" _ { return 'zeta(' + arg + ')'; }
   / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
   / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
+  / _ "floor"  _ "(" _ arg:Expression _ ")" _ { return 'cfloor(' + arg + ')'; }
+  / _ "ceil"  _ "(" _ arg:Expression _ ")" _ { return 'cceil(' + arg + ')'; }
   / _ "map"  _ "(" _ arg:Expression _ ")" _ { return 'map(' + arg + ')'; }
   / _ "floor"  _ "(" _ arg:Expression _ ")" _ { return 'cfloor(' + arg + ')'; }
   / _ "ceil"  _ "(" _ arg:Expression _ ")" _ { return 'cceil(' + arg + ')'; }
@@ -452,8 +454,6 @@ return 0.5*cpi + acsin(z);
 complex actan(complex z) {
 return 0.5*cmul(i, (clog(complex(1,0)-cmul(i,z)) - clog(complex(1,0)+cmul(i,z))));
 }
-
-
 
 
 complex csec(complex z){

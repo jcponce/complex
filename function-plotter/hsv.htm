@@ -132,6 +132,8 @@
     / _ "zeta"  _ "(" _ arg:Expression _ ")" _ { return 'zeta(' + arg + ')'; }
     / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
     / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
+    / _ "floor"  _ "(" _ arg:Expression _ ")" _ { return 'cfloor(' + arg + ')'; }
+    / _ "ceil"  _ "(" _ arg:Expression _ ")" _ { return 'cceil(' + arg + ')'; }
     / _ "map"  _ "(" _ arg:Expression _ ")" _ { return 'map(' + arg + ')'; }
     / _ "disk"  _ "(" _ arg:Expression _ ")" _ { return 'disk(' + arg + ')'; }
     / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'clog(' + arg + ')'; }
@@ -383,6 +385,14 @@
     if(z == zero) return zero;
     //return cexp(cmul(w,clog(z)));
     return pow(dot(z, z), 0.5*w.x) * cexp(complex(-w.y*arg(z), w.x*arg(z) + 0.5*w.y*log(dot(z,z))));
+  }
+
+  complex cfloor(complex z) {
+    return complex(floor(z.x), floor(z.y));
+  }
+
+  complex cceil(complex z) {
+    return complex(ceil(z.x), floor(z.y));
   }
   
   complex csqrt(complex z) {
