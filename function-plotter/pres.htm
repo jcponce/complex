@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Example for presentation</title>
+  <meta name="description" content="Complex function plotter using WebGL: Domain coloring -Example for presentation">
+  <meta name="author" content="Juan Carlos Ponce Campuzano">
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity16.png" sizes="16x16">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-121691678-1');
+  </script>
+
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="scripts/query-string-helper.js"></script>
+  <script src="peg-0.9.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+
+  <style>
+    #copyable-link {
+      border: 0;
+      width: 45%;
+      color: white;
+      font-size: large;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <video id="monitor" autoplay width="256" height="256" style="visibility: hidden; float:left;"></video>
+  <canvas id="videoImage" width="256" height="256" style="visibility: hidden; float:left;"></canvas>
+
+  <div id="container">
+    <div id="display-area">
+    </div>
+
+    <div class="full-width">
+
+      <div id="link-container" style="display: none;">
+        <input id="copyable-link" class="dark-translucent input-control" value=""></input>
+      </div>
+
+      <div id="error-container">
+        <div id="parse-message" class="message error" class="dark-translucent input-control"></div>
+      </div>
+
+      
+      <input class="dark-translucent input-control" id="equation-input"
+        placeholder="e.g. 1 / (z^2 + t * i)^t - z * log(z)" value="gamma(z) + sin(z^2)+t" style="display: none;"></input>
+
+
+
+
+    </div>
+
+  </div>
+
+  <script src="scripts/webcam-stream.js"></script>
+
+  <script type="peg-grammar" id="complex-expression-peg-grammar">
+    /*
+   * Complex Arithmetic Grammar
+   * (Utilizes http://pegjs.org/ to build a parser based on this grammar)
+   */
+
+  {
+    function combine(first, rest, combiners) {
+      var result = first, i;
+      for (i = 0; i < rest.length; i++) {
+        result = combiners[rest[i][1]](result, rest[i][3]);
+      }
+      return result;
+    }
+  }
+
+  Expression
+    = first:Term rest:(_ ("+" / "-") _ Term)* _ {
+        return combine(first, rest, {
+          "+": function(left, right) { return 'cadd(' + left + ',' + right + ')'; },
+          "-": function(left, right) { return 'csub(' + left + ',' + right + ')'; }
+        });
+      }
+
+  Term
+    = first:Powered rest:(_ ("*" / "/") _ Powered)* {
+        return combine(first, rest, {
+          "*": function(left, right) { return 'cmul(' + left + ',' + right + ')'; },
+          "/": function(left, right) { return 'cdiv(' + left + ',' + right + ')'; }
+        });
+      }
+
+  Powered
+    =  _ left:Factor _ "^" _ right:Factor _ { return 'cpow(' + left + ',' + right + ')'; }
+    / Factor
+  // Added a few extra functions by Juan Carlos Ponce Campuzano 12-Nov-2019
+  Factor
+    = "(" _ expr:Expression _ ")" { return expr; }
+    / _ "joukowsky"  _ "(" _ arg:Expression _ "," _ c:Expression _ ", " _ a:Real _ ")" _ { return 'joukowsky(' + arg + ', ' + c + ' , '+ a +')'; }
+    / _ "zeta"  _ "(" _ arg:Expression _ ")" _ { return 'zeta(' + arg + ')'; }
+    / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
+    / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
+    / _ "floor"  _ "(" _ arg:Expression _ ")" _ { return 'cfloor(' + arg + ')'; }
+    / _ "ceil"  _ "(" _ arg:Expression _ ")" _ { return 'cceil(' + arg + ')'; }
+    / _ "map"  _ "(" _ arg:Expression _ ")" _ { return 'map(' + arg + ')'; }
+    / _ "disk"  _ "(" _ arg:Expression _ ")" _ { return 'disk(' + arg + ')'; }
+    / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'clog(' + arg + ')'; }
+    / _ "arg"  _ "(" _ arg:Expression _ ")" _ { return 'carg(' + arg + ')'; }
+    / _ "exp"  _ "(" _ arg:Expression _ ")" _ { return 'cexp(' + arg + ')'; }
+    / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'ctan(' + arg + ')'; }
+    / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'ccos(' + arg + ')'; }
+    / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'csin(' + arg + ')'; }
+    / _ "sec"  _ "(" _ arg:Expression _ ")" _ { return 'csec(' + arg + ')'; }
+    / _ "csc"  _ "(" _ arg:Expression _ ")" _ { return 'ccsc(' + arg + ')'; }
+    / _ "cot"  _ "(" _ arg:Expression _ ")" _ { return 'ccot(' + arg + ')'; }
+    / _ "arctan"  _ "(" _ arg:Expression _ ")" _ { return 'actan(' + arg + ')'; }
+    / _ "arccos"  _ "(" _ arg:Expression _ ")" _ { return 'accos(' + arg + ')'; }
+    / _ "arcsin"  _ "(" _ arg:Expression _ ")" _ { return 'acsin(' + arg + ')'; }
+    / _ "arcsec"  _ "(" _ arg:Expression _ ")" _ { return 'acsec(' + arg + ')'; }
+    / _ "arccsc"  _ "(" _ arg:Expression _ ")" _ { return 'accsc(' + arg + ')'; }
+    / _ "arccot"  _ "(" _ arg:Expression _ ")" _ { return 'accot(' + arg + ')'; }
+    / _ "sech"  _ "(" _ arg:Expression _ ")" _ { return 'csech(' + arg + ')'; }
+    / _ "csch"  _ "(" _ arg:Expression _ ")" _ { return 'ccsch(' + arg + ')'; }
+    / _ "coth"  _ "(" _ arg:Expression _ ")" _ { return 'ccoth(' + arg + ')'; }
+    / _ "tanh"  _ "(" _ arg:Expression _ ")" _ { return 'ctanh(' + arg + ')'; }
+    / _ "cosh"  _ "(" _ arg:Expression _ ")" _ { return 'ccosh(' + arg + ')'; }
+    / _ "sinh"  _ "(" _ arg:Expression _ ")" _ { return 'csinh(' + arg + ')'; }
+    / _ "sech"  _ "(" _ arg:Expression _ ")" _ { return 'csech(' + arg + ')'; }
+    / _ "arccsch"  _ "(" _ arg:Expression _ ")" _ { return 'accsch(' + arg + ')'; }
+    / _ "arccoth"  _ "(" _ arg:Expression _ ")" _ { return 'accoth(' + arg + ')'; }
+    / _ "arctanh"  _ "(" _ arg:Expression _ ")" _ { return 'actanh(' + arg + ')'; }
+    / _ "arccosh"  _ "(" _ arg:Expression _ ")" _ { return 'accosh(' + arg + ')'; }
+    / _ "arcsinh"  _ "(" _ arg:Expression _ ")" _ { return 'acsinh(' + arg + ')'; }
+    / _ "arcsech"  _ "(" _ arg:Expression _ ")" _ { return 'acsech(' + arg + ')'; }
+    / _ "abs"  _ "(" _ arg:Expression _ ")" _ { return 'cabs(' + arg + ')'; }
+    / _ "|" _ arg:Expression _ "|"  _ { return 'cabs(' + arg + ')'; }
+    / _ "re"  _ "(" _ arg:Expression _ ")" _ { return 're(' + arg + ')'; }
+    / _ "im"  _ "(" _ arg:Expression _ ")" _ { return 'im(' + arg + ')'; }
+    / _ "conj"  _ "(" _ arg:Expression _ ")" _ { return 'conjugate(' + arg + ')'; }
+    / _ "iter" _ "(" _ arg:Expression _ "," _ count:PositiveInteger _ ")" _ {
+      var n = parseInt(count) - 1, Q = arg;
+      for(var it=0; it < n; ++it) {
+        Q = Q.replace(/complex\(a,b\)/g, '(' + Q + ')');
+      }
+      return Q;
+    }
+    / Complex
+
+  Complex
+    = "<" _ a:Real _ "," _ b:Real _ ">" { return 'complex(' + a + ',' + b + ')'; }
+    / "-z"     { return 'complex(-a,-b)'; }
+    / "z"     { return 'complex(a,b)'; }
+    / "i"     { return 'complex(0.0,1.0)'; }
+    / "-i"     { return 'complex(0.0,-1.0)'; }
+    / a:Real  { return 'complex(' + a + ',0.0)'; }
+
+  Real
+    = whole:Integer "." fractional:Integer { return '' + whole + '.' + fractional; }
+    / whole:Integer { return '' + whole + '.0'; }
+    / "pi" { return '3.14159265358979'; }
+    / "e" { return '2.71828182845904'; }
+    / "a" { return 'a'; }
+    / "b" { return 'b'; }
+    / "theta" { return 'theta(a,b)'; }
+    / "t" { return 't'; }
+    / "s" { return 's'; }
+    / "-t" { return '-t'; }
+    / "-s" { return '-s'; }
+    / "r"     { return 'r(a,b)'; }
+    // / "|" + arg + "|"     { return 'cabs( ' +arg + ' )'; }
+
+  Integer "integer"
+    = "-" int:Integer { return "-" + int;}
+    / PositiveInteger
+
+  PositiveInteger
+    = [0-9]+ { return text(); }
+
+  _ "whitespace"
+    = [ \t\n\r]*
+  </script>
+
+  <!-- Shaders -->
+  <script type="x-shader/x-vertex" id="vertexshader">
+    // Switch on high precision floats
+    precision highp float;
+
+    varying vec2 vUv;
+    uniform float t;
+    uniform float s;
+
+		void main()
+		{
+      vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+		}
+  </script>
+
+  <script type="x-shader/x-fragment" id="fragmentshader">
+    precision highp float;
+
+    varying vec2 vUv;
+
+    #define complex vec2
+
+    const float pi = 3.14159265358979;
+    const complex cpi = complex(3.14159265358979, 0.0);
+    
+    const float e = 2.71828182845904;
+    const complex ce = complex(2.71828182845904, 0.0);
+
+    const complex i = complex(0.0, 1.0);
+    const complex one = complex(1.0, 0.0);
+    const complex zero = complex(0.0, 0.0);
+    
+
+    uniform float t;
+    uniform float s;
+    uniform float width, height;
+    uniform sampler2D gridTexture;
+    uniform float _option;
+
+    // Convert from Hue,Saturation/Value to RGB
+    // http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
+    vec3 hsv2rgb(vec3 c)
+    {
+      vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+      vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+      return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+    }
+
+
+    //float arg(vec2 z) { return atan(z.y, z.x); }
+    float arg(complex z) {
+      return atan(z.y, z.x);
+  }
+    
+    float r(float x, float y) { return length(vec2(x,y)); }
+    float theta(float x, float y) { return arg(vec2(x,y)); }
+
+    //vec2 complex(float x, float y) { return vec2(x,y); }
+
+    // https://en.wikipedia.org/wiki/c_number#Elementary_operations
+    complex cadd(vec2 z, vec2 v) { return z + v; }
+    complex csub(vec2 z, vec2 v) { return z - v; }
+
+    bool isinf(float val) {
+      return (val != 0.0 && val * 2.0 == val) ? true : false;
+  }
+
+  complex conjugate(complex z) {
+    return complex(z.x, -z.y);
+  }
+
+  complex cmul(complex z, complex v) {
+    return complex(z.x*v.x - z.y*v.y, z.x*v.y + z.y*v.x);
+  }
+
+  complex cdiv(complex z, complex v) {
+    if(isinf(v.x) || isinf(v.y)) return zero;
+    //if(isnan(v.x) || isnan(v.y)) return -one;
+    return cmul(z, conjugate(v))/(v.x*v.x + v.y*v.y); //(mul(v, conjugate(v)).x);
+  }
+
+  complex re(complex z) {
+    return complex(z.x, 0.0);
+  }
+
+  complex im(complex z) {
+    return complex(z.y, 0.0);
+  }
+
+  float modulussquared(complex z){
+    return z.x * z.x + z.y * z.y;
+  }
+  
+  float realmodulus(complex z){
+    return pow(modulussquared(z), 0.5);
+  }
+  
+  
+  complex modulus(complex z){
+    if(z.y == 0.0){
+      return complex(abs(z.x), 0.0);
+    }
+    return complex(realmodulus(z), 0.0);
+  }
+  
+  //z * disk(30*(abs(z)-1))
+  //z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|))
+  complex disk(complex z){
+    if(realmodulus(z) > 1.0 ){
+      return complex(0.0,0.0);
+    }
+    return complex(1.0, 0.0);
+  }
+  
+  //map(z*(1-(t+1)/2) + (t+1)/2 * (1/2*(1.17*z+(-0.15+0.23))+1/2*((1.17*z+(-0.15+0.23*i))^2-4)^(1/2)) )
+  complex map(complex z){
+  
+    complex untCir = disk(cdiv(one, cmul(complex(40.0, 0.0), modulus(z)-one)));
+    
+    //cmult(complex(40.0, cabs(z) - one )) );
+    complex origin =  disk(cdiv(one, cmul(complex(40.0, 0.0), modulus(z))));
+  
+    return cmul( z, cmul(untCir, origin));//cmul(z, cmul(unitCircle, origin) ); //z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|));
+  }
+  
+  complex cabs(complex z) {
+    return complex(length(z), 0.0);
+  }
+  
+  complex carg(complex z) {
+    return complex(arg(z), 0.0);
+  }
+  
+  complex cargi(complex z) {
+    return complex(0.0, arg(z));
+  }
+  
+  //Log base e
+  complex clog(complex z) {
+    return complex(log(length(z)), arg(z));
+  }
+  
+  complex ln(complex z) {
+    return clog(z);
+  }
+  
+  //Log base b
+  complex clog(complex z, complex b) {
+    return cdiv(clog(z),clog(b));
+  }
+  
+  complex clen(complex z) {
+   return complex(length(z), 0.0);
+  }
+  
+  //Special case of cpow, e^z
+  complex cexp(complex z) {
+    // Computes e^z = e^(x+iy) = e^x (cos(y) + isin(y))
+    return exp(z.x)*complex(cos(z.y), sin(z.y));
+  }
+  
+  //Special case, for efficiency
+  complex cpow(float r, complex z) {
+    //Computes r^z = r^(c+di) = r^z r^di = r^z e^log(r)di
+    return pow(r,z.x) *complex(cos(z.y*log(r)), sin(z.y* log(r)));
+  }
+  complex cpow(complex z, complex w) {
+    // Computes z^w = (|z|^2)^(0.5w.x) * e^(-w.y*arg(z)) * e^(i(w.x*arg(z) + 0.5*w.y*log(|z|^2)))
+    //if(z.y == 0.0 ) return cpow(z.x, w);
+    if(z == zero) return zero;
+    //return cexp(cmul(w,clog(z)));
+    return pow(dot(z, z), 0.5*w.x) * cexp(complex(-w.y*arg(z), w.x*arg(z) + 0.5*w.y*log(dot(z,z))));
+  }
+
+  complex cfloor(complex z) {
+    return complex(floor(z.x), floor(z.y));
+  }
+
+  complex cceil(complex z) {
+    return complex(ceil(z.x), floor(z.y));
+  }
+  
+  complex csqrt(complex z) {
+    return cpow(z, complex(0.5, 0));
+  }
+  
+  //Trigonometric functions
+  
+  complex csin(complex z) {
+    // Computes 0.5i * (e^-iz - e^iz)
+    return cmul(0.5*i, cexp(cmul(i, -z)) - cexp(cmul(i, z)));
+  }
+  
+  complex ccos(complex z) {
+    // Computes 0.5*(e^-iz + e^iz)
+    return 0.5*(cexp(cmul(i, -z)) + cexp(cmul(i, z)));
+  }
+  
+  complex ctan(complex z) {
+    return cdiv(csin(z), ccos(z));
+  }
+  
+  complex acsin(complex z) {
+  return cmul(-i, clog(cmul(i, z) + cpow(complex(1.0, 0.0)-cmul(z,z), complex(0.5, 0.0))));
+  }
+  
+  complex accos(complex z) {
+  return 0.5*cpi + acsin(z);
+  }
+  
+  complex actan(complex z) {
+  return 0.5*cmul(i, (clog(complex(1,0)-cmul(i,z)) - clog(complex(1,0)+cmul(i,z))));
+  }
+  
+  complex csec(complex z){
+    return cdiv(one,ccos(z));
+  }
+  
+  complex ccsc(complex z){
+    return cdiv(one,csin(z));
+  }
+  
+  complex ccot(complex z){
+    return cdiv(ccos(z),csin(z));
+  }
+  
+  complex acsec(complex z){
+    return accos(cdiv(one,z));
+  }
+  
+  complex accsc(complex z){
+    return acsin(cdiv(one,z));
+  }
+  
+  complex accot(complex z){
+    return actan(cdiv(one,z));
+  }
+  
+  //Hyperbolic trig
+  //I need to check correct values for arccosh and arcsech
+  
+  complex csinh(complex z) {
+    return 0.5*(cexp(z) - cexp(-z));
+  }
+  
+  complex ccosh(complex z) {
+    return 0.5*(cexp(z) + cexp(-z));
+  }
+  
+  complex ctanh(complex z) {
+    return cdiv(csinh(z), ccosh(z));
+  }
+  
+  complex acsinh(complex z) {
+    return clog(z + cpow(cmul(z,z) + complex(1,0),complex(0.5, 0.0)));
+  }
+  
+  complex accosh(complex z) {
+    //return clog(z + cpow(cmul(z,z) - one,complex(0.5, 0.0)));
+    return clog(z + cmul(cpow(z + complex(1,0),complex(0.5, 0.0)),cpow(z - complex(1,0),complex(0.5, 0.0))));
+  }
+  
+  complex actanh(complex z) {
+    return 0.5*(clog(complex(1,0)+z) - clog(complex(1,0)-z));
+  }
+  
+  complex csech(complex z){
+    return cdiv(one,ccosh(z));
+  }
+  
+  complex ccsch(complex z){
+    return cdiv(one,csinh(z));
+  }
+  
+  complex ccoth(complex z){
+    return cdiv(ccosh(z),csinh(z));
+  }
+  
+  complex acsech(complex z){
+    return accosh(cdiv(one,z));
+  }
+  
+  complex accsch(complex z){
+    return acsinh(cdiv(one,z));
+  }
+  
+  complex accoth(complex z){
+    return actanh(cdiv(one,z));
+  }
+  
+  complex mandelbrot(complex z) {
+    
+    complex zp = complex(0.0);
+    for(int n = 0; n < 100; n++) {
+        zp  = cmul(zp, zp) + z;
+    }
+    return zp;
+  }
+  
+  complex gamma(complex z) {
+    //https://en.wikipedia.org/wiki/Lanczos_approximation
+  
+    const int plength = 8;
+    float p[plength];
+    p[0] = 676.5203681218851;
+    p[1] = -1259.1392167224028;  
+    p[2] = 771.32342877765313;
+    p[3] = -176.61502916214059;
+    p[4] = 12.507343278686905;
+    p[5] = -0.13857109526572012;
+    p[6] = 9.9843695780195716e-6;
+    p[7] = 1.5056327351493116e-7;
+  
+    complex ref;
+    bool inv = false;
+  
+    if(z.x < 0.5){
+        ref = cdiv(cpi, csin(pi*z));
+        z = one-z;
+        inv = true;
+    } 
+    z = z-one;
+    complex x = one;
+    for(int n = 0; n < plength; n++){
+        x += cdiv(complex(p[n],0.0), z + complex(n+1,0));
+    }
+    complex t = z + complex(plength,0) - complex(0.5,0.0);
+  
+    if(inv) {
+        return cdiv(ref, sqrt(2.0*pi) * cmul(cmul(cpow(t, z+complex(0.5,0.0)), cexp(-t)), x));
+    } else {
+        return sqrt(2.0*pi) * cmul(cmul(cpow(t, z+complex(0.5,0.0)), cexp(-t)), x);
+    }
+  }
+  
+  // float factorial(float x) {
+  //     //return 5.0;
+  //     if(x==0.0) return 1.0;
+  //     if(x==1.0) return 1.0;
+  //     float tot = 1.0;
+  //     for(float n = 1.0; n <= 5.0; n++){
+  //         if(n > x) break;
+  //         tot *= n;
+  //     }
+  //     return tot;
+  // }
+  
+  //float stirling(float n) {
+  //   if(n <= 1.0) return 1.0;
+  //    return sqrt(2.0*pi*n)*pow((n/e), n);
+  //}
+  
+  complex factorial(complex z) {
+    //if(z.y == 0.0 ) return complex(stirling(z.x),0.0);
+    return gamma(z+one);
+  }
+  
+  
+  //float binomial(float n, float k) {
+  //    return factorial(n)/(factorial(n-k)*factorial(k));
+  //}
+  
+  complex binomial(complex n, complex k) {
+    return cdiv(factorial(n), cmul(factorial(n-k),factorial(k)));
+  }
+  
+  
+  float d20(float n) {
+    return 1.02268/(1.0+0.000003 * exp(0.867237*n))-0.017144; 
+  }
+  
+  float d70(float n){
+  
+    
+   if(n < 27.0) {
+       return 1.0;
+   } else { 
+        //y = -0.09699716 + (0.9818753 - -0.09699716)/(1 + (x/0.2604921)^4.245834) //r2 0.999
+        //n = n/27.0;
+  
+        return 1.00622/(1.0 + 4.2364e-11 * exp(0.477878*n));
+        return -0.01026294 + (1.005786 - -0.01026294)/(1.0+ pow(pow(n/0.9574826,8.804597),2.22099));
+        //return -0.04648318 + (0.9967216 - -0.04648318)/(1.0 + pow(n/0.8590162,10.26419));
+        //return -0.09699716 + (0.9818753 - -0.09699716)/(1.0 + pow(n/0.2604921,4.245834));
+       //return -0.02594087 + (1.003729 - -0.02594087)/(1.0 + pow(n/50.09641,22.79802)); 
+   }
+  }
+
+  //formerly zetag
+  complex zeta(complex z){
+
+    complex ref;
+    bool inv = false;
+    if(z.x <= -1.0 && abs(z.y) < 55.0) {
+      ref = cmul(cmul(cmul(cpow(complex(2,0),z),cpow(cpi,z-one)),
+            csin(pi*z/2.0)),
+            gamma(one - z));
+      z = one - z;
+      inv = true;
+    }
+
+    //for efficiency, unrolled loop with precomputed dk
+    complex total = zero;
+    total += 1.0 *cpow( 1.0 ,-z);
+    total -= 1.0 *cpow( 2.0 ,-z);
+    total += 1.0 *cpow( 3.0 ,-z);
+    total -= 1.0 *cpow( 4.0 ,-z);
+    total += 1.0 *cpow( 5.0 ,-z);
+    total -= 1.0 *cpow( 6.0 ,-z);
+    total += 1.0 *cpow( 7.0 ,-z);
+    total -= 1.0 *cpow( 8.0 ,-z);
+    total += 1.0 *cpow( 9.0 ,-z);
+    total -= 0.999999999999 *cpow( 10.0 ,-z);
+    total += 0.99999999998 *cpow( 11.0 ,-z);
+    total -= 0.999999999735 *cpow( 12.0 ,-z);
+    total += 0.999999997107 *cpow( 13.0 ,-z);
+    total -= 0.999999973564 *cpow( 14.0 ,-z);
+    total += 0.99999979531 *cpow( 15.0 ,-z);
+    total -= 0.999998644649 *cpow( 16.0 ,-z);
+    total += 0.999992264978 *cpow( 17.0 ,-z);
+    total -= 0.99996169714 *cpow( 18.0 ,-z);
+    total += 0.999834476711 *cpow( 19.0 ,-z);
+    total -= 0.999372646647 *cpow( 20.0 ,-z);
+    total += 0.997905448059 *cpow( 21.0 ,-z);
+    total -= 0.993815695896 *cpow( 22.0 ,-z);
+    total += 0.983794506135 *cpow( 23.0 ,-z);
+    total -= 0.962183592565 *cpow( 24.0 ,-z);
+    total += 0.921145847114 *cpow( 25.0 ,-z);
+    total -= 0.852537436761 *cpow( 26.0 ,-z);
+    total += 0.751642715653 *cpow( 27.0 ,-z);
+    total -= 0.621346807473 *cpow( 28.0 ,-z);
+    total += 0.47396013731 *cpow( 29.0 ,-z);
+    total -= 0.328445893083 *cpow( 30.0 ,-z);
+    total += 0.203648931086 *cpow( 31.0 ,-z);
+    total -= 0.111255622362 *cpow( 32.0 ,-z);
+    total += 0.0526848641535 *cpow( 33.0 ,-z);
+    total -= 0.0212286807239 *cpow( 34.0 ,-z);
+    total += 0.0071162051027 *cpow( 35.0 ,-z);
+    total -= 0.00192702152025 *cpow( 36.0 ,-z);
+    total += 0.000404373755448 *cpow( 37.0 ,-z);
+    total -= 6.16229812906e-05 *cpow( 38.0 ,-z);
+    total += 6.06127684826e-06 *cpow( 39.0 ,-z);
+    total -= 2.8863223087e-07 *cpow( 40.0 ,-z);
+
+    total = cdiv(total, one-cpow(2.0,one-z));
+
+    if (inv) {
+       total = cmul(ref, total);
+    }
+
+    return total;
+
+  }
+
+  complex square(complex z) {
+    float t = z.x * z.y;
+    return complex( z.x * z.x - z.y * z.y, t + t);
+  }
+
+  complex joukowsky(complex z, complex ce, float r){
+        
+    complex a = complex(1.0, 0);//{r:1,i:0};
+    complex ra = complex(r, 0.0);//complex(0.23 * sqrt(13.0 * 2.0), 0.0);
+      
+    complex center = complex(ce.x, ce.y);//complex(-0.15, 0.23);
+        
+    complex sq = csqrt(csub(square(z), complex(4.0,0.0)));
+        
+   complex z1 = cdiv(csub(z, sq), complex(2.0, 0.0));
+   complex z2 = cdiv(cadd(z, sq), complex(2.0, 0.0));
+        
+    complex d1 = csub(z1, center);
+    complex d2 = csub(z2, center);
+        
+    complex za;
+
+    if(realmodulus(d1) > realmodulus(d2)){
+        za = cdiv( csub(z1, center), ra);
+    } else{
+        za = cdiv( csub(z2, center), ra);
+    }
+
+    if(realmodulus(za) < realmodulus(a)){
+        return complex(0.0, 0.0);
+    } return cadd(za, cdiv(a, za));
+
+  }
+      
+
+    bool isNan(float val)
+    {
+        return (val <= 0.0 || 0.0 <= val) ? false : true;
+    }
+
+		void main()
+		{
+      float a = vUv.x*2.0 - 1.0;
+      float b = vUv.y*2.0 - 1.0;
+      const float scale = 2.0;
+
+      // Make sure pixels are square
+      a *= scale * width / height;
+      b *= scale;
+
+      vec2 final_expr = EXPRESSION;
+
+      
+
+      float L = length(final_expr);
+      if(isNan(length(final_expr)) || L > 1.0e10) {
+        discard;
+      }
+
+      // TODO : Write this better
+      if(_option == 0.0) {
+        // HSV Domain Coloring - Plane 
+        
+        float _arg = (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
+
+        vec3 hsv = vec3(_arg, 1.0, 1.0);
+        vec3 rgb = hsv2rgb( hsv );
+
+  			gl_FragColor = vec4(rgb, 1.0);
+
+      } else if(_option == 1.0){
+        // HSV Domain Coloring - Modulus curves
+
+        float l = length(final_expr);
+        
+        float _r = 2.0 * log(l);
+
+        _r = 0.655 + 0.39 * ( _r - floor( _r ) );
+
+        float _arg = (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
+
+        vec3 hsv = vec3(_arg, 1.0, _r);
+        vec3 rgb = hsv2rgb( hsv );
+
+  			gl_FragColor = vec4(rgb, 1.0);
+
+      } else if(_option == 2.0){
+        // HSV Domain coloring - Phase curves
+
+        float _arg =  (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
+
+        float _c = 0.39 * ( 20.0 * _arg - floor( 20.0 * _arg) ) + 0.655;
+
+        vec3 hsv = vec3(_arg, 1.0, _c);
+        vec3 rgb = hsv2rgb( hsv );
+
+  			gl_FragColor = vec4(rgb, 1.0);
+      } else if(_option == 3.0){
+        // HSV Domain coloring - Combined
+        float l = length(final_expr);
+        
+        float _r = 2.0 * log(l);
+
+        _r = 0.65 + 0.39 * ( _r - floor( _r ) );
+
+        float _arg = (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
+
+        float _c = 0.39 * ( 20.0 * _arg - floor( 20.0 * _arg) ) + 0.655;
+
+        vec3 hsv = vec3(_arg, 1.0, _c * _r);
+        vec3 rgb = hsv2rgb( hsv );
+
+        gl_FragColor = vec4(rgb, 1.0);
+        
+      } else {
+        // Texture-based Domain Coloring
+      
+        vec4 tex = texture2D(gridTexture, clog(final_expr) / (0.4 * scale));
+        gl_FragColor = vec4( tex.xyz, 1.0 );
+
+      }
+
+    }
+  </script>
+
+  <script>
+    // TODO : Clean this up a bit. It's still pretty messy.
+
+    // Get the starting canvas size
+    var WIDTH = $("#display-area").width(),
+      HEIGHT = $("#display-area").height();
+
+    // Get the DOM element to attach the render canvas to
+    var $container = $("#display-area");
+
+    // Create a WebGL renderer, camera and a scene
+    renderer = new THREE.WebGLRenderer();
+    camera = new THREE.OrthographicCamera(
+      WIDTH / -2,
+      WIDTH / 2,
+      HEIGHT / 2,
+      HEIGHT / -2,
+      1,
+      10
+    );
+    scene = new THREE.Scene();
+
+    var uniforms = {
+      t: {
+        type: "f",
+        value: 1.0
+      },
+      s: {
+        type: "s",
+        value: 0.0
+      },
+      _option: {
+        type: "f",
+        value: 1.0
+      },
+      gridTexture: {
+        type: "t",
+        value: null
+      },
+      width: {
+        type: "f",
+        value: WIDTH
+      },
+      height: {
+        type: "f",
+        value: HEIGHT
+      }
+    };
+
+    /*//I don't need this function for domain coloring
+    function setTexture(url) {
+      //var gridTexture = THREE.ImageUtils.loadTexture(url);
+      //gridTexture.wrapS = gridTexture.wrapT = THREE.RepeatWrapping;
+      var gridTexture = new THREE.TextureLoader().load( url );
+      gridTexture.wrapS = THREE.RepeatWrapping;
+      gridTexture.wrapT = THREE.RepeatWrapping;
+      gridTexture.repeat.set(2, 2);
+
+      uniforms.gridTexture.value = gridTexture;
+    }
+    setTexture("images/plotfz-2.png");*/
+
+
+    // the camera starts at 0,0,0 so pull it back
+    camera.position.z = 5;
+    renderer.setSize(WIDTH, HEIGHT);
+
+    function reset_camera() {
+      var WIDTH = $("#display-area").width(),
+        HEIGHT = $("#display-area").height();
+
+      // We need to update the uniforms passed to the shader so it can later
+      // compute the aspect ratio and maintain square pixels.
+      uniforms.width.value = WIDTH;
+      uniforms.height.value = HEIGHT;
+
+      renderer.setSize(WIDTH, HEIGHT);
+    }
+
+    reset_camera();
+
+    // attach the render-supplied DOM element
+    $container.append(renderer.domElement);
+
+    // Produce the Parser based on our grammar
+    $(function () {
+      window.pegParser = PEG.buildParser(
+        $("#complex-expression-peg-grammar").text()
+      );
+    });
+
+    // Make a full-screen quad and add it to the THREE.js scene
+    var plane = new THREE.PlaneBufferGeometry(WIDTH, HEIGHT);
+    var quad = new THREE.Mesh(plane, null);
+    quad.position.z = 0;
+    scene.add(quad);
+
+    //I need an error message to show when the user enters an incomplete expression
+    function buildErrorMessage(e) {
+      return e.location !== undefined ?
+        "" + e.message :
+        e.message;
+    }
+
+    // I need this function to define a parameter s changing at a constant rate
+    var begin;
+
+    function getNow() {
+      begin = Date.now();
+    }
+
+    // Whenever the user updates the input field, we need to parse and produce a
+    // new shader to update what's being displayed.
+    // Also, I need to check the input expression is correct
+    function update_expression() {
+      var new_expression = $("#equation-input").val();
+      var result;
+      try {
+        var compiledExpression = pegParser.parse(new_expression);
+        result = true;
+      } catch (e) {
+        $("#parse-message").attr("class", "message error").text(buildErrorMessage(e));
+
+        result = false;
+      }
+
+      var shaderMaterial = new THREE.ShaderMaterial({
+        uniforms: uniforms,
+        vertexShader: $("#vertexshader").text(),
+        fragmentShader: $("#fragmentshader")
+          .text()
+          .replace("EXPRESSION", compiledExpression)
+      });
+
+      //console.log(compiledExpression);//debug:)
+
+      //Show or hide error message
+      if (result === true) {
+        $('#error-container').hide();
+      } else $('#error-container').show();
+
+      quad.material = shaderMaterial;
+      getNow(); // Reset parameter s
+    }
+
+    // When rendering, we just need to make sure our convenience variables are
+    // up-to-date before we render.
+
+    function render() {
+      // If we're rendering video, update that.
+      if (window.video && video.readyState === video.HAVE_ENOUGH_DATA) {
+        videoImageContext.drawImage(
+          video,
+          0,
+          0,
+          videoImage.width,
+          videoImage.height
+        );
+        if (videoTexture) videoTexture.needsUpdate = true;
+      }
+
+      var count = Date.now();
+      s = -Math.abs(begin - count) * 0.00025;
+
+      quad.material.uniforms.t.value = Math.sin(new Date().getTime() * 0.0005);
+      quad.material.uniforms.t.needsUpdate = true;
+      quad.material.uniforms.s.value = s;
+      quad.material.uniforms.s.needsUpdate = true;
+
+      renderer.render(scene, camera);
+
+      requestAnimationFrame(render);
+    }
+
+    // When the user clicks one of the images icon, change the plot
+    $("#texture-options a").each(function () {
+      $(this).click(function () {
+        var texture_path = $(this)
+          .find("img")
+          .first()
+          .attr("src");
+        if (texture_path === "images/hsv.png") {
+          uniforms._option.value = 0.0;
+          //console.log(uniforms._option.value);
+          //setTexture(texture_path);
+        } else if (texture_path === "images/hsvmod.png") {
+          uniforms._option.value = 1.0;
+          //console.log(uniforms._option.value);
+          //setTexture(texture_path);
+        } else if (texture_path === "images/hsvphase.png") {
+          uniforms._option.value = 2.0;
+          //console.log(uniforms._option.value);
+          //setTexture(texture_path);
+        } else if (texture_path === "images/hsvcomb.png") {
+          uniforms._option.value = 3.0;
+          //console.log(uniforms._option.value);
+          //setTexture(texture_path);
+        } else {
+          uniforms._option.value = 4.0;
+          //Stream from the webcam.
+          initWebCam();
+        }
+      });
+    });
+
+    // When the user presses the button, show some copyable text
+    function showLink() {
+      var expression_base64 = btoa($("#equation-input").val());
+
+      var url = [location.protocol, "//", location.host, location.pathname].join(
+        ""
+      );
+      url = url + "?expression=" + expression_base64;
+
+      $("#copyable-link").val(url);
+      $("#link-container").show();
+      $("#copyable-link").select();
+    }
+    $("#copyable-link").blur(function () {
+      $("#link-container").hide();
+    });
+
+    // If the user already specified
+    $(function () {
+      var expression_base64 = getQueryVariable("expression");
+      console.log(expression_base64);
+      if (expression_base64) {
+        $("#equation-input").val(atob(expression_base64.replace("/", "")));
+      }
+    });
+
+    function resetConstant() {
+      s = 0.0;
+    }
+    // Get things started.
+    $("#equation-input").change(update_expression);
+    //$("#equation-input").change(resetConstant);
+    $("#show-link").click(showLink);
+    $(window).resize(reset_camera);
+    $(update_expression);
+    $(render);
+  </script>
+
+</body>
+
+</html>
