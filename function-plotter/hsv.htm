@@ -956,7 +956,7 @@
       }
 
       var count = Date.now();
-      s = -Math.abs(begin - count) * 0.00025;
+      s = Math.abs(begin - count) * 0.00025;
 
       quad.material.uniforms.t.value = Math.sin(new Date().getTime() * 0.0005);
       quad.material.uniforms.t.needsUpdate = true;

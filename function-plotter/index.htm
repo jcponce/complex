@@ -928,7 +928,7 @@ if(n < 27.0) {
 
    
     var count = Date.now();
-    var s = -Math.abs(start - count)*0.00025;
+    var s = Math.abs(start - count)*0.00025;
     quad.material.uniforms.s.value = s;//Math.sin(new Date().getTime() * 0.0005);
     quad.material.uniforms.s.needsUpdate = true;
     quad.material.uniforms.t.value = Math.sin(new Date().getTime() * 0.0005);
