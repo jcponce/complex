@@ -15,6 +15,10 @@ funcZ: 'z',
     
 displayXY: false,
 size: 3,
+slidert: 1,
+slideru: 1,
+slidern: 1,
+sliders: 1,
 centerX: 0,
 centerY: 0,
 
@@ -44,6 +48,14 @@ function setup() {
     //gui.add(clts, 'funcZ').name("f(z) =");
     gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
     gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
+    
+    let par = gui.addFolder('Parameters');
+    par.add(clts, 'slidert', 0, 1, 0.01).name("t =").onChange(keyPressed);
+    par.add(clts, 'slideru', 0, 2*Math.PI, 0.01).name("u =").onChange(keyPressed);
+    par.add(clts, 'slidern', 0, 60, 1).name("n =").onChange(keyPressed);
+    //par.add(clts, 'sliders', 0, 1).name("s  = sin(2pi*t)").onChange(keyPressed);
+
+    
     gui.add(clts, 'Save').name("Save (png)");
     
     gui.add(clts, 'displayXY').name("Axes").onChange(redraw);

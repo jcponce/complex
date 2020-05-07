@@ -98,14 +98,14 @@ function complex_expression(s) {
     };
     var params = [{
             name: 't',
-            defn: '{r:par,i:0}',
+            defn: '{r:clts.slidert,i:0}',//'{r:par,i:0}',
             caption: (function (t) {
                 return 't = ' + t.toFixed(3);
             })
         },
         {
             name: 'u',
-            defn: '{r:Math.cos(Math.PI*2*par),i:Math.sin(Math.PI*2*par)}',
+            defn: '{r:Math.cos(clts.slideru),i:Math.sin(clts.slideru)}',//'{r:Math.cos(Math.PI*2*par),i:Math.sin(Math.PI*2*par)}',
             caption: (function (t) { // epislon added to avoid displaying "-0.00".
                 var s = Math.sin(Math.PI * 2 * t) + 3e-16,
                     c = Math.cos(Math.PI * 2 * t) + 3e-16;
@@ -115,21 +115,21 @@ function complex_expression(s) {
         },
         {
             name: 'n',
-            defn: '{r:Math.floor(par*par*59 + 1.5),i:0}',
+            defn: '{r:clts.slidern,i:0}',//'{r:Math.floor(par*par*59 + 1.5),i:0}',
             caption: (function (t) {
                 return 'n = ' + (Math.floor(t * t * 59 + 1.5));
             })
         },
         {
             name: 's',
-            defn: '{r:Math.sin(Math.PI*2*par),i:0}',
+            defn: '{r:Math.sin(Math.PI*2*clts.slidert),i:0}',//'{r:Math.sin(Math.PI*2*par),i:0}',
             caption: (function (t) {
                 return 's = ' + (Math.sin(Math.PI * 2 * t) + 3e-16).toFixed(3);
             })
         },
         {
             name: 'r',
-            defn: '{r:0.5-Math.cos(Math.PI*2*par)/2,i:0}',
+            defn: '{r:0.5-Math.cos(Math.PI*2*clts.slidert)/2,i:0}',//'{r:0.5-Math.cos(Math.PI*2*par)/2,i:0}',
             caption: (function (t) {
                 return 'r = ' + (.5 - Math.cos(Math.PI * 2 * t) / 2 + 3e-16).toFixed(3);
             })
