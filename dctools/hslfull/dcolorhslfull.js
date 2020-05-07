@@ -52,7 +52,7 @@ function setup() {
     let par = gui.addFolder('Parameters');
     par.add(clts, 'slidert', 0, 1, 0.01).name("t =").onChange(keyPressed);
     par.add(clts, 'slideru', 0, 2*Math.PI, 0.01).name("exp(iu): u =").onChange(keyPressed);
-    par.add(clts, 'slidern', 0, 60, 1).name("Int: n =").onChange(keyPressed);
+    par.add(clts, 'slidern', 0, 30, 1).name("Int: n =").onChange(keyPressed);
 
     gui.add(clts, 'Save').name("Save (png)");
     
