@@ -120,6 +120,7 @@ function complex_expression(s) {
                 return 'n = ' + (Math.floor(t * t * 59 + 1.5));
             })
         },
+        //The next two parameters are not included yet.
         {
             name: 's',
             defn: '{r:Math.sin(Math.PI*2*clts.slidert),i:0}',//'{r:Math.sin(Math.PI*2*par),i:0}',

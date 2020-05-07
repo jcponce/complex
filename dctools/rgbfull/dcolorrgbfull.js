@@ -16,6 +16,9 @@ let clts = {
 
   displayXY: false,
   size: 2.5,
+  slidert: 1,
+  slideru: 1,
+  slidern: 1,
   centerX: 0,
   centerY: 0,
 
@@ -233,6 +236,12 @@ function uiControls() {
   });
   gui.add(clts, 'lvlCurv', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
   gui.add(clts, 'size', 0.00001, 15).name("|Re z| < ").onChange(keyPressed);
+
+  let par = gui.addFolder('Parameters');
+    par.add(clts, 'slidert', 0, 1, 0.01).name("t =").onChange(keyPressed);
+    par.add(clts, 'slideru', 0, 2*Math.PI, 0.01).name("exp(iu): u =").onChange(keyPressed);
+    par.add(clts, 'slidern', 0, 60, 1).name("Int: n =").onChange(keyPressed);
+    
   gui.add(clts, 'Save').name("Save (png)");
 
   gui.add(clts, 'phaseOption', ['[0, 2pi)', '(-pi, pi]']).name("Arg(z): ").onChange(myPhaseOption);

@@ -14,6 +14,9 @@ let clts = {
   displayXY: false,
 
   size: 2.5,
+  slidert: 1,
+  slideru: 1,
+  slidern: 1,
 
   centerX: 0,
   centerY: 0,
@@ -228,136 +231,7 @@ class domainColoring {
   } //ends grid
 
 }
-/*
-// Now we color the pixels
 
-let w, h, posRe, posIm;
-
-function plot() {
-  // Establish a range of values on the complex plane
-  // A different range will allow us to "zoom" in or out on the fractal
-
-  // It all starts with the width, try higher or lower values
-  w = clts.size * 2;
-  h = (w * height) / width;
-
-  // Start at negative half the width and height
-  let xmin = -w / 2 + clts.centerX;
-  let ymin = -h / 2 - clts.centerY;
-
-  // Make sure we can write to the pixels[] array.
-  // Only need to do this once since we don't do any other drawing.
-  loadPixels();
-
-  // x goes from xmin to xmax
-  let xmax = xmin + w;
-  // y goes from ymin to ymax
-  let ymax = ymin + h;
-
-  // Calculate amount we increment x,y for each pixel
-  let dx = (xmax - xmin) / (width);
-  let dy = (ymax - ymin) / (height);
-
-  let cX = map(mouseX, 0, width, xmin, xmax);
-  let cY = map(mouseY, height, 0, ymin, ymax);
-
-  // Start y
-  let y = ymin;
-
-  //let z = trimN(clts.funcZ);
-  let z = trimN(input.value());
-  let parsed = complex_expression(z);
-
-  for (let j = 0; j < height; j++) {
-    // Start x
-    let x = xmin;
-    for (let i = 0; i < width; i++) {
-
-      //let x = xtemp;
-      //let y = -ytemp; //Here we need minus since the y-axis in canvas is upside down
-
-      let vz = {
-        r: x,
-        i: -y
-      };
-
-      let w = parsed.fn(vz);
-
-      //x = w.r;
-      //y = w.i;
-
-      // We color each pixel based on some cool function
-      // Gosh, we could make fancy colors here if we wanted
-
-      let h = funPhase(w.r, w.i);
-      let s = funColorS(w.r, w.i);
-      let b = funColorV(w.r, w.i);
-      set(i, j, color(h, s, b));
-
-      x += dx;
-    }
-    y += dy;
-  }
-
-  updatePixels();
-}
-
-//--This function displays the grid for reference--
-
-function displayGrid() {
-
-  stroke(0);
-  strokeWeight(2);
-  line(0, height / 2, width, height / 2); //x-axis
-  line(width / 2, 0, width / 2, height); //y-axis
-  textSize(12);
-  fill(1);
-  text('(' + clts.centerX + ',' + clts.centerY + ')', width / 2 + 2, height / 2 + 15);
-
-  //position Tags for Re and Im
-  if (clts.sizePlot == true) {
-    posRe = 320;
-    posIm = -240;
-  } else {
-    posRe = 210;
-    posIm = -210;
-  }
-  text('Im', width / 2 + 2 - 25, height / 2 + posIm);
-  text('Re', width / 2 + posRe, height / 2 - 10);
-
-  // Draw tick marks twice per step, and draw the halfway marks smaller.
-  // Draw tick marks twice per step, and draw the halfway marks smaller.
-  let txtsize = map(size, 0, 15, 14, 8);
-  let txtStroke = map(size, 0, 15, 2, 0.5);
-  strokeWeight(txtStroke);
-  textSize(txtsize);
-  let r = 3;
-  for (let j = 0; j <= height / 2; j += height / ((clts.size * 2 * height) / width)) {
-    for (let i = 0; i <= width / 2; i += width / (clts.size * 2)) {
-      ellipse(width / 2 - i, height / 2, r, r); //negative x
-      ellipse(width / 2, height / 2 - j, r, r); //positive y
-      ellipse(width / 2 + i, height / 2, r, r); //positive x
-      ellipse(width / 2, height / 2 + j, r, r); //negative y
-
-      let sr = 4
-      if (j > 0) {
-        let setPY = map(j, 0, height / 2, 0, h / 2) + clts.centerY;
-        let setNY = -(map(j, 0, height / 2, 0, h / 2) - clts.centerY);
-        text('' + str(round(setPY * 10) / 10.0), width / 2 - sr + 9, height / 2 - j + 3); //Y-Positive
-        text('' + str(round(setNY * 10) / 10.0), width / 2 - sr + 9, height / 2 + j + 3); //Y-Negative
-      }
-
-      if (i > 0) {
-        let setPX = map(i, 0, width / 2, 0, w / 2) + clts.centerX;
-        let setNX = -(map(i, 0, width / 2, 0, w / 2) - clts.centerX);
-        text('' + str(round(setPX * 10) / 10.0), width / 2 + i, height / 2 - sr + 18); //X-Positive
-        text('' + str(round(setNX * 10) / 10.0), width / 2 - i, height / 2 - sr + 18); //X-Negative
-      }
-    }
-  }
-
-}
-*/
 
 // Auxiliary functions
 function uiControls() {
@@ -369,6 +243,12 @@ function uiControls() {
   //gui.add(clts, 'funcZ').name("f(z) =");
   gui.add(clts, 'lvlCurv', ['Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None']).name("Level Curves:").onChange(mySelectOption);
   gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
+
+  let par = gui.addFolder('Parameters');
+    par.add(clts, 'slidert', 0, 1, 0.01).name("t =").onChange(keyPressed);
+    par.add(clts, 'slideru', 0, 2*Math.PI, 0.01).name("exp(iu): u =").onChange(keyPressed);
+    par.add(clts, 'slidern', 0, 60, 1).name("Int: n =").onChange(keyPressed);
+
   gui.add(clts, 'Save').name("Save (png)");
 
   gui.add(clts, 'displayXY').name("Axes").onChange(redraw);
