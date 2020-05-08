@@ -62,6 +62,8 @@ Sep-2019: I was able to work out how to add a parser for complex functions thank
 
 Nov-2019: Added a new input box to enter the functions. It looks better 😃. I also added a new color scheme and the Finite Blaschke product with randomly distributed points.
 
+May-202: I added sliders to define three parameters. t: [0,1], u:[0,2pi] defining the complex number exp(i*u), and n:[0,30] an integer.
+
 ---
 
 #### LICENSE  
