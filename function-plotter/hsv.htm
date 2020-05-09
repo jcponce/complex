@@ -137,6 +137,7 @@
     / _ "floor"  _ "(" _ arg:Expression _ ")" _ { return 'cfloor(' + arg + ')'; }
     / _ "ceil"  _ "(" _ arg:Expression _ ")" _ { return 'cceil(' + arg + ')'; }
     / _ "map"  _ "(" _ arg:Expression _ ")" _ { return 'map(' + arg + ')'; }
+    / _ "transform"  _ "(" _ argz:Expression _ "," _ argw:Expression _"," _ a:Real _")" _ { return 'transform(' + argz + ','+ argw +','+ a +')'; }
     / _ "disk"  _ "(" _ arg:Expression _ ")" _ { return 'disk(' + arg + ')'; }
     / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'clog(' + arg + ')'; }
     / _ "arg"  _ "(" _ arg:Expression _ ")" _ { return 'carg(' + arg + ')'; }
@@ -339,6 +340,59 @@
   
     return cmul( z, cmul(untCir, origin));//cmul(z, cmul(unitCircle, origin) ); //z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|));
   }
+
+  //z disk(1/(16(|z|-1))) disk(1/(16|z|))
+
+complex circle(complex z, complex c, float r){
+
+  complex rad = complex(r, 0.0);
+
+  float size = 20.0;
+
+  complex bigCirc = disk(cdiv(rad, cmul(complex(size, 0.0), modulus(csub(z, c))-rad)));
+  
+  //cmult(complex(40.0, cabs(z) - one )) );
+  complex center =  disk(cdiv(rad, cmul(complex(size, 0.0), modulus(csub(z, c)))));
+
+  return cmul( z, cmul(bigCirc, center));//cmul(z, cmul(unitCircle, origin) ); //z * disk(1/(40*(|z|-1))) * disk(1/(40*|z|));
+}
+
+//z*disk(0.2/(z-i))
+
+complex transform(complex z, complex w, float r){
+  //circle(conj(z) * (1-(t+1)/2) + (t+1)/2 * z,i,0.1)+circle(conj(z) * (1-(t+1)/2) + (t+1)/2 * z,1,0.1)
+  complex ct = complex(r, 0.0);
+
+  complex p0 = cdiv( cadd(ct, complex(1.0, 0.0)), complex(2.0, 0.0));//(t+1)/2
+  complex p1 = csub( one, p0);//(1-(t+1)/2)
+
+  complex e1 = cadd( cmul(z, p1) , cmul(w, p0));
+  complex e2 = cadd( cmul(csub(z, one), p1) , cmul(csub(w, one), p0));
+
+
+  complex im = circle(  e1, complex(0.0, 1.0), 0.1 );
+
+  complex im2 = circle(  e1, complex(0.0, 0.0), 0.3 );
+
+  complex b2 = cadd(im, im2);
+
+  //(z*(1-(t+1)/2) + z^2* (t+1)/2)*disk(0.2/((z*(1-(t+1)/2) + z^2* (t+1)/2)-1))
+
+  complex re = disk( cdiv(complex(0.09,0.0), e2) );
+
+  complex ref = cmul(im, re);
+
+  return ref;
+  
+}
+
+//z * disk(16*|z-1|)
+//z * disk(16*|z-i|)
+//(conj(z) * disk(16*|conj(z)-i|)+conj(z) * disk(16*|conj(z)-1|))
+//(conj(z) * disk(16*|conj(z)-i|)+conj(z) * disk(16*|conj(z)-1|))
+//conj(z) * disk(1/(15*|conj(z)-i|))
+//(z*(1-(t+1)/2)+conj(z) * (t+1)/2) *disk(1/(16*|(z*(1-(t+1)/2)+conj(z) * (t+1)/2)-i|)) + (z*(1-(t+1)/2)+conj(z) * (t+1)/2) *disk(1/(16*|(z*(1-(t+1)/2)+conj(z) * (t+1)/2)-1|))
+
   
   complex cabs(complex z) {
     return complex(length(z), 0.0);
