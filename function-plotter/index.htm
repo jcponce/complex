@@ -136,6 +136,7 @@ Factor
   / _ "joukowsky"  _ "(" _ arg:Expression _ "," _ c:Expression _ ", " _ a:Real _ ")" _ { return 'joukowsky(' + arg + ', ' + c + ' , '+ a +')'; }
   / _ "zeta"  _ "(" _ arg:Expression _ ")" _ { return 'zeta(' + arg + ')'; }
   / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
+  / _ "julia"  _ "(" _ arg:Expression _ "," _ c:Expression _ ")" _ { return 'julia(' + arg + ',' + c + ')'; }
   / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
   / _ "floor"  _ "(" _ arg:Expression _ ")" _ { return 'cfloor(' + arg + ')'; }
   / _ "ceil"  _ "(" _ arg:Expression _ ")" _ { return 'cceil(' + arg + ')'; }
@@ -586,6 +587,15 @@ for(int n = 0; n < 100; n++) {
     zp  = cmul(zp, zp) + z;
 }
 return zp;
+}
+
+complex julia(complex z, complex c) {
+  
+  complex zp = z;
+  for(int n = 0; n < 100; n++) {
+      zp  = cmul(zp, zp) + complex(c.x, c.y);
+  }
+  return zp;
 }
 
 
