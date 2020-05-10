@@ -398,7 +398,7 @@ complex transform(complex z, complex w, float r){
 
   complex re = disk( cdiv(complex(0.09,0.0), e2) );
 
-  complex ref = cmul(im, re);
+  complex ref = map(cmul(im, re));
 
   return ref;
   
