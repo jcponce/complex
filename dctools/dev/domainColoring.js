@@ -22,6 +22,7 @@ class domainColoring {
         //let z = trimN(clts.funcZ);
         let z = trimN(this.fn);
         let parsed = complex_expression(z);//Define function
+        //debug
         console.log(parsed);
         // Establish a range of values on the complex plane
         
@@ -92,7 +93,7 @@ class domainColoring {
         line(width / 2, 0, width / 2, height); //y-axis
 
         let r = 5;
-        let sr = 4
+        let sr = 4;
         let w = this.size;
         let h = (w * height) / width;
         
@@ -121,11 +122,7 @@ class domainColoring {
         fill(1);
         text('(' + this.cX + ',' + this.cY + ')', width / 2 + 2, height / 2 + 15);
         
-        let valx;
-        let valy;
-        let valx2;
-        let valy2;
-        let dec;
+        let valx,valy,valx2,valy2,dec;
         if(1 <= w ){
             dec = 100.0;
         } else if( 0.01 <= w && w < 1){
