@@ -130,49 +130,83 @@
   // Added a few extra functions by Juan Carlos Ponce Campuzano 12-Nov-2019
   Factor
     = "(" _ expr:Expression _ ")" { return expr; }
-    / _ "joukowsky"  _ "(" _ arg:Expression _ "," _ c:Expression _ "," _ a:Real _ ")" _ { return 'joukowsky(' + arg + ', ' + c + ','+ a +')'; }
+    / _ "joukowsky"  _ "(" _ arg:Expression _ "," _ c:Expression _ ", " _ a:Real _ ")" _ { return 'joukowsky(' + arg + ',' + c + ','+ a +')'; }
     / _ "zeta"  _ "(" _ arg:Expression _ ")" _ { return 'zeta(' + arg + ')'; }
     / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
     / _ "julia"  _ "(" _ arg:Expression _ "," _ c:Expression _ ")" _ { return 'julia(' + arg + ',' + c + ')'; }
     / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
-    / _ "floor"  _ "(" _ arg:Expression _ ")" _ { return 'cfloor(' + arg + ')'; }
-    / _ "ceil"  _ "(" _ arg:Expression _ ")" _ { return 'cceil(' + arg + ')'; }
     / _ "map"  _ "(" _ arg:Expression _ ")" _ { return 'map(' + arg + ')'; }
     / _ "transform"  _ "(" _ argz:Expression _ "," _ argw:Expression _"," _ a:Real _")" _ { return 'transform(' + argz + ','+ argw +','+ a +')'; }
+    / _ "floor"  _ "(" _ arg:Expression _ ")" _ { return 'cfloor(' + arg + ')'; }
+    / _ "ceil"  _ "(" _ arg:Expression _ ")" _ { return 'cceil(' + arg + ')'; }
     / _ "disk"  _ "(" _ arg:Expression _ ")" _ { return 'disk(' + arg + ')'; }
     / _ "log"  _ "(" _ arg:Expression _ ")" _ { return 'clog(' + arg + ')'; }
     / _ "arg"  _ "(" _ arg:Expression _ ")" _ { return 'carg(' + arg + ')'; }
     / _ "exp"  _ "(" _ arg:Expression _ ")" _ { return 'cexp(' + arg + ')'; }
-    / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'ctan(' + arg + ')'; }
-    / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'ccos(' + arg + ')'; }
+    / _ "-floor"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, cfloor(' + arg + '))'; }
+    / _ "-ceil"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, cceil(' + arg + '))'; }
+    / _ "-disk"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, cdisk(' + arg + '))'; }
+    / _ "-log"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, clog(' + arg + '))'; }
+    / _ "-arg"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, carg(' + arg + '))'; }
+    / _ "-exp"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, cexp(' + arg + '))'; }
     / _ "sin"  _ "(" _ arg:Expression _ ")" _ { return 'csin(' + arg + ')'; }
+    / _ "cos"  _ "(" _ arg:Expression _ ")" _ { return 'ccos(' + arg + ')'; }
+    / _ "tan"  _ "(" _ arg:Expression _ ")" _ { return 'ctan(' + arg + ')'; }
     / _ "sec"  _ "(" _ arg:Expression _ ")" _ { return 'csec(' + arg + ')'; }
     / _ "csc"  _ "(" _ arg:Expression _ ")" _ { return 'ccsc(' + arg + ')'; }
     / _ "cot"  _ "(" _ arg:Expression _ ")" _ { return 'ccot(' + arg + ')'; }
-    / _ "arctan"  _ "(" _ arg:Expression _ ")" _ { return 'actan(' + arg + ')'; }
-    / _ "arccos"  _ "(" _ arg:Expression _ ")" _ { return 'accos(' + arg + ')'; }
+    / _ "-sin"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, csin(' + arg + '))'; }
+    / _ "-cos"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, ccos(' + arg + '))'; }
+    / _ "-tan"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, ctan(' + arg + '))'; }
+    / _ "-sec"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, csec(' + arg + '))'; }
+    / _ "-csc"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, ccsc(' + arg + '))'; }
+    / _ "-cot"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, ccot(' + arg + '))'; }
     / _ "arcsin"  _ "(" _ arg:Expression _ ")" _ { return 'acsin(' + arg + ')'; }
+    / _ "arccos"  _ "(" _ arg:Expression _ ")" _ { return 'accos(' + arg + ')'; }
+    / _ "arctan"  _ "(" _ arg:Expression _ ")" _ { return 'actan(' + arg + ')'; }
     / _ "arcsec"  _ "(" _ arg:Expression _ ")" _ { return 'acsec(' + arg + ')'; }
     / _ "arccsc"  _ "(" _ arg:Expression _ ")" _ { return 'accsc(' + arg + ')'; }
     / _ "arccot"  _ "(" _ arg:Expression _ ")" _ { return 'accot(' + arg + ')'; }
+    / _ "-arcsin"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, acsin(' + arg + '))'; }
+    / _ "-arccos"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, accos(' + arg + '))'; }
+    / _ "-arctan"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, actan(' + arg + '))'; }
+    / _ "-arcsec"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, acsec(' + arg + '))'; }
+    / _ "-arccsc"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, accsc(' + arg + '))'; }
+    / _ "-arccot"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, accot(' + arg + '))'; }
+    / _ "sinh"  _ "(" _ arg:Expression _ ")" _ { return 'csinh(' + arg + ')'; }
+    / _ "cosh"  _ "(" _ arg:Expression _ ")" _ { return 'ccosh(' + arg + ')'; }
+    / _ "tanh"  _ "(" _ arg:Expression _ ")" _ { return 'ctanh(' + arg + ')'; }
     / _ "sech"  _ "(" _ arg:Expression _ ")" _ { return 'csech(' + arg + ')'; }
     / _ "csch"  _ "(" _ arg:Expression _ ")" _ { return 'ccsch(' + arg + ')'; }
     / _ "coth"  _ "(" _ arg:Expression _ ")" _ { return 'ccoth(' + arg + ')'; }
-    / _ "tanh"  _ "(" _ arg:Expression _ ")" _ { return 'ctanh(' + arg + ')'; }
-    / _ "cosh"  _ "(" _ arg:Expression _ ")" _ { return 'ccosh(' + arg + ')'; }
-    / _ "sinh"  _ "(" _ arg:Expression _ ")" _ { return 'csinh(' + arg + ')'; }
-    / _ "sech"  _ "(" _ arg:Expression _ ")" _ { return 'csech(' + arg + ')'; }
+    / _ "-sinh"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, csinh(' + arg + '))'; }
+    / _ "-cosh"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, ccosh(' + arg + '))'; }
+    / _ "-tanh"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, ctanh(' + arg + '))'; }
+    / _ "-sech"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, csech(' + arg + '))'; }
+    / _ "-csch"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, ccsch(' + arg + '))'; }
+    / _ "-coth"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, ccoth(' + arg + '))'; }
+    / _ "arcsinh"  _ "(" _ arg:Expression _ ")" _ { return 'acsinh(' + arg + ')'; }
+    / _ "arccosh"  _ "(" _ arg:Expression _ ")" _ { return 'accosh(' + arg + ')'; }
+    / _ "arctanh"  _ "(" _ arg:Expression _ ")" _ { return 'actanh(' + arg + ')'; }
+    / _ "arcsech"  _ "(" _ arg:Expression _ ")" _ { return 'acsech(' + arg + ')'; }
     / _ "arccsch"  _ "(" _ arg:Expression _ ")" _ { return 'accsch(' + arg + ')'; }
     / _ "arccoth"  _ "(" _ arg:Expression _ ")" _ { return 'accoth(' + arg + ')'; }
-    / _ "arctanh"  _ "(" _ arg:Expression _ ")" _ { return 'actanh(' + arg + ')'; }
-    / _ "arccosh"  _ "(" _ arg:Expression _ ")" _ { return 'accosh(' + arg + ')'; }
-    / _ "arcsinh"  _ "(" _ arg:Expression _ ")" _ { return 'acsinh(' + arg + ')'; }
-    / _ "arcsech"  _ "(" _ arg:Expression _ ")" _ { return 'acsech(' + arg + ')'; }
+    / _ "-arcsinh"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, acsinh(' + arg + '))'; }
+    / _ "-arccosh"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, accosh(' + arg + '))'; }
+    / _ "-arctanh"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, actanh(' + arg + '))'; }
+    / _ "-arcsech"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, acsech(' + arg + '))'; }
+    / _ "-arccsch"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, accsch(' + arg + '))'; }
+    / _ "-arccoth"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, accoth(' + arg + '))'; }
     / _ "abs"  _ "(" _ arg:Expression _ ")" _ { return 'cabs(' + arg + ')'; }
     / _ "|" _ arg:Expression _ "|"  _ { return 'cabs(' + arg + ')'; }
+    / _ "-abs"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, cabs(' + arg + '))'; }
+    / _ "-|" _ arg:Expression _ "|"  _ { return 'cmul(minusone, cabs(' + arg + '))'; }
     / _ "re"  _ "(" _ arg:Expression _ ")" _ { return 're(' + arg + ')'; }
     / _ "im"  _ "(" _ arg:Expression _ ")" _ { return 'im(' + arg + ')'; }
     / _ "conj"  _ "(" _ arg:Expression _ ")" _ { return 'conjugate(' + arg + ')'; }
+    / _ "-re"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, re(' + arg + '))'; }
+    / _ "-im"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, im(' + arg + '))'; }
+    / _ "-conj"  _ "(" _ arg:Expression _ ")" _ { return 'cmul(minusone, conjugate(' + arg + '))'; }
     / _ "iter" _ "(" _ arg:Expression _ "," _ count:PositiveInteger _ ")" _ {
       var n = parseInt(count) - 1, Q = arg;
       for(var it=0; it < n; ++it) {
