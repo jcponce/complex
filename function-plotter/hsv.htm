@@ -24,6 +24,33 @@
     gtag('config', 'UA-121691678-1');
   </script>
 
+  <script>
+    window.onkeypress = function (event) {
+      if (event.keyCode == 70) {
+        openFullscreen();
+      }
+    }
+  </script>
+
+  <script>
+    var elem = document.documentElement;
+
+    function openFullscreen() {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        /* Firefox */
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        /* Chrome, Safari & Opera */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        /* IE/Edge */
+        elem.msRequestFullscreen();
+      }
+    }
+  </script>
+
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="scripts/query-string-helper.js"></script>
   <script src="peg-0.9.0.min.js"></script>
