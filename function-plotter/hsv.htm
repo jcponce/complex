@@ -1084,7 +1084,7 @@ complex transform(complex z, complex w, float r){
       var count = Date.now();
       s = Math.abs(begin - count) * 0.00025;
 
-      quad.material.uniforms.t.value = Math.sin(new Date().getTime() * 0.0005);
+      quad.material.uniforms.t.value = Math.sin(new Date().getTime() * 0.0005 / 2.0);
       quad.material.uniforms.t.needsUpdate = true;
       quad.material.uniforms.s.value = s;
       quad.material.uniforms.s.needsUpdate = true;
