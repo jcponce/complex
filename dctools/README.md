@@ -45,7 +45,8 @@ I also recommend you the following galleries:
 * Real and Imaginary components --- "re, im".
 * [Jacobi Elliptic](https://en.wikipedia.org/wiki/Jacobi_elliptic_functions) --- "sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])". 
 * [Gamma function](https://en.wikipedia.org/wiki/Gamma_function) --- "gamma( expr )".
-* [Finite Blaschke product](https://en.wikipedia.org/wiki/Blaschke_product) --- "blaschke( expr, positive integer )" 
+* [Finite Blaschke product](https://en.wikipedia.org/wiki/Blaschke_product) --- "blaschke( expr, positive integer )"
+* [Binet's Formula](https://mathworld.wolfram.com/BinetsFibonacciNumberFormula.html) ---"binet( expr )" 
 * Sum series function--- "sum( expr, positive integer)".
 * Multiplicative function --- "prod( expr, positive integer)".
 * Iterated function --- "iter( expr, variable positive integer)".
