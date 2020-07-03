@@ -17,15 +17,17 @@ The method I used here is based on [Elias Wegert](http://www.visual.wegert.com/)
 In this project I used [p5.js](https://p5js.org/) but there are similar projects or online plotters using other programming languages: 
 
 * [Complex Color Map](https://github.com/endolith/complex_colormap) (Python)
-* [C-plot](https://github.com/nschloe/cplot) (Python)
-* [Domain Coloring](https://github.com/fogleman/domaincoloring)
+* [C-plot](https://github.com/nschloe/cplot) (Python by Nico Schlömer)
+* [Domain Coloring](https://github.com/fogleman/domaincoloring) (by Michael Fogleman)
 * [The Complex Grapher](https://talbrenev.com/complexgrapher/) (JavaScript)
-* [Complex Function Grapher](http://jutanium.github.io/ComplexNumberGrapher/) (Math.js)
-* [Conformal Map Viewer](http://davidbau.com/archives/2013/02/10/conformal_map_viewer.html) (JavaScript)
+* [Complex Function Grapher](http://jutanium.github.io/ComplexNumberGrapher/) (Math.js by Dan Jutan)
+* [Conformal Map Viewer](http://davidbau.com/archives/2013/02/10/conformal_map_viewer.html) (JavaScript by David Bau)
 * [Exploring complex functions](https://cindyjs.org/gallery/cindygl/ComplexExplorer/index.html) (Cindy.JS)
 * [Complex Function Explorer](https://au.mathworks.com/matlabcentral/fileexchange/45464-complex-function-explorer) (MATLAB)
+* [Complex function plotter](https://people.ucsc.edu/~wbolden/complex/) (Shader by Will Bolden)
+* [Complex function plotter](https://samuelj.li/complex-function-plotter/) (Sader by Samuel J. Li)
 
-Visit the site [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the different tools I made or if you prefer you can visit the [Domain Coloring Gallery](https://www.dynamicmath.xyz/domain-coloring/dcgallery.html).
+Visit the site [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the different tools I made or if you prefer you can visit the [Domain Coloring Gallery](https://jcponce.github.io/domain-coloring/dcgallery.html).
 
 I also recommend you the following galleries:
 
