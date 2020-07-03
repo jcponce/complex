@@ -6,7 +6,7 @@ inspired by the work of David Bau, during snowstorm Nemo 2013.
 Adapted and updated with new functions by Juan Carlos Ponce Campuzano 
 in the Australian summer of 2019.
 
-With minor corrections to the power complex and trigonometric functions.
+With minor corrections to the power complex and the inverse hyperbolic functions.
 
 Under Creative Commons License
 https://creativecommons.org/licenses/by-sa/4.0/
@@ -678,12 +678,12 @@ let complex_expression = (s) => {
     }
 
     let arccosh = (z) => {
-        var szmo = minusone(square(z));
-        return log(add(z, scale(Math.sqrt(realmodulus(szmo)),
-            exp({
-                r: 0,
-                i: realarg(szmo) / 2
-            }))));
+        var zplusone = {r:z.r+1, i:z.i};
+        var zminusone = {r:z.r-1, i:z.i};
+        var zpp = pow(zplusone, {r:0.5, i:0});
+        var zmp = pow(zminusone, {r:0.5, i:0});
+        var m = mult(zpp, zmp);
+        return log(add(z, m));
     }
 
     let arctanh = (z) => {
@@ -695,7 +695,7 @@ let complex_expression = (s) => {
     }
 
     let arcsech = (z) => {
-        return negitimes(arcsec(z));
+        return arccosh(div({r:1,i:0},z));
     }
 
     let arccsch = (z) => {
