@@ -1,12 +1,21 @@
 /* 
+
 This is the JavaScript parser for complex number formulae,
 inspired by the work of David Bau, during snowstorm Nemo 2013.
 
 Adapted and updated with new functions by Juan Carlos Ponce Campuzano 
 in the Australian summer of 2019.
+
+With minor corrections to the power complex and trigonometric functions.
+
+Under Creative Commons License
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Last update 3-Jul-2020
+
 */
 
-function complex_expression(s) {
+let complex_expression = (s) => {
     const consts = {
         i: {
             r: 0,
@@ -91,12 +100,12 @@ function complex_expression(s) {
         blaschke: 2,
         iter: 3
     };
-    var syns = {
+    let syns = {
         asin: 'arcsin',
         acos: 'arccos',
         atan: 'arctan'
     };
-    var params = [{
+    let params = [{
             name: 't',
             defn: '{r:clts.slidert,i:0}',//'{r:par,i:0}',
             caption: (function (t) {
@@ -149,7 +158,7 @@ function complex_expression(s) {
     var args = [];
     var values = [];
 
-    function run() {
+    let run =_=> {
         dictadd(symbols, consts);
         dictadd(symbols, vars);
         dictadd(symbols, funcs);
@@ -188,7 +197,7 @@ function complex_expression(s) {
         };
     }
 
-    function init_constants() {
+    let init_constants =_=> {
         factorials.push(1);
         for (var j = 0; j < 160; ++j) {
             factorials.push(factorials[factorials.length - 1] * factorials.length);
@@ -196,7 +205,7 @@ function complex_expression(s) {
     }
 
     //Constants for Blaschke products
-    function init_ai() {
+    let init_ai =_=> {
         for (let i = 0; i < 100; i++) {
             mds[i] = Math.random();
             args[i] = 2 * Math.PI * Math.random();
@@ -209,7 +218,7 @@ function complex_expression(s) {
     }
 
     //Calculates prime numbers 
-    function primeFactorsTo(max) {
+    let primeFactorsTo = (max) => {
         var store = [],
             i, j, p = [];
         for (i = 2; i <= max; ++i) {
@@ -224,7 +233,7 @@ function complex_expression(s) {
     }
 
     // Evaluate this function, and return a r, j tuple.
-    function random() {
+    let random =_=> {
         while (true) {
             var result = {
                 r: Math.random() * 2 - 1,
@@ -345,7 +354,7 @@ function complex_expression(s) {
     }
 
     //Draws a unit circle
-    function disk(z) {
+    let disk = (z) => {
         if (realmodulus(z) > 1) {
             return NaN; //{r: -1,i: 0};
         }
@@ -503,7 +512,7 @@ function complex_expression(s) {
                 };
             }
         }
-        var arg = realarg(y) * r,
+        let arg = realarg(y) * r,
             modulus = Math.pow(realmodulus(y), r);
         return {
             r: modulus * Math.cos(arg),
@@ -511,18 +520,21 @@ function complex_expression(s) {
         };
     }
 
+    //I think I don't need this function
     let powreal = (r, z) => {
-        return exp(scale(Math.log(r), z));
+        return exp(scale(Math.log(r*r), z));
     }
 
+    //By definition z^c = exp(c * log(z)) or c^z = exp(z * log(c))
+    //with c complex constant and z complex variable
     let pow = (y, z) => {
-        if (z.i == 0) {
-            return realpow(y, z.r);
-        }
-        if (y.i == 0) {
-            return powreal(y.r, z);
-        }
-        return exp(mult(log(y), z));
+        //if (z.i == 0) {
+        //    return realpow(y, z.r);
+        //}
+        //if (y.i == 0) {
+        //    return powreal(y.r, z);
+        //}
+        return exp(mult(z, log(y)));
     }
 
     let floor = (z) => {
@@ -691,7 +703,7 @@ function complex_expression(s) {
       Binomial function
       https://en.wikipedia.org/wiki/Binomial_coefficient#Two_real_or_complex_valued_arguments
     */
-    function binomial(n, c) {
+    let binomial = (n, c) => {
         if (n.i == 0 && n.r == Math.floor(n.r) && n.r >= 0 &&
             c.i == 0 && c.r == Math.floor(c.r) && c.r >= 0 && c.r <= n.r) {
             // If n is small enough for n! to be fully precise, just use factorial.
@@ -849,7 +861,7 @@ function complex_expression(s) {
         return result;
     }
 
-    function realellipj(u, m) {
+    let realellipj = (u, m) => {
         /* Jacobi elliptical functions, real form, expressed in Javascript. */
         /* adapted from C Cephes library, ellipj.c, by Stephen L. Moshier */
         /* http://lists.debian.org/debian-legal/2004/12/msg00295.html */
@@ -931,7 +943,7 @@ function complex_expression(s) {
 
      */
 
-    function prod(z, fn, iters) {
+    let prod = (z, fn, iters) => {
         let result = fn(z, {
                 r: 1,
                 i: 0
@@ -967,7 +979,7 @@ function complex_expression(s) {
       e.g. sum( psymbol(2-3i, n) * (z)^n/n!, 20)
       
     */
-    function psymbol(z, iters) {
+    let psymbol = (z, iters) => {
 
         var result = {
             r: 1,
@@ -1002,7 +1014,7 @@ function complex_expression(s) {
       f(z)=(az+b)/(cz+d), ad − bc ≠ 0
       Real and Imaginary components: x1 x2 - y1 y2 + i (x2 y1 + y2 x1) 
     */
-    function mobius(z, a, b, c, d) {
+    let mobius = (z, a, b, c, d) => {
 
         let num = {
             r: z.r * a.r - z.i * a.i + b.r,
@@ -1025,7 +1037,7 @@ function complex_expression(s) {
       https://en.wikipedia.org/wiki/Blaschke_product#Finite_Blaschke_products
       rationalBlaschke(z, complex numbers, multiplicity)
     */
-    function rationalBlaschke(z, a) {
+    let rationalBlaschke = (z, a) => {
 
         let y = div({
             r: z.r - a.r,
@@ -1046,7 +1058,7 @@ function complex_expression(s) {
         return mult(f, y);
     }
 
-    function blaschke(z, iters) {
+    let blaschke = (z, iters) => {
 
         var result = rationalBlaschke(z, values[0]),
             end = Math.floor(iters.r),
@@ -1127,9 +1139,8 @@ function complex_expression(s) {
 
     }
 
-
     //formerly zetag
-    function zeta(z) {
+    let zeta = (z) => {
 
         let ref;
         let inv = false;
@@ -1221,7 +1232,7 @@ function complex_expression(s) {
     the basic arithmetic of complex numbers
     */
 
-    function splitwords(tok) {
+    let splitwords = (tok) => {
         var s = tok.text;
         var result = [];
         for (var begin = 0; begin < s.length;) {
@@ -1249,7 +1260,7 @@ function complex_expression(s) {
         return result;
     }
 
-    function tokenize(s) {
+    let tokenize = (s) => {
         var rexp = /(\s*)(?:((?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|\*\*|[-+()^|,*\/!]|[a-zA-Z_]+'?)|(\S.*))/g;
         var result = [];
         var match;
@@ -1272,7 +1283,7 @@ function complex_expression(s) {
         return result;
     }
 
-    function parsesum(state, inabs) {
+    let parsesum = (state, inabs) => {
         var root = null;
         var op = null;
         while (true) {
@@ -1298,7 +1309,7 @@ function complex_expression(s) {
         return root;
     }
 
-    function parseproduct(state, inabs) {
+    let parseproduct = (state, inabs) => {
         var root = null;
         var auto = -1;
         var op = null;
@@ -1330,7 +1341,7 @@ function complex_expression(s) {
         return root;
     }
 
-    function parseunary(state, noneg, inabs) {
+    let parseunary = (state, noneg, inabs) => {
         if (state.j < state.tok.length) {
             var next = state.tok[state.j];
             if (!noneg && next.text == '-') {
@@ -1343,7 +1354,7 @@ function complex_expression(s) {
         return parsetightproduct(state, inabs);
     }
 
-    function parsetightproduct(state, inabs) {
+    let parsetightproduct = (state, inabs) => {
         var root = null;
         var auto = -1;
         var op;
@@ -1369,7 +1380,7 @@ function complex_expression(s) {
         return root;
     }
 
-    function parsepower(state, inabs) {
+    let parsepower = (state, inabs) => {
         var term = parsesuffixed(state, inabs);
         if (term === null) return null;
         if (state.j < state.tok.length) {
@@ -1384,7 +1395,7 @@ function complex_expression(s) {
         return term;
     }
 
-    function parsesuffixed(state, inabs) {
+    let parsesuffixed = (state, inabs) => {
         var term = parseunit(state);
         if (term === null) return null;
         var found = true;
@@ -1420,7 +1431,7 @@ function complex_expression(s) {
         return term;
     }
 
-    function parseunit(state) {
+    let parseunit = (state) => {
         if (state.j >= state.tok.length) {
             return null;
         }
@@ -1533,7 +1544,7 @@ function complex_expression(s) {
         return null;
     }
 
-    function composereal(r) {
+    let composereal = (r) => {
         return {
             expr: '{r:' + r + ',i:0}',
             vars: {},
@@ -1544,7 +1555,7 @@ function complex_expression(s) {
         };
     }
 
-    function compose(fname, args) {
+    let compose = (fname, args) => {
         var vs = {};
         var ae = [];
         var av = [];
@@ -1642,11 +1653,11 @@ function complex_expression(s) {
         }
     }
 
-    function isreal(r, c) {
+    let isreal = (r, c) => {
         return c !== null && c.i == 0 && c.r == r;
     }
 
-    function dictsize(dict) {
+    let dictsize = (dict) => {
         var size = 0,
             key;
         for (key in dict)
@@ -1654,10 +1665,12 @@ function complex_expression(s) {
         return size;
     }
 
-    function dictadd(d1, d2) {
+    let dictadd = (d1, d2) => {
         for (key in d2)
             if (d2.hasOwnProperty(key)) d1[key] = d2[key];
     }
+
+    //Finally, let's run everything! :)
     return run();
 }
 // end of complex_expression
