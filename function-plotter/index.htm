@@ -530,7 +530,7 @@ return cmul(-i, clog(cmul(i, z) + cpow(complex(1.0, 0.0)-cmul(z,z), complex(0.5,
 }
 
 complex accos(complex z) {
-return 0.5*cpi + acsin(z);
+return 0.5*cpi - acsin(z);
 }
 
 complex actan(complex z) {
