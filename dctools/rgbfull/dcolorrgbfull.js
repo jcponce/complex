@@ -302,13 +302,13 @@ function screenSize() {
   }
 }
 
-function windowResized() {
-  if (clts.sizePlot == true) {
-    resizeCanvas(750, 550);
-  } else {
-    resizeCanvas(470, 470);
-  }
-}
+//function windowResized() {
+//  if (clts.sizePlot == true) {
+//    resizeCanvas(750, 550);
+//  } else {
+ //   resizeCanvas(470, 470);
+//  }
+//}
 
 function keyPressed() {
   if (keyCode === ENTER) {
