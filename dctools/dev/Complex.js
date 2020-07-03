@@ -13,6 +13,8 @@ https://creativecommons.org/licenses/by-sa/4.0/
 
 Last update 3-Jul-2020
 
+https://javascript-minifier.com/
+
 */
 
 let complex_expression = (s) => {
@@ -89,6 +91,7 @@ let complex_expression = (s) => {
         rationalBlaschke: 2,
         mobius: 5,
         psymbol: 2,
+        binet: 1,
         joukowsky: 3,
         zeta: 1,
         binomial: 2,
@@ -1084,6 +1087,17 @@ let complex_expression = (s) => {
         }
     }
 
+    //Binet's formula 
+    //https://mathworld.wolfram.com/BinetsFibonacciNumberFormula.html
+    //1/5^(1/2)*((1/2+5^(1/2)/2)^z-(1/2-5^(1/2)/2)^z)
+
+    let binet = (z) => {
+        let phi = {r:1/2 + Math.pow(5, 1/2)/2, i:0};
+        let invphi = {r:1/2 - Math.pow(5, 1/2)/2, i:0};
+        let c = 1/Math.pow(5, 1/2);
+        return scale(c, sub(pow(phi,z), pow(invphi,z)));
+    }
+
     let joukowsky = (z, c, rd) => {
         /*
         a=1;
@@ -1139,7 +1153,7 @@ let complex_expression = (s) => {
 
     }
 
-    //formerly zetag
+    //formerly zetag - Under construction
     let zeta = (z) => {
 
         let ref;
