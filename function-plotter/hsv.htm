@@ -1077,7 +1077,6 @@ complex transform(complex z, complex w, float r){
     let zoom = 1.0;
     let sc = origSize;
     window.addEventListener("wheel", event => {
-      let delta = (event.deltaY);
       let a = event.deltaY < 0.0 ? ammount : 1 / ammount;
       zoom *= a;
       sc = origSize * zoom;
