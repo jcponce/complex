@@ -262,6 +262,7 @@ _ "whitespace"
   varying vec2 vUv;
   uniform float t;
   uniform float s;
+  uniform floar scale;
 
   void main()
   {
@@ -291,6 +292,7 @@ _ "whitespace"
 
   uniform float t;
   uniform float s;
+  uniform float scale;
   uniform float width, height;
   uniform sampler2D gridTexture;
   uniform float _option;
@@ -909,6 +911,10 @@ if(n < 27.0) {
       type: "f",
       value: 1.0
     },
+    scale: {
+        type: "s",
+        value: 2.0
+      },
     gridTexture: {
       type: 't',
       value: null
@@ -1013,6 +1019,19 @@ if(n < 27.0) {
     getNow();
   }
 
+  //This part is for zoom in/out
+  let ammount = 0.97;
+    let origSize = 2.0;
+    let zoom = 1.0;
+    let sc = origSize;
+    window.addEventListener("wheel", event => {
+      let delta = (event.deltaY);
+      let a = event.deltaY < 0.0 ? ammount : 1 / ammount;
+      zoom *= a;
+      sc = origSize * zoom;
+      //console.info(sc);
+    });
+
   // When rendering, we just need to make sure our convenience variables are
   // up-to-date before we render.
   var start = Date.now();
@@ -1031,6 +1050,9 @@ if(n < 27.0) {
     quad.material.uniforms.s.needsUpdate = true;
     quad.material.uniforms.t.value = Math.sin(new Date().getTime() * 0.0005 * 0.75);
     quad.material.uniforms.t.needsUpdate = true;
+
+    quad.material.uniforms.scale.value = sc;
+
     renderer.render(scene, camera);
 
     requestAnimationFrame(render);
