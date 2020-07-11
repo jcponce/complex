@@ -285,6 +285,7 @@
     varying vec2 vUv;
     uniform float t;
     uniform float s;
+    uniform float scale;
 
 		void main()
 		{
@@ -314,6 +315,7 @@
 
     uniform float t;
     uniform float s;
+    uniform float scale;
     uniform float width, height;
     uniform sampler2D gridTexture;
     uniform float _option;
@@ -839,7 +841,7 @@ complex transform(complex z, complex w, float r){
 		{
       float a = vUv.x*2.0 - 1.0;
       float b = vUv.y*2.0 - 1.0;
-      const float scale = 2.0;
+      //const float scale = 2.0;
 
       // Make sure pixels are square
       a *= scale * width / height;
@@ -950,6 +952,10 @@ complex transform(complex z, complex w, float r){
       s: {
         type: "s",
         value: 0.0
+      },
+      scale: {
+        type: "s",
+        value: 2.0
       },
       _option: {
         type: "f",
@@ -1065,6 +1071,19 @@ complex transform(complex z, complex w, float r){
       getNow(); // Reset parameter s
     }
 
+    //This part is for zoom in/out
+    let ammount = 0.97;
+    let origSize = 3.0;
+    let zoom = 1.0;
+    let sc = origSize;
+    window.addEventListener("wheel", event => {
+      let delta = (event.deltaY);
+      let a = event.deltaY < 0.0 ? ammount : 1 / ammount;
+      zoom *= a;
+      sc = origSize * zoom;
+      //console.info(sc);
+    });
+
     // When rendering, we just need to make sure our convenience variables are
     // up-to-date before we render.
 
@@ -1088,6 +1107,8 @@ complex transform(complex z, complex w, float r){
       quad.material.uniforms.t.needsUpdate = true;
       quad.material.uniforms.s.value = s;
       quad.material.uniforms.s.needsUpdate = true;
+
+      quad.material.uniforms.scale.value = sc;
 
       renderer.render(scene, camera);
 
