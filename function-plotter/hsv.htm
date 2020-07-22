@@ -1102,7 +1102,7 @@ complex transform(complex z, complex w, float r){
       var count = Date.now();
       s = Math.abs(begin - count) * 0.00025;
 
-      quad.material.uniforms.t.value = Math.sin(new Date().getTime() * 0.0005 * 0.75);
+      quad.material.uniforms.t.value = easFunc(new Date().getTime() * 0.0005 * 0.75);
       quad.material.uniforms.t.needsUpdate = true;
       quad.material.uniforms.s.value = s;
       quad.material.uniforms.s.needsUpdate = true;
@@ -1112,6 +1112,10 @@ complex transform(complex z, complex w, float r){
       renderer.render(scene, camera);
 
       requestAnimationFrame(render);
+    }
+
+    let easFunc = (x) => {
+      return Math.sin(Math.PI / 2.0 * Math.cos(x));
     }
 
     // When the user clicks one of the images icon, change the plot
