@@ -1060,7 +1060,7 @@ complex transform(complex z, complex w, float r){
           .replace("EXPRESSION", compiledExpression)
       });
 
-      //console.log(compiledExpression);//debug:)
+      console.log(compiledExpression);//debug:)
 
       //Show or hide error message
       if (result === true) {
@@ -1169,7 +1169,7 @@ complex transform(complex z, complex w, float r){
     // If the user already specified
     $(function () {
       var expression_base64 = getQueryVariable("expression");
-      console.log(expression_base64);
+      //console.log(expression_base64);
       if (expression_base64) {
         $("#equation-input").val(atob(expression_base64.replace("/", "")));
       }
