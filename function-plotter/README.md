@@ -26,7 +26,7 @@ You can also visualize complex functions plotted with the domain coloring method
 
 ## Basic arithmetic operators, constants and parameters
 
-* Basic arithmetic operators: "+  -  *  /" for combining various complex numbers
+* Basic arithmetic operators: "+",  "-",  "*",  "/" for combining various complex numbers
 * Constants: "<a,b>" for defining a complex number (a,b) from two real-values.
 * Pre-Defined Constants: "pi, e, phi, a, b" for using common constants. The constants "a" and "b" will take on the value of the real and complex part of the point in the complex plane.
 * Animated Parameters: 
