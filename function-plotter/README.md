@@ -67,7 +67,7 @@ You can also visualize complex functions plotted with the domain coloring method
 * [Waves](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqICgxLjUgKiByKV41KSArIHQ=)
 * [Potential](https://jcponce.github.io/complex/function-plotter/?expression=KGxvZygoei0xKS8oeisxKSkpICogKHQrMSkvMiArIHogKiAoMSAtICh0KzEpLzIp)
 * [Transform the unit circle to the UHP](https://jcponce.github.io/complex/function-plotter/?expression=dHJhbnNmb3JtKHosICh6LWkpLyh6K2kpLCB0KSAqIGRpc2sodHJhbnNmb3JtKHosICh6LWkpLyh6K2kpLCB0KSk=)
-* [Joukowsky airfoil](https://jcponce.github.io/complex/function-plotter/?expression=am91a293c2t5KHosIC0wLjE3KzAuMjMqaSwgMS4xNyk=)
+* [Joukowsky airfoil](https://jcponce.github.io/complex/function-plotter/?expression=am91a293c2t5KHosIC0wLjE1KzAuMjMqaSwgMS4xNyk=)
 
 ## Examples about domain coloring
 
