@@ -4,7 +4,6 @@
   let WIDTH = $('#display-area').width(),
     HEIGHT = $('#display-area').height();
 
-
   // Get the DOM element to attach the render canvas to
   let $container = $('#display-area');
 
