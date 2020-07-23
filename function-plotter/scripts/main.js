@@ -9,9 +9,9 @@
   let $container = $('#display-area');
 
   // Create a WebGL renderer, camera and a scene
-  renderer = new THREE.WebGLRenderer();
-  camera = new THREE.OrthographicCamera(WIDTH / -2, WIDTH / 2, HEIGHT / 2, HEIGHT / -2, 1, 10);
-  scene = new THREE.Scene();
+  let renderer = new THREE.WebGLRenderer();
+  let camera = new THREE.OrthographicCamera(WIDTH / -2, WIDTH / 2, HEIGHT / 2, HEIGHT / -2, 1, 10);
+  let scene = new THREE.Scene();
 
   let uniforms = {
     t: {
@@ -53,7 +53,7 @@
   }
   setTexture('images/plotfz-2.png');
 
-  // the camera starts at 0,0,0 so pull it back
+  // The camera starts at 0,0,0 so pull it back
   camera.position.z = 5;
   renderer.setSize(WIDTH, HEIGHT);
 
@@ -92,11 +92,11 @@
   }
 
    //I need a function to define a parameter 's' changing at a constant rate
-   var begin;
-  function getNow(){
-    begin  = Date.now();
+  // var begin;
+  //function getNow(){
+   // begin  = Date.now();
     //console.log(begin);
-  }
+  //}
 
   // Whenever the user updates the input field, we need to parse and produce a
   // new shader to update what's being displayed.
@@ -127,7 +127,8 @@
     } else $('#error-container').show();
 
     quad.material = shaderMaterial;
-    getNow();
+    //getNow();
+    start = Date.now();
   }
 
   //This part is for zoom in/out. Maybe this is too convoluted. :)
@@ -177,11 +178,7 @@
     $(this).click(function () {
       let texture_path = $(this).find('img').first().attr('src');
       if (texture_path) {
-
-
         setTexture(texture_path);
-
-
       } else {
         // Currently, the only other option here is to stream from the webcam.
         initWebCam();
@@ -192,10 +189,8 @@
   // When the user presses the button, show some copyable text
   function showLink() {
     var expression_base64 = btoa($('#equation-input').val());
-
     let url = [location.protocol, '//', location.host, location.pathname].join('');
     url = url + "?expression=" + expression_base64;
-
     $('#copyable-link').val(url);
     $('#link-container').show();
     $('#copyable-link').select();
