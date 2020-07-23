@@ -154,11 +154,13 @@
         videoTexture.needsUpdate = true;
     }
 
-   
+    // Update parameter 's' changing at a constant rate
     let count = Date.now();
     let s = Math.abs(start - count)*0.00025;
     quad.material.uniforms.s.value = s;//Math.sin(new Date().getTime() * 0.0005);
     quad.material.uniforms.s.needsUpdate = true;
+
+    // Update parameter 't' oscillating between -1, 1
     quad.material.uniforms.t.value = easFunc(new Date().getTime() * 0.0005 * 0.75);
     quad.material.uniforms.t.needsUpdate = true;
 
@@ -169,7 +171,8 @@
     requestAnimationFrame(render);
   }
 
-  let easFunc = (x) =>{
+  // My easing function :)
+  let easFunc = (x) => {
     return Math.sin(Math.PI / 2.0 * Math.cos(x));
   }
 
