@@ -7,7 +7,7 @@
   <meta name="author" content="Juan Carlos Ponce Campuzano">
   <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity16.png" sizes="16x16">
 
@@ -25,76 +25,76 @@
   </script>
 
 
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="scripts/query-string-helper.js"></script>
-<script src="peg-0.9.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="scripts/query-string-helper.js"></script>
+  <script src="scripts/peg-0.9.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
 
-<style>
-  #copyable-link {
-    border: 0;
-    width: 45%;
-    color: white;
-    font-size: large;
-  }
-</style>
+  <style>
+    #copyable-link {
+      border: 0;
+      width: 45%;
+      color: white;
+      font-size: large;
+    }
+  </style>
 
 
 </head>
 
 <body>
 
-<video id="monitor" autoplay width="256" height="256" style="visibility: hidden; float:left;"></video>
-<canvas id="videoImage" width="256" height="256" style="visibility: hidden; float:left;"></canvas>
+  <video id="monitor" autoplay width="256" height="256" style="visibility: hidden; float:left;"></video>
+  <canvas id="videoImage" width="256" height="256" style="visibility: hidden; float:left;"></canvas>
 
-<div id="container">
-  <div id="display-area">
-  </div>
-
-  <div class="full-width">
-
-    <div id="link-container" style="display: none;">
-      <input id="copyable-link" class="dark-translucent input-control" value=""></input>
+  <div id="container">
+    <div id="display-area">
     </div>
 
-    <div id="error-container">
-      <div id="parse-message" class="message error" class="dark-translucent input-control"></div>
+    <div class="full-width">
+
+      <div id="link-container" style="display: none;">
+        <input id="copyable-link" class="dark-translucent input-control" value=""></input>
+      </div>
+
+      <div id="error-container">
+        <div id="parse-message" class="message error" class="dark-translucent input-control"></div>
+      </div>
+
+      <a class="dark-translucent input-control"
+        href="https://github.com/jcponce/complex/blob/gh-pages/function-plotter/README.md" target="_blank">
+        <i id="show-instructions" class="fa fa-question-circle"></i>
+      </a>
+
+      <a id="show-link" class="dark-translucent input-control" href="#"><i class="fa fa-external-link"></a></i>
+
+      <input class="dark-translucent input-control" id="equation-input"
+        placeholder="e.g. 1 / (z^2 + t * i)^t - z * log(z)" value="t - 0.09 * (z - 6)^2"></input>
+
+
+
+      <span id="texture-options">
+
+        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/plotfz-2.png"></a>
+        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/reim.png"></a>
+        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/hex.png"></a>
+        <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/rainbow.png"></a>
+        <a class="dark-translucent input-control" href="#"><i class="fa fa-video-camera"></i></a>
+        <a class="dark-translucent input-control" href="hsv.htm"><img class="thumbnail" src="images/hsv.png"
+            title="Domain coloring"></a>
+
+
+      </span>
+
+
     </div>
-
-    <a class="dark-translucent input-control"
-      href="https://github.com/jcponce/complex/blob/gh-pages/function-plotter/README.md" target="_blank">
-      <i id="show-instructions" class="fa fa-question-circle"></i>
-    </a>
-
-    <a id="show-link" class="dark-translucent input-control" href="#"><i class="fa fa-external-link"></a></i>
-
-    <input class="dark-translucent input-control" id="equation-input"
-      placeholder="e.g. 1 / (z^2 + t * i)^t - z * log(z)" value="t - 0.09 * (z - 6)^2"></input>
-
-
-
-    <span id="texture-options">
-
-      <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/plotfz-2.png"></a>
-      <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/reim.png"></a>
-      <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/hex.png"></a>
-      <a class="dark-translucent input-control" href="#"><img class="thumbnail" src="images/rainbow.png"></a>
-      <a class="dark-translucent input-control" href="#"><i class="fa fa-video-camera"></i></a>
-      <a class="dark-translucent input-control" href="hsv.htm"><img class="thumbnail" src="images/hsv.png"
-          title="Domain coloring"></a>
-
-
-    </span>
-
 
   </div>
 
-</div>
+  <script src="scripts/webcam-stream.js"></script>
 
-<script src="scripts/webcam-stream.js"></script>
-
-<script type="peg-grammar" id="complex-expression-peg-grammar">
-/*
+  <script type="peg-grammar" id="complex-expression-peg-grammar">
+    /*
  * Complex Arithmetic Grammar
  * (Utilizes http://pegjs.org/ to build a parser based on this grammar)
  * Adapted by Juan Carlos Ponce Campuzano 10-Dec-2019
@@ -252,9 +252,9 @@ _ "whitespace"
   = [ \t\n\r]*
 </script>
 
-<!-- Shaders -->
-<script type="x-shader/x-vertex" id="vertexshader">
-  // switch on high precision floats
+  <!-- Shaders -->
+  <script type="x-shader/x-vertex" id="vertexshader">
+    // switch on high precision floats
   precision highp float;
 
   varying vec2 vUv;
@@ -269,8 +269,8 @@ _ "whitespace"
   }
 </script>
 
-<script type="x-shader/x-fragment" id="fragmentshader">
-  precision highp float;
+  <script type="x-shader/x-fragment" id="fragmentshader">
+    precision highp float;
 
   varying vec2 vUv;
 
@@ -824,9 +824,6 @@ if(n < 27.0) {
       } return cadd(za, cdiv(a, za));
 
   }
-
-
-
 
   bool isNan(float val)
   {
