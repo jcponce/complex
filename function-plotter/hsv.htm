@@ -895,37 +895,11 @@ complex transform(complex z, complex w, float r){
     }
   </script>
 
-  <script src="scripts/mainthree.js">
-    
-  </script>
+  <!--The main settings for Threejs-->
+  <script src="scripts/mainhsv.js"></script>
 
   <!--The following script is required for the fullscreen option-->
-  <script>
-    //Keys pressed Shift+F
-    //https://keycode.info/
-    window.onkeypress = function (event) {
-      if (event.keyCode == 70) {
-        openFullscreen();
-      }
-    }
-
-    let elem = document.documentElement;
-
-    function openFullscreen() {
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) {
-        /* Firefox */
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) {
-        /* Chrome, Safari & Opera */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        /* IE/Edge */
-        elem.msRequestFullscreen();
-      }
-    }
-  </script>
+  <script src="scripts/fullscreen.js"></script>
 
 </body>
 
