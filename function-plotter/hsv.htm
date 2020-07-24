@@ -132,6 +132,7 @@
     = "(" _ expr:Expression _ ")" { return expr; }
     / _ "joukowsky"  _ "(" _ arg:Expression _ "," _ c:Expression _ "," _ a:Real _ ")" _ { return 'joukowsky(' + arg + ',' + c + ','+ a +')'; }
     / _ "zeta"  _ "(" _ arg:Expression _ ")" _ { return 'zeta(' + arg + ')'; }
+    / _ "binet"  _ "(" _ arg:Expression _ ")" _ { return 'binet(' + arg + ')'; }
     / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
     / _ "julia"  _ "(" _ arg:Expression _ "," _ c:Expression _ ")" _ { return 'julia(' + arg + ',' + c + ')'; }
     / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
@@ -281,8 +282,11 @@
     const float e = 2.71828182845904;
     const complex ce = complex(2.71828182845904, 0.0);
 
-    const float phi = 1.61803398875;
+    const float phi = 1.61803398874989;
     const complex cphi = complex(1.61803398875, 0.0);
+
+    const float invphi = -0.6180339887498948482;
+    const complex cinvphi = complex(-0.6180339887498948482, 0.0);
 
     const complex i = complex(0.0, 1.0);
     const complex one = complex(1.0, 0.0);
@@ -777,6 +781,20 @@ complex transform(complex z, complex w, float r){
   complex square(complex z) {
     float t = z.x * z.y;
     return complex( z.x * z.x - z.y * z.y, t + t);
+  }
+
+  //Binet's formula 
+    //https://mathworld.wolfram.com/BinetsFibonacciNumberFormula.html
+    //1/5^(1/2)*((1/2+5^(1/2)/2)^z-(1/2-5^(1/2)/2)^z)
+
+  complex binet(complex z){
+
+    complex csqrtf = complex(pow(0.2, 0.5), 0.0); // 1/sqrt(5) + i * 0
+    complex cp2 = cpow(cphi, z);
+    complex cp3 = cpow(cinvphi, z);
+    complex cp0 = csub(cp2, cp3);
+
+    return cmul(csqrtf, cp0);
   }
 
   complex joukowsky(complex z, complex ce, float r){

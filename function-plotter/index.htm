@@ -797,6 +797,21 @@ if(n < 27.0) {
         return complex( z.x * z.x - z.y * z.y, t + t);
     }
 
+    //Binet's formula 
+    //https://mathworld.wolfram.com/BinetsFibonacciNumberFormula.html
+    //1/5^(1/2)*((1/2+5^(1/2)/2)^z-(1/2-5^(1/2)/2)^z)
+
+   complex binet(complex z){
+
+     complex csqrtf = complex(pow(0.2, 0.5), 0.0); // 1/sqrt(5) + i * 0
+     complex cp2 = cpow(cphi, z);
+     complex cp3 = cpow(cinvphi, z);
+     complex cp0 = csub(cp2, cp3);
+
+     return cmul(csqrtf, cp0);
+   }
+
+
     complex joukowsky(complex z, complex ce, float r){
       
       complex a = complex(1.0, 0);//{r:1,i:0};
