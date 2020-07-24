@@ -204,7 +204,7 @@
   // If the user already specified
   $(function () {
     var expression_base64 = getQueryVariable('expression');
-    console.log(expression_base64);
+    //console.log(expression_base64);
     if (expression_base64) {
       $('#equation-input').val(atob(expression_base64.replace('/', '')));
     }
