@@ -134,9 +134,9 @@ Factor
     = "(" _ expr:Expression _ ")" { return expr; }
     / _ "joukowsky"  _ "(" _ arg:Expression _ "," _ c:Expression _ "," _ a:Real _ ")" _ { return 'joukowsky(' + arg + ',' + c + ','+ a +')'; }
     / _ "zeta"  _ "(" _ arg:Expression _ ")" _ { return 'zeta(' + arg + ')'; }
+    / _ "binet"  _ "(" _ arg:Expression _ ")" _ { return 'binet(' + arg + ')'; }
     / _ "mandelbrot"  _ "(" _ arg:Expression _ ")" _ { return 'mandelbrot(' + arg + ')'; }
     / _ "julia"  _ "(" _ arg:Expression _ "," _ c:Expression _ ")" _ { return 'julia(' + arg + ',' + c + ')'; }
-    /// _ "julia"  _ "(" _ arg:Expression _ "," _ c:Expression _ "," _ k:PositiveInteger _ ")" _ { return 'julia(' + arg + ',' + c + ',' + k + ')'; }
     / _ "gamma"  _ "(" _ arg:Expression _ ")" _ { return 'gamma(' + arg + ')'; }
     / _ "map"  _ "(" _ arg:Expression _ ")" _ { return 'map(' + arg + ')'; }
     / _ "transform"  _ "(" _ argz:Expression _ "," _ argw:Expression _"," _ a:Real _")" _ { return 'transform(' + argz + ','+ argw +','+ a +')'; }
@@ -634,16 +634,16 @@ complex julia(complex z, complex c) {
   return zp;
 }
 
-/*
-complex julia(complex z, complex c, int k) {
+
+//complex julia(complex z, complex c, int k) {
   
-  complex zp = z;
-  for(int n = 0; n < k; n++) {
-      zp  = cmul(zp, zp) + complex(c.x, c.y);
-  }
-  return zp;
-}
-*/
+ // complex zp = z;
+  //for(int n = 0; n < k; n++) {
+  //    zp  = cmul(zp, zp) + complex(c.x, c.y);
+  //}
+  //return zp;
+//}
+
 
 
 complex gamma(complex z) {
