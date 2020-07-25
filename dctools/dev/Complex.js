@@ -18,6 +18,7 @@ https://javascript-minifier.com/
 */
 
 let complex_expression = (s) => {
+
     const consts = {
         i: {
             r: 0,
@@ -30,8 +31,17 @@ let complex_expression = (s) => {
         e: {
             r: Math.E,
             i: 0
+        },
+        phi: {
+            r: (1 + Math.pow(5, 1 / 2)) / 2,
+            i: 0
+        },
+        invphi: {
+            r: (1 - Math.pow(5, 1 / 2)) / 2,
+            i: 0
         }
     };
+
     var vars = {
         m: 'm',
         n: 'n',
@@ -42,6 +52,7 @@ let complex_expression = (s) => {
         z: 'z',
         'z\'': 'zp'
     };
+
     var funcs = {
         random: 0,
         re: 1,
@@ -103,21 +114,24 @@ let complex_expression = (s) => {
         blaschke: 2,
         iter: 3
     };
+
+    //Syntax for inverse trig functions
     let syns = {
         asin: 'arcsin',
         acos: 'arccos',
         atan: 'arctan'
     };
+
     let params = [{
             name: 't',
-            defn: '{r:clts.slidert,i:0}',//'{r:par,i:0}',
+            defn: '{r:clts.slidert,i:0}', //'{r:par,i:0}',
             caption: (function (t) {
                 return 't = ' + t.toFixed(3);
             })
         },
         {
             name: 'u',
-            defn: '{r:Math.cos(clts.slideru),i:Math.sin(clts.slideru)}',//'{r:Math.cos(Math.PI*2*par),i:Math.sin(Math.PI*2*par)}',
+            defn: '{r:Math.cos(clts.slideru),i:Math.sin(clts.slideru)}', //'{r:Math.cos(Math.PI*2*par),i:Math.sin(Math.PI*2*par)}',
             caption: (function (t) { // epislon added to avoid displaying "-0.00".
                 var s = Math.sin(Math.PI * 2 * t) + 3e-16,
                     c = Math.cos(Math.PI * 2 * t) + 3e-16;
@@ -127,7 +141,7 @@ let complex_expression = (s) => {
         },
         {
             name: 'n',
-            defn: '{r:clts.slidern,i:0}',//'{r:Math.floor(par*par*59 + 1.5),i:0}',
+            defn: '{r:clts.slidern,i:0}', //'{r:Math.floor(par*par*59 + 1.5),i:0}',
             caption: (function (t) {
                 return 'n = ' + (Math.floor(t * t * 59 + 1.5));
             })
@@ -135,56 +149,58 @@ let complex_expression = (s) => {
         //The next two parameters are not included yet.
         {
             name: 's',
-            defn: '{r:Math.sin(Math.PI*2*clts.slidert),i:0}',//'{r:Math.sin(Math.PI*2*par),i:0}',
+            defn: '{r:Math.sin(Math.PI*2*clts.slidert),i:0}', //'{r:Math.sin(Math.PI*2*par),i:0}',
             caption: (function (t) {
                 return 's = ' + (Math.sin(Math.PI * 2 * t) + 3e-16).toFixed(3);
             })
         },
         {
             name: 'r',
-            defn: '{r:0.5-Math.cos(Math.PI*2*clts.slidert)/2,i:0}',//'{r:0.5-Math.cos(Math.PI*2*par)/2,i:0}',
+            defn: '{r:0.5-Math.cos(Math.PI*2*clts.slidert)/2,i:0}', //'{r:0.5-Math.cos(Math.PI*2*par)/2,i:0}',
             caption: (function (t) {
                 return 'r = ' + (.5 - Math.cos(Math.PI * 2 * t) / 2 + 3e-16).toFixed(3);
             })
         }
     ];
-    var loops = {
+
+    let loops = {
         iter: 1,
         sum: 1,
         prod: 1,
     };
-    var symbols = {}
-    var factorials = [];
+
+    let symbols = {}
+    let factorials = [];
 
     //I need these arrays for Blaschke products
-    var mds = [];
-    var args = [];
-    var values = [];
+    let mds = [];
+    let args = [];
+    let values = [];
 
-    let run =_=> {
+    let run = () => {
         dictadd(symbols, consts);
         dictadd(symbols, vars);
         dictadd(symbols, funcs);
         init_constants();
         init_ai(); //This is for Blaschke products
 
-        var state = {
+        let state = {
             tok: tokenize(s),
             j: 0
         }
         if (state.tok === null) return null;
-        var result = parsesum(state, false);
+        let result = parsesum(state, false);
         if (result === null || state.j < state.tok.length) return null;
-        var parameters = [];
+        let parameters = [];
         if (result.vars.hasOwnProperty('z\'')) return null;
-        var fntext = '(function(z,par){';
+        let fntext = '(function(z,par){';
         if (result.vars.hasOwnProperty('m')) {
-            defns += 'var m = expi(z); '
+            defns += 'let m = expi(z); '
         }
-        for (var j = 0; j < params.length; ++j) {
+        for (let j = 0; j < params.length; ++j) {
             if (result.vars.hasOwnProperty(params[j].name)) {
                 if (params[j].defn) {
-                    fntext += 'var ' + params[j].name + '=' + params[j].defn + ';';
+                    fntext += 'let ' + params[j].name + '=' + params[j].defn + ';';
                 }
                 parameters.push({
                     name: params[j].name,
@@ -200,15 +216,15 @@ let complex_expression = (s) => {
         };
     }
 
-    let init_constants =_=> {
+    let init_constants = _ => {
         factorials.push(1);
-        for (var j = 0; j < 160; ++j) {
+        for (let j = 0; j < 160; ++j) {
             factorials.push(factorials[factorials.length - 1] * factorials.length);
         }
     }
 
     //Constants for Blaschke products
-    let init_ai =_=> {
+    let init_ai = _ => {
         for (let i = 0; i < 100; i++) {
             mds[i] = Math.random();
             args[i] = 2 * Math.PI * Math.random();
@@ -222,7 +238,7 @@ let complex_expression = (s) => {
 
     //Calculates prime numbers 
     let primeFactorsTo = (max) => {
-        var store = [],
+        let store = [],
             i, j, p = [];
         for (i = 2; i <= max; ++i) {
             if (!store[i]) {
@@ -236,9 +252,9 @@ let complex_expression = (s) => {
     }
 
     // Evaluate this function, and return a r, j tuple.
-    let random =_=> {
+    let random = () => {
         while (true) {
-            var result = {
+            let result = {
                 r: Math.random() * 2 - 1,
                 i: Math.random() * 2 - 1
             };
@@ -303,7 +319,7 @@ let complex_expression = (s) => {
         };
     }
 
-    //Basic arithmetic
+    //Basic arithmetic of complex numbers
 
     let add = (y, z) => {
         return {
@@ -335,7 +351,7 @@ let complex_expression = (s) => {
     }
 
     let recip = (z) => {
-        var m2 = modulussquared(z);
+        let m2 = modulussquared(z);
         return {
             r: z.r / m2,
             i: -z.i / m2
@@ -356,6 +372,8 @@ let complex_expression = (s) => {
         };
     }
 
+    //Basic arithmetic of complex numbers ends
+
     //Draws a unit circle
     let disk = (z) => {
         if (realmodulus(z) > 1) {
@@ -369,9 +387,8 @@ let complex_expression = (s) => {
 
     //Elementary functions part 1
 
-
     let exp = (z) => {
-        var er = Math.exp(z.r);
+        let er = Math.exp(z.r);
         return {
             r: er * Math.cos(z.i),
             i: er * Math.sin(z.i)
@@ -379,7 +396,7 @@ let complex_expression = (s) => {
     }
 
     let expi = (z) => {
-        var er = Math.exp(-z.i);
+        let er = Math.exp(-z.i);
         return {
             r: er * Math.cos(z.r),
             i: er * Math.sin(z.r)
@@ -410,8 +427,8 @@ let complex_expression = (s) => {
     //Elementary functions part 2: Trigonometric hiperbolic functions
 
     let sin = (z) => {
-        var er = Math.exp(z.i);
-        var enr = 1 / er;
+        let er = Math.exp(z.i);
+        let enr = 1 / er;
         return {
             r: (er + enr) * 0.5 * Math.sin(z.r),
             i: (er - enr) * 0.5 * Math.cos(z.r)
@@ -419,8 +436,8 @@ let complex_expression = (s) => {
     }
 
     let cos = (z) => {
-        var er = Math.exp(z.i);
-        var enr = 1 / er;
+        let er = Math.exp(z.i);
+        let enr = 1 / er;
         return {
             r: (enr + er) * 0.5 * Math.cos(z.r),
             i: (enr - er) * 0.5 * Math.sin(z.r)
@@ -436,7 +453,7 @@ let complex_expression = (s) => {
     }
 
     let tan = (z) => {
-        var er = Math.exp(z.i),
+        let er = Math.exp(z.i),
             enr = 1 / er,
             es = er + enr,
             ed = er - enr,
@@ -452,7 +469,7 @@ let complex_expression = (s) => {
     }
 
     let cot = (z) => {
-        var er = Math.exp(z.i),
+        let er = Math.exp(z.i),
             enr = 1 / er,
             es = er + enr,
             ed = er - enr,
@@ -525,7 +542,7 @@ let complex_expression = (s) => {
 
     //I think I don't need this function
     let powreal = (r, z) => {
-        return exp(scale(Math.log(r*r), z));
+        return exp(scale(Math.log(r * r), z));
     }
 
     //By definition z^c = exp(c * log(z)) or c^z = exp(z * log(c))
@@ -555,7 +572,7 @@ let complex_expression = (s) => {
     }
 
     let square = (z) => {
-        var t = z.r * z.i;
+        let t = z.r * z.i;
         return {
             r: z.r * z.r - z.i * z.i,
             i: t + t
@@ -563,7 +580,7 @@ let complex_expression = (s) => {
     }
 
     let cube = (z) => {
-        var r2 = z.r * z.r,
+        let r2 = z.r * z.r,
             i2 = z.i * z.i;
         return {
             r: z.r * (r2 - 3 * i2),
@@ -572,7 +589,7 @@ let complex_expression = (s) => {
     }
 
     let p5 = (z) => {
-        var r2 = z.r * z.r,
+        let r2 = z.r * z.r,
             i2 = z.i * z.i,
             p2 = r2 * i2,
             t2 = p2 + p2,
@@ -585,7 +602,7 @@ let complex_expression = (s) => {
     }
 
     let sqrt = (z) => {
-        var a = Math.sqrt((Math.abs(z.r) + realmodulus(z)) / 2),
+        let a = Math.sqrt((Math.abs(z.r) + realmodulus(z)) / 2),
             b = z.i / a / 2;
         if (z.r < 0) {
             if (z.i < 0) {
@@ -669,7 +686,7 @@ let complex_expression = (s) => {
     }
 
     let arcsinh = (z) => {
-        var opsz = oneplus(square(z));
+        let opsz = oneplus(square(z));
         return log(add(z, scale(Math.sqrt(realmodulus(opsz)),
             exp({
                 r: 0,
@@ -678,11 +695,23 @@ let complex_expression = (s) => {
     }
 
     let arccosh = (z) => {
-        var zplusone = {r:z.r+1, i:z.i};
-        var zminusone = {r:z.r-1, i:z.i};
-        var zpp = pow(zplusone, {r:0.5, i:0});
-        var zmp = pow(zminusone, {r:0.5, i:0});
-        var m = mult(zpp, zmp);
+        let zplusone = {
+            r: z.r + 1,
+            i: z.i
+        };
+        let zminusone = {
+            r: z.r - 1,
+            i: z.i
+        };
+        let zpp = pow(zplusone, {
+            r: 0.5,
+            i: 0
+        });
+        let zmp = pow(zminusone, {
+            r: 0.5,
+            i: 0
+        });
+        let m = mult(zpp, zmp);
         return log(add(z, m));
     }
 
@@ -695,7 +724,10 @@ let complex_expression = (s) => {
     }
 
     let arcsech = (z) => {
-        return arccosh(div({r:1,i:0},z));
+        return arccosh(div({
+            r: 1,
+            i: 0
+        }, z));
     }
 
     let arccsch = (z) => {
@@ -754,7 +786,7 @@ let complex_expression = (s) => {
        https://en.wikipedia.org/wiki/Lanczos_approximation
     */
     let gamma = (z) => {
-        var sqrt2pi = Math.sqrt(2 * Math.PI),
+        let sqrt2pi = Math.sqrt(2 * Math.PI),
             gamma_coeff = [
                 0.99999999999980993, 676.5203681218851, -1259.1392167224028,
                 771.32342877765313, -176.61502916214059, 12.507343278686905,
@@ -765,7 +797,7 @@ let complex_expression = (s) => {
             return scale(Math.PI, recip(mult(
                 sin(scale(Math.PI, z)), gamma(oneminus(z)))));
         }
-        var zmo = minusone(z),
+        let zmo = minusone(z),
             x = {
                 r: gamma_coeff[0],
                 i: 0
@@ -794,7 +826,7 @@ let complex_expression = (s) => {
         if (typeof (k) == "object") {
             k = k.r;
         }
-        var kp = Math.sqrt(1 - k * k),
+        let kp = Math.sqrt(1 - k * k),
             ju = realellipj(z.r, k),
             jv = realellipj(z.i, kp),
             denom = (1 - ju.dn * ju.dn * jv.sn * jv.sn);
@@ -808,7 +840,7 @@ let complex_expression = (s) => {
         if (typeof (k) == "object") {
             k = k.r;
         }
-        var kp = Math.sqrt(1 - k * k),
+        let kp = Math.sqrt(1 - k * k),
             ju = realellipj(z.r, k),
             jv = realellipj(z.i, kp),
             denom = (1 - ju.dn * ju.dn * jv.sn * jv.sn);
@@ -822,7 +854,7 @@ let complex_expression = (s) => {
         if (typeof (k) == "object") {
             k = k.r;
         }
-        var kp = Math.sqrt(1 - k * k),
+        let kp = Math.sqrt(1 - k * k),
             ju = realellipj(z.r, k),
             jv = realellipj(z.i, kp),
             denom = (1 - ju.dn * ju.dn * jv.sn * jv.sn);
@@ -832,43 +864,11 @@ let complex_expression = (s) => {
         };
     }
 
-    let sum = (z, fn, iters) => {
-        var r = 0,
-            i = 0,
-            end = Math.floor(iters.r),
-            n, result;
-        for (n = 0; n < end; ++n) {
-            result = fn(z, {
-                r: n,
-                i: 0
-            });
-            r += result.r;
-            i += result.i;
-        }
-        return {
-            r: r,
-            i: i
-        };
-    }
-
-    let iter = (z, fn, start, iters) => {
-        var result = start,
-            end = Math.floor(iters.r),
-            n;
-        for (n = 0; n < end; ++n) {
-            result = fn(z, result, {
-                r: n,
-                i: 0
-            });
-        }
-        return result;
-    }
-
     let realellipj = (u, m) => {
         /* Jacobi elliptical functions, real form, expressed in Javascript. */
         /* adapted from C Cephes library, ellipj.c, by Stephen L. Moshier */
         /* http://lists.debian.org/debian-legal/2004/12/msg00295.html */
-        var ai, aj, b, phi, twon, a = [],
+        let ai, aj, b, phi, twon, a = [],
             c = [],
             i, epsilon = 2.22045e-16;
         if (m < 0.0 || m > 1.0) {
@@ -946,6 +946,43 @@ let complex_expression = (s) => {
 
      */
 
+    /*
+    Now some auxiliary functions to have partial sums or 
+    partial multiplications and iterations
+    */
+
+    let sum = (z, fn, iters) => {
+        let r = 0,
+            i = 0,
+            end = Math.floor(iters.r),
+            n, result;
+        for (n = 0; n < end; ++n) {
+            result = fn(z, {
+                r: n,
+                i: 0
+            });
+            r += result.r;
+            i += result.i;
+        }
+        return {
+            r: r,
+            i: i
+        };
+    }
+
+    let iter = (z, fn, start, iters) => {
+        let result = start,
+            end = Math.floor(iters.r),
+            n;
+        for (n = 0; n < end; ++n) {
+            result = fn(z, result, {
+                r: n,
+                i: 0
+            });
+        }
+        return result;
+    }
+
     let prod = (z, fn, iters) => {
         let result = fn(z, {
                 r: 1,
@@ -955,7 +992,8 @@ let complex_expression = (s) => {
             n;
 
         if (end < 1) {
-            return NaN;
+            alert("Enter an integer greater than 1");
+            return null;
         } else if (end === 1) {
             return fn(z, {
                 r: 1,
@@ -984,11 +1022,11 @@ let complex_expression = (s) => {
     */
     let psymbol = (z, iters) => {
 
-        var result = {
+        let result = {
             r: 1,
             i: 0
         };
-        var end = Math.floor(iters.r),
+        let end = Math.floor(iters.r),
             n;
         if (end === 0) {
             return {
@@ -1029,6 +1067,7 @@ let complex_expression = (s) => {
         };
         let cond = sub(mult(a, d), mult(b, c));
         if (cond.r === 0 && cond.i === 0) {
+            alert("Sorry, not valid 😟 Recall that ad − bc ≠ 0");
             return null; //{r: Math.cos(2*Math.PI* 0.625), i:Math.cos(2*Math.PI* 0.625)};
         } else {
             return div(num, denom);
@@ -1063,12 +1102,13 @@ let complex_expression = (s) => {
 
     let blaschke = (z, iters) => {
 
-        var result = rationalBlaschke(z, values[0]),
+        let result = rationalBlaschke(z, values[0]),
             end = Math.floor(iters.r),
             n;
 
         if (end > 100 || end < 1) {
-            return NaN;
+            alert("Enter an integer between 1 and 100");
+            return null;
         } else {
 
             for (n = 1; n < end; n++) {
@@ -1092,10 +1132,16 @@ let complex_expression = (s) => {
     //1/5^(1/2)*((1/2+5^(1/2)/2)^z-(1/2-5^(1/2)/2)^z)
 
     let binet = (z) => {
-        let phi = {r:1/2 + Math.pow(5, 1/2)/2, i:0};
-        let invphi = {r:1/2 - Math.pow(5, 1/2)/2, i:0};
-        let c = 1/Math.pow(5, 1/2);
-        return scale(c, sub(pow(phi,z), pow(invphi,z)));
+        let phi = {
+                r: 1 / 2 + Math.pow(5, 1 / 2) / 2,
+                i: 0
+            },
+            invphi = {
+                r: 1 / 2 - Math.pow(5, 1 / 2) / 2,
+                i: 0
+            },
+            c = 1 / Math.pow(5, 1 / 2);
+        return scale(c, sub(pow(phi, z), pow(invphi, z)));
     }
 
     let joukowsky = (z, c, rd) => {
@@ -1114,12 +1160,12 @@ let complex_expression = (s) => {
             i: 0
         };
         let ra = {
-            r: rd.r,//0.23 * Math.sqrt(13 * 2),
+            r: rd.r, //0.23 * Math.sqrt(13 * 2),
             i: 0
         };
         let center = {
-            r: c.r,//-0.15,
-            i: c.i//0.23
+            r: c.r, //-0.15,
+            i: c.i //0.23
         };
 
         let sq = sqrt(sub(square(z), {
@@ -1183,16 +1229,46 @@ let complex_expression = (s) => {
 
 
         //for efficiency, unrolled loop with precomputed dk
-        let total = {r:0, i:0};
-        total += mult(one , pow( {r:1, i:0}, neg(z)));
-        total -= mult(one , pow( {r:2, i:0}, neg(z)));
-        total += mult(one , pow( {r:3, i:0}, neg(z)));
-        total -= mult(one , pow( {r:4, i:0}, neg(z)));
-        total += mult(one , pow( {r:5, i:0}, neg(z)));
-        total -= mult(one , pow( {r:6, i:0}, neg(z)));
-        total += mult(one , pow( {r:7, i:0}, neg(z)));
-        total -= mult(one , pow( {r:8, i:0}, neg(z)));
-        total += mult(one , pow( {r:9, i:0}, neg(z)));
+        let total = {
+            r: 0,
+            i: 0
+        };
+        total += mult(one, pow({
+            r: 1,
+            i: 0
+        }, neg(z)));
+        total -= mult(one, pow({
+            r: 2,
+            i: 0
+        }, neg(z)));
+        total += mult(one, pow({
+            r: 3,
+            i: 0
+        }, neg(z)));
+        total -= mult(one, pow({
+            r: 4,
+            i: 0
+        }, neg(z)));
+        total += mult(one, pow({
+            r: 5,
+            i: 0
+        }, neg(z)));
+        total -= mult(one, pow({
+            r: 6,
+            i: 0
+        }, neg(z)));
+        total += mult(one, pow({
+            r: 7,
+            i: 0
+        }, neg(z)));
+        total -= mult(one, pow({
+            r: 8,
+            i: 0
+        }, neg(z)));
+        total += mult(one, pow({
+            r: 9,
+            i: 0
+        }, neg(z)));
         /*
         
         total -= 0.999999999999 *pow( 10.0 ,-z);
@@ -1228,7 +1304,7 @@ let complex_expression = (s) => {
         total -= 2.8863223087e-07 *pow( 40.0 ,-z);
         */
 
-        total = div(total, sub(one, pow(two, sub(one,z)) ) );
+        total = div(total, sub(one, pow(two, sub(one, z))));
 
         if (inv) {
             total = mult(ref, total);

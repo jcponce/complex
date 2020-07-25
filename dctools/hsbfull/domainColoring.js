@@ -21,7 +21,15 @@ class domainColoring {
     plotter() {
   
       let z = trimN(this.fn);
-      let parsed = complex_expression(z); //Define function
+
+      //Error message in case the user inputs an incorrect expression
+      let parsed, ck;
+        try {
+            parsed = complex_expression(z);//Define function
+            ck = parsed.fn;
+        } catch (err) {
+            alert('Something went wrong 😟! Please, check your input!');
+        }
   
       // Establish a range of values on the complex plane
   

@@ -6,6 +6,16 @@
  * Last update 20-Nov-2019
  */
 
+ /*
+function getSafe(fn, defaultVal) {
+    try {
+        return fn();
+    } catch (e) {
+        return defaultVal;
+    }
+}
+*/
+
 class domainColoring {
     
     constructor(fn, size, cX, cY, canvasSize, axis){
@@ -21,9 +31,21 @@ class domainColoring {
         
         //let z = trimN(clts.funcZ);
         let z = trimN(this.fn);
-        let parsed = complex_expression(z);//Define function
+        let parsed, ck;
+        try {
+            parsed = complex_expression(z);//Define function
+            ck = parsed.fn;
+        } catch (err) {
+            alert('Something went wrong 😟! Please, check your input!');
+        }
+
+        console.log(parsed.fn);
         //debug
-        console.log(parsed);
+        //let check;
+        //if (parsed.fn === null ) {
+        //    check = false;
+        //  } else check = true;
+        //console.log(parsed.fn);
         // Establish a range of values on the complex plane
         
         // It all starts with the width, try higher or lower values
@@ -59,7 +81,9 @@ class domainColoring {
 
                 let vz = {r:x, i:-y};//Here we need minus since the y-axis in canvas is upside down
                 
-                let w = parsed.fn(vz);//Evaluate function
+                let w  = parsed.fn(vz);//Evaluate function
+
+                
 
                 // We color each pixel based on some cool function
                 // Gosh, we could make fancy colors here if we wanted
