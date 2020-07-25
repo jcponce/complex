@@ -19,7 +19,7 @@ let clts = {
   centerX: 0,
   centerY: 0,
 
-  Save: function() {
+  Save: function () {
     save('plotfz.png');
   },
 
@@ -86,7 +86,15 @@ class domainColoring {
   plotter() {
 
     let z = trimN(this.fn);
-    let parsed = complex_expression(z); //Define function
+
+    //Error message
+    let parsed, ck;
+    try {
+      parsed = complex_expression(z); //Define function
+      ck = parsed.fn;
+    } catch (err) {
+      alert('Something went wrong 😟! Please, check your input!');
+    }
 
     // Establish a range of values on the complex plane
 
@@ -266,9 +274,9 @@ function uiControls() {
   gui.add(clts, 'size', 0.00001, 15).name("|Re z| <").onChange(keyPressed);
 
   let par = gui.addFolder('Parameters');
-    par.add(clts, 'slidert', 0, 1, 0.01).name("t =").onChange(keyPressed);
-    par.add(clts, 'slideru', 0, 2*Math.PI, 0.01).name("u: exp(i⋅s), s =").onChange(keyPressed);
-    par.add(clts, 'slidern', 0, 30, 1).name("Int: n =").onChange(keyPressed);
+  par.add(clts, 'slidert', 0, 1, 0.01).name("t =").onChange(keyPressed);
+  par.add(clts, 'slideru', 0, 2 * Math.PI, 0.01).name("u: exp(i⋅s), s =").onChange(keyPressed);
+  par.add(clts, 'slidern', 0, 30, 1).name("Int: n =").onChange(keyPressed);
 
   gui.add(clts, 'Save').name("Save (png)");
 

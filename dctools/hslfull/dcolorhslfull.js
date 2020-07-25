@@ -156,7 +156,15 @@ function plot() {
     
     //let z = trimN(clts.funcZ);
     let z = trimN(input.value());
-    let parsed = complex_expression(z);//Define function
+    
+    //Error message
+    let parsed, ck;
+        try {
+            parsed = complex_expression(z);//Define function
+            ck = parsed.fn;
+        } catch (err) {
+            alert('Something went wrong 😟! Please, check your input!');
+        }
     
     for (let j = 0; j < height; j++) {
         // Start x

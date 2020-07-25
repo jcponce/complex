@@ -42,7 +42,7 @@ let complex_expression = (s) => {
         }
     };
 
-    var vars = {
+    let vars = {
         m: 'm',
         n: 'n',
         t: 't',
@@ -53,7 +53,7 @@ let complex_expression = (s) => {
         'z\'': 'zp'
     };
 
-    var funcs = {
+    let funcs = {
         random: 0,
         re: 1,
         im: 1,
