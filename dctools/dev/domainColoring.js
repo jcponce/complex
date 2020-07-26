@@ -41,7 +41,7 @@ class domainColoring {
             alert('Something went wrong 😟! Please, check your input!');
         }
 
-        console.log(parsed.fn);
+        console.log(parsed);
         //debug
         //let check;
         //if (parsed.fn === null ) {

@@ -1323,12 +1323,12 @@ let complex_expression = (s) => {
     */
 
     let splitwords = (tok) => {
-        var s = tok.text;
-        var result = [];
-        for (var begin = 0; begin < s.length;) {
-            var found = false;
-            for (var end = s.length; end > begin; --end) {
-                var sub = s.substring(begin, end);
+        let s = tok.text;
+        let result = [];
+        for (let begin = 0; begin < s.length;) {
+            let found = false;
+            for (let end = s.length; end > begin; --end) {
+                let sub = s.substring(begin, end);
                 if (symbols.hasOwnProperty(sub)) {
                     result.push({
                         spaced: begin == 0 && tok.spaced,
@@ -1351,15 +1351,15 @@ let complex_expression = (s) => {
     }
 
     let tokenize = (s) => {
-        var rexp = /(\s*)(?:((?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|\*\*|[-+()^|,*\/!]|[a-zA-Z_]+'?)|(\S.*))/g;
-        var result = [];
-        var match;
+        let rexp = /(\s*)(?:((?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|\*\*|[-+()^|,*\/!]|[a-zA-Z_]+'?)|(\S.*))/g;
+        let result = [];
+        let match;
         while ((match = rexp.exec(s)) !== null) {
             if (match[3]) {
                 return null;
             }
             if (match[2]) {
-                var tok = {
+                let tok = {
                     spaced: match[1] && match[1].length > 0,
                     text: match[2]
                 };
@@ -1374,10 +1374,10 @@ let complex_expression = (s) => {
     }
 
     let parsesum = (state, inabs) => {
-        var root = null;
-        var op = null;
+        let root = null;
+        let op = null;
         while (true) {
-            var term = parseproduct(state, inabs);
+            let term = parseproduct(state, inabs);
             if (term === null) {
                 return null;
             }
@@ -1400,11 +1400,11 @@ let complex_expression = (s) => {
     }
 
     let parseproduct = (state, inabs) => {
-        var root = null;
-        var auto = -1;
-        var op = null;
+        let root = null;
+        let auto = -1;
+        let op = null;
         while (true) {
-            var term = parseunary(state, auto >= 0, inabs);
+            let term = parseunary(state, auto >= 0, inabs);
             if (term === null) {
                 return (state.j == auto) ? root : null;
             }
@@ -1445,11 +1445,11 @@ let complex_expression = (s) => {
     }
 
     let parsetightproduct = (state, inabs) => {
-        var root = null;
-        var auto = -1;
-        var op;
+        let root = null;
+        let auto = -1;
+        let op;
         while (true) {
-            var term = parsepower(state, inabs);
+            let term = parsepower(state, inabs);
             if (term === null) {
                 return (state.j == auto) ? root : null;
             }
@@ -1471,13 +1471,13 @@ let complex_expression = (s) => {
     }
 
     let parsepower = (state, inabs) => {
-        var term = parsesuffixed(state, inabs);
+        let term = parsesuffixed(state, inabs);
         if (term === null) return null;
         if (state.j < state.tok.length) {
-            var next = state.tok[state.j];
+            let next = state.tok[state.j];
             if (next.text == '^' || next.text == '**') {
                 state.j += 1;
-                var expterm = parseunary(state, inabs);
+                let expterm = parseunary(state, inabs);
                 if (expterm === null) return null;
                 return compose('pow', [term, expterm]);
             }
@@ -1486,18 +1486,18 @@ let complex_expression = (s) => {
     }
 
     let parsesuffixed = (state, inabs) => {
-        var term = parseunit(state);
+        let term = parseunit(state);
         if (term === null) return null;
-        var found = true;
+        let found = true;
         while (found) {
             found = false;
             if (state.j < state.tok.length &&
                 state.tok[state.j].text == '*') {
-                var ismult = true;
+                    let ismult = true;
                 if (state.j + 1 >= state.tok.length) {
                     ismult = false;
                 } else {
-                    var peek = state.tok[state.j + 1];
+                    let peek = state.tok[state.j + 1];
                     if (peek.text == ')' || peek.text == '*' ||
                         peek.text == '/' || peek.text == '+' ||
                         peek.text == '-' || peek.text == '^' ||
@@ -1525,19 +1525,19 @@ let complex_expression = (s) => {
         if (state.j >= state.tok.length) {
             return null;
         }
-        var next = state.tok[state.j];
+        let next = state.tok[state.j];
         if (/^\d|\./.exec(next.text)) {
             state.j += 1;
             return composereal(parseFloat(next.text));
         }
-        var result;
+        let result;
         if (/^\w/.exec(next.text)) {
             state.j += 1;
             if (state.j < state.tok.length &&
                 state.tok[state.j].text == '(' &&
                 funcs.hasOwnProperty(next.text)) {
-                var paramcount = funcs[next.text];
-                var params = [];
+                let paramcount = funcs[next.text];
+                let params = [];
                 state.j += 1;
                 if (paramcount == 0) {
                     if (state.j >= state.tok.length || state.tok[state.j].text != ')') {
@@ -1546,7 +1546,7 @@ let complex_expression = (s) => {
                     state.j += 1;
                 }
                 while (paramcount > 0) {
-                    var param = parsesum(state, false);
+                    let param = parsesum(state, false);
                     if (param == null) {
                         return null;
                     }
@@ -1577,16 +1577,16 @@ let complex_expression = (s) => {
                     state.j += 1;
                 }
                 if (loops.hasOwnProperty(next.text)) {
-                    var vs = {};
+                    let vs = {};
                     dictadd(vs, params[0].vars);
-                    var funcdecl = 'function(z,n)';
+                    let funcdecl = 'function(z,n)';
                     delete vs['n'];
                     if (next.text == 'iter') {
                         funcdecl = 'function(z,zp,n)';
                         delete vs['z\''];
                     }
-                    var args = ['z', funcdecl + '{return ' + params[0].expr + ';}']
-                    for (var j = 1; j < params.length; ++j) {
+                    let args = ['z', funcdecl + '{return ' + params[0].expr + ';}']
+                    for (let j = 1; j < params.length; ++j) {
                         dictadd(vs, params[j].vars);
                         args.push(params[j].expr);
                     }
@@ -1596,13 +1596,13 @@ let complex_expression = (s) => {
                         val: null
                     };
                 }
-                var fname = next.text;
+                let fname = next.text;
                 if (syns.hasOwnProperty(fname)) {
                     fname = syns[fname];
                 }
                 return compose(fname, params);
             } else if (vars.hasOwnProperty(next.text)) {
-                var vs = {};
+                let vs = {};
                 vs[next.text] = vars[next.text];
                 return {
                     expr: vars[next.text],
@@ -1610,7 +1610,7 @@ let complex_expression = (s) => {
                     val: null
                 };
             } else if (consts.hasOwnProperty(next.text)) {
-                var vl = consts[next.text];
+                let vl = consts[next.text];
                 return {
                     expr: '{r:' + vl.r + ',i:' + vl.i + '}',
                     vars: {},
@@ -1646,13 +1646,13 @@ let complex_expression = (s) => {
     }
 
     let compose = (fname, args) => {
-        var vs = {};
-        var ae = [];
-        var av = [];
-        var vl = null;
-        var valcount = 0;
-        var fn = eval(fname);
-        for (var j = 0; j < args.length; ++j) {
+        let vs = {};
+        let ae = [];
+        let av = [];
+        let vl = null;
+        let valcount = 0;
+        let fn = eval(fname);
+        for (let j = 0; j < args.length; ++j) {
             dictadd(vs, args[j].vars);
             ae.push(args[j].expr);
             av.push(args[j].val);
@@ -1692,7 +1692,7 @@ let complex_expression = (s) => {
             }
         }
         if (fn === div && av[0] !== null && av[0].i == 0) {
-            var r = compose('recip', [args[1]]);
+            let r = compose('recip', [args[1]]);
             if (isreal(1, av[0])) {
                 return r;
             }
@@ -1748,7 +1748,7 @@ let complex_expression = (s) => {
     }
 
     let dictsize = (dict) => {
-        var size = 0,
+        let size = 0,
             key;
         for (key in dict)
             if (dict.hasOwnProperty(key)) ++size;
