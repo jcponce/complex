@@ -67,7 +67,7 @@ Nov-2019: Added a new input box to enter the functions. It looks better 😃. I 
 
 May-2020: I added sliders to define three parameters. t:[0,1], s:[0,2pi] defining the complex number u:=exp(i*s), and n:[0,30] an integer.
 
-Jul-2020: Fixed issue with power function and added Binet's formula. I also added an alert message in case there is womething wrong in the input 😃.
+Jul-2020: Fixed issue with power function and added Binet's formula. I also added an alert message in case there is something wrong in the input 😃.
 
 ---
 
