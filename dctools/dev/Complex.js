@@ -1199,7 +1199,7 @@ let complex_expression = (s) => {
 
     }
 
-    //formerly zetag - Under construction
+    //formerly zetag - Under construction, not working now :(
     let zeta = (z) => {
 
         let ref;
@@ -1216,14 +1216,18 @@ let complex_expression = (s) => {
             r: Math.PI,
             i: 0
         };
-        let za;
+        //let za;
         let cpi = {
             r: 3.14159265358979,
             i: 0
         };
         if (z.r <= -1.0 && Math.abs(z.i) < 55.0) {
-            ref = mult(mult(mult(pow(two, z), pow(cpi, sub(z, one))), sin(mult(pi, div(z, two)))), gamma(sub(one, z)));
-            za = sub(two, z);
+            //cmul(cmul(cmul(cpow(complex(2,0),z),cpow(cpi,z-one)),
+            //csin(pi*z/2.0)),
+           // gamma(one - z));
+            ref = mult(mult(mult(pow(two,z),pow(cpi,sub(z, one))), sin( scale(Math.PI/2,z))), gamma(sub(one, z)));
+            //mult(mult(mult(pow(two, z), pow(cpi, sub(z, one))), sin(mult(pi, div(z, two)))), gamma(sub(one, z)));
+            z = sub(one, z);
             inv = true;
         }
 
@@ -1233,76 +1237,176 @@ let complex_expression = (s) => {
             r: 0,
             i: 0
         };
-        total += mult(one, pow({
+        total += scale(1, pow({
             r: 1,
             i: 0
         }, neg(z)));
-        total -= mult(one, pow({
+        total -= scale(1, pow({
             r: 2,
             i: 0
         }, neg(z)));
-        total += mult(one, pow({
+        total += scale(1, pow({
             r: 3,
             i: 0
         }, neg(z)));
-        total -= mult(one, pow({
+        total -= scale(1, pow({
             r: 4,
             i: 0
         }, neg(z)));
-        total += mult(one, pow({
+        total += scale(1, pow({
             r: 5,
             i: 0
         }, neg(z)));
-        total -= mult(one, pow({
+        total -= scale(1, pow({
             r: 6,
             i: 0
         }, neg(z)));
-        total += mult(one, pow({
+        total += scale(1, pow({
             r: 7,
             i: 0
         }, neg(z)));
-        total -= mult(one, pow({
+        total -= scale(1, pow({
             r: 8,
             i: 0
         }, neg(z)));
-        total += mult(one, pow({
+        total += scale(1, pow({
             r: 9,
             i: 0
         }, neg(z)));
-        /*
-        
-        total -= 0.999999999999 *pow( 10.0 ,-z);
-        total += 0.99999999998 *pow( 11.0 ,-z);
-        total -= 0.999999999735 *pow( 12.0 ,-z);
-        total += 0.999999997107 *pow( 13.0 ,-z);
-        total -= 0.999999973564 *pow( 14.0 ,-z);
-        total += 0.99999979531 *pow( 15.0 ,-z);
-        total -= 0.999998644649 *pow( 16.0 ,-z);
-        total += 0.999992264978 *pow( 17.0 ,-z);
-        total -= 0.99996169714 *pow( 18.0 ,-z);
-        total += 0.999834476711 *pow( 19.0 ,-z);
-        total -= 0.999372646647 *pow( 20.0 ,-z);
-        total += 0.997905448059 *pow( 21.0 ,-z);
-        total -= 0.993815695896 *pow( 22.0 ,-z);
-        total += 0.983794506135 *pow( 23.0 ,-z);
-        total -= 0.962183592565 *pow( 24.0 ,-z);
-        total += 0.921145847114 *pow( 25.0 ,-z);
-        total -= 0.852537436761 *pow( 26.0 ,-z);
-        total += 0.751642715653 *pow( 27.0 ,-z);
-        total -= 0.621346807473 *pow( 28.0 ,-z);
-        total += 0.47396013731 *pow( 29.0 ,-z);
-        total -= 0.328445893083 *pow( 30.0 ,-z);
-        total += 0.203648931086 *pow( 31.0 ,-z);
-        total -= 0.111255622362 *pow( 32.0 ,-z);
-        total += 0.0526848641535 *pow( 33.0 ,-z);
-        total -= 0.0212286807239 *pow( 34.0 ,-z);
-        total += 0.0071162051027 *pow( 35.0 ,-z);
-        total -= 0.00192702152025 *pow( 36.0 ,-z);
-        total += 0.000404373755448 *pow( 37.0 ,-z);
-        total -= 6.16229812906e-05 *pow( 38.0 ,-z);
-        total += 6.06127684826e-06 *pow( 39.0 ,-z);
-        total -= 2.8863223087e-07 *pow( 40.0 ,-z);
-        */
+
+        //10 - 19
+
+        total -= scale(0.999999999999, pow({
+            r: 10,
+            i: 0
+        }, neg(z)));
+        total += scale(0.99999999998, pow({
+            r: 11,
+            i: 0
+        }, neg(z)));
+        total -= scale(0.999999999735, pow({
+            r: 12,
+            i: 0
+        }, neg(z)));
+        total += scale(0.999999997107, pow({
+            r: 13,
+            i: 0
+        }, neg(z)));
+        total -= scale(0.999999973564, pow({
+            r: 14,
+            i: 0
+        }, neg(z)));
+        total += scale(0.99999979531, pow({
+            r: 15,
+            i: 0
+        }, neg(z)));
+        total -= scale(0.999998644649, pow({
+            r: 16,
+            i: 0
+        }, neg(z)));
+        total += scale(0.999992264978, pow({
+            r: 17,
+            i: 0
+        }, neg(z)));
+        total -= scale(0.99996169714, pow({
+            r: 18,
+            i: 0
+        }, neg(z)));
+        total += scale(0.999834476711, pow({
+            r: 19,
+            i: 0
+        }, neg(z)));
+
+        // 20 - 29
+
+        total -= scale(0.999372646647, pow({
+            r: 20,
+            i: 0
+        }, neg(z)));
+        total += scale(0.997905448059, pow({
+            r: 21,
+            i: 0
+        }, neg(z)));
+        total -= scale(0.993815695896, pow({
+            r: 22,
+            i: 0
+        }, neg(z)));
+        total += scale(0.983794506135, pow({
+            r: 23,
+            i: 0
+        }, neg(z)));
+        total -= scale(0.962183592565, pow({
+            r: 24,
+            i: 0
+        }, neg(z)));
+        total += scale(0.921145847114, pow({
+            r: 25,
+            i: 0
+        }, neg(z)));
+        total -= scale(0.852537436761, pow({
+            r: 26,
+            i: 0
+        }, neg(z)));
+        total += scale(0.751642715653, pow({
+            r: 27,
+            i: 0
+        }, neg(z)));
+        total -= scale(0.621346807473, pow({
+            r: 28,
+            i: 0
+        }, neg(z)));
+        total += scale(0.47396013731, pow({
+            r: 29,
+            i: 0
+        }, neg(z)));
+
+        // 30 - 40
+
+        total -= scale(0.328445893083, pow({
+            r: 30,
+            i: 0
+        }, neg(z)));
+        total += scale(0.203648931086, pow({
+            r: 31,
+            i: 0
+        }, neg(z)));
+        total -= scale(0.111255622362, pow({
+            r: 32,
+            i: 0
+        }, neg(z)));
+        total += scale(0.0526848641535, pow({
+            r: 33,
+            i: 0
+        }, neg(z)));
+        total -= scale(0.0212286807239, pow({
+            r: 34,
+            i: 0
+        }, neg(z)));
+        total += scale(0.0071162051027, pow({
+            r: 35,
+            i: 0
+        }, neg(z)));
+        total -= scale(0.00192702152025, pow({
+            r: 36,
+            i: 0
+        }, neg(z)));
+        total += scale(0.000404373755448, pow({
+            r: 37,
+            i: 0
+        }, neg(z)));
+        total -= scale(6.16229812906e-05, pow({
+            r: 38,
+            i: 0
+        }, neg(z)));
+        total += scale(6.06127684826e-06, pow({
+            r: 39,
+            i: 0
+        }, neg(z)));
+        total += scale(2.8863223087e-07, pow({
+            r: 40,
+            i: 0
+        }, neg(z)));
+
 
         total = div(total, sub(one, pow(two, sub(one, z))));
 
@@ -1310,7 +1414,7 @@ let complex_expression = (s) => {
             total = mult(ref, total);
         }
 
-        return ref;
+        return total;
     }
 
     /*
