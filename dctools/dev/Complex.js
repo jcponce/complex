@@ -241,16 +241,16 @@ let complex_expression = (s) => {
 
     let init_dk = _ => {
         let dkr = [1];
-        let n = 14;
+        let n = 20;
         for (let i = 1; i <= n; i++) {
             // order of multiplication reduces overflow, but factorial overflows at 171
             dkr.push(dkr[i - 1] + n * factorials[n + i - 1] / factorials[n - i] / factorials[2 * i] * 4 ** i);
         }
         //let dc = [];
-        for (let i = 0; i < dkr.length; i++) {
+        for (let j = 0; j < dkr.length; j++) {
             // order of multiplication reduces overflow, but factorial overflows at 171
-            dk[i] = {
-                r: dkr[i],
+            dk[j] = {
+                r: dkr[j],
                 i: 0
             }
         }
@@ -1231,7 +1231,7 @@ let complex_expression = (s) => {
     */
     let zeta = (z) => {
 
-        let n = 14;
+        let n = 20;
         //let tolerance = 1e-10;
         let two = {
             r: 2,
@@ -1248,7 +1248,7 @@ let complex_expression = (s) => {
 
         //Not sure if I need this
         //if (z.i !== 0)
-        //    n = Math.max(n, Math.ceil(Math.log(2 / abs(gamma(z)) / tolerance) / Math.log(3 + Math.sqrt(8))));
+         //   n = Math.max(n, Math.ceil(Math.log(2 / abs(gamma(z)) / tolerance) / Math.log(3 + Math.sqrt(8))));
 
         if (z.r < 0) {
             let f1 = mult(pow(two, z), pow(consts.pi, sub(z, one)));
