@@ -105,6 +105,7 @@ let complex_expression = (s) => {
         binet: 1,
         joukowsky: 3,
         zeta: 1,
+        dirichletEta: 1,
         binomial: 2,
         sn: 2,
         cn: 2,
@@ -176,6 +177,7 @@ let complex_expression = (s) => {
     let mds = [];
     let args = [];
     let values = [];
+    let dk = [];
 
     let run = () => {
         dictadd(symbols, consts);
@@ -183,6 +185,7 @@ let complex_expression = (s) => {
         dictadd(symbols, funcs);
         init_constants();
         init_ai(); //This is for Blaschke products
+        init_dk();
 
         let state = {
             tok: tokenize(s),
@@ -233,6 +236,23 @@ let complex_expression = (s) => {
                 i: mds[i] * Math.sin(args[i])
             }
 
+        }
+    }
+
+    let init_dk = _ => {
+        let dkr = [1];
+        let n = 14;
+        for (let i = 1; i <= n; i++) {
+            // order of multiplication reduces overflow, but factorial overflows at 171
+            dkr.push(dkr[i - 1] + n * factorials[n + i - 1] / factorials[n - i] / factorials[2 * i] * 4 ** i);
+        }
+        //let dc = [];
+        for (let i = 0; i < dkr.length; i++) {
+            // order of multiplication reduces overflow, but factorial overflows at 171
+            dk[i] = {
+                r: dkr[i],
+                i: 0
+            }
         }
     }
 
@@ -1028,15 +1048,15 @@ let complex_expression = (s) => {
         };
         let end = Math.floor(iters.r),
             n;
-        if (end === 0) {
+        if (end < 0) {
+            alert("Enter an integer greater than or equal to 0");
+            return null;
+        } else if (end === 0) {
             return {
                 r: 1,
                 i: 0
             };
-        }
-        if (end > 0) {
-
-
+        } else {
             for (n = 1; n <= end; ++n) {
 
                 result = mult(result, add(z, {
@@ -1044,7 +1064,6 @@ let complex_expression = (s) => {
                     i: 0
                 }));
             }
-
             return result;
         }
     }
@@ -1132,16 +1151,8 @@ let complex_expression = (s) => {
     //1/5^(1/2)*((1/2+5^(1/2)/2)^z-(1/2-5^(1/2)/2)^z)
 
     let binet = (z) => {
-        let phi = {
-                r: 1 / 2 + Math.pow(5, 1 / 2) / 2,
-                i: 0
-            },
-            invphi = {
-                r: 1 / 2 - Math.pow(5, 1 / 2) / 2,
-                i: 0
-            },
-            c = 1 / Math.pow(5, 1 / 2);
-        return scale(c, sub(pow(phi, z), pow(invphi, z)));
+        let c = 1 / Math.pow(5, 1 / 2);
+        return scale(c, sub(pow(consts.phi, z), pow(consts.invphi, z)));
     }
 
     let joukowsky = (z, c, rd) => {
@@ -1199,11 +1210,69 @@ let complex_expression = (s) => {
 
     }
 
-    //formerly zetag - Under construction, not working now :(
+    let abs = (z) => {
+        if (z.r === 0 && z.i === 0) return 0;
+
+        if (Math.abs(z.r) < Math.abs(z.i))
+
+            return Math.abs(z.i) * Math.sqrt(1 + (z.r / z.i) ** 2);
+
+        else
+
+            return Math.abs(z.r) * Math.sqrt(1 + (z.i / z.r) ** 2);
+    }
+
+    /*
+        Riemann zeta function
+        https://en.wikipedia.org/wiki/Riemann_zeta_function
+
+        Borwein algorithm
+        http://www.cecm.sfu.ca/personal/pborwein/PAPERS/P155.pdf
+    */
     let zeta = (z) => {
 
-        let ref;
-        let inv = false;
+        let n = 14;
+        //let tolerance = 1e-10;
+        let two = {
+            r: 2,
+            i: 0
+        };
+        let one = {
+            r: 1,
+            i: 0
+        };
+        let minusone = {
+            r: -1,
+            i: 0
+        };
+
+        //Not sure if I need this
+        //if (z.i !== 0)
+        //    n = Math.max(n, Math.ceil(Math.log(2 / abs(gamma(z)) / tolerance) / Math.log(3 + Math.sqrt(8))));
+
+        if (z.r < 0) {
+            let f1 = mult(pow(two, z), pow(consts.pi, sub(z, one)));
+            let f2 = mult(sin(mult(div(consts.pi, two), z)), gamma(sub(one, z)));
+            let f3 = mult(f2, zeta(sub(one, z)));
+            return mult(f1, f3);
+
+        } else {
+            let s = {
+                r: 0,
+                i: 0
+            };
+            for (var l = 0; l < n; l++) {
+                let kc = {
+                    r: l,
+                    i: 0
+                }
+                s = add(s, div(mult(pow((minusone), kc), sub(dk[l], dk[n])), pow(add(kc, one), z)));
+            }
+            return div(div(s, mult(minusone, dk[n])), sub(one, pow(two, sub(one, z))));
+        }
+    }
+
+    let dirichletEta = (z) => {
         let one = {
             r: 1,
             i: 0
@@ -1212,210 +1281,9 @@ let complex_expression = (s) => {
             r: 2,
             i: 0
         };
-        let pi = {
-            r: Math.PI,
-            i: 0
-        };
-        //let za;
-        let cpi = {
-            r: 3.14159265358979,
-            i: 0
-        };
-        if (z.r <= -1.0 && Math.abs(z.i) < 55.0) {
-            //cmul(cmul(cmul(cpow(complex(2,0),z),cpow(cpi,z-one)),
-            //csin(pi*z/2.0)),
-           // gamma(one - z));
-            ref = mult(mult(mult(pow(two,z),pow(cpi,sub(z, one))), sin( scale(Math.PI/2,z))), gamma(sub(one, z)));
-            //mult(mult(mult(pow(two, z), pow(cpi, sub(z, one))), sin(mult(pi, div(z, two)))), gamma(sub(one, z)));
-            z = sub(one, z);
-            inv = true;
-        }
-
-
-        //for efficiency, unrolled loop with precomputed dk
-        let total = {
-            r: 0,
-            i: 0
-        };
-        total += scale(1, pow({
-            r: 1,
-            i: 0
-        }, neg(z)));
-        total -= scale(1, pow({
-            r: 2,
-            i: 0
-        }, neg(z)));
-        total += scale(1, pow({
-            r: 3,
-            i: 0
-        }, neg(z)));
-        total -= scale(1, pow({
-            r: 4,
-            i: 0
-        }, neg(z)));
-        total += scale(1, pow({
-            r: 5,
-            i: 0
-        }, neg(z)));
-        total -= scale(1, pow({
-            r: 6,
-            i: 0
-        }, neg(z)));
-        total += scale(1, pow({
-            r: 7,
-            i: 0
-        }, neg(z)));
-        total -= scale(1, pow({
-            r: 8,
-            i: 0
-        }, neg(z)));
-        total += scale(1, pow({
-            r: 9,
-            i: 0
-        }, neg(z)));
-
-        //10 - 19
-
-        total -= scale(0.999999999999, pow({
-            r: 10,
-            i: 0
-        }, neg(z)));
-        total += scale(0.99999999998, pow({
-            r: 11,
-            i: 0
-        }, neg(z)));
-        total -= scale(0.999999999735, pow({
-            r: 12,
-            i: 0
-        }, neg(z)));
-        total += scale(0.999999997107, pow({
-            r: 13,
-            i: 0
-        }, neg(z)));
-        total -= scale(0.999999973564, pow({
-            r: 14,
-            i: 0
-        }, neg(z)));
-        total += scale(0.99999979531, pow({
-            r: 15,
-            i: 0
-        }, neg(z)));
-        total -= scale(0.999998644649, pow({
-            r: 16,
-            i: 0
-        }, neg(z)));
-        total += scale(0.999992264978, pow({
-            r: 17,
-            i: 0
-        }, neg(z)));
-        total -= scale(0.99996169714, pow({
-            r: 18,
-            i: 0
-        }, neg(z)));
-        total += scale(0.999834476711, pow({
-            r: 19,
-            i: 0
-        }, neg(z)));
-
-        // 20 - 29
-
-        total -= scale(0.999372646647, pow({
-            r: 20,
-            i: 0
-        }, neg(z)));
-        total += scale(0.997905448059, pow({
-            r: 21,
-            i: 0
-        }, neg(z)));
-        total -= scale(0.993815695896, pow({
-            r: 22,
-            i: 0
-        }, neg(z)));
-        total += scale(0.983794506135, pow({
-            r: 23,
-            i: 0
-        }, neg(z)));
-        total -= scale(0.962183592565, pow({
-            r: 24,
-            i: 0
-        }, neg(z)));
-        total += scale(0.921145847114, pow({
-            r: 25,
-            i: 0
-        }, neg(z)));
-        total -= scale(0.852537436761, pow({
-            r: 26,
-            i: 0
-        }, neg(z)));
-        total += scale(0.751642715653, pow({
-            r: 27,
-            i: 0
-        }, neg(z)));
-        total -= scale(0.621346807473, pow({
-            r: 28,
-            i: 0
-        }, neg(z)));
-        total += scale(0.47396013731, pow({
-            r: 29,
-            i: 0
-        }, neg(z)));
-
-        // 30 - 40
-
-        total -= scale(0.328445893083, pow({
-            r: 30,
-            i: 0
-        }, neg(z)));
-        total += scale(0.203648931086, pow({
-            r: 31,
-            i: 0
-        }, neg(z)));
-        total -= scale(0.111255622362, pow({
-            r: 32,
-            i: 0
-        }, neg(z)));
-        total += scale(0.0526848641535, pow({
-            r: 33,
-            i: 0
-        }, neg(z)));
-        total -= scale(0.0212286807239, pow({
-            r: 34,
-            i: 0
-        }, neg(z)));
-        total += scale(0.0071162051027, pow({
-            r: 35,
-            i: 0
-        }, neg(z)));
-        total -= scale(0.00192702152025, pow({
-            r: 36,
-            i: 0
-        }, neg(z)));
-        total += scale(0.000404373755448, pow({
-            r: 37,
-            i: 0
-        }, neg(z)));
-        total -= scale(6.16229812906e-05, pow({
-            r: 38,
-            i: 0
-        }, neg(z)));
-        total += scale(6.06127684826e-06, pow({
-            r: 39,
-            i: 0
-        }, neg(z)));
-        total += scale(2.8863223087e-07, pow({
-            r: 40,
-            i: 0
-        }, neg(z)));
-
-
-        total = div(total, sub(one, pow(two, sub(one, z))));
-
-        if (inv) {
-            total = mult(ref, total);
-        }
-
-        return total;
+        return mult(zeta(z), sub(one, pow(two, sub(one, z))));
     }
+
 
     /*
       ends new functions
@@ -1597,7 +1465,7 @@ let complex_expression = (s) => {
             found = false;
             if (state.j < state.tok.length &&
                 state.tok[state.j].text == '*') {
-                    let ismult = true;
+                let ismult = true;
                 if (state.j + 1 >= state.tok.length) {
                     ismult = false;
                 } else {
