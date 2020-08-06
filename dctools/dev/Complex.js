@@ -189,7 +189,7 @@ let complex_expression = (s) => {
     };
 
     let symbols = {};
-    
+
     let run = () => {
         dictadd(symbols, consts);
         dictadd(symbols, vars);
@@ -243,16 +243,15 @@ let complex_expression = (s) => {
     //I need these arrays for Blaschke products
     let mds = [];
     let args = [];
-    let values = [];
+    let ai = [];
     let init_ai = () => {
-        for (let i = 0; i < 100; i++) {
-            mds[i] = Math.random();
-            args[i] = 2 * Math.PI * Math.random();
-            values[i] = {
-                r: mds[i] * Math.cos(args[i]),
-                i: mds[i] * Math.sin(args[i])
-            }
-
+        for (let k = 0; k < 100; k++) {
+            mds[k] = Math.random();
+            args[k] = 2 * Math.PI * Math.random();
+            ai[k] = {
+                r: mds[k] * Math.cos(args[k]),
+                i: mds[k] * Math.sin(args[k])
+            };
         }
     };
 
@@ -1082,7 +1081,6 @@ let complex_expression = (s) => {
             };
         } else {
             for (n = 1; n <= end; ++n) {
-
                 result = mult(result, add(z, {
                     r: n - 1,
                     i: 0
@@ -1099,81 +1097,64 @@ let complex_expression = (s) => {
       Real and Imaginary components: x1 x2 - y1 y2 + i (x2 y1 + y2 x1) 
     */
     let mobius = (z, a, b, c, d) => {
-
-        let num = {
-            r: z.r * a.r - z.i * a.i + b.r,
-            i: z.r * a.i + z.i * a.r + b.i
-        };
-        let denom = {
-            r: z.r * c.r - z.i * c.i + d.r,
-            i: z.r * c.i + z.i * c.r + d.i
-        };
-        let cond = sub(mult(a, d), mult(b, c));
+        let u = add(mult(a, z), b),
+            l = add(mult(c, z), d),
+            cond = sub(mult(a, d), mult(b, c));
         if (cond.r === 0 && cond.i === 0) {
             alert("Sorry, not valid 😟 Recall that ad − bc ≠ 0");
-            return null; //{r: Math.cos(2*Math.PI* 0.625), i:Math.cos(2*Math.PI* 0.625)};
-        } else {
-            return div(num, denom);
+            return null;
         }
+        return div(u, l);
     };
 
     /* 
       Finite Blaschke products:
       https://en.wikipedia.org/wiki/Blaschke_product#Finite_Blaschke_products
+      Defined as: |a| / a * (z - a) / (1 - conj(a) * z)
       rationalBlaschke(z, complex numbers, multiplicity)
     */
+
+    /* 
+      Finite Blaschke products:
+      https://en.wikipedia.org/wiki/Blaschke_product#Finite_Blaschke_products
+      First define the rational factor: 
+      |a| / a * (z - a) / (1 - conj(a) * z)
+      as the function rationalBlaschke(z, complex numbers)
+    */
     let rationalBlaschke = (z, a) => {
-
-        let y = div({
-            r: z.r - a.r,
-            i: z.i - a.i
-        }, {
-            r: 1 - a.r * z.r - a.i * z.i,
-            i: a.i * z.r - a.r * z.i
-        });
-
-        let f = div({
-            r: Math.sqrt(a.r * a.r + a.i * a.i),
+        let one = {
+            r: 1,
             i: 0
-        }, {
-            r: a.r,
-            i: a.i
-        });
-
-        return mult(f, y);
+        }
+        let d = div(sub(z, a), sub(one, mult(conj(a), z)));
+        let n = div(modulus(a), a);
+        return mult(d, n);
     };
 
     let blaschke = (z, iters) => {
-
-        let result = rationalBlaschke(z, values[0]),
+        let result = rationalBlaschke(z, ai[0]),
             end = Math.floor(iters.r),
             n;
-
         if (end > 100 || end < 1) {
             alert("Enter an integer between 1 and 100");
             return null;
         } else {
-
             for (n = 1; n < end; n++) {
-                result = mult(result, rationalBlaschke(z, values[n]))
+                result = mult(result, rationalBlaschke(z, ai[n]));
             }
-            //let e = [];
-            //for(let k = 0; k < 50; k++){
-            //    e[k] = rationalBlaschke(z, values[k], mults[k]);
-            //}
-
             //Multiply by a complex number z such that |z|<1
-            return mult({
+            let r = {
                 r: 0.0256,
                 i: 0.1321
-            }, result);
+            }
+            return mult(r, result);
         }
+
     };
 
     //Binet's formula 
     //https://mathworld.wolfram.com/BinetsFibonacciNumberFormula.html
     //1/5^(1/2)*((1/2+5^(1/2)/2)^z-(1/2-5^(1/2)/2)^z)
-
     let binet = (z) => {
         let c = 1 / Math.pow(5, 1 / 2);
         return scale(c, sub(pow(consts.phi, z), pow(consts.invphi, z)));
@@ -1272,7 +1253,7 @@ let complex_expression = (s) => {
 
         //Not sure if I need this
         //if (z.i !== 0)
-         //   n = Math.max(n, Math.ceil(Math.log(2 / abs(gamma(z)) / tolerance) / Math.log(3 + Math.sqrt(8))));
+        //   n = Math.max(n, Math.ceil(Math.log(2 / abs(gamma(z)) / tolerance) / Math.log(3 + Math.sqrt(8))));
 
         if (z.r < 0) {
             let f1 = mult(pow(two, z), pow(consts.pi, sub(z, one)));
@@ -1307,7 +1288,6 @@ let complex_expression = (s) => {
         };
         return mult(zeta(z), sub(one, pow(two, sub(one, z))));
     };
-
 
     /*
       ends new functions
