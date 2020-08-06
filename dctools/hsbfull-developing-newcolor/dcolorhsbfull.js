@@ -34,7 +34,7 @@ let input;
 
 function setup() {
     createCanvas(470, 470);
-    colorMode(HSB, 1);
+    //colorMode(HSB, 1);
     smooth();
     pixelDensity(1);
     
@@ -167,9 +167,9 @@ function plot() {
             // We color each pixel based on some cool function
             // Gosh, we could make fancy colors here if we wanted
             
-            let h = funPhase(-x, y);
+            let h = funPhase(x, -y);
             let b = funColor(x, y);
-            
+            /*
             //Let's color the pixels;
             if( (0 <= h && h < PI/6) || (-PI/6 <= h && h < 0)){
                 set(i, j, color(0, 1, b));//red
@@ -186,8 +186,9 @@ function plot() {
             } else if( (- PI < h && h < -5*PI/6) || (5*PI/6 < h && h < PI )){
                 set(i, j, color(0.499, 1, b));//blueish
             } else set(i, j, color(1, 0, 0));//blueish
-            
+            */
             //set(i, j, color(h, 1, b));
+            setPixelHSV(i, j, map(h, -PI, PI, 0, 1), 1, b);
             
             
             xtemp += dx;
@@ -196,6 +197,46 @@ function plot() {
     }
     
     updatePixels();
+}
+
+//For colors
+function setPixelRGB(x, y, r, g, b) {
+    let pixelID = (x + y * width) * 4;
+    pixels[pixelID + 0] = r;
+    pixels[pixelID + 1] = g;
+    pixels[pixelID + 2] = b;
+    pixels[pixelID + 3] = 255;
+}
+
+function setPixelHSV(x, y, h, s, v) {
+    let r, g, b, i, f, p, q, t;
+    i = Math.floor(h * 6);
+    f = h * 6 - i;
+    p = v * (1 - s);
+    q = v * (1 - f * s);
+    t = v * (1 - (1 - f) * s);
+    switch (i % 6) {
+        case 0:
+            r = v, g = t, b = p;
+            break;
+        case 1:
+            r = q, g = v, b = p;
+            break;
+        case 2:
+            r = p, g = v, b = t;
+            break;
+        case 3:
+            r = p, g = q, b = v;
+            break;
+        case 4:
+            r = t, g = p, b = v;
+            break;
+        case 5:
+            r = v, g = p, b = q;
+            break;
+    }
+    
+    setPixelRGB(x, y, round(r * 255), round(g * 255), round(b * 255));
 }
 
 
