@@ -1135,8 +1135,8 @@ let complex_expression = (s) => {
         let result = rationalBlaschke(z, ai[0]),
             end = Math.floor(iters.r),
             n;
-        if (end > 100 || end < 1) {
-            alert("Enter an integer between 1 and 100");
+        if (end < 1 || 100 < end) {
+            alert('Enter an integer between 1 and 100');
             return null;
         } else {
             for (n = 1; n < end; n++) {
@@ -1149,7 +1149,6 @@ let complex_expression = (s) => {
             }
             return mult(r, result);
         }
-
     };
 
     //Binet's formula 
