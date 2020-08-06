@@ -74,6 +74,7 @@ class domainColoring {
         let h = funPhase(w.r, w.i);
         let b = funColor(w.r, w.i);
         set(i, j, color(h, 1, b));
+       // setPixelHSV(i, j, h, 1, b);
 
         x += dx;
       }
@@ -163,4 +164,44 @@ class domainColoring {
 
   } //ends grid
 
+}
+
+//For colors
+function setPixelRGB(x, y, r, g, b) {
+  let pixelID = (x + y * width) * 4;
+  pixels[pixelID + 0] = r;
+  pixels[pixelID + 1] = g;
+  pixels[pixelID + 2] = b;
+  pixels[pixelID + 3] = 255;
+}
+
+function setPixelHSV(x, y, h, s, v) {
+  let r, g, b, i, f, p, q, t;
+  i = Math.floor(h * 6);
+  f = h * 6 - i;
+  p = v * (1 - s);
+  q = v * (1 - f * s);
+  t = v * (1 - (1 - f) * s);
+  switch (i % 6) {
+      case 0:
+          r = v, g = t, b = p;
+          break;
+      case 1:
+          r = q, g = v, b = p;
+          break;
+      case 2:
+          r = p, g = v, b = t;
+          break;
+      case 3:
+          r = p, g = q, b = v;
+          break;
+      case 4:
+          r = t, g = p, b = v;
+          break;
+      case 5:
+          r = v, g = p, b = q;
+          break;
+  }
+  
+  setPixelRGB(x, y, round(r * 255), round(g * 255), round(b * 255));
 }

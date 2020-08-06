@@ -98,7 +98,8 @@ class domainColoring {
                 //let b = cPhase(w.r, w.i);
                 let b = funColor(w.r, w.i);
 
-                set(i, j, color(h, 1, b));
+                //set(i, j, color(h, 1, b));
+                setPixelHSV(i, j, h, 1, b);
 
                 x += dx;
             }
