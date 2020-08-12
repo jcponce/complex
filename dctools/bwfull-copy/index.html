@@ -5,7 +5,7 @@
     <meta name="description" content="Domain coloring">
     <meta name="author" content="Juan Carlos Ponce Campuzano">
     <meta name="language" content="en" />
-    <title>Enhanced and Discrete color scheme</title>
+    <title>Domain coloring Black and White</title>
     <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
     <script language="javascript" type="text/javascript" src="../libraries/p5js/p5.min.js"></script>
     <script language="javascript" type="text/javascript" src="../libraries/dat-gui/dat.gui.min.js"></script>
@@ -26,18 +26,18 @@
     <!--MathJax starts-->
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
-      TeX: { equationNumbers: { autoNumber: "AMS" } }
-            });
-       </script>
+                       TeX: { equationNumbers: { autoNumber: "AMS" } }
+                       });
+    </script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-       </script>
+    </script>
     <!---<script type="text/x-mathjax-config">//left-side eq
-         MathJax.Hub.Config({
-               displayAlign: "left",
-               displayIndent: "5em"
-               });
-</script>--->
+ MathJax.Hub.Config({
+ displayAlign: "left",
+ displayIndent: "5em"
+ });
+ </script>--->
     <script type="text/javascript" async
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML">
     </script>
@@ -95,7 +95,6 @@
             &nbsp;
             <a class="myBtn_multi w3-button w3-hover-light-grey w3-opacity w3-round-xxlarge" id="myBtn"> <i
                     class="fas fa-question"></i> </a>
-
         </div>
     </div>
     <!-- Navbar Ends-->
@@ -114,7 +113,7 @@
             </div>
 
             <p>This tool visualizes complex-valued
-                functions by assigning a color (HSB scheme) to each point in
+                functions by assigning a color (Black and White scheme) to each point in
                 the complex plane according to its argument/phase. The identity function f(z)=z shows how colors are
                 assigned.</p>
             <p><span style="font-weight: bold;" class="w3-xlarge">f(z):</span> Enter any expression in z. Here are some
@@ -138,9 +137,12 @@
                 </ul>
             </p>
 
-            <p><span style="font-weight: bold;" class="w3-xlarge">Level curves:</span>
-                Draw level curves. Select an option 'Phase', 'Modulus', 'Phase/Modulus' or 'None'.</p>
+            <p><span style="font-weight: bold;" class="w3-xlarge">Mode:</span>
+                Draw level curves. Select an option 'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary' or 'Re/Im'
+            </p>
 
+            <p><span style="font-weight: bold;" class="w3-xlarge">Level curves:</span>
+                Drag or enter a positive number to change the number of level curves.</p>
 
             <p><span style="font-weight: bold;" class="w3-xlarge">Zoom In/Out</span>
                 Drag or enter a positive number to zoom (in/out).</p>
@@ -165,16 +167,18 @@
             <br />
             <br />
 
+
         </div>
 
     </div>
+    <!-- The Modal ends-->
 
     <!--<script language="javascript" type="text/javascript" src="libraries/Complex.js"></script>-->
     <script language="javascript" type="text/javascript" src="../libraries/hsluvmin.js"></script>
     <script language="javascript" type="text/javascript" src="../libraries/Complex.min.js"></script>
     <script language="javascript" type="text/javascript" src="../libraries/domainColoring.js"></script>
     <script language="javascript" type="text/javascript" src="uicontrols.js"></script>
-    <script language="javascript" type="text/javascript" src="discretefull.js"></script>
+    <script language="javascript" type="text/javascript" src="dcolorbwfull.js"></script>
 
 </body>
 
