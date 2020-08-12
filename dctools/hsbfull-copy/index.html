@@ -5,10 +5,12 @@
     <meta name="description" content="Domain coloring">
     <meta name="author" content="Juan Carlos Ponce Campuzano">
     <meta name="language" content="en" />
-    <title>Domain coloring HSB enhanced scheme</title>
+    <title>Domain coloring HSV enhanced scheme</title>
     <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
     <script language="javascript" type="text/javascript" src="../libraries/p5js/p5.min.js"></script>
+
     <script language="javascript" type="text/javascript" src="../libraries/dat-gui/dat.gui.min.js"></script>
+
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
@@ -26,18 +28,18 @@
     <!--MathJax starts-->
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
-                       TeX: { equationNumbers: { autoNumber: "AMS" } }
-                       });
-    </script>
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+            });
+       </script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-    </script>
+       </script>
     <!---<script type="text/x-mathjax-config">//left-side eq
- MathJax.Hub.Config({
- displayAlign: "left",
- displayIndent: "5em"
- });
- </script>--->
+         MathJax.Hub.Config({
+               displayAlign: "left",
+               displayIndent: "5em"
+               });
+</script>--->
     <script type="text/javascript" async
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML">
     </script>
@@ -48,6 +50,7 @@
             location.reload();
         }
     </script>
+    
     <link rel="icon" type="image/png" href="../libraries/css/infinity32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../libraries/css/infinity16.png" sizes="16x16">
     <link rel="stylesheet" href="../main/dat-gui/dat-gui-light-theme.css">
@@ -55,6 +58,7 @@
     <link rel="stylesheet" href="../libraries/css/w3.css">
     <link rel="stylesheet" href="../libraries/css/styledc.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
     <style>
         div.sticky {
             position: -webkit-sticky;
@@ -94,6 +98,7 @@
             &nbsp;
             <a class="myBtn_multi w3-button w3-hover-light-grey w3-opacity w3-round-xxlarge" id="myBtn"> <i
                     class="fas fa-question"></i> </a>
+
         </div>
     </div>
     <!-- Navbar Ends-->
@@ -113,7 +118,8 @@
 
             <p>This tool visualizes complex-valued
                 functions by assigning a color (HSB scheme) to each point in
-                the complex plane according to its argument/phase. The identity function f(z)=z shows how colors are
+                the complex plane according to its argument/phase. 
+                The identity function f(z)=z shows how colors are
                 assigned.</p>
             <p><span style="font-weight: bold;" class="w3-xlarge">f(z):</span> Enter any expression in z. Here are some
                 example functions to try<ul>
@@ -137,7 +143,7 @@
             </p>
 
             <p><span style="font-weight: bold;" class="w3-xlarge">Level curves:</span>
-                Draw level curves. Select an option 'Re', 'Im', 'Re/Im', 'Modulus' or 'All'.</p>
+                Draw level curves. Select an option 'Phase', 'Modulus', 'Phase/Modulus' or 'None'.</p>
 
 
             <p><span style="font-weight: bold;" class="w3-xlarge">Zoom In/Out</span>
@@ -145,7 +151,7 @@
 
             <p><span style="font-weight: bold;" class="w3-xlarge">Parameters:</span>
                 You can use three parameters in your function, e. g. z + t, exp(u * z), z^n.
-                Use sliders to change parameters, where t$\in$[0,1] and u = exp(i*s)
+                Use sliders to change parameters, where t$\in$[0,1] and u = exp(i*s) 
                 with s$\in$[0, 2\pi]. Finally, an integer n$\in$[0,30].</p>
 
             <p><span style="font-weight: bold;" class="w3-xlarge">Save (png):</span>
@@ -172,7 +178,7 @@
     <script language="javascript" type="text/javascript" src="../libraries/Complex.min.js"></script>
     <script language="javascript" type="text/javascript" src="../libraries/domainColoring.js"></script>
     <script language="javascript" type="text/javascript" src="uicontrols.js"></script>
-    <script language="javascript" type="text/javascript" src="dcolorhsbReImfull.js"></script>
+    <script language="javascript" type="text/javascript" src="dcolorhsbfull.js"></script>
 
 </body>
 
