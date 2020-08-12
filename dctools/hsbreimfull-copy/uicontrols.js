@@ -13,10 +13,10 @@ function uicontrols() {
     width: 360
   });
   
-  gui.add(def, 'opt', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
+  gui.add(def, 'opt', ['Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None']).name("Level Curves:").onChange(mySelectOption);
   
   gui.add(def, 'size', 0.000001, 30, 0.000001).name("Zoom In/Out").onChange(resetPlotDim);
-  
+
   gui.add(def, 'canvasSize', ['Small', 'Big']).name("Window: ").onChange(screenSize);
 
   let par = gui.addFolder('Parameters');
@@ -26,7 +26,7 @@ function uicontrols() {
 
   gui.add(def, 'Save').name("Save (png)");
 
-  input = createInput('(z-1)/(z^2+z+1)');
+  input = createInput('log(z)');
 
   input.id('myfunc');
   //input.changed(resetPlot);
