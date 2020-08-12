@@ -5,7 +5,7 @@
     <meta name="description" content="Domain coloring">
     <meta name="author" content="Juan Carlos Ponce Campuzano">
     <meta name="language" content="en" />
-    <title>Domain coloring HSB enhanced scheme</title>
+    <title>Domain coloring HSV enhanced scheme</title>
     <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
     <script language="javascript" type="text/javascript" src="../libraries/p5js/p5.min.js"></script>
 
@@ -50,7 +50,7 @@
             location.reload();
         }
     </script>
-    <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
+    
     <link rel="icon" type="image/png" href="../libraries/css/infinity32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../libraries/css/infinity16.png" sizes="16x16">
     <link rel="stylesheet" href="../main/dat-gui/dat-gui-light-theme.css">
@@ -118,7 +118,8 @@
 
             <p>This tool visualizes complex-valued
                 functions by assigning a color (HSB scheme) to each point in
-                the complex plane according to its argument/phase. The identity function f(z)=z shows how colors are
+                the complex plane according to its argument/phase. 
+                The identity function f(z)=z shows how colors are
                 assigned.</p>
             <p><span style="font-weight: bold;" class="w3-xlarge">f(z):</span> Enter any expression in z. Here are some
                 example functions to try<ul>
@@ -145,11 +146,13 @@
                 Draw level curves. Select an option 'Phase', 'Modulus', 'Phase/Modulus' or 'None'.</p>
 
 
-            <p><span style="font-weight: bold;" class="w3-xlarge">|Re z|&lt;:</span>
-                Drag or enter a positive number to define the domain (square/rectangle) for plotting the function.</p>
+            <p><span style="font-weight: bold;" class="w3-xlarge">Zoom In/Out</span>
+                Drag or enter a positive number to zoom (in/out).</p>
 
-            <!--<p><span style="font-weight: bold;" class="w3-large">Update values:</span>
-                Click to update all new values.</p>-->
+            <p><span style="font-weight: bold;" class="w3-xlarge">Parameters:</span>
+                You can use three parameters in your function, e. g. z + t, exp(u * z), z^n.
+                Use sliders to change parameters, where t$\in$[0,1] and u = exp(i*s) 
+                with s$\in$[0, 2\pi]. Finally, an integer n$\in$[0,30].</p>
 
             <p><span style="font-weight: bold;" class="w3-xlarge">Save (png):</span>
                 Click to save your plot.</p>
