@@ -41,7 +41,7 @@ This class also requieres a complex function parser and the library for the HSLu
 * [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/Complex.min.js)
 * [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
 
-To set it up in p5.js you must include in the index file the class and the other two libraries, including your sketch file:
+To set it up in p5.js you must include, in the index file, the class and the other two libraries:
 
     <script src="hsluvmin.js"></script>
     <script src="Complex.min.js"></script>
