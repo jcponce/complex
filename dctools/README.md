@@ -34,7 +34,7 @@ color to that pixel. This procedure is shown in the animation below.
 
 In this project I used [p5.js](https://p5js.org/). At the begining I had only one function for plotting one color scheme but later I realized that it was better to have a class to include other color schemes: 
 
-* [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/domainColoring.js)
+* [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/domainColoring.min.js)
 
 This class also requieres a complex function parser and the library for the HSLuv color scheme.
 
@@ -45,7 +45,7 @@ To set it up in p5.js you must include in the index file the class and the other
 
     <script src="hsluvmin.js"></script>
     <script src="Complex.min.js"></script>
-    <script src="domainColoring.js"></script>
+    <script src="domainColoring.min.js"></script>
     <script src="sketch.js"></script>
     
 In the sketch file define within the setup function the class 'domanColoring(func, size)' with two parameters:
