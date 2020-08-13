@@ -8,7 +8,7 @@
 
 function mouseWheel() {
   if (domC.x <= mouseX && mouseX <= domC.w && domC.y <= mouseY && mouseY <= domC.h)
-    domC.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
+    domC.zoomAt(mouseX, mouseY, 0.75, event.delta < 0);
 }
 
 function keyReleased() {
@@ -39,10 +39,8 @@ function keyPressed() {
 }
 
 function resetPlotDim() {
-  w = def.size;
-  h = (w * height) / width;
-  s = new p5.Vector(w, h);
-  domC.origSize = s;
+  s = def.size;
+  domC.origSize = new p5.Vector(s, s);
   domC.size = new p5.Vector(domC.origSize.x, domC.origSize.y);
 }
 
