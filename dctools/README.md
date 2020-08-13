@@ -89,9 +89,9 @@ For example, let's use plotHSV(opt). So we have:
 
 #### Result
 
-<img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/demo-basic.png" width="50%">
+<img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/demo-basic.png" width="40%">
 
-Check the demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
+Check the live demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
 
 ## About the HSV (or HSB) color scheme
 
