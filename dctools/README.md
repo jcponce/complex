@@ -37,7 +37,7 @@ for plotting one color scheme but later I realized that it was better to have a 
 
 * [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/domainColoring.min.js)
 
-This class also requieres a complex function parser and the library for the HSLuv color scheme.
+This class also requieres a *complex function parser* and the library for the *HSLuv color scheme*.
 
 * [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/Complex.min.js)
 * [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
