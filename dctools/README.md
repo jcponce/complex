@@ -30,12 +30,12 @@ color to that pixel. This procedure is shown in the animation below.
 
 # Basic set up
 
-In this project I used [p5.js](https://p5js.org/). At the begining I had only one function for plotting one color scheme but later I realized that it was better to have class 'domainColoring' to include other color schemes. This class also requieres a complex function parser and the library for the HSLuv color scheme.
+In this project I used [p5.js](https://p5js.org/). At the begining I had only one function for plotting one color scheme but later I realized that it was better to have a class to include other color schemes. The [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/domainColoring.js) also requieres a complex function parser and the library for the HSLuv color scheme.
 
 1. [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/Complex.min.js)
 2. [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
 
-To set it up in p5 you need to include the class and the other two libraries in your index file:
+To set it up in p5.js you must to include the class and the other two libraries in your index file:
 
     <script src="hsluvmin.js"></script>
     <script src="Complex.min.js"></script>
@@ -43,7 +43,7 @@ To set it up in p5 you need to include the class and the other two libraries in 
     
 In the sketch we define within the setup function the 'domanColoring(func, size)' class with two parameters:
 1. func: a complex function (as a string) e.g. 'z^2',
-2. size: a real positive number e.g. 6.
+2. size: a real number > 0 e.g. 6.
 
        let domC;
        let fn = 'z^2';
@@ -56,7 +56,7 @@ In the sketch we define within the setup function the 'domanColoring(func, size)
          domC = new domainColoring('z^2', s); 
        }
         
-Now we just need to plot it using one the following functions from the domainColoring class:
+Now we just need to plot it using one the following functions defined in the 'domainColoring' class:
 
 - plotHSV(opt)
   - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
@@ -74,8 +74,7 @@ Now we just need to plot it using one the following functions from the domainCol
   - maxHue: 1
 - plotBW(opt),
    - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im'
-- plotHSVG()
-            
+- plotHSVG()   
 
 For example, let's use plotHSV(opt):
 
@@ -83,10 +82,11 @@ For example, let's use plotHSV(opt):
       domC.plotHSV('Modulus');
     }
 
-Check the demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
+#### Result
 
 <img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/demo-basic.png" width="50%">
 
+Check the demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
 
 ## About the HSV (or HSB) color scheme
 
@@ -127,7 +127,7 @@ This library was inspired by [David Bau's work](http://davidbau.com/). It define
 * Trigonometric functions --- "sin, cos, tan, csc, sec, cot, arcsin, arccos, arctan, arccsc, arcsec, arccot".
 * Hyperbolic trigonometric functions --- "sinh, cosh, tanh, csch, sech, coth, arcsinh, arccosh, arctanh, arccsch, arcsech, arccoth".
 * The conjugate --- "conj".
-* The absolute value, also known as modulus --- "abs".
+* The absolute value, also known as modulus --- "abs", "||".
 * Complex power --- "^, exp".
 * Complex logarithm --- "log".
 * Real and Imaginary components --- "re, im".
@@ -143,7 +143,7 @@ This library was inspired by [David Bau's work](http://davidbau.com/). It define
 
 # Updates
 
-July 2018: First time online, version 1.
+July 2018: First time online. Version 1.
 
 Feb-2019: Added Complex arithmetic and functions library.
 
