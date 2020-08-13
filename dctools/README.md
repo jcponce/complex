@@ -1,16 +1,36 @@
 # Domain coloring plotting tools
 
-Hi! Welcome. Here are the sketches about domain coloring for visualizing complex functions.
+Hi! Welcome. Here are the sketches about domain coloring for visualizing complex functions with JavaScript.
 
 #### [Click here to see all demos](https://jcponce.github.io/domain-coloring/)
 
-![alt tag](https://github.com/jcponce/complex/blob/gh-pages/dctools/plotfz.png)
+<img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/plotfz.png" width="60%">
 
 ---
 
-## About the method
+# Introduction
+            
+Domain coloring is a method that allows us to represent complex functions by assigning a color
+to each point of the complex plane. The method involves basically two main ideas:
 
-The method I used here is based on [Elias Wegert](http://www.visual.wegert.com/)'s work from his book [Visual Complex Functions.](http://www.springer.com/de/book/9783034801799) He basically employs phase portraits with contour lines of phase and modulus, *enhanced phase portraits*, for the study of the theory of complex functions. I also added extra color schemes to explore different ways to visualize complex functions. In particular, I used some of the equations discussed in the *MATHEMATICA &amp; Wolfram Language* section from the *Stack Exchange* site:
+1. Assign a color to every point in the complex plane.
+2. Color the domain of f by painting the location z with the color determined by the value f(z).
+
+It is common to use the color wheel because it is easy to match the HUE values with the phase (argument) of a complex number z which is usually defined in the interval [0,2\pi), or (-\pi, \pi].
+
+<img src="https://raw.githubusercontent.com/jcponce/jcponce.github.io/master/domain-coloring/img/wheel.svg" width="40%">
+
+To implement this method in the computer consider a rectangular region of pixels on
+the screen. This will be a discretized domain D_h for the function f. Every pixel i is
+identified with a complex number z_i where f is evaluated. Then calculate
+the phase of the value f(z) and its corresponding color. Finally assign the resulting
+color to that pixel. This procedure is shown in the animation below.
+
+![Color Wheel](https://raw.githubusercontent.com/jcponce/jcponce.github.io/master/domain-coloring/img/diagram.gif)
+
+## About the HSV (or HSB) color scheme
+
+The method I used for the HSV (or HSB) color scheme is based on [Elias Wegert](http://www.visual.wegert.com/)'s work from his book [Visual Complex Functions.](http://www.springer.com/de/book/9783034801799) He basically employs phase portraits with contour lines of phase and modulus, *enhanced phase portraits*, for the study of the theory of complex functions. I also added extra color schemes to explore different ways to visualize complex functions. In particular, I used some of the equations discussed in the *MATHEMATICA &amp; Wolfram Language* section from the *Stack Exchange* site:
 
 [How can I generate this “domain coloring” plot?](https://mathematica.stackexchange.com/questions/7275/how-can-i-generate-this-domain-coloring-plot)
 
@@ -36,7 +56,19 @@ I also recommend you the following galleries:
 
 ---
 
-## Available functions
+# Domain coloring class
+
+With the domainColoring class you can plot complex functions using different color schemes. It requires the following libraries:
+
+ 1. p5.js - https://p5js.org/, 
+ 2. HSLuv - https://github.com/hsluv/hsluv
+ 3. complex.js - Complex function parser
+
+## Complex function parser
+
+This parser was inspired by [David Bau's work](http://davidbau.com/). It defines the arithmetic of complex numbers and contains a wide range of complex functions.
+
+### Available functions
 
 * Trigonometric functions --- "sin, cos, tan, csc, sec, cot, arcsin, arccos, arctan, arccsc, arcsec, arccot".
 * Hyperbolic trigonometric functions --- "sinh, cosh, tanh, csch, sech, coth, arcsinh, arccosh, arctanh, arccsch, arcsech, arccoth".
@@ -68,6 +100,8 @@ Nov-2019: Added a new input box to enter the functions. It looks better 😃. I 
 May-2020: I added sliders to define three parameters. t:[0,1], s:[0,2pi] defining the complex number u:=exp(i*s), and n:[0,30] an integer.
 
 Jul-2020: Fixed issue with power function and added Binet's formula. I also added an alert message in case there is something wrong in the input 😃.
+
+Aug-2020: New updates comming soon!
 
 ---
 
