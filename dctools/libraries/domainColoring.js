@@ -23,7 +23,7 @@ class domainColoring {
 
   constructor(func, size, t = 0, u = 0, n = 1) {
 
-    this.origSize = size;
+    this.origSize = new p5.Vector(size, size);
     this.size = new p5.Vector(this.origSize.x, this.origSize.y);
     this.origPos = new p5.Vector(0, 0); //Origin position
     this.pos = new p5.Vector(this.origPos.x, this.origPos.y);
@@ -36,8 +36,16 @@ class domainColoring {
     this.x = 40;
     this.y = 40;
 
-    this.w = width - this.x;
-    this.h = height - this.y;
+    if (width < height) {
+      this.w = width - this.x;
+      this.h = width - this.y;
+    } else if (width > height) {
+      this.w = height - this.x;
+      this.h = height - this.y;
+    } else {
+      this.w = width - this.x;
+      this.h = height - this.y;
+    }
 
     let nx = map(this.pos.x, -this.size.x / 2, this.size.x / 2, this.x, this.w);
     let ny = map(this.pos.y, -this.size.y / 2, this.size.y / 2, this.y, this.h);
@@ -63,7 +71,7 @@ class domainColoring {
     } catch (e) {
       if (k === null || k === undefined) {
         this.check = false;
-        z = complex_expression(trimN('0'));
+        z = complex_expression('0');
         //console.log(this.check); // debugging!
         return z;
       }
@@ -838,33 +846,37 @@ class domainColoring {
     pop();
 
     // Zoom and Mouse position tags
-    push();
+    if (width > 350 && height > 350) {
+      push();
 
-    // Zoom tag
-    fill(0);
-    stroke(0);
-    noStroke();
-    textSize(20);
-    textAlign(LEFT);
-    let zv = round((1 / this.zoom) * 1000) / 1000;
-    if (0.00001 <= zv && zv <= 1000000)
-      text('Zoom: ' + str(zv), this.w / 2 - width / 3, this.y - height / 40);
-    if (zv < 0.00001)
-      text('Zoom: → 0', this.w / 2 - width / 3, this.y - height / 40);
-    if (zv > 1000000) text('Zoom: → ∞', this.w / 2 - width / 3, this.y - height / 40);
+      // Zoom tag
+      fill(0);
+      stroke(0);
+      noStroke();
+      textSize(20);
+      textAlign(LEFT);
+      let zv = round((1 / this.zoom) * 1000) / 1000,
+        zpx = this.x + 10,
+        zpy = this.y - 10;
+      if (0.00001 <= zv && zv <= 1000000)
+        text('Zoom: ' + str(zv), zpx, zpy);
+      if (zv < 0.00001)
+        text('Zoom: → 0', zpx, zpy);
+      if (zv > 1000000) text('Zoom: → ∞', zpx, zpy);
 
-    // Mouse tag
-    var cX = this.pos.x + map(mouseX, this.x, this.w, -this.size.x / 2, this.size.x / 2); //this is for reference
-    var cY = this.pos.y + map(mouseY, this.h, this.y, -this.size.y / 2, this.size.y / 2); //this is for reference
-    if (this.x < mouseX && mouseX < this.w && this.y < mouseY && mouseY < this.h) {
-      text("Mouse: (" + str(round(cX * 1000) / 1000.0) + "," + str(round(cY * 1000) / 1000.0) + ")", this.w / 2 + width / 20, this.y - height / 40);
-      cursor(HAND);
-      //noFill();
-      //stroke(0);
-      //strokeWeight(1);
-      //ellipse(mouseX, mouseY, 15);
+      // Mouse tag
+      let cX = this.pos.x + map(mouseX, this.x, this.w, -this.size.x / 2, this.size.x / 2); //this is for reference
+      let cY = this.pos.y + map(mouseY, this.h, this.y, -this.size.y / 2, this.size.y / 2); //this is for reference
+      if (this.x < mouseX && mouseX < this.w && this.y < mouseY && mouseY < this.h) {
+        text("Mouse: (" + str(round(cX * 1000) / 1000.0) + "," + str(round(cY * 1000) / 1000.0) + ")", this.w / 2 + 10, zpy);
+        cursor(HAND);
+        //noFill();
+        //stroke(0);
+        //strokeWeight(1);
+        //ellipse(mouseX, mouseY, 15);
+      }
+      pop();
     }
-    pop();
 
 
     // Points of reference on the grid and number labels
