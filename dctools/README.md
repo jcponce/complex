@@ -147,19 +147,19 @@ This library was inspired by [David Bau's work](http://davidbau.com/). It define
 * Real and Imaginary components --- "re, im".
   E.g. re(z), im(z)
 * [Jacobi Elliptic](https://en.wikipedia.org/wiki/Jacobi_elliptic_functions) --- "sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])".
-  * E.g sn(z, 0.3)
+  * E.g. sn(z, 0.3)
 * [Gamma function](https://en.wikipedia.org/wiki/Gamma_function) --- "gamma( expr )".
-  * E.g sn(z, 0.3)
+  * E.g. sn(z, 0.3)
 * [Finite Blaschke product](https://en.wikipedia.org/wiki/Blaschke_product) --- "blaschke( expr, positive integer )"
-  * E.g blaschke(z, 20)
+  * E.g. blaschke(z, 20)
 * [Binet's Formula](https://mathworld.wolfram.com/BinetsFibonacciNumberFormula.html) ---"binet( expr )" 
-  * E.g binet(z)
+  * E.g. binet(z)
 * Sum series function--- "sum( expr, positive integer)".
-  * E.g sum((-1)^n*z^(2n)/(2n)!, 7)
+  * E.g. sum((-1)^n*z^(2n)/(2n)!, 7)
 * Multiplicative function --- "prod( expr, positive integer)".
-  * E.g prod(e^((z+(e^(2*pi*i/5))^n )/(z-(e^(2*pi*i/5))^n)), 5)
+  * E.g. prod(e^((z+(e^(2*pi*i/5))^n )/(z-(e^(2*pi*i/5))^n)), 5)
 * Iterated function --- "iter( expr, variable positive integer)".
-  * E.g iter(z+z'^2,z,15)
+  * E.g. iter(z+z'^2,z,15)
 
 ---
 
