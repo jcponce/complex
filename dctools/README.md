@@ -50,17 +50,19 @@ In the sketch file define within the setup function the class 'domanColoring(fun
 - func: a complex function (as a string) e.g. 'z^2',
 - size: a real number > 0 e.g. 6.
 
-      let domC; 
-      let fn = 'z^2'; // Change this function
-      let s = 6; // Change this size
-      function setup() {
-        // It looks better when the canvas is a square, min 400x400
-        createCanvas(500, 500);
-        pixelDensity(1);
+Thus we have
+
+    let domC; 
+    let fn = 'z^2'; // Change this function
+    let s = 6; // Change this size
+    function setup() {
+      // It looks better when the canvas is a square, min 400x400
+      createCanvas(500, 500);
+      pixelDensity(1);
   
-        // Domain coloring setting
-        domC = new domainColoring(fn, s); 
-      }
+      // Domain coloring setting
+      domC = new domainColoring(fn, s); 
+    }
         
 Now we just need to plot it using one of the following options defined within our class:
 
