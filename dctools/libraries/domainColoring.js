@@ -978,9 +978,11 @@ class domainColoring {
   
     /* Dragging plot functions */ 
     pressedPlot() {
-      this.dragging = true;
-      this.offsetX = this.bX - mouseX;
-      this.offsetY = this.bY - mouseY;
+      if (0 < mouseX && mouseX < width && 0 < mouseY && mouseY < height) {
+        this.dragging = true;
+        this.offsetX = this.bX - mouseX;
+        this.offsetY = this.bY - mouseY;
+      }
     }
   
     releasedPlot() {

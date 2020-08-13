@@ -2,15 +2,15 @@
  * Under Creative Commons License
  * https://creativecommons.org/licenses/by-sa/4.0/
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
- 
- * Last update 12-Aug-2020
  */
+
+// Last update 12-Aug-2020
 
 let domC, s, w, h, input;
 
 let def = {
-  opt: 'Standard',
-  size: 3,
+  opt: 'Modulus',
+  size: 4,
   slidert: 0,
   slideru: 0,
   slidern: 1,
@@ -28,7 +28,7 @@ function setup() {
 }
 
 function draw() {
-  domC.plotHSL(def.opt);
+  domC.plotHSVG();
   domC.update();
 }
 
@@ -67,7 +67,7 @@ function touchEnded() {
   domC.releasedPlot();
 }
 
-// HSL
+//HSV
 function mySelectOption() {
   if (def.opt === 'Phase') {
     domC.opt = 'Phase';
@@ -75,8 +75,6 @@ function mySelectOption() {
     domC.opt = 'Modulus';
   } else if (def.opt === 'Phase/Modulus') {
     domC.opt = 'Phase/Modulus';
-  } else if (def.opt === 'Standard') {
-    domC.opt = 'Standard';
   } else if (def.opt === 'None') {
     domC.opt = 'None';
   }
