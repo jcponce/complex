@@ -18,7 +18,7 @@ to each point of the complex plane. The method involves basically two main ideas
 
 It is common to use the color wheel because it is easy to match the HUE values with the phase (argument) of a complex number z which is usually defined in the interval [0,2\pi), or (-\pi, \pi].
 
-<img src="https://raw.githubusercontent.com/jcponce/jcponce.github.io/master/domain-coloring/img/wheel.svg" width="40%">
+<img src="https://raw.githubusercontent.com/jcponce/jcponce.github.io/master/domain-coloring/img/wheel.svg" width="35%">
 
 To implement this method in the computer consider a rectangular region of pixels on
 the screen. This will be a discretized domain D_h for the function f. Every pixel i is
@@ -30,15 +30,18 @@ color to that pixel. This procedure is shown in the animation below.
 
 # Basic set up
 
-In this project I used [p5.js](https://p5js.org/). To define the plots with differen color schemes I wrote a class called domainColoring. It also requieres a complex function parser and the library for the HSLuv color scheme.
+In this project I used [p5.js](https://p5js.org/). At the beggining I had one function to plot the complex function with just one color scheme but later I realized that it was better to have class 'domainColoring' to include other color schemes. The class also requieres a complex function parser and the library for the HSLuv color scheme.
 
-To set it up in p5 you need to include the following libraries in your index file:
+1. [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/Complex.min.js)
+2. [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
+
+To set it up in p5 you need to include the class and the other two libraries in your index file:
 
     <script src="hsluvmin.js"></script>
-    <script src="complex.js"></script>
+    <script src="Complex.min.js"></script>
     <script src="domainColoring.js"></script>
     
-Now in the sketch we define within the setup function the 'domanColoring(func, size)' class with two parameters:
+In the sketch we define within the setup function the 'domanColoring(func, size)' class with two parameters:
 
 1. func: a complex function (as a string) e.g. 'z^2',
 2. size: a real positive number e.g. 6.
@@ -54,7 +57,7 @@ Now in the sketch we define within the setup function the 'domanColoring(func, s
             domC = new domainColoring('z^2', s); 
         }
         
-Now we just need to plot it using one the following functions:
+Now we just need to plot it using one the following functions from the domainColoring class:
 
 - plotHSV(opt)
   - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
@@ -83,7 +86,7 @@ For example, let's use plotHSV(opt):
 
 Check the demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
 
-![Demo Basic](https://github.com/jcponce/complex/blob/gh-pages/dctools/demo-basic.png)
+<img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/demo-basic.png" width="50%">
 
 
 ## About the HSV (or HSB) color scheme
@@ -92,7 +95,9 @@ The method I used for the HSV (or HSB) color scheme is based on [Elias Wegert](h
 
 [How can I generate this “domain coloring” plot?](https://mathematica.stackexchange.com/questions/7275/how-can-i-generate-this-domain-coloring-plot)
 
-In this project I used [p5.js](https://p5js.org/) but there are similar projects or online plotters using other programming languages: 
+### Other amazing projects
+
+I have been inspired for so many people sharing their work. The following are similar projects or online plotters using other programming languages: 
 
 * [Complex Color Map](https://github.com/endolith/complex_colormap) (Python)
 * [C-plot](https://github.com/nschloe/cplot) (Python by Nico Schlömer)
@@ -114,17 +119,9 @@ I also recommend you the following galleries:
 
 ---
 
-# Domain coloring class
+# More about the complex function parser
 
-The class domainColoring is written in p5.js, so it requires the following libraries:
-
- 1. p5.js - https://p5js.org/, 
- 2. complex.js - Complex function parser
- 3. HSLuv - https://github.com/hsluv/hsluv
-
-# Complex function parser
-
-This parser was inspired by [David Bau's work](http://davidbau.com/). It defines the arithmetic of complex numbers and contains a wide range of complex functions.
+This library was inspired by [David Bau's work](http://davidbau.com/). It defines the arithmetic of complex numbers and contains a wide range of complex functions.
 
 ## Available functions
 
@@ -145,7 +142,7 @@ This parser was inspired by [David Bau's work](http://davidbau.com/). It defines
 
 ---
 
-#### Updates
+# Updates
 
 July 2018: First time online, version 1.
 
@@ -165,5 +162,5 @@ Aug-2020: New updates comming soon! Version 3.
 
 ---
 
-#### LICENSE  
+# LICENSE  
 This code is under a [Creative Commons Attribution, Non-Commercial, Share-Alike license](https://creativecommons.org/licenses/by-nc-sa/4.0/).
