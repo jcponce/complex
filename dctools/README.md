@@ -147,7 +147,7 @@ This library was inspired by [David Bau's work](http://davidbau.com/). It define
 * Complex logarithm --- "log".
   * log(z)
 * Real and Imaginary components --- "re, im".
-  E.g. re(z), im(z)
+  * E.g. re(z), im(z)
 * [Jacobi Elliptic](https://en.wikipedia.org/wiki/Jacobi_elliptic_functions) --- "sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])".
   * E.g. sn(z, 0.3)
 * [Gamma function](https://en.wikipedia.org/wiki/Gamma_function) --- "gamma( expr )".
