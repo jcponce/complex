@@ -8,6 +8,38 @@
 
 let domC, s, w, h, input;
 
+function setup() {
+  createCanvas(470, 470);
+  pixelDensity(1);
+  uicontrols();
+  resetPlot();
+}
+
+function draw() {
+  domC.plotRGB(def.opt);
+  domC.update();
+}
+
+/* Auxliary functions */
+
+function resetPlot() {
+  domC = new domainColoring(input.value(), def.size, def.slidert);
+}
+
+//HSV
+function mySelectOption() {
+  if (def.opt === 'Phase') {
+    domC.opt = 'Phase';
+  } else if (def.opt === 'Modulus') {
+    domC.opt = 'Modulus';
+  } else if (def.opt === 'Phase/Modulus') {
+    domC.opt = 'Phase/Modulus';
+  } else if (def.opt === 'None') {
+    domC.opt = 'None';
+  }
+}
+
+// create gui (dat.gui)
 let def = {
   opt: 'Modulus',
   size: 3,
@@ -27,86 +59,40 @@ let def = {
   canvasSize: 'Small'
 };
 
-function setup() {
-  createCanvas(470, 470);
-  pixelDensity(1);
-  uicontrols();
-  resetPlot();
-}
+function uicontrols() {
+  let gui = new dat.GUI({
+    width: 360
+  });
+  
+  gui.add(def, 'opt', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
+  
 
-function draw() {
-  domC.plotRGB(def.opt);
-  domC.update();
-}
+  gui.add(def, 'size', 0.000001, 30, 0.000001).name("Zoom In/Out").onChange(resetPlotDim);
+  
+  gui.add(def, 'canvasSize', ['Small', 'Big']).name("Window: ").onChange(screenSize);
 
-/* Auxliary functions */
+  let par = gui.addFolder('Parameters');
+  par.add(def, 'slidert', 0, 1, 0.01).name("t =").onChange(resetParameters);
+  par.add(def, 'slideru', 0, 2 * Math.PI, 0.01).name("u = exp(i⋅s); s =").onChange(resetParameters);
+  par.add(def, 'slidern', 0, 30, 1).name("n =").onChange(resetParameters);
 
-function resetPlot() {
-  domC = new domainColoring(input.value(), def.size, def.slidert);
-}
+  gui.add(def, 'Reset');
+  gui.add(def, 'Save').name("Save (png)");
 
-function mouseWheel() {
-  if (domC.x <= mouseX && mouseX <= domC.w && domC.y <= mouseY && mouseY <= domC.h)
-    domC.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
-}
 
-function keyReleased() {
-  if (keyCode === 81) //Q key
-    domC.printDebug = !domC.printDebug;
-}
+  input = createInput('z^5+1');
+  
+  input.id('myfunc');
+  //input.changed(resetPlot);
 
-function mousePressed() {
-  domC.pressedPlot();
-}
+  input.changed(keyPressed);
+  input.addClass('body');
+  input.addClass('container');
+  input.addClass('full-width');
+  input.addClass('dark-translucent');
+  input.addClass('input-control');
+  //input.addClass('equation-input');
+  input.attribute('placeholder', 'Input complex expression, e.g. 1 / (z^2 + i)^2 - log(z)');
+  input.style('color: #ffffff');
 
-function mouseReleased() {
-  domC.releasedPlot();
-}
-
-function touchStarted() {
-  domC.pressedPlot();
-}
-
-function touchEnded() {
-  domC.releasedPlot();
-}
-
-//HSV
-function mySelectOption() {
-  if (def.opt === 'Phase') {
-    domC.opt = 'Phase';
-  } else if (def.opt === 'Modulus') {
-    domC.opt = 'Modulus';
-  } else if (def.opt === 'Phase/Modulus') {
-    domC.opt = 'Phase/Modulus';
-  } else if (def.opt === 'None') {
-    domC.opt = 'None';
-  }
-}
-
-function keyPressed() {
-  if (keyCode === ENTER) {
-    domC.func = domC.verifyFunction(complex_expression(input.value(), def.slidert, def.slideru, def.slidern));
-  }
-}
-
-function resetPlotDim() {
-  w = def.size;
-  h = (w * height) / width;
-  s = new p5.Vector(w, h);
-  domC.origSize = s;
-  domC.size = new p5.Vector(domC.origSize.x, domC.origSize.y);
-}
-
-function resetParameters() {
-  domC.func = domC.verifyFunction(complex_expression(input.value(), def.slidert, def.slideru, def.slidern));
-}
-
-function screenSize() {
-  if (def.canvasSize === 'Small') {
-    resizeCanvas(500, 500);
-  } else if (def.canvasSize === 'Big') {
-    resizeCanvas(700, 700);
-  }
-  resetPlot();
 }

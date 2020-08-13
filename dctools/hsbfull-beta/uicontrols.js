@@ -3,14 +3,6 @@
  * https://creativecommons.org/licenses/by-sa/4.0/
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  
- * Last update 20-Nov-2019
- */
-
-/* Written in p5.js (https://p5js.org/)
- * Under Creative Commons License
- * https://creativecommons.org/licenses/by-sa/4.0/
- * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
- 
  * Last update 10-Aug-2020
  */
 
