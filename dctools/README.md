@@ -92,6 +92,8 @@ For example, let's use **plotHSV(opt)**:
     function draw() {
       domC.plotHSV('Modulus');
     }
+    
+**Note:** The parameter is optinal so you can just type: **plotHSV()**.
 
 #### Result
 
