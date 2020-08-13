@@ -42,7 +42,6 @@ To set it up in p5 you need to include the class and the other two libraries in 
     <script src="domainColoring.js"></script>
     
 In the sketch we define within the setup function the 'domanColoring(func, size)' class with two parameters:
-
 1. func: a complex function (as a string) e.g. 'z^2',
 2. size: a real positive number e.g. 6.
 
@@ -50,12 +49,12 @@ In the sketch we define within the setup function the 'domanColoring(func, size)
        let fn = 'z^2';
        let s = 6;
        function setup() {
-            createCanvas(500, 500);
-            pixelDensity(1);
+         createCanvas(500, 500);
+         pixelDensity(1);
   
-            // Domain coloring setting
-            domC = new domainColoring('z^2', s); 
-        }
+         // Domain coloring setting
+         domC = new domainColoring('z^2', s); 
+       }
         
 Now we just need to plot it using one the following functions from the domainColoring class:
 
