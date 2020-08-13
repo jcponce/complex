@@ -69,22 +69,22 @@ Thus we have
         
 Now we just need to plot it using one of the following options defined within our class:
 
-- plotHSV(opt)
-  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
-- plotHSVDisc(opt)
-  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
-- plotHSL(opt)
-  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'Standard', 'None'
-- plotRGB(opt)
-  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
-- plotHSVReIm(opt)
-  - opt: 'Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None'
-- plotHSLuv(opt, minHue, maxHue)
-  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
-  - minHue: 0
-  - maxHue: 1
-- plotBW(opt),
-   - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im'
+- plotHSV(str)
+  - Parameters -  String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
+- plotHSVDisc(str)
+  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
+- plotHSL(str)
+  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'Standard', 'None'(Optional)
+- plotRGB(str)
+  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
+- plotHSVReIm(str)
+  - Parameters - String: 'Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None' (Optional)
+- plotHSLuv(str, minHue, maxHue)
+  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
+  - minHue - Number [0, 1] (Optional)
+  - maxHue - Number [0, 1] (Optional)
+- plotBW(str),
+   - Parameters - String:'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im' (Optional)
 - plotHSVG()   
 
 For example, let's use **plotHSV(opt)**:
@@ -92,8 +92,6 @@ For example, let's use **plotHSV(opt)**:
     function draw() {
       domC.plotHSV('Modulus');
     }
-    
-**Note:** The parameter is optinal so you can just type: **plotHSV()**.
 
 #### Result
 
