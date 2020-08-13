@@ -39,14 +39,14 @@ This class also requieres a complex function parser and the library for the HSLu
 * [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/Complex.min.js)
 * [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
 
-To set it up in p5.js you must to include next to your sketch the class and the other two libraries in your index file:
+To set it up in p5.js you must include in the index file the class and the other two libraries, including your sketch file:
 
     <script src="hsluvmin.js"></script>
     <script src="Complex.min.js"></script>
     <script src="domainColoring.js"></script>
     <script src="sketch.js"></script>
     
-In the sketch file define within the setup function the 'domanColoring(func, size)' class with two parameters:
+In the sketch file define within the setup function the class 'domanColoring(func, size)' with two parameters:
 - func: a complex function (as a string) e.g. 'z^2',
 - size: a real number > 0 e.g. 6.
 
@@ -62,7 +62,7 @@ In the sketch file define within the setup function the 'domanColoring(func, siz
         domC = new domainColoring(fn, s); 
       }
         
-Now we just need to plot it using one the following options defined within the 'domainColoring' class:
+Now we just need to plot it using one of the following options defined within our class:
 
 - plotHSV(opt)
   - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
@@ -102,7 +102,7 @@ The method I used for the HSV (or HSB) color scheme is based on [Elias Wegert](h
 
 ### Other amazing projects
 
-I have been inspired for so many people sharing their work. The following are similar projects or online plotters using other programming languages: 
+I have been inspired for so many people sharing their work on this topic. The following are similar projects, or online plotters, using other programming languages: 
 
 * [Complex Color Map](https://github.com/endolith/complex_colormap) (Python)
 * [C-plot](https://github.com/nschloe/cplot) (Python by Nico Schlömer)
@@ -113,7 +113,7 @@ I have been inspired for so many people sharing their work. The following are si
 * [Exploring complex functions](https://cindyjs.org/gallery/cindygl/ComplexExplorer/index.html) (Cindy.JS)
 * [Complex Function Explorer](https://au.mathworks.com/matlabcentral/fileexchange/45464-complex-function-explorer) (MATLAB)
 * [Complex function plotter](https://people.ucsc.edu/~wbolden/complex/) (Shader by Will Bolden)
-* [Complex function plotter](https://samuelj.li/complex-function-plotter/) (Sader by Samuel J. Li)
+* [Complex function plotter](https://samuelj.li/complex-function-plotter/) (Shader by Samuel J. Li)
 
 Visit the site [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the different tools I made or if you prefer you can visit the [Domain Coloring Gallery](https://jcponce.github.io/domain-coloring/dcgallery.html).
 
@@ -126,30 +126,44 @@ I also recommend you the following galleries:
 
 # More about the complex function parser
 
-This library was inspired by [David Bau's work](http://davidbau.com/). It defines the arithmetic of complex numbers and contains a wide range of complex functions.
+This library was inspired by [David Bau's work](http://davidbau.com/). It defines the basic arithmetic of complex numbers and contains a wide range of complex functions.
 
 ## Available functions
 
 * Trigonometric functions --- "sin, cos, tan, csc, sec, cot, arcsin, arccos, arctan, arccsc, arcsec, arccot".
+  * E.g. sin(z)
 * Hyperbolic trigonometric functions --- "sinh, cosh, tanh, csch, sech, coth, arcsinh, arccosh, arctanh, arccsch, arcsech, arccoth".
+  * E.g. sinh(z)
 * The conjugate --- "conj".
+  * E.g. conj(z)
 * The absolute value, also known as modulus --- "abs", "||".
+  E.g abs(z), |z|
 * Complex power --- "^, exp".
+  * E.g. z^2, exp(z), e^z
 * Complex logarithm --- "log".
+  * log(z)
 * Real and Imaginary components --- "re, im".
-* [Jacobi Elliptic](https://en.wikipedia.org/wiki/Jacobi_elliptic_functions) --- "sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])". 
+  E.g. re(z), im(z)
+* [Jacobi Elliptic](https://en.wikipedia.org/wiki/Jacobi_elliptic_functions) --- "sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])".
+  * E.g sn(z, 0.3)
 * [Gamma function](https://en.wikipedia.org/wiki/Gamma_function) --- "gamma( expr )".
+  * E.g sn(z, 0.3)
 * [Finite Blaschke product](https://en.wikipedia.org/wiki/Blaschke_product) --- "blaschke( expr, positive integer )"
+  * E.g blaschke(z, 20)
 * [Binet's Formula](https://mathworld.wolfram.com/BinetsFibonacciNumberFormula.html) ---"binet( expr )" 
+  * E.g binet(z)
 * Sum series function--- "sum( expr, positive integer)".
+  * E.g sum((-1)^n*z^(2n)/(2n)!, 7)
 * Multiplicative function --- "prod( expr, positive integer)".
+  * E.g prod(e^((z+(e^(2*pi*i/5))^n )/(z-(e^(2*pi*i/5))^n)), 5)
 * Iterated function --- "iter( expr, variable positive integer)".
+  * E.g iter(z+z'^2,z,15)
 
 ---
 
 # Updates
 
-July 2018: First time online. Version 1.
+July 2018: Version 1. First time online.
 
 Feb-2019: Added Complex arithmetic and functions library.
 
@@ -157,13 +171,13 @@ May-2019: Added more color schemes.
 
 Sep-2019: I was able to work out how to add a parser for complex functions thanks to [David Bau's work](http://davidbau.com/). Now you can easily input a function such as 'f(z)=z^2+cos(z)'. Version 1.5.
 
-Nov-2019: Added a new input box to enter the functions. It looks better 😃. I also added a new color scheme and the Finite Blaschke product with randomly distributed points. Version 2.
+Nov-2019: Version 2. Added a new input box to enter the functions. It looks better 😃. I also added a new color scheme and the Finite Blaschke product with randomly distributed points.
 
 May-2020: I added sliders to define three parameters. t:[0,1], s:[0,2pi] defining the complex number u:=exp(i*s), and n:[0,30] an integer.
 
 Jul-2020: Fixed issue with power function and added Binet's formula. I also added an alert message in case there is something wrong in the input 😃.
 
-Aug-2020: New updates comming soon! Version 3.
+Aug-2020: Version 3. New updates comming soon! Refactored code and defined class to plot all color schemes.
 
 ---
 
