@@ -35,10 +35,7 @@ function draw() {
 /* Auxliary functions */
 
 function resetPlot() {
-  w = def.size;
-  h = (w * height) / width;
-  s = new p5.Vector(w, h);
-  domC = new domainColoring(input.value(), s, def.slidert);
+  domC = new domainColoring(input.value(), def.size, def.slidert);
 }
 
 function mouseWheel() {
