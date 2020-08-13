@@ -28,7 +28,7 @@ function setup() {
 }
 
 function draw() {
-  domC.plotHSLuv(def.opt);
+  domC.plotHSLuv(def.opt, 0.4, 1);
   domC.update();
 }
 

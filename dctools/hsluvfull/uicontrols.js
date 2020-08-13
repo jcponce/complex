@@ -13,7 +13,7 @@ function uicontrols() {
     width: 360
   });
   
-  gui.add(def, 'opt', ['Phase', 'Modulus', 'Phase/Modulus', 'Standard', 'None']).name("Level Curves:").onChange(mySelectOption);
+  gui.add(def, 'opt', ['Phase', 'Modulus', 'Phase/Modulus', 'Standard']).name("Level Curves:").onChange(mySelectOption);
 
   gui.add(def, 'size', 0.000001, 30, 0.000001).name("Zoom In/Out").onChange(resetPlotDim);
   
