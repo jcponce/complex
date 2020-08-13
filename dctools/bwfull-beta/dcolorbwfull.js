@@ -14,6 +14,13 @@ let def = {
   slidert: 0,
   slideru: 0,
   slidern: 1,
+  Reset: function(){
+    domC.size.x = domC.origSize.x;
+    domC.size.y = domC.origSize.y;
+    domC.pos.x = domC.origPos.x;
+    domC.pos.y = domC.origPos.y;
+    domC.zoom = domC.origZoom;
+  },
   Save: function () {
     save('plotfz.png');
   },

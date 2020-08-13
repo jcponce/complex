@@ -25,8 +25,9 @@ function uicontrols() {
   par.add(def, 'slidern', 0, 30, 1).name("n =").onChange(resetParameters);
 
   
-  gui.add(def, 'Save').name("Save (png)");
+  gui.add(def, 'Reset');
 
+  gui.add(def, 'Save').name("Save (png)");
 
   input = createInput('z+1/z');
   

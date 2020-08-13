@@ -24,6 +24,8 @@ function uicontrols() {
   par.add(def, 'slidern', 0, 30, 1).name("n =").onChange(resetParameters);
 
 
+  gui.add(def, 'Reset');
+
   gui.add(def, 'Save').name("Save (png)");
 
   input = createInput('0.926(z+7.3857e-2 z^5+4.5458e-3 z^9)');

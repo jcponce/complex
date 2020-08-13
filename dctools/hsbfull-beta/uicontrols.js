@@ -31,6 +31,7 @@ function uicontrols() {
   par.add(def, 'slideru', 0, 2 * Math.PI, 0.01).name("u = exp(i⋅s); s =").onChange(resetParameters);
   par.add(def, 'slidern', 0, 30, 1).name("n =").onChange(resetParameters);
 
+  gui.add(def, 'Reset');
   gui.add(def, 'Save').name("Save (png)");
 
 
