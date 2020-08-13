@@ -69,22 +69,37 @@ Thus we have
         
 Now we just need to plot it using one of the following options defined within our class:
 
+#### HSV
 - plotHSV(str)
   - Parameters -  String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
+  
+#### HSV discrite
 - plotHSVDisc(str)
   - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
+  
+#### HSL
 - plotHSL(str)
   - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'Standard', 'None'(Optional)
+  
+#### RGB
 - plotRGB(str)
   - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
+ 
+#### HSV modulus, real and imaginary components
 - plotHSVReIm(str)
   - Parameters - String: 'Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None' (Optional)
+  
+#### HSLuv
 - plotHSLuv(str, minHue, maxHue)
   - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
   - minHue - Number [0, 1] (Optional)
   - maxHue - Number [0, 1] (Optional)
+  
+#### Black & white
 - plotBW(str),
    - Parameters - String:'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im' (Optional)
+   
+#### HSV Gradient
 - plotHSVG()   
 
 For example, let's use **plotHSV()**:
