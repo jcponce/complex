@@ -84,7 +84,7 @@ Now we just need to plot it using one of the following options defined within ou
    - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im'
 - plotHSVG()   
 
-For example, let's use plotHSV(opt). So we have:
+For example, let's use plotHSV(opt):
 
     function draw() {
       domC.plotHSV('Modulus');
