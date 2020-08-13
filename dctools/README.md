@@ -1,16 +1,94 @@
 # Domain coloring plotting tools
 
-Hi! Welcome. Here are the sketches about domain coloring for visualizing complex functions.
+Hi! Welcome. Here are the sketches about domain coloring for visualizing complex functions with JavaScript.
 
 #### [Click here to see all demos](https://jcponce.github.io/domain-coloring/)
 
-![alt tag](https://github.com/jcponce/complex/blob/gh-pages/dctools/plotfz.png)
+<img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/plotfz.png" width="50%">
 
 ---
 
-## About the method
+# Introduction
+            
+Domain coloring is a method that allows us to represent complex functions by assigning a color
+to each point of the complex plane. The method involves basically two main ideas:
 
-The method I used here is based on [Elias Wegert](http://www.visual.wegert.com/)'s work from his book [Visual Complex Functions.](http://www.springer.com/de/book/9783034801799) He basically employs phase portraits with contour lines of phase and modulus, *enhanced phase portraits*, for the study of the theory of complex functions. I also added extra color schemes to explore different ways to visualize complex functions. In particular, I used some of the equations discussed in the *MATHEMATICA &amp; Wolfram Language* section from the *Stack Exchange* site:
+1. Assign a color to every point in the complex plane.
+2. Color the domain of f by painting the location z with the color determined by the value f(z).
+
+It is common to use the color wheel because it is easy to match the HUE values with the phase (argument) of a complex number z which is usually defined in the interval [0,2\pi), or (-\pi, \pi].
+
+<img src="https://raw.githubusercontent.com/jcponce/jcponce.github.io/master/domain-coloring/img/wheel.svg" width="40%">
+
+To implement this method in the computer consider a rectangular region of pixels on
+the screen. This will be a discretized domain D_h for the function f. Every pixel i is
+identified with a complex number z_i where f is evaluated. Then calculate
+the phase of the value f(z) and its corresponding color. Finally assign the resulting
+color to that pixel. This procedure is shown in the animation below.
+
+![Color Wheel](https://raw.githubusercontent.com/jcponce/jcponce.github.io/master/domain-coloring/img/diagram.gif)
+
+# Basic set up
+
+In this project I used [p5.js](https://p5js.org/). To define the plots with differen color schemes I wrote a class called domainColoring. It also requieres a complex function parser and the library for the HSLuv color scheme.
+
+To set it up in p5 you need to include the following libraries in your index file:
+
+    <script src="hsluvmin.js"></script>
+    <script src="complex.js"></script>
+    <script src="domainColoring.js"></script>
+    
+Now in the sketch we define within the setup function the 'domanColoring(func, size)' class with two parameters:
+
+1. func: a complex function (as a string) e.g. 'z^2',
+2. size: a real positive number e.g. 6.
+
+       let domC;
+       let fn = 'z^2';
+       let s = 6;
+       function setup() {
+            createCanvas(500, 500);
+            pixelDensity(1);
+  
+            // Domain coloring setting
+            domC = new domainColoring('z^2', s); 
+        }
+        
+Now we just need to plot it using one the following functions:
+
+- plotHSV(opt)
+  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
+- plotHSVDisc(opt)
+  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
+- plotHSL(opt)
+  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'Standard', 'None'
+- plotRGB(opt)
+  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
+- plotHSVReIm(opt)
+  - opt: 'Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None'
+- plotHSLuv(opt, minHue, maxHue)
+  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
+  - minHue: 0
+  - maxHue: 1
+- plotBW(opt),
+   - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im'
+- plotHSVG()
+            
+
+For example, let's use plotHSV(opt):
+
+    function draw() {
+      domC.plotHSV('Modulus');
+    }
+
+Check the demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
+
+![Demo Basic](https://github.com/jcponce/complex/blob/gh-pages/dctools/demo-basic.png)
+
+
+## About the HSV (or HSB) color scheme
+
+The method I used for the HSV (or HSB) color scheme is based on [Elias Wegert](http://www.visual.wegert.com/)'s work from his book [Visual Complex Functions.](http://www.springer.com/de/book/9783034801799) He basically employs phase portraits with contour lines of phase and modulus, *enhanced phase portraits*, for the study of the theory of complex functions. I also added extra color schemes to explore different ways to visualize complex functions. In particular, I used some of the equations discussed in the *MATHEMATICA &amp; Wolfram Language* section from the *Stack Exchange* site:
 
 [How can I generate this “domain coloring” plot?](https://mathematica.stackexchange.com/questions/7275/how-can-i-generate-this-domain-coloring-plot)
 
@@ -36,6 +114,18 @@ I also recommend you the following galleries:
 
 ---
 
+# Domain coloring class
+
+The class domainColoring is written in p5.js, so it requires the following libraries:
+
+ 1. p5.js - https://p5js.org/, 
+ 2. complex.js - Complex function parser
+ 3. HSLuv - https://github.com/hsluv/hsluv
+
+# Complex function parser
+
+This parser was inspired by [David Bau's work](http://davidbau.com/). It defines the arithmetic of complex numbers and contains a wide range of complex functions.
+
 ## Available functions
 
 * Trigonometric functions --- "sin, cos, tan, csc, sec, cot, arcsin, arccos, arctan, arccsc, arcsec, arccot".
@@ -57,17 +147,21 @@ I also recommend you the following galleries:
 
 #### Updates
 
+July 2018: First time online, version 1.
+
 Feb-2019: Added Complex arithmetic and functions library.
 
 May-2019: Added more color schemes.
 
-Sep-2019: I was able to work out how to add a parser for complex functions thanks to [David Bau's work](http://davidbau.com/). Now you can easily input a function such as 'f(z)=z^2+cos(z)'. 
+Sep-2019: I was able to work out how to add a parser for complex functions thanks to [David Bau's work](http://davidbau.com/). Now you can easily input a function such as 'f(z)=z^2+cos(z)'. Version 1.5.
 
-Nov-2019: Added a new input box to enter the functions. It looks better 😃. I also added a new color scheme and the Finite Blaschke product with randomly distributed points.
+Nov-2019: Added a new input box to enter the functions. It looks better 😃. I also added a new color scheme and the Finite Blaschke product with randomly distributed points. Version 2.
 
 May-2020: I added sliders to define three parameters. t:[0,1], s:[0,2pi] defining the complex number u:=exp(i*s), and n:[0,30] an integer.
 
 Jul-2020: Fixed issue with power function and added Binet's formula. I also added an alert message in case there is something wrong in the input 😃.
+
+Aug-2020: New updates comming soon! Version 3.
 
 ---
 
