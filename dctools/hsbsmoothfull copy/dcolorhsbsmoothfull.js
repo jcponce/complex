@@ -67,7 +67,7 @@ function touchEnded() {
   domC.releasedPlot();
 }
 
-//HSV
+//HSV - not neede here :)
 function mySelectOption() {
   if (def.opt === 'Phase') {
     domC.opt = 'Phase';
