@@ -32,7 +32,8 @@ color to that pixel. This procedure is shown in the animation below.
 
 # Basic set up
 
-In this project I used [p5.js](https://p5js.org/). At the begining I had only one function for plotting one color scheme but later I realized that it was better to have a class to include other color schemes: 
+In this project I used [p5.js](https://p5js.org/). At the begining I had only one function 
+for plotting one color scheme but later I realized that it was better to have a class to include other color schemes: 
 
 * [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/domainColoring.min.js)
 
@@ -48,7 +49,7 @@ To set it up in p5.js you must include, in the index file, the class and the oth
     <script src="domainColoring.min.js"></script>
     <script src="sketch.js"></script>
     
-In the sketch file define within the setup function the class 'domanColoring(func, size)' with two parameters:
+In the sketch file define within the setup function the class **domanColoring(func, size)** with two parameters:
 - func: a complex function (as a string) e.g. 'z^2',
 - size: a real number > 0 e.g. 6.
 
@@ -86,7 +87,7 @@ Now we just need to plot it using one of the following options defined within ou
    - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im'
 - plotHSVG()   
 
-For example, let's use plotHSV(opt):
+For example, let's use **plotHSV(opt)**:
 
     function draw() {
       domC.plotHSV('Modulus');
@@ -100,13 +101,19 @@ Check the live demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
 
 ## About the HSV (or HSB) color scheme
 
-The method I used for the HSV (or HSB) color scheme is based on [Elias Wegert](http://www.visual.wegert.com/)'s work from his book [Visual Complex Functions.](http://www.springer.com/de/book/9783034801799) He basically employs phase portraits with contour lines of phase and modulus, *enhanced phase portraits*, for the study of the theory of complex functions. I also added extra color schemes to explore different ways to visualize complex functions. In particular, I used some of the equations discussed in the *MATHEMATICA &amp; Wolfram Language* section from the *Stack Exchange* site:
+The method I used for the HSV (or HSB) color scheme is based on [Elias Wegert](http://www.visual.wegert.com/)'s 
+work from his book [Visual Complex Functions.](http://www.springer.com/de/book/9783034801799) He basically 
+employs phase portraits with contour lines of phase and modulus, *enhanced phase portraits*, for the study 
+of the theory of complex functions. I also added extra color schemes to explore different ways to visualize 
+complex functions. In particular, I used some of the equations discussed in the *MATHEMATICA &amp; Wolfram Language* 
+section from the *Stack Exchange* site:
 
 [How can I generate this “domain coloring” plot?](https://mathematica.stackexchange.com/questions/7275/how-can-i-generate-this-domain-coloring-plot)
 
 ### Other amazing projects
 
-I have been inspired for so many people sharing their work on this topic. The following are similar projects, or online plotters, using other programming languages: 
+I have been inspired for so many people sharing their work on this topic. The following are 
+similar projects, or online plotters, using other programming languages: 
 
 * [Complex Color Map](https://github.com/endolith/complex_colormap) (Python)
 * [C-plot](https://github.com/nschloe/cplot) (Python by Nico Schlömer)
@@ -119,7 +126,8 @@ I have been inspired for so many people sharing their work on this topic. The fo
 * [Complex function plotter](https://people.ucsc.edu/~wbolden/complex/) (Shader by Will Bolden)
 * [Complex function plotter](https://samuelj.li/complex-function-plotter/) (Shader by Samuel J. Li)
 
-Visit the site [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the different tools I made or if you prefer you can visit the [Domain Coloring Gallery](https://jcponce.github.io/domain-coloring/dcgallery.html).
+Visit the site [Domain coloring](https://jcponce.github.io/domain-coloring) to play with the 
+different tools I made or if you prefer you can visit the [Domain Coloring Gallery](https://jcponce.github.io/domain-coloring/dcgallery.html).
 
 I also recommend you the following galleries:
 
@@ -130,7 +138,8 @@ I also recommend you the following galleries:
 
 # More about the complex function parser
 
-This library was inspired by [David Bau's work](http://davidbau.com/). It defines the basic arithmetic of complex numbers and contains a wide range of complex functions.
+This library was inspired by [David Bau's work](http://davidbau.com/). It defines the basic arithmetic 
+of complex numbers and contains a wide range of complex functions.
 
 ## Available functions
 
@@ -167,7 +176,7 @@ This library was inspired by [David Bau's work](http://davidbau.com/). It define
 
 # Updates
 
-July 2018: Version 1. First time online.
+July 2018: **Version 1.** First time online.
 
 Feb-2019: Added Complex arithmetic and functions library.
 
@@ -175,13 +184,13 @@ May-2019: Added more color schemes.
 
 Sep-2019: I was able to work out how to add a parser for complex functions thanks to [David Bau's work](http://davidbau.com/). Now you can easily input a function such as 'f(z)=z^2+cos(z)'. Version 1.5.
 
-Nov-2019: Version 2. Added a new input box to enter the functions. It looks better 😃. I also added a new color scheme and the Finite Blaschke product with randomly distributed points.
+Nov-2019: **Version 2.** Added a new input box to enter the functions. It looks better 😃. I also added a new color scheme and the Finite Blaschke product with randomly distributed points.
 
 May-2020: I added sliders to define three parameters. t:[0,1], s:[0,2pi] defining the complex number u:=exp(i*s), and n:[0,30] an integer.
 
 Jul-2020: Fixed issue with power function and added Binet's formula. I also added an alert message in case there is something wrong in the input 😃.
 
-Aug-2020: Version 3. New updates comming soon! Refactored code and defined class to plot all color schemes.
+Aug-2020: **Version 3.** New updates comming soon! Refactored code and defined class to plot all color schemes.
 
 ---
 
