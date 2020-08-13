@@ -8,6 +8,42 @@
 
 let domC, s, w, h, input;
 
+function setup() {
+  createCanvas(470, 470);
+  pixelDensity(1);
+  uicontrols();
+  resetPlot();
+}
+
+function draw() {
+  domC.plotBW(def.opt);
+  domC.update();
+}
+
+/* Auxliary functions */
+
+function resetPlot() {
+  domC = new domainColoring(input.value(), def.size, def.slidert);
+}
+
+//RGB
+function mySelectOption() {
+  if (def.opt === 'Phase') {
+    domC.opt = 'Phase';
+  } else if (def.opt === 'Modulus') {
+    domC.opt = 'Modulus';
+  } else if (def.opt === 'Phase/Modulus') {
+    domC.opt = 'Phase/Modulus';
+  } else if (def.opt === 'Real') {
+    domC.opt = 'Real';
+  } else if (def.opt === 'Imaginary') {
+    domC.opt = 'Imaginary';
+  } else if (def.opt === 'Re/Im') {
+    domC.opt = 'Re/Im';
+  }
+}
+
+// create gui (dat.gui)
 let def = {
   opt: 'Modulus',
   size: 6,
@@ -27,42 +63,6 @@ let def = {
   canvasSize: 'Small'
 };
 
-function setup() {
-  createCanvas(470, 470);
-  pixelDensity(1);
-  uicontrols();
-  resetPlot();
-}
-
-function draw() {
-  domC.plotBW(def.opt);
-  domC.update();
-}
-
-/* Auxliary functions */
-
-//RGB
-function mySelectOption() {
-  if (def.opt === 'Phase') {
-    domC.opt = 'Phase';
-  } else if (def.opt === 'Modulus') {
-    domC.opt = 'Modulus';
-  } else if (def.opt === 'Phase/Modulus') {
-    domC.opt = 'Phase/Modulus';
-  } else if (def.opt === 'Real') {
-    domC.opt = 'Real';
-  } else if (def.opt === 'Imaginary') {
-    domC.opt = 'Imaginary';
-  } else if (def.opt === 'Re/Im') {
-    domC.opt = 'Re/Im';
-  }
-}
-
-function resetPlot() {
-  domC = new domainColoring(input.value(), def.size, def.slidert);
-}
-
-// create gui (dat.gui)
 function uicontrols() {
   let gui = new dat.GUI({
     width: 360
