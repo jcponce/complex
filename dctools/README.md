@@ -30,33 +30,38 @@ color to that pixel. This procedure is shown in the animation below.
 
 # Basic set up
 
-In this project I used [p5.js](https://p5js.org/). At the begining I had only one function for plotting one color scheme but later I realized that it was better to have a class to include other color schemes. The [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/domainColoring.js) also requieres a complex function parser and the library for the HSLuv color scheme.
+In this project I used [p5.js](https://p5js.org/). At the begining I had only one function for plotting one color scheme but later I realized that it was better to have a class to include other color schemes: 
 
-1. [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/Complex.min.js)
-2. [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
+* [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/domainColoring.js)
 
-To set it up in p5.js you must to include the class and the other two libraries in your index file:
+This class also requieres a complex function parser and the library for the HSLuv color scheme.
+
+* [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/Complex.min.js)
+* [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
+
+To set it up in p5.js you must to include next to your sketch the class and the other two libraries in your index file:
 
     <script src="hsluvmin.js"></script>
     <script src="Complex.min.js"></script>
     <script src="domainColoring.js"></script>
+    <script src="sketch.js"></script>
     
-In the sketch we define within the setup function the 'domanColoring(func, size)' class with two parameters:
+In the sketch file define within the setup function the 'domanColoring(func, size)' class with two parameters:
 1. func: a complex function (as a string) e.g. 'z^2',
 2. size: a real number > 0 e.g. 6.
 
-       let domC;
-       let fn = 'z^2';
-       let s = 6;
+       let domC; 
+       let fn = 'z^2'; // Change this function
+       let s = 6; // Change this size
        function setup() {
          createCanvas(500, 500);
          pixelDensity(1);
   
          // Domain coloring setting
-         domC = new domainColoring('z^2', s); 
+         domC = new domainColoring(fn, s); 
        }
         
-Now we just need to plot it using one the following functions defined in the 'domainColoring' class:
+Now we just need to plot it using one the following options defined within the 'domainColoring' class:
 
 - plotHSV(opt)
   - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
@@ -76,7 +81,7 @@ Now we just need to plot it using one the following functions defined in the 'do
    - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im'
 - plotHSVG()   
 
-For example, let's use plotHSV(opt):
+For example, let's use plotHSV(opt). So we have:
 
     function draw() {
       domC.plotHSV('Modulus');
