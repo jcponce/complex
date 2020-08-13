@@ -28,6 +28,8 @@ color to that pixel. This procedure is shown in the animation below.
 
 ![Color Wheel](https://raw.githubusercontent.com/jcponce/jcponce.github.io/master/domain-coloring/img/diagram.gif)
 
+---
+
 # Basic set up
 
 In this project I used [p5.js](https://p5js.org/). At the begining I had only one function for plotting one color scheme but later I realized that it was better to have a class to include other color schemes: 
