@@ -54,6 +54,7 @@ In the sketch file define within the setup function the 'domanColoring(func, siz
        let fn = 'z^2'; // Change this function
        let s = 6; // Change this size
        function setup() {
+         // It looks better when the canvas is a square, min 400x400
          createCanvas(500, 500);
          pixelDensity(1);
   
