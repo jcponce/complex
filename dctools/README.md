@@ -30,7 +30,7 @@ color to that pixel. This procedure is shown in the animation below.
 
 # Basic set up
 
-In this project I used [p5.js](https://p5js.org/). At the beggining I had one function to plot the complex function with just one color scheme but later I realized that it was better to have class 'domainColoring' to include other color schemes. The class also requieres a complex function parser and the library for the HSLuv color scheme.
+In this project I used [p5.js](https://p5js.org/). At the begining I had only one function for plotting one color scheme but later I realized that it was better to have class 'domainColoring' to include other color schemes. This class also requieres a complex function parser and the library for the HSLuv color scheme.
 
 1. [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/Complex.min.js)
 2. [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
