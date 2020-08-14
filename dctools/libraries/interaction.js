@@ -8,7 +8,7 @@
 
 function mouseWheel() {
   if (domC.x <= mouseX && mouseX <= domC.w && domC.y <= mouseY && mouseY <= domC.h)
-    domC.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
+    domC.zoomAt(mouseX, mouseY, 0.9, event.delta < 0);
 }
 
 function keyReleased() {
