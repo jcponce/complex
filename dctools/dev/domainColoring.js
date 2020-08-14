@@ -835,7 +835,7 @@ class domainColoring {
     pop();
 
 
-    // Imaginary axis tag label
+    // Imaginary axis label
     push();
     fill(0);
     stroke(0)
@@ -845,11 +845,11 @@ class domainColoring {
     text('Im', this.x, this.y - 19);
     pop();
 
-    // Zoom and Mouse position tags
+    // Zoom and Mouse position labels
     if (width > 350 && height > 350) {
       push();
 
-      // Zoom tag
+      // Zoom label
       fill(0);
       stroke(0);
       noStroke();
@@ -857,23 +857,31 @@ class domainColoring {
       textAlign(LEFT);
       let zv = round((1 / this.zoom) * 1000) / 1000,
         zpx = this.x + 10,
-        zpy = this.y - 10;
-      if (0.00001 <= zv && zv <= 1000000)
+        zpy = this.y - 10,
+        zMax = 1000000,
+        zMin = 0.00001;
+      if (zMin <= zv && zv <= zMax)
         text('Zoom: ' + str(zv), zpx, zpy);
-      if (zv < 0.00001)
+      if (zv < zMin)
         text('Zoom: → 0', zpx, zpy);
-      if (zv > 1000000) text('Zoom: → ∞', zpx, zpy);
+      if (zv > zMax) text('Zoom: → ∞', zpx, zpy);
 
-      // Mouse tag
-      let cX = this.pos.x + map(mouseX, this.x, this.w, -this.size.x / 2, this.size.x / 2); //this is for reference
-      let cY = this.pos.y + map(mouseY, this.h, this.y, -this.size.y / 2, this.size.y / 2); //this is for reference
-      if (this.x < mouseX && mouseX < this.w && this.y < mouseY && mouseY < this.h) {
-        text("Mouse: (" + str(round(cX * 1000) / 1000.0) + "," + str(round(cY * 1000) / 1000.0) + ")", this.w / 2 + 10, zpy);
-        cursor(HAND);
-        //noFill();
-        //stroke(0);
-        //strokeWeight(1);
-        //ellipse(mouseX, mouseY, 15);
+      // Mouse label
+      let cX, cY;
+      cX = this.pos.x + map(mouseX, this.x, this.w, -this.size.x / 2, this.size.x / 2); //this is for reference
+      cY = this.pos.y + map(mouseY, this.h, this.y, -this.size.y / 2, this.size.y / 2); //this is for reference
+
+      if (this.dragging === true) {
+        text('Mouse: (-,-)', this.w / 2 + 10, zpy);
+      } else {
+        if (this.x < mouseX && mouseX < this.w && this.y < mouseY && mouseY < this.h) {
+          text("Mouse: (" + str(round(cX * 1000) / 1000) + "," + str(round(cY * 1000) / 1000) + ")", this.w / 2 + 10, zpy);
+          cursor('crosshair');
+          //noFill();
+          //stroke(0);
+          //strokeWeight(1);
+          //ellipse(mouseX, mouseY, 15);
+        }
       }
       pop();
     }
@@ -977,15 +985,56 @@ class domainColoring {
   /* Zooming function */
   zoomAt(x, y, ammount, isZoomIn) {
 
+    // Update data to zoom in or out
+    let zx, zy, dx, dy;
     ammount = isZoomIn ? ammount : 1 / ammount;
-    x = map(x, this.x, this.w, this.pos.x - this.size.x / 2, this.pos.x + this.size.x / 2);
-    y = map(y, this.h, this.y, this.pos.y - this.size.y / 2, this.pos.y + this.size.y / 2);
-    this.pos.x = x + (this.pos.x - x) * ammount;
-    this.pos.y = y + (this.pos.y - y) * ammount;
+    zx = map(x, this.x, this.w, this.pos.x - this.size.x / 2, this.pos.x + this.size.x / 2);
+    zy = map(y, this.h, this.y, this.pos.y - this.size.y / 2, this.pos.y + this.size.y / 2);
+    this.pos.x = zx + (this.pos.x - zx) * ammount;
+    this.pos.y = zy + (this.pos.y - zy) * ammount;
     this.zoom *= ammount;
     this.size.x = this.origSize.x * this.zoom;
     this.size.y = this.origSize.y * this.zoom;
 
+    // Update date while zooming to sincrynize with dragging
+    dx = map(this.origPos.x, this.pos.x - this.size.x / 2, this.pos.x + this.size.x / 2, this.x, this.w);
+    dy = map(this.origPos.y, this.pos.y - this.size.y / 2, this.pos.y + this.size.y / 2, this.h, this.y);
+
+    this.bX = dx;
+    this.bY = dy;
+
+    /* Trying stuff, later to check up :)
+    let nx = map(this.bX, this.x, this.w, this.pos.x - this.size.x / 2, this.pos.x + this.size.x / 2);
+    let ny = map(this.bY, this.h, this.y, this.pos.y - this.size.y / 2, this.pos.y + this.size.y / 2);
+    
+    let posx, posy;
+    posx = nx + (posx - nx) * ammount;
+    posy = ny + (posy - ny) * ammount;
+
+    let ox = map(posx, -this.size.x / 2, this.size.x / 2, this.x, this.w);
+    let oy = map(posy, -this.size.y / 2, this.size.y / 2, this.y, this.h);
+    
+    this.bX = ox;
+    this.bY = oy;
+    */
+
+    // For debugging
+    //console.log(this.bX);
+
+  }
+
+  updateDrag() {
+    if (this.dragging) {
+      cursor('grabbing')
+      this.bX = mouseX + this.offsetX;
+      this.bY = mouseY + this.offsetY;
+      this.pos.x = map(this.bX, this.w, this.x, -this.size.x / 2, this.size.x / 2);
+      this.pos.y = map(this.bY, this.y, this.h, -this.size.y / 2, this.size.y / 2);
+      //console.log(cX)
+    }
+    //Reference of origin to debug :)
+    //fill(0)
+    //ellipse(this.bX, this.bY, 10)
   }
 
   /* Dragging plot functions */
@@ -1026,17 +1075,7 @@ class domainColoring {
     }
 
     // Adjust location if user draggs the plot
-    if (this.dragging) {
-      cursor('grabbing')
-      this.bX = mouseX + this.offsetX;
-      this.bY = mouseY + this.offsetY;
-      this.pos.x = map(this.bX, this.w, this.x, -this.size.x / 2, this.size.x / 2);
-      this.pos.y = map(this.bY, this.y, this.h, -this.size.y / 2, this.size.y / 2);
-      //console.log(cX)
-    }
-    //Reference of origin to debug :)
-    //fill(0)
-    //ellipse(this.bX, this.bY, 10)
+    this.updateDrag();
 
   }
 
