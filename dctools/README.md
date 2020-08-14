@@ -35,11 +35,11 @@ color to that pixel. This procedure is shown in the animation below.
 In this project I used [p5.js](https://p5js.org/). At the begining I had only one function 
 for plotting one color scheme but later I realized that it was better to have a class to include other color schemes: 
 
-* [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/domainColoring.min.js)
+* [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/dev/domainColoring.js)
 
 This class also requieres a complex function parser and the library for the HSLuv color scheme.
 
-* [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/Complex.min.js)
+* [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/dev/Complex.js)
 * [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
 
 To set it up in p5.js you must include, in the index file, the class and the other two libraries:
@@ -49,7 +49,7 @@ To set it up in p5.js you must include, in the index file, the class and the oth
     <script src="domainColoring.min.js"></script>
     <script src="sketch.js"></script>
     
-In the sketch file define within the setup function the class **domanColoring(func, size)** with two parameters:
+In the sketch define within the setup function the class **domanColoring(func, size)** with two parameters:
 - func: a complex function (as a string) e.g. 'z^2',
 - size: a real number > 0 e.g. 6.
 
