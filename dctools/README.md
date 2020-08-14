@@ -4,7 +4,7 @@ Hi! Welcome. Here you can find the sketches about domain coloring for visualizin
 
 #### [Click here to see all demos](https://jcponce.github.io/domain-coloring/)
 
-<img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/img/plotfz.png" width="50%">
+<img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/img/plotfz.png" width="65%">
 
 ---
 
