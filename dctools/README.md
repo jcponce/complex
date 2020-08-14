@@ -1,10 +1,10 @@
-# Domain coloring for plotting complex functions
+# Domain coloring plotting tools
 
-Hi! Welcome. Here you can find the sketches about domain coloring for visualizing complex functions with JavaScript.
+Hi! Welcome. Here are the sketches about domain coloring for visualizing complex functions with JavaScript.
 
 #### [Click here to see all demos](https://jcponce.github.io/domain-coloring/)
 
-<img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/plotfz.png" width="45%">
+<img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/img/plotfz.png" width="50%">
 
 ---
 
@@ -37,7 +37,7 @@ for plotting one color scheme but later I realized that it was better to have a 
 
 * [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/domainColoring.min.js)
 
-This class also requieres a *complex function parser* and the library for the *HSLuv color scheme*.
+This class also requieres a complex function parser and the library for the HSLuv color scheme.
 
 * [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/Complex.min.js)
 * [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
@@ -69,124 +69,37 @@ Thus we have
         
 Now we just need to plot it using one of the following options defined within our class:
 
-### HSV
-- plotHSV(str)
-  - Parameters -  String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
-  
-### HSV discrite
-- plotHSVDisc(str)
-  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
-  
-### HSL
-- plotHSL(str)
-  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'Standard', 'None'(Optional)
-  
-### RGB
-- plotRGB(str)
-  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
- 
-### HSV modulus, real and imaginary components
-- plotHSVReIm(str)
-  - Parameters - String: 'Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None' (Optional)
-  
-### HSLuv
-- plotHSLuv(str, minHue, maxHue)
-  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
-  - minHue - Number [0, 1] (Optional)
-  - maxHue - Number [0, 1] (Optional)
-  
-### Black & white
-- plotBW(str),
-   - Parameters - String:'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im' (Optional)
-   
-### HSV Gradient
+- plotHSV(opt)
+  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
+- plotHSVDisc(opt)
+  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
+- plotHSL(opt)
+  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'Standard', 'None'
+- plotRGB(opt)
+  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
+- plotHSVReIm(opt)
+  - opt: 'Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None'
+- plotHSLuv(opt, minHue, maxHue)
+  - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'None'
+  - minHue: 0
+  - maxHue: 1
+- plotBW(opt),
+   - opt: 'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im'
 - plotHSVG()   
 
-For example, let's use **plotHSV()**:
+For example, let's use **plotHSV(opt)**:
 
     function draw() {
       domC.plotHSV('Modulus');
     }
 
-### Result
+#### Result
 
-<img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/demo-basic.png" width="40%">
+<img src="https://github.com/jcponce/complex/blob/gh-pages/dctools/img/demo-basic.png" width="40%">
 
 Check the live demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
 
-# Complex function parser
-
-This library was inspired by [David Bau's work](http://davidbau.com/). It defines the basic arithmetic 
-of complex numbers and contains a wide range of complex functions.
-
-#### Examples
-
-* z+1/z
-* (z-1)/(z^2+iz+1)
-* (z-i)^(iz)
-
-## Available functions
-
-### Trigonometric functions 
-
-- sin, cos, tan, csc, sec, cot, arcsin, arccos, arctan, arccsc, arcsec, arccot
-  * E.g. sin(z)
-  
-### Hyperbolic trigonometric functions 
-- sinh, cosh, tanh, csch, sech, coth, arcsinh, arccosh, arctanh, arccsch, arcsech, arccoth
-  * E.g. sinh(z)
-  
-### The conjugate
-- conj
-  * E.g. conj(z)
-  
-### The absolute value, also known as modulus
-- abs, ||
-  E.g abs(z), |z|
-  
-### Complex power
-- ^, exp
-  * E.g. z^2, exp(z), e^z
-  
-### Complex logarithm
-- log
-  * log(z)
-  
-### Real and Imaginary components 
-- re, im
-  * E.g. re(z), im(z)
-  
-### [Jacobi Elliptic](https://en.wikipedia.org/wiki/Jacobi_elliptic_functions) 
-- sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])
-  * E.g. sn(z, 0.3)
-  
-### [Gamma function](https://en.wikipedia.org/wiki/Gamma_function)
-- gamma( expr )
-  * E.g. sn(z, 0.3)
-  
-### [Finite Blaschke product](https://en.wikipedia.org/wiki/Blaschke_product)
-- blaschke( expr, positive integer )
-  * E.g. blaschke(z, 20)
-  
-### [Binet's Formula](https://mathworld.wolfram.com/BinetsFibonacciNumberFormula.html)
-- binet( expr )
-  * E.g. binet(z)
-  
-### Sum series function
-- sum( expr, positive integer)
-  * E.g. sum((-1)^n*z^(2n)/(2n)!, 7)
-  
-### Multiplicative function
-- prod( expr, positive integer)
-  * E.g. prod(e^((z+(e^(2*pi*i/5))^n )/(z-(e^(2*pi*i/5))^n)), 5)
-  
-### Iterated function
-- iter( expr, variable positive integer)
-  * E.g. iter(z+z'^2,z,15)
-
----
-
-# About the HSV (or HSB) color scheme
+## About the HSV (or HSB) color scheme
 
 The method I used for the HSV (or HSB) color scheme is based on [Elias Wegert](http://www.visual.wegert.com/)'s 
 work from his book [Visual Complex Functions.](http://www.springer.com/de/book/9783034801799) He basically 
@@ -220,6 +133,44 @@ I also recommend you the following galleries:
 
 * [Phase Plot Gallery](http://www.mathe.tu-freiberg.de/~wegert/PhasePlot/images.html)
 * [Gallery of Complex Functions](https://vqm.uni-graz.at/pages/complex/index.html)
+
+---
+
+# More about the complex function parser
+
+This library was inspired by [David Bau's work](http://davidbau.com/). It defines the basic arithmetic 
+of complex numbers and contains a wide range of complex functions.
+
+## Available functions
+
+* Trigonometric functions --- "sin, cos, tan, csc, sec, cot, arcsin, arccos, arctan, arccsc, arcsec, arccot".
+  * E.g. sin(z)
+* Hyperbolic trigonometric functions --- "sinh, cosh, tanh, csch, sech, coth, arcsinh, arccosh, arctanh, arccsch, arcsech, arccoth".
+  * E.g. sinh(z)
+* The conjugate --- "conj".
+  * E.g. conj(z)
+* The absolute value, also known as modulus --- "abs", "||".
+  E.g abs(z), |z|
+* Complex power --- "^, exp".
+  * E.g. z^2, exp(z), e^z
+* Complex logarithm --- "log".
+  * log(z)
+* Real and Imaginary components --- "re, im".
+  * E.g. re(z), im(z)
+* [Jacobi Elliptic](https://en.wikipedia.org/wiki/Jacobi_elliptic_functions) --- "sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])".
+  * E.g. sn(z, 0.3)
+* [Gamma function](https://en.wikipedia.org/wiki/Gamma_function) --- "gamma( expr )".
+  * E.g. sn(z, 0.3)
+* [Finite Blaschke product](https://en.wikipedia.org/wiki/Blaschke_product) --- "blaschke( expr, positive integer )"
+  * E.g. blaschke(z, 20)
+* [Binet's Formula](https://mathworld.wolfram.com/BinetsFibonacciNumberFormula.html) ---"binet( expr )" 
+  * E.g. binet(z)
+* Sum series function--- "sum( expr, positive integer)".
+  * E.g. sum((-1)^n*z^(2n)/(2n)!, 7)
+* Multiplicative function --- "prod( expr, positive integer)".
+  * E.g. prod(e^((z+(e^(2*pi*i/5))^n )/(z-(e^(2*pi*i/5))^n)), 5)
+* Iterated function --- "iter( expr, variable positive integer)".
+  * E.g. iter(z+z'^2,z,15)
 
 ---
 
