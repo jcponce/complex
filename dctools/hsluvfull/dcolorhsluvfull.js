@@ -81,7 +81,7 @@ function uicontrols() {
   gui.add(def, 'Save').name("Save (png)");
 
 
-  input = createInput('(z-1)/(z^2+z+1)');
+  input = createInput('sin(z^2)');
   
   input.id('myfunc');
   //input.changed(resetPlot);
