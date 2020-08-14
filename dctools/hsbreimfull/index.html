@@ -7,8 +7,8 @@
     <meta name="language" content="en" />
     <title>Domain coloring HSB enhanced scheme</title>
     <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
-    <script language="javascript" type="text/javascript" src="../main/p5js/p5.min.js"></script>
-    <script language="javascript" type="text/javascript" src="../main/dat-gui/dat.gui.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/p5js/p5.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/dat-gui/dat.gui.min.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
@@ -48,13 +48,12 @@
             location.reload();
         }
     </script>
-    <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
-    <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="https://jcponce.github.io/assets/img/png/icon/infinity16.png" sizes="16x16">
-    <link rel="stylesheet" href="../main/dat-gui/dat-gui-light-theme.css">
-    <link rel="stylesheet" href="../main/style.css">
-    <link rel="stylesheet" href="https://jcponce.github.io/assets/style/w3.css">
-    <link rel="stylesheet" href="https://jcponce.github.io/domain-coloring/styledc.css">
+    <link rel="icon" type="image/png" href="../libraries/css/infinity32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../libraries/css/infinity16.png" sizes="16x16">
+    <link rel="stylesheet" href="../libraries/dat-gui/dat-gui-light-theme.css">
+    <link rel="stylesheet" href="../libraries/css/style.css">
+    <link rel="stylesheet" href="../libraries/css/w3.css">
+    <link rel="stylesheet" href="../libraries/css/styledc.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <style>
         div.sticky {
@@ -141,11 +140,13 @@
                 Draw level curves. Select an option 'Re', 'Im', 'Re/Im', 'Modulus' or 'All'.</p>
 
 
-            <p><span style="font-weight: bold;" class="w3-xlarge">|Re z|&lt;:</span>
-                Drag or enter a positive number to define the domain (square/rectangle) for plotting the function.</p>
+            <p><span style="font-weight: bold;" class="w3-xlarge">Zoom In/Out</span>
+                Drag or enter a positive number to zoom (in/out). You can also use the mouse wheel.</p>
 
-            <!--<p><span style="font-weight: bold;" class="w3-large">Update values:</span>
-         Click to update all new values.</p>-->
+            <p><span style="font-weight: bold;" class="w3-xlarge">Parameters:</span>
+                You can use three parameters in your function, e. g. z + t, exp(u * z), z^n.
+                Use sliders to change parameters, where t$\in$[0,1] and u = exp(i*s)
+                with s$\in$[0, 2\pi]. Finally, an integer n$\in$[0,30].</p>
 
             <p><span style="font-weight: bold;" class="w3-xlarge">Save (png):</span>
                 Click to save your plot.</p>
@@ -167,7 +168,11 @@
     </div>
 
     <!--<script language="javascript" type="text/javascript" src="libraries/Complex.js"></script>-->
-    <script language="javascript" type="text/javascript" src="../main/Complex.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/hsluvmin.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/Complex.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/domainColoring.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/interaction.js"></script>
+    
     <script language="javascript" type="text/javascript" src="dcolorhsbReImfull.js"></script>
 
 </body>
