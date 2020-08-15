@@ -34,7 +34,7 @@ function touchEnded() {
 
 function keyPressed() {
   if (keyCode === ENTER) {
-    domC.func = domC.verifyFunction(complex_expression(input.value(), def.slidert, def.slideru, def.slidern));
+    domC.func = domC.verifyFunction(complex_expression(input, def.slidert, def.slideru, def.slidern));
   }
 }
 
@@ -45,7 +45,7 @@ function resetPlotDim() {
 }
 
 function resetParameters() {
-  domC.func = domC.verifyFunction(complex_expression(input.value(), def.slidert, def.slideru, def.slidern));
+  domC.func = domC.verifyFunction(complex_expression(input, def.slidert, def.slideru, def.slidern));
 }
 
 function screenSize() {
@@ -56,3 +56,50 @@ function screenSize() {
   }
   resetPlot();
 }
+
+//JQuery for getting a sharable link with equation
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      return pair[1];
+    }
+  }
+  return (false);
+}
+
+function update_expression() {
+  let new_expression = $("#equation-input").val();
+  input = new_expression;
+  console.log(new_expression);
+}
+
+// When the user presses the button, show some copyable text
+function showLink() {
+  var expression_base64 = btoa($('#equation-input').val());
+  let url = [location.protocol, '//', location.host, location.pathname].join('');
+  url = url + "?expression=" + expression_base64;
+  $('#copyable-link').val(url);
+  $('#link-container').show();
+  $('#copyable-link').select();
+}
+$('#copyable-link').blur(function () {
+  $('#link-container').hide();
+});
+
+// If the user already specified
+$(function () {
+  var expression_base64 = getQueryVariable('expression');
+  //console.log(expression_base64);
+  if (expression_base64) {
+    $('#equation-input').val(atob(expression_base64.replace('/', '')));
+  }
+});
+
+// Get things started.
+$('#equation-input').change(update_expression);
+$('#equation-input').change(resetParameters);
+$('#show-link').click(showLink);
+$(update_expression);
