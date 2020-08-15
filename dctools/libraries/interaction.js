@@ -57,12 +57,12 @@ function screenSize() {
   resetPlot();
 }
 
-//JQuery for getting a sharable link with equation
+//JQuery for getting a link with equation to share
 function getQueryVariable(variable) {
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  for (var i = 0; i < vars.length; i++) {
-    var pair = vars[i].split("=");
+  let query = window.location.search.substring(1);
+  let vars = query.split("&");
+  for (let i = 0; i < vars.length; i++) {
+    let pair = vars[i].split("=");
     if (pair[0] == variable) {
       return pair[1];
     }
@@ -78,9 +78,11 @@ function update_expression() {
 
 // When the user presses the button, show some copyable text
 function showLink() {
-  var expression_base64 = btoa($('#equation-input').val());
+  //var expression_base64 = btoa($('#equation-input').val());
+  let expression = $('#equation-input').val();
   let url = [location.protocol, '//', location.host, location.pathname].join('');
-  url = url + "?expression=" + expression_base64;
+  //url = url + "?expression=" + expression_base64;
+  url = url + "?expression=" + expression;
   $('#copyable-link').val(url);
   $('#link-container').show();
   $('#copyable-link').select();
@@ -91,11 +93,13 @@ $('#copyable-link').blur(function () {
 
 // If the user already specified
 $(function () {
-  var expression_base64 = getQueryVariable('expression');
+  //var expression_base64 = getQueryVariable('expression');
+  let expression = getQueryVariable('expression');
   //console.log(expression_base64);
-  if (expression_base64) {
-    $('#equation-input').val(atob(expression_base64.replace('/', '')));
-  }
+  //if (expression_base64) {
+  //  $('#equation-input').val(atob(expression_base64.replace('/', '')));
+  //}
+  $('#equation-input').val(expression.replace('/', ''));
 });
 
 // Get things started.
