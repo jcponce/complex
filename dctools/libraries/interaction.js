@@ -78,14 +78,15 @@ function update_expression() {
 
 // When the user presses the button, show some copyable text
 // First I tried it with a base64 expression. 
-// Now I am just showing the expression. I hope this works fine :)
+// Now I am tryin to show just the expression. I hope this works fine :)
+// To make it work, we need to trim the expression
+// Maybe later I will figure out
 function showLink() {
-  //var expression_base64 = btoa($('#equation-input').val());
-  let expression = $('#equation-input').val();
-  
+  let expression_base64 = btoa($('#equation-input').val());
+  //let expression = $('#equation-input').val();
   let url = [location.protocol, '//', location.host, location.pathname].join('');
-  //url = url + "?expression=" + expression_base64;
-  url = url + "?expression=" + $.trim(expression);
+  url = url + "?expression=" + expression_base64;
+  //url = url + "?expression=" + expression;
   $('#copyable-link').val(url);
   $('#link-container').show();
   $('#copyable-link').select();
@@ -96,13 +97,13 @@ $('#copyable-link').blur(function () {
 
 // If the user already specified
 $(function () {
-  //var expression_base64 = getQueryVariable('expression');
-  let expression = trimN(getQueryVariable('expression'));
+  let expression_base64 = getQueryVariable('expression');
+  //let expression = getQueryVariable('expression');
   //console.log(expression_base64);
-  //if (expression_base64) {
-  //  $('#equation-input').val(atob(expression_base64.replace('/', '')));
-  //}
-  $('#equation-input').val(expression.replace('/', ''));
+  if (expression_base64) {
+    $('#equation-input').val(atob(expression_base64.replace('/', '')));
+  }
+  //$('#equation-input').val(expression.replace('/', ''));
 });
 
 function trimN(s){
