@@ -82,9 +82,10 @@ function update_expression() {
 function showLink() {
   //var expression_base64 = btoa($('#equation-input').val());
   let expression = $('#equation-input').val();
+  
   let url = [location.protocol, '//', location.host, location.pathname].join('');
   //url = url + "?expression=" + expression_base64;
-  url = url + "?expression=" + expression;
+  url = url + "?expression=" + $.trim(expression);
   $('#copyable-link').val(url);
   $('#link-container').show();
   $('#copyable-link').select();
@@ -104,7 +105,7 @@ $(function () {
   $('#equation-input').val(expression.replace('/', ''));
 });
 
-let trimN = (s) => {
+function trimN(s){
   if (s.trim) {
     return s.trim();
   }
