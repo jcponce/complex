@@ -73,6 +73,10 @@ h1 {
   box-shadow: 0 0 10px black;
 }
 
+#myBtn {
+  cursor: pointer;
+}
+
 .copy-link {
   font-size: 16px;
   width: 40%;
@@ -169,4 +173,4 @@ canvas {
   color: #000;
   text-decoration: none;
   cursor: pointer;
-} 
+}

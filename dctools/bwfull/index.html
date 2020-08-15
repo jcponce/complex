@@ -6,9 +6,10 @@
     <meta name="author" content="Juan Carlos Ponce Campuzano">
     <meta name="language" content="en" />
     <title>Domain coloring Black and White</title>
-    <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
+    
     <script language="javascript" type="text/javascript" src="../libraries/p5js/p5.min.js"></script>
     <script language="javascript" type="text/javascript" src="../libraries/dat-gui/dat.gui.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/jquery-2.1.4.min.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121691678-1"></script>
@@ -48,42 +49,19 @@
             location.reload();
         }
     </script>
+
     <link rel="icon" type="image/png" href="../libraries/css/infinity32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../libraries/css/infinity16.png" sizes="16x16">
     <link rel="stylesheet" href="../libraries/dat-gui/dat-gui-light-theme.css">
     <link rel="stylesheet" href="../libraries/css/style.css">
     <link rel="stylesheet" href="../libraries/css/w3.css">
-    <link rel="stylesheet" href="../libraries/css/styledc.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-
-    <style>
-        div.sticky {
-            position: -webkit-sticky;
-            position: sticky;
-            top: 0;
-        }
-
-        canvas {
-            padding: 0;
-            margin: auto;
-            display: block;
-            width: 470px;
-            height: 470px;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-    </style>
-    <!-- This line removes any default padding and style. You might only need one of these values set. -->
 
 </head>
 
 <body style="background-color:#333333;">
 
-
-    <!-- Navbar Stars-->
+    <!-- Navbar Stars
     <div class="w3-container w3-black w3-xlarge sticky">
         <div class="w3-display-topmiddle">
             <a href="https://jcponce.github.io/domain-coloring/#adv"
@@ -97,7 +75,7 @@
                     class="fas fa-question"></i> </a>
         </div>
     </div>
-    <!-- Navbar Ends-->
+    Navbar Ends-->
 
     <!-- The Modal -->
     <div class="modal modal_multi">
@@ -107,9 +85,7 @@
             <span class="close close_multi">&times;</span>
             <div style="text-align:center">
                 <p class="w3-large"><b class="w3-xlarge">Phase Portraits of Complex Functions</b>
-
                     <br>
-                    <!--<iframe width="100%" height="455" src="https://www.youtube.com/embed/sKslh6eo-JE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
             </div>
 
             <p>This tool visualizes complex-valued
@@ -166,12 +142,31 @@
             <br />
             <br />
             <br />
-
-
         </div>
 
     </div>
     <!-- The Modal ends-->
+
+    <div id="container">
+        <div class="full-width">
+            <div id="link-container" style="display: none;">
+                <input id="copyable-link" class="dark-translucent input-control copy-link" value=""></input>
+            </div>
+
+            <a class="dark-translucent input-control w3-text-aqua" href="https://jcponce.github.io/domain-coloring/#adv">
+                <i class="fas fa-home"></i> </a>
+
+            <a class="myBtn_multi dark-translucent input-control w3-text-aqua" id="myBtn"> <i
+                 class="fas fa-question"></i> </a>
+
+            <a id="show-link" class="dark-translucent input-control w3-text-aqua" href="#" ><i
+                    class="fas fa-external-link-alt"></a></i>
+            <input class="dark-translucent input-control" id="equation-input"
+                placeholder="e.g. 1 / (z^2 + i)^2 - log(z)" value="z+1/z"></input>
+            
+        </div>
+
+    </div>
 
     <!--<script language="javascript" type="text/javascript" src="libraries/Complex.js"></script>-->
     <script language="javascript" type="text/javascript" src="../libraries/hsluvmin.js"></script>

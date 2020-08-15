@@ -6,7 +6,9 @@
  * Last update 12-Aug-2020
  */
 
-let domC, s, w, h, input;
+let domC, s, w, h;
+
+let input = '0.926(z+7.3857e-2 z^5+4.5458e-3 z^9)';
 
 function setup() {
   createCanvas(470, 470);
@@ -23,7 +25,7 @@ function draw() {
 /* Auxliary functions */
 
 function resetPlot() {
-  domC = new domainColoring(input.value(), def.size, def.slidert);
+  domC = new domainColoring(input, def.size, def.slidert);
 }
 
 //HSV
@@ -75,6 +77,7 @@ function uicontrols() {
   gui.add(def, 'Reset');
   gui.add(def, 'Save').name("Save (png)");
 
+  /*
   input = createInput('0.926(z+7.3857e-2 z^5+4.5458e-3 z^9)');
   input.id('myfunc');
   //input.changed(resetPlot);
@@ -87,4 +90,5 @@ function uicontrols() {
   //input.addClass('equation-input');
   input.attribute('placeholder', 'Input complex expression, e.g. 1 / (z^2 + i)^2 - log(z)');
   input.style('color: #ffffff');
+  */
 }
