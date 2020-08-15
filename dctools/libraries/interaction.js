@@ -77,6 +77,8 @@ function update_expression() {
 }
 
 // When the user presses the button, show some copyable text
+// First I tried it with a base64 expression. 
+// Now I am just showing the expression. I hope this works fine :)
 function showLink() {
   //var expression_base64 = btoa($('#equation-input').val());
   let expression = $('#equation-input').val();
@@ -94,13 +96,20 @@ $('#copyable-link').blur(function () {
 // If the user already specified
 $(function () {
   //var expression_base64 = getQueryVariable('expression');
-  let expression = getQueryVariable('expression');
+  let expression = trimN(getQueryVariable('expression'));
   //console.log(expression_base64);
   //if (expression_base64) {
   //  $('#equation-input').val(atob(expression_base64.replace('/', '')));
   //}
   $('#equation-input').val(expression.replace('/', ''));
 });
+
+let trimN = (s) => {
+  if (s.trim) {
+    return s.trim();
+  }
+  return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+}
 
 // Get things started.
 $('#equation-input').change(update_expression);
