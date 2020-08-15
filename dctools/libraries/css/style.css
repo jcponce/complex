@@ -76,6 +76,7 @@ h1 {
 .copy-link {
   font-size: 16px;
   width: 40%;
+  color: rgba(255, 255, 255, .95);
 }
 
 #equation-input {
