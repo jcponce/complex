@@ -6,85 +6,29 @@
  * Last update 12-Aug-2020
  */
 
-let fn = 'z^6+'; //Change this function
-let domC, s;
+let domC, s, w, h;
 
-let input;
-
-let def = {
-  opt: 'Modulus',
-
-  displayXY: false,
-  size: 6,
-  slidert: 0,
-  slideru: 0,
-  slidern: 1,
-
-  Save: function() {
-    save('plotfz.png');
-  },
-
-  canvasSize: 'Small'
-
-};
-
-let w, h;
-
-let sc;
-
-let pX, pY, scw, sch;
+let input = 'sin(z^2)';
 
 function setup() {
   createCanvas(470, 470);
-
   pixelDensity(1);
-
   uicontrols();
-
   resetPlot();
-
-  //noLoop();
-}
-
-function resetPlot() {
-
-
-  pX = 40;
-  pY = 40;
-
-  scw = width - 1 * pX;
-  sch = height - 1 * pY
-
-  sc = createGraphics(scw, sch);
-
-  w = def.size;
-  h = (w * height) / width;
-  s = new p5.Vector(-w, h);
-
-  domC = new domainColoring(input.value(), s, def.slidert);
-
 }
 
 function draw() {
-
-  domC.plotHSLuv(def.opt);
+  domC.plotHSLuv(def.opt, 0.4, 1);
   domC.update();
-
 }
 
+/* Auxliary functions */
 
-function mouseWheel() {
-  if (domC.x <= mouseX && mouseX <= domC.w && domC.y <= mouseY && mouseY <= domC.h)
-    domC.zoomAt(mouseX, mouseY, 0.85, event.delta < 0);
+function resetPlot() {
+  domC = new domainColoring(input, def.size, def.slidert);
 }
 
-function keyReleased() {
-  if (keyCode === 81) //Q key
-    domC.printDebug = !domC.printDebug;
-}
-
-
-///* // HSL
+// HSLuv
 function mySelectOption() {
   if (def.opt === 'Phase') {
     domC.opt = 'Phase';
@@ -97,40 +41,63 @@ function mySelectOption() {
   } else if (def.opt === 'None') {
     domC.opt = 'None';
   }
-  // resetPlot();
-}
-//*/
-
-
-function keyPressed() {
-  if (keyCode === ENTER) {
-
-    domC.func = domC.verifyFunction(complex_expression(input.value(), def.slidert, def.slideru, def.slidern));
-
-  }
-
 }
 
-function resetPlotDim() {
-  w = def.size;
-  h = (w * height) / width;
-  s = new p5.Vector(-w, h);
-  domC.origSize = s;
-  domC.size = new p5.Vector(domC.origSize.x, domC.origSize.y);
+// create gui (dat.gui)
+let def = {
+  opt: 'Modulus',
+  size: 6,
+  slidert: 0,
+  slideru: 0,
+  slidern: 1,
+  Reset: function(){
+    domC.size.x = domC.origSize.x;
+    domC.size.y = domC.origSize.y;
+    domC.pos.x = domC.origPos.x;
+    domC.pos.y = domC.origPos.y;
+    domC.zoom = domC.origZoom;
+  },
+  Save: function () {
+    save('plotfz.png');
+  },
+  canvasSize: 'Small'
+};
 
-}
+function uicontrols() {
+  let gui = new dat.GUI({
+    width: 360
+  });
+  
+  gui.add(def, 'opt', ['Phase', 'Modulus', 'Phase/Modulus', 'Standard']).name("Level Curves:").onChange(mySelectOption);
 
-function resetParameters() {
-  domC.func = domC.verifyFunction(complex_expression(input.value(), def.slidert, def.slideru, def.slidern));
-}
+  gui.add(def, 'size', 0.000001, 30, 0.000001).name("Zoom In/Out").onChange(resetPlotDim);
+  
+  gui.add(def, 'canvasSize', ['Small', 'Big']).name("Window: ").onChange(screenSize);
 
-function screenSize() {
-  if (def.canvasSize === 'Small') {
-    resizeCanvas(500, 500);
-  } else if (def.canvasSize === 'Big') {
-    resizeCanvas(700, 700);
+  let par = gui.addFolder('Parameters');
+  par.add(def, 'slidert', 0, 1, 0.01).name("t =").onChange(resetParameters);
+  par.add(def, 'slideru', 0, 2 * Math.PI, 0.01).name("u = exp(i⋅s); s =").onChange(resetParameters);
+  par.add(def, 'slidern', 0, 30, 1).name("n =").onChange(resetParameters);
 
-  }
-  resetPlot();
+  gui.add(def, 'Reset');
+  gui.add(def, 'Save').name("Save (png)");
+
+
+  /*
+  input = createInput('sin(z^2)');
+  
+  input.id('myfunc');
+  //input.changed(resetPlot);
+
+  input.changed(keyPressed);
+  input.addClass('body');
+  input.addClass('container');
+  input.addClass('full-width');
+  input.addClass('dark-translucent');
+  input.addClass('input-control');
+  //input.addClass('equation-input');
+  input.attribute('placeholder', 'Input complex expression, e.g. 1 / (z^2 + i)^2 - log(z)');
+  input.style('color: #ffffff');
+  */
 
 }

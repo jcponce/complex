@@ -73,11 +73,21 @@ h1 {
   box-shadow: 0 0 10px black;
 }
 
+#myBtn {
+  cursor: pointer;
+}
+
+.copy-link {
+  font-size: 16px;
+  width: 40%;
+  color: rgba(255, 255, 255, .95);
+}
+
 #equation-input {
   border: 0;
   color: inherit;
   text-align: left;
-  width: 45%;
+  width: 50%;
   display: inline-block;
   color: rgba(255, 255, 255, .95);
 }
@@ -94,7 +104,7 @@ h1 {
 }
 
 a {
-  color: tomato;
+  color: #99ddff;
   text-decoration: none;
 }
 

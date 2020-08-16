@@ -3,112 +3,96 @@
  * https://creativecommons.org/licenses/by-sa/4.0/
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  
- * Last update 21-Nov-2019
+ * Last update 14-Aug-2020
  */
 
-// --Control variables--
-let clts = {
+let domC, s, w, h;
 
-  lvlCurv: 'Modulus',
-
-  displayXY: false,
-  size: 2.5,
-  slidert: 1,
-  slideru: 1,
-  slidern: 1,
-  centerX: 0,
-  centerY: 0,
-
-  Save: function() {
-    save('plotfz.png');
-  },
-
-  canvasSize: 'Square'
-
-};
-
-let input, domC;
+let input = '(z-1)/(z^2+z+1)';
 
 function setup() {
   createCanvas(470, 470);
-  colorMode(HSB, 1);
   pixelDensity(1);
-  noLoop();
-  uiControls();
+  uicontrols();
+  resetPlot();
 }
 
 function draw() {
-
-  background(255);
-
-  //domainColoring( function, |Re z|, center x, center y, canvasSize text, axis boolean);
-  domC = new domainColoring(input.value(), clts.size, clts.centerX, clts.centerY, clts.canvasSize, clts.displayXY);
-
-  domC.plotter();
-
+  domC.plotHSV(def.opt);
+  domC.update();
 }
 
-// --Coloring the pixels--
-// First I need to define the functions to color pixels
+/* Auxliary functions */
 
-let funPhase = (x, y) => (PI - Math.atan2(y, -x)) / (2 * PI); // defines color hue based on phase 
-
-let sharp = 0.39; // delay
-let b = 0.655; // brightness 0 -> dark, 1 -> bright
-let nMod = 2; // num of level curves mod
-let nPhase = 20; // num. of level curves phase
-let base = 2;
-
-let cPhase = (x, y) => {
-    let c = nPhase * funPhase(x,y);
-    return sharp * ( c - floor(c) ) + b;
+function resetPlot() {
+  domC = new domainColoring(input, def.size, def.slidert);
 }
 
-let cMod = (x, y) => {
-    let c = nMod * log(sqrt(x * x + y * y));
-    return sharp * ( c - floor(c) ) + b;
-}
-
-let cPhaMod = (x, y) => cPhase(x, y) * cMod(x, y);
-
-let funColor = (x, y) => cMod(x, y);
-
-//ends coloring functions
-
-// Auxiliary functions
-
-function trimN(s) {
-  if (s.trim) {
-    return s.trim();
-  }
-  return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-}
-
+//HSV
 function mySelectOption() {
-  if (clts.lvlCurv == 'Phase') {
-      funColor = (x, y) => cPhase(x, y);
-  } else if (clts.lvlCurv == 'Modulus') {
-      funColor = (x, y) => cMod(x, y);
-  } else if (clts.lvlCurv == 'Phase/Modulus') {
-      funColor = (x, y) => cPhaMod(x, y);
-  } else if (clts.lvlCurv == 'None') {
-      funColor = (x, y) => 1;
-  }
-  redraw();
-}
-
-function screenSize() {
-  if (clts.canvasSize == 'Square') {
-    resizeCanvas(470, 470);
-  } else if (clts.canvasSize == 'Landscape') {
-    resizeCanvas(750, 550);
-  } else if (clts.canvasSize == 'Full-Screen') {
-    resizeCanvas(windowWidth, windowHeight);
+  if (def.opt === 'Phase') {
+    domC.opt = 'Phase';
+  } else if (def.opt === 'Modulus') {
+    domC.opt = 'Modulus';
+  } else if (def.opt === 'Phase/Modulus') {
+    domC.opt = 'Phase/Modulus';
+  } else if (def.opt === 'None') {
+    domC.opt = 'None';
   }
 }
 
-function keyPressed() {
-  if (keyCode === ENTER) {
-    redraw();
-  }
+// create gui (dat.gui)
+let def = {
+  opt: 'Modulus',
+  size: 6,
+  slidert: 0,
+  slideru: 0,
+  slidern: 1,
+  Reset: function(){
+    domC.size.x = domC.origSize.x;
+    domC.size.y = domC.origSize.y;
+    domC.pos.x = domC.origPos.x;
+    domC.pos.y = domC.origPos.y;
+    domC.zoom = domC.origZoom;
+  },
+  Save: function () {
+    save('plotfz.png');
+  },
+  canvasSize: 'Small'
+};
+
+function uicontrols() {
+  let gui = new dat.GUI({
+    width: 360
+  });
+  gui.add(def, 'opt', ['Phase', 'Modulus', 'Phase/Modulus', 'None']).name("Level Curves:").onChange(mySelectOption);
+  
+  gui.add(def, 'size', 0.000001, 30, 0.000001).name("Zoom In/Out").onChange(resetPlotDim);
+
+  gui.add(def, 'canvasSize', ['Small', 'Big']).name("Window: ").onChange(screenSize);
+
+  let par = gui.addFolder('Parameters');
+  par.add(def, 'slidert', 0, 1, 0.01).name("t =").onChange(resetParameters);
+  par.add(def, 'slideru', 0, 2 * Math.PI, 0.01).name("u = exp(i⋅s); s =").onChange(resetParameters);
+  par.add(def, 'slidern', 0, 30, 1).name("n =").onChange(resetParameters);
+
+  gui.add(def, 'Reset');
+  gui.add(def, 'Save').name("Save (png)");
+
+/*
+  input = createInput('(z-1)/(z^2+z+1)');
+
+  input.id('myfunc');
+  //input.changed(resetPlot);
+  input.changed(keyPressed);
+  input.addClass('body');
+  input.addClass('container');
+  input.addClass('full-width');
+  input.addClass('dark-translucent');
+  input.addClass('input-control');
+  //input.addClass('equation-input');
+  input.attribute('placeholder', 'Input complex expression, e.g. 1 / (z^2 + i)^2 - log(z)');
+  input.style('color: #ffffff');
+  */
+
 }
