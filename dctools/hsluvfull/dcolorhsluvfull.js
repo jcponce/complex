@@ -6,7 +6,7 @@
  * Last update 17-Aug-2020
  */
 
-let domC, s, w, h, cnv;
+let domC, s, w, h, cnv, sel;
 
 let input = 'sin(z^2)';
 
@@ -14,6 +14,15 @@ function setup() {
   cnv = createCanvas(500, 500);
   cnv.parent('sketch-Holder');
   pixelDensity(1);
+
+  sel = createSelect();
+  sel.parent('mySelect');
+  sel.option('Phase');
+  sel.option('Modulus');
+  sel.option('Phase/Modulus');
+  sel.option('Standard');
+  sel.selected('Modulus');
+
   uicontrols();
   resetPlot();
 }
@@ -40,6 +49,8 @@ function mySelectOption() {
     domC.opt = 'Phase/Modulus';
   } else if (s === 'Standard') {
     domC.opt = 'Standard';
+  } else if (s === 'None') {
+    domC.opt = 'None';
   }
 }
 
@@ -53,40 +64,4 @@ function resetValues(){
   domC.pos.x = domC.origPos.x;
   domC.pos.y = domC.origPos.y;
   domC.zoom = domC.origZoom;
-}
-
-let sel, size, pz, pt, pu, pn;
-
-function uicontrols() {
-
-  sel = createSelect();
-  sel.parent('mySelect');
-  sel.option('Phase');
-  sel.option('Modulus');
-  sel.option('Phase/Modulus');
-  sel.option('Standard');
-  sel.selected('Modulus');
-
-  size = createSelect();
-  size.parent('mySize');
-  size.option('Small');
-  size.option('Big');
-  size.changed(screenSize);
-  
-  // Zoom parameter
-  pz = document.getElementById('pZoom');
-
-  // Other parameters
-  pt = document.getElementById('pt');
-  pu = document.getElementById('pu');
-  pn = document.getElementById('pn');
-
-  // save and reset buttons
-  document.getElementById('save').onclick = () =>{
-    savePlot();
-  }
-  document.getElementById('reset').onclick = () =>{
-    resetValues();
-  }
-
 }
