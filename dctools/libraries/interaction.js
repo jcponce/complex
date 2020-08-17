@@ -143,12 +143,20 @@ function openRightMenu() {
   document.getElementById("rightMenu").style.width = "35%";
   document.getElementById("rightMenu").style.display = "block";
   document.getElementById("openNav").style.display = 'none';
+  document.getElementById("sketch-Holder").style.position = "absolute";
+  document.getElementById("sketch-Holder").style.top = "50%";
+  document.getElementById("sketch-Holder").style.left = "30%";
+  document.getElementById("sketch-Holder").style.transform = "translate(0%, 0%);";
 }
 
 function closeRightMenu() {
   document.getElementById("main").style.marginRight = "0%";
   document.getElementById("rightMenu").style.display = "none";
   document.getElementById("openNav").style.display = "inline-block";
+  document.getElementById("sketch-Holder").style.position = "fixed";
+  document.getElementById("sketch-Holder").style.top = "50%";
+  document.getElementById("sketch-Holder").style.left = "50%";
+  document.getElementById("sketch-Holder").style.transform = "translate(-50%, -50%)";
 }
 
 function updateTextInput(val) {
