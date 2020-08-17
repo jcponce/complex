@@ -34,24 +34,24 @@ function touchEnded() {
 
 function keyPressed() {
   if (keyCode === ENTER) {
-    domC.func = domC.verifyFunction(complex_expression(input, def.slidert, def.slideru, def.slidern));
+    domC.func = domC.verifyFunction(complex_expression(input, pt.value, pu.value, pn.value));
   }
 }
 
 function resetPlotDim() {
-  s = def.size;
+  s = pz.value;//def.size;
   domC.origSize = new p5.Vector(s, s);
   domC.size = new p5.Vector(domC.origSize.x, domC.origSize.y);
 }
 
 function resetParameters() {
-  domC.func = domC.verifyFunction(complex_expression(input, def.slidert, def.slideru, def.slidern));
+  domC.func = domC.verifyFunction(complex_expression(input, pt.value, pu.value, pn.value));
 }
 
 function screenSize() {
-  if (def.canvasSize === 'Small') {
+  if (size.value() === 'Small') {
     resizeCanvas(500, 500);
-  } else if (def.canvasSize === 'Big') {
+  } else if (size.value() === 'Big') {
     resizeCanvas(700, 700);
   }
   resetPlot();
@@ -118,3 +118,69 @@ $('#equation-input').change(update_expression);
 $('#equation-input').change(resetParameters);
 $('#show-link').click(showLink);
 $(update_expression);
+
+//Next functions for sidebars and interaction with dom
+
+function openLeftMenu() {
+  closeRightMenu();
+  document.getElementById("leftMenu").style.width = "100%";
+  document.getElementById("leftMenu").style.display = "block";
+  document.getElementById("equation-input").style.display = "none";
+  document.getElementById("show-link").style.display = "none";
+  document.getElementById("home").style.display = "none";
+  document.getElementById("sketch-Holder").style.display = "none";
+}
+
+function closeLeftMenu() {
+  document.getElementById("leftMenu").style.display = "none";
+  document.getElementById("equation-input").style.display = "inline-block";
+  document.getElementById("show-link").style.display = "inline-block";
+  document.getElementById("home").style.display = "inline-block";
+  document.getElementById("sketch-Holder").style.display = "inline-block";
+}
+
+function openRightMenu() {
+  document.getElementById("main").style.marginRight = "35%";
+  document.getElementById("rightMenu").style.width = "35%";
+  document.getElementById("rightMenu").style.display = "block";
+  document.getElementById("openNav").style.display = 'none';
+  document.getElementById("sketch-Holder").style.position = "absolute";
+  document.getElementById("sketch-Holder").style.top = "50%";
+  document.getElementById("sketch-Holder").style.left = "30%";
+  document.getElementById("sketch-Holder").style.transform = "translate(0%, 0%);";
+}
+
+function closeRightMenu() {
+  document.getElementById("main").style.marginRight = "0%";
+  document.getElementById("rightMenu").style.display = "none";
+  document.getElementById("openNav").style.display = "inline-block";
+  document.getElementById("sketch-Holder").style.position = "fixed";
+  document.getElementById("sketch-Holder").style.top = "50%";
+  document.getElementById("sketch-Holder").style.left = "50%";
+  document.getElementById("sketch-Holder").style.transform = "translate(-50%, -50%)";
+}
+
+function updateTextInput(val) {
+  document.getElementById('textInput').value = val;
+  resetParameters();
+}
+
+document.getElementById("pZoom").oninput = function () {
+  document.getElementById('zL').innerHTML = this.value;
+  resetPlotDim();
+};
+
+document.getElementById("pt").oninput = function () {
+  document.getElementById('tL').innerHTML = this.value;
+  resetParameters();
+};
+
+document.getElementById("pu").oninput = function () {
+  document.getElementById('uL').innerHTML = this.value;
+  resetParameters();
+};
+
+document.getElementById("pn").oninput = function () {
+  document.getElementById('nL').innerHTML = this.value;
+  resetParameters();
+};

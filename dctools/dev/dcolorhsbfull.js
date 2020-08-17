@@ -8,7 +8,7 @@
 
 let domC, s, w, h, cnv;
 
-let input = 'z^4+z+1';
+let input = '(z-1)/(z^2+z+1)';
 
 function setup() {
   cnv = createCanvas(500, 500);
@@ -19,7 +19,7 @@ function setup() {
 }
 
 function draw() {
-  domC.plotHSVG(sel.value());
+  domC.plotHSV(sel.value());
   domC.update();
 }
 
@@ -29,7 +29,7 @@ function resetPlot() {
   domC = new domainColoring(input, pz.value, pt.value);
 }
 
-//HSV gradien not needed
+//HSV
 function mySelectOption() {
   let s = sel.value();
   if (s === 'Phase') {
@@ -42,6 +42,26 @@ function mySelectOption() {
     domC.opt = 'None';
   }
 }
+
+// create gui (dat.gui)
+let def = {
+  opt: 'Modulus',
+  size: 6,
+  slidert: 0,
+  slideru: 0,
+  slidern: 1,
+  Reset: function(){
+    domC.size.x = domC.origSize.x;
+    domC.size.y = domC.origSize.y;
+    domC.pos.x = domC.origPos.x;
+    domC.pos.y = domC.origPos.y;
+    domC.zoom = domC.origZoom;
+  },
+  Save: function () {
+    save('plotfz.png');
+  },
+  canvasSize: 'Small'
+};
 
 function savePlot() {
   save('plotfz.png');
