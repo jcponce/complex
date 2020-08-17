@@ -1,177 +1,167 @@
-* {
-  box-sizing: border-box;
-}
-
 html,
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  background-color: rgba(30, 30, 30, 1);
-  font-family: 'Roboto', sans-serif;
-  /*font-family: 'Martel Sans', sans-serif;*/
-  color: rgba(0, 0, 0);
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        background-color: rgba(50, 50, 50, 1);
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
 
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
+    #main {
+        background-color: rgba(50, 50, 50, 1);
+    }
 
-.center {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 900px;
-}
+    #container {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
 
-hr {
-  border-width: 2px;
-}
+    .input-control {
+        z-index: 2;
+        font-size: x-large;
+        margin: 5px;
+        position: relative;
+    }
 
-#container {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
+    .full-width {
+        width: 99%;
+        position: absolute;
+        bottom: 1em;
+        text-align: center;
+    }
 
-.input-control {
-  z-index: 10;
-  font-size: x-large;
-  margin: 5px;
-  position: relative;
-}
+    .dark-translucent {
+        background-color: rgba(0, 0, 0, 0.85);
+        padding: 10px;
+        border-radius: 5px 5px;
+        box-shadow: 0 0 10px black;
+    }
 
+    #equation-input {
+        border: 0;
+        color: inherit;
+        text-align: left;
+        width: 50%;
+        display: inline-block;
+        color: rgba(255, 255, 255, .95);
+    }
 
-#display-area {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
+    .copy-link {
+        font-size: 16px;
+        width: 40%;
+        color: rgba(255, 255, 255, .95);
+    }
 
-h1 {
-  margin: 0;
-  display: inline;
-}
+    input[type=range] {
+        width: 100%;
+        margin: 12.65px 0;
+        background-color: transparent;
+        -webkit-appearance: none;
+    }
 
-.full-width {
-  width: 99%;
-  position: absolute;
-  bottom: 1em;
-  text-align: center;
-}
+    input[type=range]:focus {
+        outline: none;
+    }
 
-.dark-translucent {
-  background-color: rgba(0, 0, 0, 0.85);
-  padding: 10px;
-  border-radius: 5px 5px;
-  box-shadow: 0 0 10px black;
-}
+    input[type=range]::-webkit-slider-runnable-track {
+        background: #52a3fe;
+        border: 0;
+        border-radius: 17.6px;
+        width: 100%;
+        height: 5.7px;
+        cursor: pointer;
+    }
 
-#myBtn {
-  cursor: pointer;
-}
+    input[type=range]::-webkit-slider-thumb {
+        margin-top: -12.65px;
+        width: 31px;
+        height: 31px;
+        background: #64abff;
+        border: 0.4px solid #595958;
+        border-radius: 24px;
+        cursor: pointer;
+        -webkit-appearance: none;
+    }
 
-.copy-link {
-  font-size: 16px;
-  width: 40%;
-  color: rgba(255, 255, 255, .95);
-}
+    input[type=range]:focus::-webkit-slider-runnable-track {
+        background: #6bb0fe;
+    }
 
-#equation-input {
-  border: 0;
-  color: inherit;
-  text-align: left;
-  width: 50%;
-  display: inline-block;
-  color: rgba(255, 255, 255, .95);
-}
+    input[type=range]::-moz-range-track {
+        background: #52a3fe;
+        border: 0;
+        border-radius: 17.6px;
+        width: 100%;
+        height: 5.7px;
+        cursor: pointer;
+    }
 
-.separator {
-  margin: 10px 0 10px 0;
-  border-bottom: 1px solid rgba(200, 200, 200, 1);
-}
+    input[type=range]::-moz-range-thumb {
+        width: 31px;
+        height: 31px;
+        background: #64abff;
+        border: 0.4px solid #595958;
+        border-radius: 24px;
+        cursor: pointer;
+    }
 
-.control-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+    input[type=range]::-ms-track {
+        background: transparent;
+        border-color: transparent;
+        border-width: 13.65px 0;
+        color: transparent;
+        width: 100%;
+        height: 5.7px;
+        cursor: pointer;
+    }
 
-a {
-  color: #99ddff;
-  text-decoration: none;
-}
+    input[type=range]::-ms-fill-lower {
+        background: #3996fe;
+        border: 0;
+        border-radius: 35.2px;
+    }
 
-img.thumbnail {
-  width: 1.2em;
-  vertical-align: text-bottom;
-}
+    input[type=range]::-ms-fill-upper {
+        background: #52a3fe;
+        border: 0;
+        border-radius: 35.2px;
+    }
 
-canvas {
-  padding: 0;
-  margin: auto;
-  display: block;
-  width: 470px;
-  height: 470px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
+    input[type=range]::-ms-thumb {
+        width: 31px;
+        height: 31px;
+        background: #64abff;
+        border: 0.4px solid #595958;
+        border-radius: 24px;
+        cursor: pointer;
+        margin-top: 0px;
+        /*Needed to keep the Edge thumb centred*/
+    }
 
+    input[type=range]:focus::-ms-fill-lower {
+        background: #52a3fe;
+    }
 
-/* The Modal (background) */
-.modal {
-  display: none;
-  /* Hidden by default */
-  position: fixed;
-  /* Stay in place */
-  z-index: 12;
-  /* Sit on top */
-  padding-top: 100px;
-  /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%;
-  /* Full width */
-  height: 100%;
-  /* Full height */
-  overflow: auto;
-  /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0);
-  /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4);
-  /* Black w/ opacity */
-}
+    input[type=range]:focus::-ms-fill-upper {
+        background: #6bb0fe;
+    }
 
-/* Modal Content */
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 60%;
-}
+    /*TODO: Use one of the selectors from https://stackoverflow.com/a/20541859/7077589 and figure out
+how to remove the virtical space around the range input in IE*/
+    @supports (-ms-ime-align:auto) {
 
-/* The Close Button */
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
+        /* Pre-Chromium Edge only styles, selector taken from hhttps://stackoverflow.com/a/32202953/7077589 */
+        input[type=range] {
+            margin: 0;
+            /*Edge starts the margin from the thumb, not the track as other browsers do*/
+        }
+    }

@@ -3,101 +3,90 @@
  * https://creativecommons.org/licenses/by-sa/4.0/
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  
- * Last update 12-Aug-2020
+ * Last update 17-Aug-2020
  */
 
-let domC, s, w, h;
+let domC, s, w, h, cnv;
 
 let input = 'sin(z^2)';
 
 function setup() {
-  createCanvas(470, 470);
+  cnv = createCanvas(500, 500);
+  cnv.parent('sketch-Holder');
   pixelDensity(1);
   uicontrols();
   resetPlot();
 }
 
 function draw() {
-  domC.plotHSLuv(def.opt, 0.4, 1);
+  domC.plotHSLuv(sel.value());
   domC.update();
 }
 
 /* Auxliary functions */
 
 function resetPlot() {
-  domC = new domainColoring(input, def.size, def.slidert);
+  domC = new domainColoring(input, pz.value, pt.value);
 }
 
-// HSLuv
+//HSV
 function mySelectOption() {
-  if (def.opt === 'Phase') {
+  let s = sel.value();
+  if (s === 'Phase') {
     domC.opt = 'Phase';
-  } else if (def.opt === 'Modulus') {
+  } else if (s === 'Modulus') {
     domC.opt = 'Modulus';
-  } else if (def.opt === 'Phase/Modulus') {
+  } else if (s === 'Phase/Modulus') {
     domC.opt = 'Phase/Modulus';
-  } else if (def.opt === 'Standard') {
+  } else if (s === 'Standard') {
     domC.opt = 'Standard';
-  } else if (def.opt === 'None') {
-    domC.opt = 'None';
   }
 }
 
-// create gui (dat.gui)
-let def = {
-  opt: 'Modulus',
-  size: 6,
-  slidert: 0,
-  slideru: 0,
-  slidern: 1,
-  Reset: function(){
-    domC.size.x = domC.origSize.x;
-    domC.size.y = domC.origSize.y;
-    domC.pos.x = domC.origPos.x;
-    domC.pos.y = domC.origPos.y;
-    domC.zoom = domC.origZoom;
-  },
-  Save: function () {
-    save('plotfz.png');
-  },
-  canvasSize: 'Small'
-};
+function savePlot() {
+  save('plotfz.png');
+}
+
+function resetValues(){
+  domC.size.x = domC.origSize.x;
+  domC.size.y = domC.origSize.y;
+  domC.pos.x = domC.origPos.x;
+  domC.pos.y = domC.origPos.y;
+  domC.zoom = domC.origZoom;
+}
+
+let sel, size, pz, pt, pu, pn;
 
 function uicontrols() {
-  let gui = new dat.GUI({
-    width: 360
-  });
+
+  sel = createSelect();
+  sel.parent('mySelect');
+  sel.option('Phase');
+  sel.option('Modulus');
+  sel.option('Phase/Modulus');
+  sel.option('Standard');
+  sel.selected('Modulus');
+
+  size = createSelect();
+  size.parent('mySize');
+  size.option('Small');
+  size.option('Big');
+  size.changed(screenSize);
   
-  gui.add(def, 'opt', ['Phase', 'Modulus', 'Phase/Modulus', 'Standard']).name("Level Curves:").onChange(mySelectOption);
+  // Zoom parameter
+  pz = document.getElementById('pZoom');
 
-  gui.add(def, 'size', 0.000001, 30, 0.000001).name("Zoom In/Out").onChange(resetPlotDim);
-  
-  gui.add(def, 'canvasSize', ['Small', 'Big']).name("Window: ").onChange(screenSize);
+  // Other parameters
+  pt = document.getElementById('pt');
+  pu = document.getElementById('pu');
+  pn = document.getElementById('pn');
 
-  let par = gui.addFolder('Parameters');
-  par.add(def, 'slidert', 0, 1, 0.01).name("t =").onChange(resetParameters);
-  par.add(def, 'slideru', 0, 2 * Math.PI, 0.01).name("u = exp(i⋅s); s =").onChange(resetParameters);
-  par.add(def, 'slidern', 0, 30, 1).name("n =").onChange(resetParameters);
-
-  gui.add(def, 'Reset');
-  gui.add(def, 'Save').name("Save (png)");
-
-
-  /*
-  input = createInput('sin(z^2)');
-  
-  input.id('myfunc');
-  //input.changed(resetPlot);
-
-  input.changed(keyPressed);
-  input.addClass('body');
-  input.addClass('container');
-  input.addClass('full-width');
-  input.addClass('dark-translucent');
-  input.addClass('input-control');
-  //input.addClass('equation-input');
-  input.attribute('placeholder', 'Input complex expression, e.g. 1 / (z^2 + i)^2 - log(z)');
-  input.style('color: #ffffff');
-  */
+  // save and reset buttons
+  document.getElementById('save').onclick = () =>{
+    savePlot();
+  }
+  document.getElementById('reset').onclick = () =>{
+    resetValues();
+  }
 
 }
