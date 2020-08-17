@@ -122,6 +122,7 @@ $(update_expression);
 //Next functions for sidebars and interaction with dom
 
 function openLeftMenu() {
+  closeRightMenu();
   document.getElementById("leftMenu").style.width = "100%";
   document.getElementById("leftMenu").style.display = "block";
   document.getElementById("equation-input").style.display = "none";
