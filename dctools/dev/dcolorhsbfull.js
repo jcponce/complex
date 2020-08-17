@@ -43,31 +43,11 @@ function mySelectOption() {
   }
 }
 
-// create gui (dat.gui)
-let def = {
-  opt: 'Modulus',
-  size: 6,
-  slidert: 0,
-  slideru: 0,
-  slidern: 1,
-  Reset: function(){
-    domC.size.x = domC.origSize.x;
-    domC.size.y = domC.origSize.y;
-    domC.pos.x = domC.origPos.x;
-    domC.pos.y = domC.origPos.y;
-    domC.zoom = domC.origZoom;
-  },
-  Save: function () {
-    save('plotfz.png');
-  },
-  canvasSize: 'Small'
-};
-
 function savePlot() {
   save('plotfz.png');
 }
 
-function resetValues(){
+function resetValues() {
   domC.size.x = domC.origSize.x;
   domC.size.y = domC.origSize.y;
   domC.pos.x = domC.origPos.x;
@@ -75,7 +55,9 @@ function resetValues(){
   domC.zoom = domC.origZoom;
 }
 
-let sel, size, pz, pt, pu, pn;
+let sel, pz, pt, pu, pn;
+
+let size = false;
 
 function uicontrols() {
 
@@ -87,12 +69,6 @@ function uicontrols() {
   sel.option('None');
   sel.selected('Modulus');
 
-  size = createSelect();
-  size.parent('mySize');
-  size.option('Small');
-  size.option('Big');
-  size.changed(screenSize);
-  
   // Zoom parameter
   pz = document.getElementById('pZoom');
 
@@ -102,11 +78,22 @@ function uicontrols() {
   pn = document.getElementById('pn');
 
   // save and reset buttons
-  document.getElementById('save').onclick = () =>{
+  document.getElementById('save').onclick = () => {
     savePlot();
   }
-  document.getElementById('reset').onclick = () =>{
+  document.getElementById('reset').onclick = () => {
     resetValues();
+  }
+  document.getElementById('resize').onclick = () => {
+    if (size) {
+      size = false;
+      resizeCanvas(500, 500);
+    } else {
+      size = true;
+      resizeCanvas(700, 700);
+    }
+    //screenSize();
+    resetPlot();
   }
 
 }

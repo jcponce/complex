@@ -49,9 +49,9 @@ function resetParameters() {
 }
 
 function screenSize() {
-  if (size.value() === 'Small') {
+  if (size) {
     resizeCanvas(500, 500);
-  } else if (size.value() === 'Big') {
+  } else if (!size) {
     resizeCanvas(700, 700);
   }
   resetPlot();
