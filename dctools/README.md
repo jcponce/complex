@@ -38,7 +38,7 @@ In this project I used [p5.js](https://p5js.org/). All the tools work mainly usi
 plot the complex functions with different options.
 2. A [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/dev/Complex.js).
 
-Note: jQuery is also used for getting the shareable link with the expression.
+**Note:** jQuery is also used for getting the shareable link with the expression.
 
 ## Basic set up
 
@@ -79,7 +79,7 @@ Now we just need to plot it using one of the options defined within our class. F
 
 Check the live demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
 
-## Plotting options
+## Plotting options: Color schemes
 
 ### HSV
 - plotHSV(str)
@@ -106,7 +106,7 @@ Check the live demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
   - minHue - Number [0, 1] (Optional)
   - maxHue - Number [0, 1] (Optional)
   
-Note: This option requires the library [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
+**Note:** This option requires the library [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
 so you are going to need to include it in your index file as well:
 
     <script src="hsluvmin.js"></script>
