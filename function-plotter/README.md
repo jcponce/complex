@@ -12,7 +12,7 @@ This tool allows you to visualize, in real-time, in a browser, how complex funct
 
 The rendered image is created by evaluating the user-supplied function and then using the results of that function to look up a color in an image which is infinitely tiled over the [Complex Plane](http://mathworld.wolfram.com/ComplexPlane.html). By changing the expression in the input field, you can visualize how various functions distort the plane.
 
-![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.png)
+<img src="https://github.com/jcponce/complex/blob/gh-pages/function-plotter/conformal.png" width="65%">
 
 #### [Live Demo - Conformal Mapping](http://jcponce.github.io/complex/function-plotter/)
 
@@ -20,7 +20,7 @@ The rendered image is created by evaluating the user-supplied function and then 
 
 You can also visualize complex functions plotted with the domain coloring method using the HSV scheme, including level curves of modulus and phase. Thus you can visualize zeros and singularities.
 
-![Plotter Screenshot](https://github.com/jcponce/complex/blob/gh-pages/function-plotter/hsv.png)
+<img src="https://github.com/jcponce/complex/blob/gh-pages/function-plotter/hsv.png" width="65%">
 
 #### [Live Demo - Domain coloring](http://jcponce.github.io/complex/function-plotter/hsv.htm)
 
