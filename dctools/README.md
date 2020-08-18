@@ -107,7 +107,7 @@ Check the live demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
   - maxHue - Number [0, 1] (Optional)
   
 Note: This option requires the library [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
-so you are going to need to include at as well
+so you are going to need to include it in your index file as well:
 
     <script src="hsluvmin.js"></script>
 
