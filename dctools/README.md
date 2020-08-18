@@ -30,36 +30,36 @@ color to that pixel. This procedure is shown in the animation below.
 
 ---
 
-# Basic set up
+# How does it work?
 
-In this project I used [p5.js](https://p5js.org/). At the begining I had only one function 
-for plotting one color scheme but later I realized that it was better to have a class to include other color schemes: 
+In this project I used [p5.js](https://p5js.org/). All the tools work mainly using
 
-* [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/dev/domainColoring.js)
+1. A class [domainColoring](https://github.com/jcponce/complex/blob/gh-pages/dctools/dev/domainColoring.js) to 
+plot the complex functions with different options.
+2. A [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/dev/Complex.js).
 
-This class also requieres a complex function parser and the library for the HSLuv color scheme.
+**Note:** jQuery is also used for getting the shareable link with the expression.
 
-* [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/dev/Complex.js)
-* [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
+## Basic set up
 
-To set it up in p5.js you must include, in the index file, the class and the other two libraries:
+To set it up in p5.js you must include the class and the complex parser in your index file:
 
-    <script src="hsluvmin.js"></script>
     <script src="Complex.min.js"></script>
     <script src="domainColoring.min.js"></script>
     <script src="sketch.js"></script>
     
-In the sketch define within the setup function the class **domanColoring(func, size)** with two parameters:
+In the sketch define within the setup function the class **domanColoring(func, size)** using two parameters:
 - func: a complex function (as a string) e.g. 'z^2',
-- size: a real number > 0 e.g. 6.
+- size: a real number > 0 e.g. 3.
 
 Thus we have
 
     let domC; 
     let fn = 'z^2'; // Change this function
-    let s = 6; // Change this size
+    let s = 3; // Change this size
     function setup() {
-      // It looks better when the canvas is a square, min 400x400
+      // It looks better when the canvas is a square, min 400x400, 
+      // but you can use a rectangle as well :)
       createCanvas(500, 500);
       pixelDensity(1);
   
@@ -67,42 +67,7 @@ Thus we have
       domC = new domainColoring(fn, s); 
     }
         
-Now we just need to plot it using one of the following options defined within our class:
-
-### HSV
-- plotHSV(str)
-  - Parameters -  String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
-
-### HSV discrite
-- plotHSVDisc(str)
-  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
-
-### HSL
-- plotHSL(str)
-  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'Standard', 'None'(Optional)
-
-### RGB
-- plotRGB(str)
-  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
-
-### HSV modulus, real and imaginary components
-- plotHSVReIm(str)
-  - Parameters - String: 'Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None' (Optional)
-
-### HSLuv
-- plotHSLuv(str, minHue, maxHue)
-  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
-  - minHue - Number [0, 1] (Optional)
-  - maxHue - Number [0, 1] (Optional)
-
-### Black & white
-- plotBW(str),
-   - Parameters - String:'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im' (Optional)
-
-### HSV Gradient
-- plotHSVG()   
-
-For example, let's use **plotHSV()**:
+Now we just need to plot it using one of the options defined within our class. For example, let's use **plotHSV()**:
 
     function draw() {
       domC.plotHSV('Modulus');
@@ -114,6 +79,46 @@ For example, let's use **plotHSV()**:
 
 Check the live demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
 
+## Plotting options: Color schemes
+
+### HSV
+- plotHSV(str)
+  - Parameters -  String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
+
+### HSV discrete
+- plotHSVDisc(str)
+  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
+  
+### HSV modulus, real and imaginary components
+- plotHSVReIm(str)
+  - Parameters - String: 'Real', 'Imaginary', 'Re/Im', 'Modulus', 'All', 'None' (Optional)
+  
+### HSV Gradient
+- plotHSVG()
+
+### HSL
+- plotHSL(str)
+  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'Standard', 'None'(Optional)
+
+### HSLuv
+- plotHSLuv(str, minHue, maxHue)
+  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
+  - minHue - Number [0, 1] (Optional)
+  - maxHue - Number [0, 1] (Optional)
+  
+**Note:** This option requires the library [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
+so you are going to need to include it in your index file as well:
+
+    <script src="hsluvmin.js"></script>
+
+### RGB
+- plotRGB(str)
+  - Parameters - String: 'Phase', 'Modulus', 'Phase/Modulus', 'None' (Optional)
+
+### Black & white
+- plotBW(str),
+   - Parameters - String:'Phase', 'Modulus', 'Phase/Modulus', 'Real', 'Imaginary', 'Re/Im' (Optional)
+   
 ---
 
 # Complex function parser
@@ -121,11 +126,10 @@ Check the live demo [HERE](https://editor.p5js.org/jcponce/sketches/sfoT8EUys)
 This library was inspired by [David Bau's work](http://davidbau.com/). It defines the basic arithmetic 
 of complex numbers and contains a wide range of complex functions.
 
-#### Examples
+### Examples
 
 * z+1/z
-* (z-1)/(z^2+iz+1)
-* (z-i)^(iz)
+* (z-1)/(2z+iz+1)
 
 ## Available functions
 
@@ -241,7 +245,7 @@ May-2020: I added sliders to define three parameters. t:[0,1], s:[0,2pi] definin
 
 Jul-2020: Fixed issue with power function and added Binet's formula. I also added an alert message in case there is something wrong in the input 😃.
 
-Aug-2020: **Version 3.** New updates comming soon! Refactored code and defined class to plot all color schemes.
+Aug-2020: **Version 3.** Refactored code and defined class to plot all color schemes. New design of interface. New shareable link. New interaction mode with mouse.
 
 ---
 

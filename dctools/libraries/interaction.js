@@ -40,7 +40,10 @@ function keyPressed() {
 
 function resetPlotDim() {
   s = pz.value;//def.size;
-  domC.origSize = new p5.Vector(s, s);
+  let sw = s * 2;
+  let sh = (sw * height) / width;
+  domC.origSize = new p5.Vector(sw, sh);
+  //domC.origSize = new p5.Vector(s, s);
   domC.size = new p5.Vector(domC.origSize.x, domC.origSize.y);
 }
 
@@ -49,9 +52,9 @@ function resetParameters() {
 }
 
 function screenSize() {
-  if (size.value() === 'Small') {
+  if (size) {
     resizeCanvas(500, 500);
-  } else if (size.value() === 'Big') {
+  } else if (!size) {
     resizeCanvas(700, 700);
   }
   resetPlot();
@@ -165,6 +168,10 @@ function updateTextInput(val) {
   resetParameters();
 }
 
+function reloadPage() {
+  location.reload();
+}
+
 document.getElementById("pZoom").oninput = function () {
   document.getElementById('zL').innerHTML = this.value;
   resetPlotDim();
@@ -183,4 +190,38 @@ document.getElementById("pu").oninput = function () {
 document.getElementById("pn").oninput = function () {
   document.getElementById('nL').innerHTML = this.value;
   resetParameters();
+};
+
+// Import html file within html files
+
+function includeHTML() {
+  var z, i, elmnt, file, xhttp;
+  /*loop through a collection of all HTML elements:*/
+  z = document.getElementsByTagName("*");
+  for (i = 0; i < z.length; i++) {
+      elmnt = z[i];
+      /*search for elements with a certain atrribute:*/
+      file = elmnt.getAttribute("w3-include-html");
+      if (file) {
+          /*make an HTTP request using the attribute value as the file name:*/
+          xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+              if (this.readyState == 4) {
+                  if (this.status == 200) {
+                      elmnt.innerHTML = this.responseText;
+                  }
+                  if (this.status == 404) {
+                      elmnt.innerHTML = "Page not found.";
+                  }
+                  /*remove the attribute, and call this function once more:*/
+                  elmnt.removeAttribute("w3-include-html");
+                  includeHTML();
+              }
+          }
+          xhttp.open("GET", file, true);
+          xhttp.send();
+          /*exit the function:*/
+          return;
+      }
+  }
 };

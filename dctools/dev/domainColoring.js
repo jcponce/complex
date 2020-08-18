@@ -15,41 +15,44 @@ https://jcponce.github.io/
 Under Creative Commons License
 https://creativecommons.org/licenses/by-sa/4.0/
 
-Last update 13-Aug-2020
+Last update 18-Aug-2020
 
 */
 
 class domainColoring {
 
-  constructor(func, size, t = 0, u = 0, n = 1) {
+  constructor(func, size, frame = true, t = 0, u = 0, n = 1) {
 
-    this.origSize = new p5.Vector(size, size);
+    // I need to adjust dimensions in case the canvas is not a square
+    this.frame = frame;
+    if (this.frame) {
+      this.x = 40;
+      this.y = 40;
+      this.w = width - this.x;
+      this.h = height - this.y;
+    } else {
+      this.x = 0;
+      this.y = 0;
+      this.w = width;
+      this.h = height;
+    }
+    this.sw = size * 2;
+    this.sh = (this.sw * height) / width;
+
+
+    // Ok now let gets ready with main variables
+    this.origSize = new p5.Vector(this.sw, this.sh);
     this.size = new p5.Vector(this.origSize.x, this.origSize.y);
     this.origPos = new p5.Vector(0, 0); //Origin position
     this.pos = new p5.Vector(this.origPos.x, this.origPos.y);
     this.origZoom = 1;
     this.zoom = this.origZoom;
     this.printDebug = false;
-
     this.func = this.verifyFunction(complex_expression(func, t, u, n));
 
-    this.x = 40;
-    this.y = 40;
-
-    if (width < height) {
-      this.w = width - this.x;
-      this.h = width - this.y;
-    } else if (width > height) {
-      this.w = height - this.x;
-      this.h = height - this.y;
-    } else {
-      this.w = width - this.x;
-      this.h = height - this.y;
-    }
-
+    // I need this to drag and move around the plot
     let nx = map(this.pos.x, -this.size.x / 2, this.size.x / 2, this.x, this.w);
     let ny = map(this.pos.y, -this.size.y / 2, this.size.y / 2, this.y, this.h);
-
     this.bX = nx;
     this.bY = ny;
 
@@ -860,11 +863,13 @@ class domainColoring {
         zpy = this.y - 10,
         zMax = 1000000,
         zMin = 0.00001;
+      /*//Maybe I need this part :)
       if (zMin <= zv && zv <= zMax)
         text('Zoom: ' + str(zv), zpx, zpy);
       if (zv < zMin)
         text('Zoom: → 0', zpx, zpy);
       if (zv > zMax) text('Zoom: → ∞', zpx, zpy);
+      */
 
       // Mouse label
       let cX, cY;
@@ -921,10 +926,10 @@ class domainColoring {
       stroke(0)
       strokeWeight(txtWeight);
       textAlign(CENTER);
-      text('' + str(round((this.pos.x + vx) * dec) / dec), i, this.w + 20);
+      text('' + str(round((this.pos.x + vx) * dec) / dec), i, this.h + 20);
       fill(0);
       noStroke();
-      ellipse(i, this.w, 2.5);
+      ellipse(i, this.h, 2.5);
 
     }
 
