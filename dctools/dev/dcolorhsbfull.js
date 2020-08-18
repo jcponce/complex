@@ -51,15 +51,3 @@ function mySelectOption() {
     domC.opt = 'None';
   }
 }*/
-
-function savePlot() {
-  save('plotfz.png');
-}
-
-function resetValues() {
-  domC.size.x = domC.origSize.x;
-  domC.size.y = domC.origSize.y;
-  domC.pos.x = domC.origPos.x;
-  domC.pos.y = domC.origPos.y;
-  domC.zoom = domC.origZoom;
-}

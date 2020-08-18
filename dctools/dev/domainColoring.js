@@ -863,11 +863,13 @@ class domainColoring {
         zpy = this.y - 10,
         zMax = 1000000,
         zMin = 0.00001;
+      /*//Maybe I need this part :)
       if (zMin <= zv && zv <= zMax)
         text('Zoom: ' + str(zv), zpx, zpy);
       if (zv < zMin)
         text('Zoom: → 0', zpx, zpy);
       if (zv > zMax) text('Zoom: → ∞', zpx, zpy);
+      */
 
       // Mouse label
       let cX, cY;

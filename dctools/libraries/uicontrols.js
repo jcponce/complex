@@ -25,6 +25,7 @@ function uicontrols() {
     savePlot();
   }
   document.getElementById('reset').onclick = () => {
+    document.getElementById('pZoom').value = 3;
     resetValues();
   }
   document.getElementById('resize').onclick = () => {
@@ -39,4 +40,19 @@ function uicontrols() {
     resetPlot();
   }
 
+}
+
+function savePlot() {
+  save('plotfz.png');
+}
+
+function resetValues() {
+  let s = 3;//def.size;
+  let sw = s * 2;
+  let sh = (sw * height) / width;
+  domC.origSize = new p5.Vector(sw, sh);
+  domC.size = new p5.Vector(domC.origSize.x, domC.origSize.y);
+  domC.pos.x = domC.origPos.x;
+  domC.pos.y = domC.origPos.y;
+  domC.zoom = domC.origZoom;
 }

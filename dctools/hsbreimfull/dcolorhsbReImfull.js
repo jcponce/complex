@@ -36,10 +36,10 @@ function draw() {
 /* Auxliary functions */
 
 function resetPlot() {
-  domC = new domainColoring(input, pz.value, pt.value);
+  domC = new domainColoring(input, pz.value);
 }
 
-//HSV Re/Im
+/*//HSV Re/Im
 function mySelectOption() {
   let s = sel.value();
   if (s === 'Real') {
@@ -53,15 +53,4 @@ function mySelectOption() {
   } else if (s === 'All') {
     domC.opt = 'All';
   }
-}
-function savePlot() {
-  save('plotfz.png');
-}
-
-function resetValues(){
-  domC.size.x = domC.origSize.x;
-  domC.size.y = domC.origSize.y;
-  domC.pos.x = domC.origPos.x;
-  domC.pos.y = domC.origPos.y;
-  domC.zoom = domC.origZoom;
-}
+}*/
