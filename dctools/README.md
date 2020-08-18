@@ -34,7 +34,7 @@ color to that pixel. This procedure is shown in the animation below.
 
 In this project I used [p5.js](https://p5js.org/). All the tools work mainly using
 
-1. A class [domainColoring class](https://github.com/jcponce/complex/blob/gh-pages/dctools/dev/domainColoring.js) to 
+1. A class [domainColoring](https://github.com/jcponce/complex/blob/gh-pages/dctools/dev/domainColoring.js) to 
 plot the complex functions with different options.
   - This class requires the library [HSLuv](https://github.com/jcponce/complex/blob/gh-pages/dctools/libraries/hsluvmin.js)
 2. A [Complex parser](https://github.com/jcponce/complex/blob/gh-pages/dctools/dev/Complex.js).
