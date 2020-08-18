@@ -35,10 +35,10 @@ function draw() {
 /* Auxliary functions */
 
 function resetPlot() {
-  domC = new domainColoring(input, pz.value, pt.value);
+  domC = new domainColoring(input, pz.value);
 }
 
-//HSV
+/*//HSV
 function mySelectOption() {
   let s = sel.value();
   if (s === 'Phase') {
@@ -50,7 +50,7 @@ function mySelectOption() {
   } else if (s === 'None') {
     domC.opt = 'None';
   }
-}
+}*/
 
 function savePlot() {
   save('plotfz.png');

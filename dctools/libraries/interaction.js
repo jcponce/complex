@@ -40,6 +40,9 @@ function keyPressed() {
 
 function resetPlotDim() {
   s = pz.value;//def.size;
+  let sw = s * 2;
+  let sh = (sw * height) / width;
+  //domC.origSize = new p5.Vector(sw, sh);
   domC.origSize = new p5.Vector(s, s);
   domC.size = new p5.Vector(domC.origSize.x, domC.origSize.y);
 }
