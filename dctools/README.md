@@ -42,7 +42,7 @@ Note: jQuery is also used for getting the shareable link with the expression.
 
 ## Basic set up
 
-To set it up in p5.js you must include, in the index file, the class and the complex parser:
+To set it up in p5.js you must include the class and the complex parser in your index file:
 
     <script src="Complex.min.js"></script>
     <script src="domainColoring.min.js"></script>
