@@ -129,7 +129,7 @@ of complex numbers and contains a wide range of complex functions.
 ### Examples
 
 * z+1/z
-* (z-1)/(2z+iz+1)
+* (z-1)/((2-i)z+1)
 
 ## Available functions
 
@@ -146,9 +146,9 @@ of complex numbers and contains a wide range of complex functions.
 - conj
   * E.g. conj(z)
 
-### The absolute value, also known as modulus
-- abs, ||
-  E.g abs(z), |z|
+### The modulus
+- ||
+  E.g. |z|
 
 ### Complex power
 - ^, exp
