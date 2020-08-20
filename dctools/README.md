@@ -48,8 +48,8 @@ To set it up in p5.js you must include the class and the complex parser in your 
     <script src="domainColoring.min.js"></script>
     <script src="sketch.js"></script>
     
-In the sketch define within the setup function the class **domanColoring(func, size)** using two parameters:
-- func: a complex function (as a string) e.g. 'z^2',
+In the sketch define within the setup function the class **domanColoring(function, size)** using two parameters:
+- function: a complex function (as a string) e.g. 'z^2',
 - size: a real number > 0 e.g. 3.
 
 Thus we have
