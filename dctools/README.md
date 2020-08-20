@@ -1,6 +1,6 @@
 # Domain coloring tools - Visualizing complex functions
 
-Hi! Welcome. Here you can find the sketches about domain coloring for visualizing complex functions with JavaScript.
+Hi! Welcome. Here you can find the source code for the domain coloring tool for visualizing complex functions with JavaScript.
 
 #### [Click here to see all demos](https://jcponce.github.io/domain-coloring/)
 
