@@ -55,4 +55,8 @@ function resetValues() {
   domC.pos.x = domC.origPos.x;
   domC.pos.y = domC.origPos.y;
   domC.zoom = domC.origZoom;
+  let nx = map(domC.pos.x, -domC.size.x / 2, domC.size.x / 2, domC.x, domC.w);
+  let ny = map(domC.pos.y, -domC.size.y / 2, domC.size.y / 2, domC.y, domC.h);
+  domC.bX = nx;
+  domC.bY = ny;
 }
