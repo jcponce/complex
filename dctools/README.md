@@ -148,7 +148,7 @@ of complex numbers and contains a wide range of complex functions.
 
 ### The modulus
 - ||
-  E.g. |z|
+  * E.g. |z|
 
 ### Complex power
 - ^, exp
