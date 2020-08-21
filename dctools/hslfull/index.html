@@ -77,23 +77,6 @@
 
                 <hr>
 
-                <div class="w3-row">
-                    <div class="w3-col w3-large" style="width:70px">
-                        <label style="padding-right:20px;"><strong>Zoom:</strong></label>
-                    </div>
-
-                    <div class="w3-rest">
-                        <input type="range" id="pZoom" min="0.000001" max="30" step="0.000001" value="1.5" />
-                        <br />
-                        <label id="zL" style="padding-left:20px;" class="w3-text-white"></label>
-
-                    </div>
-                </div>
-
-
-                <hr>
-
-
                 <p class="w3-large"><strong>Parameters</strong></p>
 
                 <br />
@@ -104,6 +87,7 @@
                     </div>
 
                     <div class="w3-rest">
+
                         <input type="range" id="pt" min="0" max="1" step="0.001" value="0" />
                         <br />
                         <label id="tL" style="padding-left:20px;"></label>
@@ -141,6 +125,20 @@
                         <label id="nL" style="padding-left:20px;"></label>
                         <br /><br />
                     </div>
+                </div>
+
+                <hr>
+
+                <div class="w3-container">
+                    <label  class="w3-large" style="padding-right:20px;"><strong>Zoom:</strong></label>
+                    <div class="w3-button w3-padding-small w3-round-large w3-large" id="zoomIn">
+                        <p><i class="fas fa-search-plus fa-2x"></i></p>
+                    </div>
+
+                    <div class="w3-button w3-padding-small w3-round-large w3-large" id="zoomOut">
+                        <p><i class="fas fa-search-minus fa-2x"></i></p>
+                    </div>
+                    
                 </div>
 
                 <hr>

@@ -11,6 +11,14 @@ function mouseWheel() {
     domC.zoomAt(mouseX, mouseY, 0.9, event.delta < 0);
 }
 
+function zoomIn() {
+    domC.zoomAt(width/2, height/2, 0.85, true);
+}
+
+function zoomOut() {
+    domC.zoomAt(width/2, height/2, 0.85, false);
+}
+
 function keyReleased() {
   if (keyCode === 81) //Q key
     domC.printDebug = !domC.printDebug;
@@ -32,11 +40,12 @@ function touchEnded() {
   domC.releasedPlot();
 }
 
+/*
 function keyPressed() {
   if (keyCode === ENTER) {
     domC.func = domC.verifyFunction(complex_expression(input, pt.value, pu.value, pn.value));
   }
-}
+}*/
 
 function resetPlotDim() {
   s = pz.value;//def.size;
@@ -172,10 +181,12 @@ function reloadPage() {
   location.reload();
 }
 
+/*
 document.getElementById("pZoom").oninput = function () {
   document.getElementById('zL').innerHTML = this.value;
   resetPlotDim();
 };
+*/
 
 document.getElementById("pt").oninput = function () {
   document.getElementById('tL').innerHTML = this.value;

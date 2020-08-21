@@ -13,7 +13,7 @@ let size = false;
 function uicontrols() {
 
   // Zoom parameter
-  pz = document.getElementById('pZoom');
+  //pz = document.getElementById('pZoom');
 
   // Other parameters
   pt = document.getElementById('pt');
@@ -25,9 +25,18 @@ function uicontrols() {
     savePlot();
   }
   document.getElementById('reset').onclick = () => {
-    document.getElementById('pZoom').value = 3;
+    //document.getElementById('pZoom').value = 3;
     resetValues();
   }
+
+  document.getElementById('zoomIn').onclick = () => {
+    zoomIn();
+  }
+
+  document.getElementById('zoomOut').onclick = () => {
+    zoomOut();
+  }
+
   document.getElementById('resize').onclick = () => {
     if (size) {
       size = false;

@@ -35,7 +35,7 @@ function draw() {
 /* Auxliary functions */
 
 function resetPlot() {
-  domC = new domainColoring(input, pz.value);
+  domC = new domainColoring(input, 3);
 }
 
 /*//HSV

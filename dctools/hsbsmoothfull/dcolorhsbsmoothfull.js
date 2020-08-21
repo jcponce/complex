@@ -35,7 +35,7 @@ function draw() {
 /* Auxliary functions */
 
 function resetPlot() {
-  domC = new domainColoring(input, pz.value, pt.value);
+  domC = new domainColoring(input, 1.5);
 }
 
 //HSV gradien not needed
