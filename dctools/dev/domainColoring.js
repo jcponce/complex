@@ -15,7 +15,7 @@ https://jcponce.github.io/
 Under Creative Commons License
 https://creativecommons.org/licenses/by-sa/4.0/
 
-Last update 18-Aug-2020
+Last update 21-Aug-2020
 
 */
 
@@ -856,7 +856,7 @@ class domainColoring {
       fill(0);
       stroke(0);
       noStroke();
-      textSize(20);
+      textSize(18);
       textAlign(LEFT);
       let zv = round((1 / this.zoom) * 1000) / 1000,
         zpx = this.x + 10,
@@ -877,10 +877,16 @@ class domainColoring {
       cY = this.pos.y + map(mouseY, this.h, this.y, -this.size.y / 2, this.size.y / 2); //this is for reference
 
       if (this.dragging === true) {
-        text('Mouse: (-,-)', this.w / 2 + 10, zpy);
+        text('Mouse z: (-,-)', zpx, zpy);
       } else {
         if (this.x < mouseX && mouseX < this.w && this.y < mouseY && mouseY < this.h) {
-          text("Mouse: (" + str(round(cX * 1000) / 1000) + "," + str(round(cY * 1000) / 1000) + ")", this.w / 2 + 10, zpy);
+          let mz = {
+          r: cX,
+          i: cY
+        };
+          let mw = this.func.fn(mz); 
+          text('Mouse z: (' + str(round(cX * 100) / 100) + ',' + str(round(cY * 100) / 100) + ')', zpx, zpy);
+          text('f(z): (' + str(round(mw.r * 100) / 100) + ','+ str(round(mw.i * 100) / 100)  +')', this.w/2 + 50, zpy);
           cursor('crosshair');
           //noFill();
           //stroke(0);
