@@ -881,12 +881,19 @@ class domainColoring {
       } else {
         if (this.x < mouseX && mouseX < this.w && this.y < mouseY && mouseY < this.h) {
           let mz = {
-          r: cX,
-          i: cY
-        };
-          let mw = this.func.fn(mz); 
+            r: cX,
+            i: cY
+          };
+          let mw = this.func.fn(mz);
           text('Mouse z: (' + str(round(cX * 100) / 100) + ',' + str(round(cY * 100) / 100) + ')', zpx, zpy);
-          text('f(z): (' + str(round(mw.r * 100) / 100) + ','+ str(round(mw.i * 100) / 100)  +')', this.w/2 + 50, zpy);
+          let c1 = round(mw.r * 100) / 100;
+          let c2 = round(mw.i * 100) / 100;
+          let mod = Math.pow(c1 * c1 + c2 * c2, 1/2);
+          if ( mod < 100000 ) {
+            text('f(z): (' + str(round(mw.r * 100) / 100) + ',' + str(round(mw.i * 100) / 100) + ')', this.w / 2 + 50, zpy);
+          } else{
+            text('f(z): → ∞', this.w / 2 + 50, zpy);
+          }
           cursor('crosshair');
           //noFill();
           //stroke(0);
