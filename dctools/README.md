@@ -16,7 +16,7 @@ to each point of the complex plane. The method involves basically two main ideas
 1. Assign a color to every point in the complex plane.
 2. Color the domain of f by painting the location z with the color determined by the value f(z).
 
-It is common to use the color wheel because it is easy to match the HUE values with the phase (argument) of a complex number z which is usually defined in the interval [0,2\pi), or (-\pi, \pi].
+It is common to use the color wheel because it is easy to match the HUE values with the phase (argument) of a complex number z which is usually defined in the interval [0,2 &#960;), or (- &#960;,  &#960;].
 
 <img src="https://raw.githubusercontent.com/jcponce/jcponce.github.io/master/domain-coloring/img/wheel.svg" width="35%">
 
