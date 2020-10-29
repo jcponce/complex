@@ -95,6 +95,6 @@ This content is under the license [Attribution-NonCommercial-ShareAlike 4.0 Inte
 ## Thanks!
 I learned a lot working on this project. I hope you liked it too. 
 
-Please [let me know](https://twitter.com/PonceCampuzano) what you think.
+Please [let me know](https://twitter.com/jcponcemath) what you think.
 
 Have fun!
