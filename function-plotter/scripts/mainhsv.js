@@ -194,6 +194,7 @@ document.addEventListener('mousemove', event => {
   }
 );
 
+$('#display-area').css('cursor', 'pointer');
 
 
 // When rendering, we just need to make sure our convenience variables are

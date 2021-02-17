@@ -172,6 +172,8 @@ document.addEventListener('mousemove', event => {
   //console.log('( ' + xMouse.toFixed(3) + ', ' + yMouse.toFixed(3) + ' )');
 });
 
+$('#display-area').css('cursor', 'pointer');
+
 
 // When rendering, we just need to make sure our convenience variables are
 // up-to-date before we render.
