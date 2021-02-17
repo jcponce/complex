@@ -51,6 +51,14 @@
 
     <div class="full-width">
 
+      <div id="mousePosition" class="hud unselectable">
+        <h2>Info:</h2>
+        <div>
+          <div id="hud-left" class="two" value=""></div>
+          <div id="hud-right" class="two" value=""></div>
+        </div>
+      </div>
+
       <div id="link-container" style="display: none;">
         <input id="copyable-link" class="dark-translucent input-control" value=""></input>
       </div>
@@ -301,6 +309,9 @@
     uniform float width, height;
     uniform sampler2D gridTexture;
     uniform float _option;
+
+    uniform float u_mX;
+    uniform float u_mY;
 
     // Convert from Hue,Saturation/Value to RGB
     // http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
@@ -845,8 +856,8 @@ complex transform(complex z, complex w, float r){
 
 		void main()
 		{
-      float a = vUv.x*2.0 - 1.0;
-      float b = vUv.y*2.0 - 1.0;
+      float a = vUv.x * 2.0 - 1.0;
+      float b = vUv.y * 2.0 - 1.0;
       //const float scale = 2.0;
 
       // Make sure pixels are square
@@ -854,7 +865,6 @@ complex transform(complex z, complex w, float r){
       b *= scale;
 
       vec2 final_expr = EXPRESSION;
-
       
 
       float L = length(final_expr);
