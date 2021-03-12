@@ -77,7 +77,7 @@
       <a id="show-link" class="dark-translucent input-control" href="#"><i class="fa fa-external-link"></a></i>
 
       <input class="dark-translucent input-control" id="equation-input"
-        placeholder="e.g. 1 / (z^2 + t * i)^t - z * log(z)" value="t - 0.09 * (z - 6)^2"></input>
+        placeholder="e.g. 1 / (z^2 + t * i)^t - z * log(z)" value="z"></input>
 
 
 
@@ -716,8 +716,6 @@ return gamma(z+one);
 }
 
 
-
-
 //float binomial(float n, float k) {
 //    return factorial(n)/(factorial(n-k)*factorial(k));
 //}
@@ -884,7 +882,7 @@ if(n < 27.0) {
 
     vec2 final_expr = EXPRESSION;
 
-    bool opt = false;
+    //bool opt = false;
 
     //bool  opt = OPT; 
 
@@ -894,27 +892,14 @@ if(n < 27.0) {
     }
 
     // TODO : Make this user-controlled
-    if(opt) {
-      // HSV Domain Coloring
-
-      float l = length(final_expr);
-      float _r = log(l);
-      //_r = 0.8 + (sin(_r) + 1.0) * 0.5 * 0.3;
-
-      _r = 0.6 + 0.35 * ( _r - floor( _r ) );
-
-      float _arg = (pi - atan(final_expr[1], -final_expr[0])) / ( pi + pi);
-
-      vec3 hsv = vec3(_arg, 1, _r);
-      vec3 rgb = hsv2rgb( hsv );
-
-      gl_FragColor = vec4(rgb, 1.0);
+    if(_option == 0.0) {
+      // Texture-based Domain Coloring
+      vec4 tex = texture2D(gridTexture, final_expr / (2.0*scale) + vec2(0.5,-0.5));
+      gl_FragColor = vec4( tex.xyz, 1.0 );
 
     } else {
       // Texture-based Domain Coloring
-      //final_expr = min(vec2(1.0, 1.0), final_expr);
-      //final_expr = max(vec2(-1.0, -1.0), final_expr);
-      vec4 tex = texture2D(gridTexture, final_expr / (2.0*scale) + vec2(0.5,-0.5));
+      vec4 tex = texture2D(gridTexture, final_expr / (0.5*scale) + vec2(0.5,-0.5));
       gl_FragColor = vec4( tex.xyz, 1.0 );
 
     }

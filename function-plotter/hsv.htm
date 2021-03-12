@@ -930,7 +930,6 @@ complex transform(complex z, complex w, float r){
         
       } else {
         // Texture-based Domain Coloring
-      
         vec4 tex = texture2D(gridTexture, clog(final_expr) / (0.4 * scale));
         gl_FragColor = vec4( tex.xyz, 1.0 );
 

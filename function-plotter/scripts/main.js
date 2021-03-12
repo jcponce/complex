@@ -36,6 +36,10 @@ let uniforms = {
   height: {
     type: "f",
     value: HEIGHT
+  },
+  _option: {
+    type: "f",
+    value: 0.0
   }
 };
 
@@ -214,8 +218,10 @@ $('#texture-options a').each(function () {
   $(this).click(function () {
     let texture_path = $(this).find('img').first().attr('src');
     if (texture_path) {
+      uniforms._option.value = 0.0;
       setTexture(texture_path);
     } else {
+      uniforms._option.value = 1.0;
       // Currently, the only other option here is to stream from the webcam.
       initWebCam();
     }
