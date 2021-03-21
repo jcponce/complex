@@ -35,7 +35,7 @@
 
   <div id="panel">
     Enter equation
-    <span class="equation showHelp">(?)</span><br>
+    <span class="equation showHelp"><i class="material-icons" id="help_outline">help_outline</i></span><br>
 
     <textarea rows="5" cols="20" id="equations" wrap="off" spellcheck="false">f(z)=z</textarea>
 
@@ -57,7 +57,7 @@
 
       <label for="cShow">Constant <i>c</i></label>
       <input type="checkbox" name="cShow" id="cShow" class="c showSettings">
-      <span class="c showHelp">(?)</span>
+      <span class="c showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
       <div class="c setting">
         <label for="cMin">Min</label>
         <input type="text" name="cMin" id="cMin" value="-5">
@@ -68,7 +68,7 @@
 
       <label for="plotShow">3D Plot</label>
       <input type="checkbox" name="plotShow" id="plotShow" class="plot showSettings" checked>
-      <span class="plot showHelp">(?)</span>
+      <span class="plot showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
       <div class="plot setting">
         <label for="plotHeight">Height</label>
         <select name="plotHeight" id="plotHeight">
@@ -97,7 +97,7 @@
 
       <label for="gridShow">Input Plane</label>
       <input type="checkbox" name="gridShow" id="gridShow" class="grid showSettings" checked>
-      <span class="grid showHelp">(?)</span>
+      <span class="grid showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
       <div class="grid setting">
         <label for="gridSpacing">Grid spacing</label>
         <input type="number" name="gridSpacing" id="gridSpacing" value="5" min="1" max="25" step="1"><br>
@@ -108,7 +108,7 @@
 
       <label for="cursorShow">Plot Cursor</label>
       <input type="checkbox" name="cursorShow" id="cursorShow" class="cursor showSettings">
-      <span class="cursor showHelp">(?)</span>
+      <span class="cursor showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
       <div class="cursor setting">
         <label for="cursorContinuous">Continuous</label>
         <input type="checkbox" name="cursorContinuous" id="cursorContinuous" checked>
@@ -182,8 +182,8 @@
         <h3>How this works</h3>
         <p>
           The real power of this program is that it can turn any equation into OpenGL code that can be run on a GPU and
-          plotted on the screen. I use <a href="https://threejs.org/">Three.js</a> for the 3D graphics. I use <a
-            href="https://mathjs.org/">Math.js</a> to compile the equation into an expression tree and then replace each
+          plotted on the screen. I use <a href="https://threejs.org/" target="_blank">Three.js</a> for the 3D graphics. I use <a
+            href="https://mathjs.org/" target="_blank">Math.js</a> to compile the equation into an expression tree and then replace each
           node with the correct OpenGL function, using 2D vectors for all complex numbers. Almost every function (except
           addition) had to be written to accept vectors as complex numbers.
         </p>
@@ -217,9 +217,9 @@
         <b>asin, acos, atan</b> Inverse trigonometric functions<br>
         <b>sinh, cosh, tanh</b> Hyperbolic trigonometric functions<br>
         <b>asinh, acosh, atanh</b> Inverse hyperbolic trigonometric functions<br>
-        <b>gamma</b> The <a href="https://en.wikipedia.org/wiki/Gamma_function">gamma function</a>. It can be thought of
+        <b>gamma</b> The <a href="https://en.wikipedia.org/wiki/Gamma_function" target="_blank">gamma function</a>. It can be thought of
         an an extension of factorials.<br>
-        <b>zeta</b> The <a href="https://en.wikipedia.org/wiki/Riemann_zeta_function">Riemann zeta function</a>. With a
+        <b>zeta</b> The <a href="https://en.wikipedia.org/wiki/Riemann_zeta_function" target="_blank">Riemann zeta function</a>. With a
         low number of iterations a line is visible at re(z)=0.5 due to the way it is calculated.<br>
       </p>
     </div>
