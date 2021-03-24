@@ -156,7 +156,7 @@ void main() {
     vec2 polar = polar_C(w);
     float hue = polar.y / 2.0 / pi_C.x;
 
-    float _r = log(polar.x)/log(2.0);
+    float _r = 2.0 * log(polar.x);
     _r = 0.65 + 0.39 * ( _r - floor( _r ) );
 
     float light =  _r * 0.5;
@@ -168,7 +168,7 @@ void main() {
     vec2 polar = polar_C(w);
     float hue = polar.y / 2.0 / pi_C.x;
 
-    float _r = log(polar.x)/log(2.0);
+    float _r = 2.0 * log(polar.x);
     _r = 0.65 + 0.39 * ( _r - floor( _r ) );
 
     float _c = 0.39 * ( 20.0 * hue - floor( 20.0 * hue) ) + 0.655;
