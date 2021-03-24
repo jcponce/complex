@@ -117,11 +117,18 @@ void main() {
 
   if (w.x != w.x || w.y != w.y || abs(w.x) > 1.0e+38 || abs(w.y) > 1.0e+38) discard;
 
+  float sharp = 0.39; // delay
+  float b = 0.655; // brightness 0 -> dark, 1 -> bright
+  float nMod = 2.0; // num of level curves mod
+  float nPhase = 20.0; // num. of level curves phase
+
   if (plotColor == 1.0) {
+    //***********************
     //vec2 polar = polar_C(w);
     //float hue = polar.y / 2.0 / pi_C.x;
     //float light = min(1.0 - pow(max(1.0 - plotSaturation, 0.0), polar.x / scale), 1.0);
     //gl_FragColor = vec4(hsl2rgb(vec3(hue, 1.0, light)), 1.0);
+    //***********************
 
     vec2 polar = polar_C(w);
     float hue = polar.y / 2.0 / pi_C.x;
@@ -129,35 +136,41 @@ void main() {
     gl_FragColor = vec4(hsl2rgb(vec3(hue, 1.0, light)), 1.0);
 
   } else if (plotColor == 2.0) {
+    //***********************
     //vec2 polar = polar_C(w);
     //float hue = polar.y / 2.0 / pi_C.x;
     //float light = 0.5;
     //gl_FragColor = vec4(hsl2rgb(vec3(hue, 1.0, light)), 1.0);
+    //***********************
 
     vec2 polar = polar_C(w);
     float hue = polar.y / 2.0 / pi_C.x;
 
     float _r = polar.x;
-    _r = 0.65 + 0.39 * ( _r - floor( _r ) );
+    _r = b + sharp * ( _r - floor( _r ) );
 
-    float _c = 0.39 * ( 20.0 * hue - floor( 20.0 * hue) ) + 0.655;
+    float _c = sharp * ( nPhase * hue - floor( nPhase * hue) ) + b;
 
     float light =  _c * 0.5;
 
     vec3 _col = hsl2rgb(vec3(hue, 1.0, light));
+
     gl_FragColor = vec4(_col, 1.0);
 
   } else if (plotColor == 3.0) {
+
+    //***********************
     //vec2 polar = polar_C(w);
     //float hue = 0.0;
     //float light = min(1.0 - pow(max(1.0 - plotSaturation, 0.0), polar.x / scale), 1.0);
     //gl_FragColor = vec4(hsl2rgb(vec3(hue, 1.0, light)), 1.0);
+    //***********************
 
     vec2 polar = polar_C(w);
     float hue = polar.y / 2.0 / pi_C.x;
 
     float _r = 2.0 * log(polar.x);
-    _r = 0.65 + 0.39 * ( _r - floor( _r ) );
+    _r = b + sharp * ( _r - floor( _r ) );
 
     float light =  _r * 0.5;
 
@@ -175,11 +188,12 @@ void main() {
 
     float light =  _r * 0.5 *_c;
 
-
-
     vec3 _col = hsl2rgb(vec3(hue, 1.0, light));
+
     gl_FragColor = vec4(_col, 1.0);
+
     //gl_FragColor = vec4(0.22, 0.55, 0.27, 1.0); //Desmos green
+
   } else if (plotColor == 5.0) {
     vec2 polar = polar_C(w);
     float hue = polar.y / 2.0 / pi_C.x;
@@ -193,11 +207,9 @@ void main() {
 
     float light =  _r * 0.5;
 
-
-
     vec3 _col = hsl2rgb(vec3(hue, 1.0, light));
     gl_FragColor = vec4(_col, 1.0);
-    //gl_FragColor = vec4(0.22, 0.55, 0.27, 1.0); //Desmos green
+    
   } else if (plotColor == 6.0) {
     vec2 polar = polar_C(w);
     float hue = polar.y / 2.0 / pi_C.x;
@@ -211,11 +223,10 @@ void main() {
 
     float light =  _r * 0.5;
 
-
-
     vec3 _col = hsl2rgb(vec3(hue, 1.0, light));
+
     gl_FragColor = vec4(_col, 1.0);
-    //gl_FragColor = vec4(0.22, 0.55, 0.27, 1.0); //Desmos green
+    
   } else if (plotColor == 7.0) {
     vec2 polar = polar_C(w);
     float hue = polar.y / 2.0 / pi_C.x;
@@ -232,13 +243,10 @@ void main() {
 
     float light =  _r * 0.5 * _i;
 
-
-
     vec3 _col = hsl2rgb(vec3(hue, 1.0, light));
     gl_FragColor = vec4(_col, 1.0);
-    //gl_FragColor = vec4(0.22, 0.55, 0.27, 1.0); //Desmos green
+    
   }
-
 
 }
 `;
