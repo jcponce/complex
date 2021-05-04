@@ -28,7 +28,7 @@ You can also visualize complex functions plotted with the domain coloring method
 
 * Basic arithmetic operators: "+",  "-",  "*",  "/" for combining various complex numbers
 * Constants: "<a,b>" for defining a complex number (a,b) from two real-values.
-* Pre-Defined Constants: "pi, e, phi, a, b" for using common constants. The constants "a" and "b" will take on the value of the real and complex part of the point in the complex plane.
+* Pre-Defined Constants: "pi, e, phi, x, y" for using common constants. The constants "x" and "y" will take on the value of the real and complex part of the point in the complex plane.
 * Animated Parameters: 
   * "t" can be used in place of a real value to provide some animation to your plot. It slowly oscillates between -1 and 1.
   * "s" is a real value chaging at a constant rate over time. It will be reset every time you update the expression in the input.
@@ -65,7 +65,6 @@ You can also visualize complex functions plotted with the domain coloring method
 * [Bending reality](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqIDAuNSAqICh6IC0gMyppKSArIGxvZyh6IC0gMyppKSkgKiAodCsxKS8yICsgeiAqICgxIC0gKHQrMSkvMik=)
 * [Vortex within a circle](https://jcponce.github.io/complex/function-plotter/?expression=KHogKiAzKS8yICogZV4odCAqIHBpICogaSAqIGVeKCAtMSAqIGFicyggKHoqMykvMiApXjIgKSk=)
 * [Waves](https://jcponce.github.io/complex/function-plotter/?expression=ZV4oaSAqICgxLjUgKiByKV41KSArIHQ=)
-* [Flow and distortion](http://jcponce.goithub.io/complex/function-plotter/?expression=aW0oKDEuMip6ICogMykvMiAqIGVeKDEgKiBwaSAqIGkgKiBlXiggLTEgKiBhYnMoICgxLjIqeiozKS8yICleMiApKSkgKyBz)
 * [Potential](https://jcponce.github.io/complex/function-plotter/?expression=KGxvZygoei0xKS8oeisxKSkpICogKHQrMSkvMiArIHogKiAoMSAtICh0KzEpLzIp)
 * [Transform the unit circle to the UHP](https://jcponce.github.io/complex/function-plotter/?expression=dHJhbnNmb3JtKHosICh6LWkpLyh6K2kpLCB0KSAqIGRpc2sodHJhbnNmb3JtKHosICh6LWkpLyh6K2kpLCB0KSk=)
 * [Joukowsky airfoil](https://jcponce.github.io/complex/function-plotter/?expression=am91a293c2t5KHosIC0wLjE1KzAuMjMqaSwgMS4xNyk=)

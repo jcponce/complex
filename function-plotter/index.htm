@@ -221,19 +221,19 @@ Factor
     / _ "iter" _ "(" _ arg:Expression _ "," _ count:PositiveInteger _ ")" _ {
       var n = parseInt(count) - 1, Q = arg;
       for(var it=0; it < n; ++it) {
-        Q = Q.replace(/complex\(a,b\)/g, '(' + Q + ')');
+        Q = Q.replace(/complex\(x,y\)/g, '(' + Q + ')');
       }
       return Q;
     }
   / Complex
 
 Complex
-  = "<" _ a:Real _ "," _ b:Real _ ">" { return 'complex(' + a + ',' + b + ')'; }
-  / "-z"     { return 'complex(-a,-b)'; }
-  / "z"     { return 'complex(a,b)'; }
+  = "<" _ x:Real _ "," _ y:Real _ ">" { return 'complex(' + x + ',' + y + ')'; }
+  / "-z"     { return 'complex(-x,-y)'; }
+  / "z"     { return 'complex(x,y)'; }
   / "i"     { return 'complex(0.0,1.0)'; }
   / "-i"     { return 'complex(0.0,-1.0)'; }
-  / a:Real  { return 'complex(' + a + ',0.0)'; }
+  / x:Real  { return 'complex(' + x + ',0.0)'; }
 
 Real
   = whole:Integer "." fractional:Integer { return '' + whole + '.' + fractional; }
@@ -241,14 +241,14 @@ Real
   / "pi" { return '3.14159265358979'; }
   / "e" { return '2.71828182845904'; }
   / "phi" { return '1.61803398875'; }
-  / "a" { return 'a'; }
-  / "b" { return 'b'; }
-  / "theta" { return 'theta(a,b)'; }
+  / "x" { return 'x'; }
+  / "y" { return 'y'; }
+  / "theta" { return 'theta(x,y)'; }
   / "t" { return 't'; }
   / "s" { return 's'; }
   / "-t" { return '-t'; }
   / "-s" { return '-s'; }
-  / "r"     { return 'r(a,b)'; }
+  / "r"     { return 'r(x,y)'; }
   // / "|" + arg + "|"     { return 'cabs( ' +arg + ' )'; }
 
 Integer "integer"
@@ -872,13 +872,13 @@ if(n < 27.0) {
 
   void main()
   {
-    float a = vUv.x*2.0 - 1.0;
-    float b = vUv.y*2.0 - 1.0;
+    float x = vUv.x*2.0 - 1.0;
+    float y = vUv.y*2.0 - 1.0;
     //const float scale = 2.0;
 
     // Make sure pixels are square
-    a *= scale * width / height;
-    b *= scale;
+    x *= scale * width / height;
+    y *= scale;
 
     vec2 final_expr = EXPRESSION;
 
