@@ -136,59 +136,59 @@ of complex numbers and contains a wide range of complex functions.
 ### Trigonometric functions 
 
 - sin, cos, tan, csc, sec, cot, arcsin, arccos, arctan, arccsc, arcsec, arccot
-  * E.g. sin(z)
+  * Examples: sin(z), cos(z)
 
 ### Hyperbolic trigonometric functions 
 - sinh, cosh, tanh, csch, sech, coth, arcsinh, arccosh, arctanh, arccsch, arcsech, arccoth
-  * E.g. sinh(z)
+  * Examples: sinh(z), tanz(z)
 
 ### The conjugate
 - conj
-  * E.g. conj(z)
+  * Example: conj(z)
 
 ### The modulus
 - ||
-  * E.g. |z|
+  * Example: |z|
 
 ### Complex power
 - ^, exp
-  * E.g. z^2, exp(z), e^z
+  * Examples: z^2, exp(z), e^z
 
 ### Complex logarithm
 - log
-  * log(z)
+  * Example: log(z)
 
 ### Real and Imaginary components 
 - re, im
-  * E.g. re(z), im(z)
+  * Examples: re(z), im(z)
 
 ### [Jacobi Elliptic](https://en.wikipedia.org/wiki/Jacobi_elliptic_functions) 
 - sn( expr, parameter [0,1]), cn( expr, parameter [0,1]), dn( expr, parameter [0,1])
-  * E.g. sn(z, 0.3)
+  * Example: sn(z, 0.3)
 
 ### [Gamma function](https://en.wikipedia.org/wiki/Gamma_function)
 - gamma( expr )
-  * E.g. sn(z, 0.3)
+  * Example: sn(z, 0.3)
 
 ### [Finite Blaschke product](https://en.wikipedia.org/wiki/Blaschke_product)
 - blaschke( expr, positive integer )
-  * E.g. blaschke(z, 20)
+  * Example:blaschke(z, 20)
 
 ### [Binet's Formula](https://mathworld.wolfram.com/BinetsFibonacciNumberFormula.html)
 - binet( expr )
-  * E.g. binet(z)
+  * Example: binet(z)
 
 ### Sum series function
 - sum( expr, positive integer)
-  * E.g. sum((-1)^n*z^(2n)/(2n)!, 7)
+  * Example: sum((-1)^n*z^(2n)/(2n)!, 7)
 
 ### Multiplicative function
 - prod( expr, positive integer)
-  * E.g. prod(e^((z+(e^(2*pi*i/5))^n )/(z-(e^(2*pi*i/5))^n)), 5)
+  * Example: prod(e^((z+(e^(2*pi*i/5))^n )/(z-(e^(2*pi*i/5))^n)), 5)
 
 ### Iterated function
 - iter( expr, variable positive integer)
-  * E.g. iter(z+z'^2,z,15)
+  * Example: iter(z+z'^2,z,15)
 
 ---
 
@@ -231,21 +231,21 @@ I also recommend you the following galleries:
 
 # Updates
 
-July 2018: **Version 1.** First time online.
-
-Feb-2019: Added Complex arithmetic and functions library.
-
-May-2019: Added more color schemes.
-
-Sep-2019: I was able to work out how to add a parser for complex functions thanks to [David Bau's work](http://davidbau.com/). Now you can easily input a function such as 'f(z)=z^2+cos(z)'. Version 1.5.
-
-Nov-2019: **Version 2.** Added a new input box to enter the functions. It looks better 😃. I also added a new color scheme and the Finite Blaschke product with randomly distributed points.
-
-May-2020: I added sliders to define three parameters. t:[0,1], s:[0,2pi] defining the complex number u:=exp(i*s), and n:[0,30] an integer.
+Aug-2020: **Version 3.** Refactored code and defined class to plot all color schemes. New design of interface. New shareable link. New interaction mode with mouse.
 
 Jul-2020: Fixed issue with power function and added Binet's formula. I also added an alert message in case there is something wrong in the input 😃.
 
-Aug-2020: **Version 3.** Refactored code and defined class to plot all color schemes. New design of interface. New shareable link. New interaction mode with mouse.
+May-2020: I added sliders to define three parameters. t:[0,1], s:[0,2pi] defining the complex number u:=exp(i*s), and n:[0,30] an integer.
+
+Nov-2019: **Version 2.** Added a new input box to enter the functions. It looks better 😃. I also added a new color scheme and the Finite Blaschke product with randomly distributed points.
+
+Sep-2019: I was able to work out how to add a parser for complex functions thanks to [David Bau's work](http://davidbau.com/). Now you can easily input a function such as 'f(z)=z^2+cos(z)'. Version 1.5.
+
+May-2019: Added more color schemes.
+
+Feb-2019: Added Complex arithmetic and functions library.
+
+July-2018: **Version 1.** First time online.
 
 ---
 
