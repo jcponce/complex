@@ -40,7 +40,7 @@ class domainColoring {
     this.sh = (this.sw * height) / width;
 
 
-    // Ok now let gets ready with main variables
+    // Ok now let's get ready with main variables
     this.origSize = new p5.Vector(this.sw, this.sh);
     this.size = new p5.Vector(this.origSize.x, this.origSize.y);
     this.origPos = new p5.Vector(0, 0); //Origin position
