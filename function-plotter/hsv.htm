@@ -682,40 +682,17 @@ complex transform(complex z, complex w, float r){
     }
   }
   
-  // float factorial(float x) {
-  //     //return 5.0;
-  //     if(x==0.0) return 1.0;
-  //     if(x==1.0) return 1.0;
-  //     float tot = 1.0;
-  //     for(float n = 1.0; n <= 5.0; n++){
-  //         if(n > x) break;
-  //         tot *= n;
-  //     }
-  //     return tot;
-  // }
-  
-  //float stirling(float n) {
-  //   if(n <= 1.0) return 1.0;
-  //    return sqrt(2.0*pi*n)*pow((n/e), n);
-  //}
-  
   complex factorial(complex z) {
     //if(z.y == 0.0 ) return complex(stirling(z.x),0.0);
     return gamma(z+one);
   }
   
   
-  //float binomial(float n, float k) {
-  //    return factorial(n)/(factorial(n-k)*factorial(k));
-  //}
-  
   complex binomial(complex n, complex k) {
     return cdiv(factorial(n), cmul(factorial(n-k),factorial(k)));
   }
   
 
-
-  //formerly zetag
   complex zeta(complex z){
 
     complex ref;

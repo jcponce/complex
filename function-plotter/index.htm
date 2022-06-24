@@ -693,61 +693,17 @@ if(inv) {
 }
 }
 
-// float factorial(float x) {
-//     //return 5.0;
-//     if(x==0.0) return 1.0;
-//     if(x==1.0) return 1.0;
-//     float tot = 1.0;
-//     for(float n = 1.0; n <= 5.0; n++){
-//         if(n > x) break;
-//         tot *= n;
-//     }
-//     return tot;
-// }
-
-//float stirling(float n) {
-//   if(n <= 1.0) return 1.0;
-//    return sqrt(2.0*pi*n)*pow((n/e), n);
-//}
-
 complex factorial(complex z) {
 //if(z.y == 0.0 ) return complex(stirling(z.x),0.0);
 return gamma(z+one);
 }
 
 
-//float binomial(float n, float k) {
-//    return factorial(n)/(factorial(n-k)*factorial(k));
-//}
-
 complex binomial(complex n, complex k) {
 return cdiv(factorial(n), cmul(factorial(n-k),factorial(k)));
 }
 
 
-float d20(float n) {
-return 1.02268/(1.0+0.000003 * exp(0.867237*n))-0.017144; 
-}
-
-float d70(float n){
-
-
-if(n < 27.0) {
-   return 1.0;
-} else { 
-    //y = -0.09699716 + (0.9818753 - -0.09699716)/(1 + (x/0.2604921)^4.245834) //r2 0.999
-    //n = n/27.0;
-
-    return 1.00622/(1.0 + 4.2364e-11 * exp(0.477878*n));
-    return -0.01026294 + (1.005786 - -0.01026294)/(1.0+ pow(pow(n/0.9574826,8.804597),2.22099));
-    //return -0.04648318 + (0.9967216 - -0.04648318)/(1.0 + pow(n/0.8590162,10.26419));
-    //return -0.09699716 + (0.9818753 - -0.09699716)/(1.0 + pow(n/0.2604921,4.245834));
-   //return -0.02594087 + (1.003729 - -0.02594087)/(1.0 + pow(n/50.09641,22.79802)); 
-}
-}
-
-
-//formerly zetag
       complex zeta(complex z){
 
           complex ref;
