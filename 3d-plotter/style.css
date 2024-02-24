@@ -79,8 +79,8 @@ html, body {
   top: 0px;
   margin: 5px;
   padding: 8px;
-  height: 550px;
-  width: 220px;
+  height:fit-content;
+  width: fit-content;
   background: rgba(255, 255, 255, 0.75);
   border-radius: 5px;
   overflow: auto;
