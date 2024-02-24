@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Complex Plotter</title>
+
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r118/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.0.1/math.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+    <script src="OrbitControls.js"></script>
+
+    <script src="parser.js"></script>
+    <script src="functionLibrary.js"></script>
+    <script src="shader.js"></script>
+    <script src="main.js"></script>
+
+  </head>
+
+  <body>
+    <div id="plot">
+      <span id="cursor">1+2i</span>
+
+      <i class="material-icons" id="viewReset">home</i>
+      <i class="material-icons" id="fullscreen">fullscreen</i>
+      <i class="material-icons" id="fullscreen_exit">fullscreen_exit</i>
+    </div>
+
+    <div id="panel">
+      Enter equation 
+      <span class="equation showHelp">(?)</span><br>
+
+      <textarea rows="5" cols="20" id="equations" wrap="off" spellcheck="false">f(z)=z</textarea>
+      
+      <br><div id="errors"></div>
+      
+      <div id="cWrapper">
+        c = <span class="c value">0</span>
+        <div class="c setting">
+          Re:<input type="range" class="c setting" name="cReInput" id="cReInput" value="0.5" min="0" max="1" step="0.001"><br>
+          Im:<input type="range" class="c setting" name="cImInput" id="cImInput" value="0.5" min="0" max="1" step="0.001">
+        </div>
+      </div>
+      
+      <hr>
+
+      <div id="settingsWrapper">
+        
+        <label for="cShow">Constant <i>c</i></label>
+        <input type="checkbox" name="cShow" id="cShow" class="c showSettings">
+        <span class="c showHelp">(?)</span>
+        <div class="c setting">
+          <label for="cMin">Min</label>
+          <input type="text" name="cMin" id="cMin" value="-5">
+          
+          <label for="cMax">Max</label>
+          <input type="text" name="cMax" id="cMax" value="5">
+        </div><br>
+
+        <label for="plotShow">3D Plot</label>
+        <input type="checkbox" name="plotShow" id="plotShow" class="plot showSettings" checked>
+        <span class="plot showHelp">(?)</span>
+        <div class="plot setting">
+          <label for="plotHeight">Height</label>
+          <select name="plotHeight" id="plotHeight">
+            <option value="1" selected>abs(z)</option>
+            <option value="2">re(z)</option>
+            <option value="3">im(z)</option>
+            <option value="4">Flat</option>
+          </select><br>
+
+          <label for="plotColor">Color</label>
+          <select name="plotColor" id="plotColor">
+            <option value="1" selected>arg(z) & abs(z)</option>
+            <option value="2">arg(z)</option>
+            <option value="3">abs(z)</option>
+            <option value="4">Constant</option>
+          </select>
+
+          <div class="plotSaturation setting">
+            <label for="plotSaturation">Saturation Scale</label><br>
+            <input type="range" name="plotSaturation" id="plotSaturation" value="0.67" min="0" max="1" step="0.01">
+          </div>
+        </div><br>
+
+        <label for="gridShow">Input Plane</label>
+        <input type="checkbox" name="gridShow" id="gridShow" class="grid showSettings" checked>
+        <span class="grid showHelp">(?)</span>
+        <div class="grid setting">
+          <label for="gridSpacing">Grid spacing</label>
+          <input type="number" name="gridSpacing" id="gridSpacing" value="5" min="1" max="25" step="1"><br>
+
+          <label for="gridLabels">Show Labels</label>
+          <input type="checkbox" name="gridLabels" id="gridLabels" checked>
+        </div><br>
+
+        <label for="cursorShow">Plot Cursor</label>
+        <input type="checkbox" name="cursorShow" id="cursorShow" class="cursor showSettings">
+        <span class="cursor showHelp">(?)</span>
+        <div class="cursor setting">
+          <label for="cursorContinuous">Continuous</label>
+          <input type="checkbox" name="cursorContinuous" id="cursorContinuous" checked>
+        </div>       
+      </div>
+
+      <hr>
+      
+      <div>
+        <span class="about showHelp">About this program</span><br>
+      </div>
+    </div>
+
+    <div class="about popUpWrapper">
+      <div class="popUp">
+        <div class="popUpClose">&times;</div>
+
+        <h2>Complex Function Plotter</h2>
+        <h3>Background</h3>
+        <p>
+          Most graphing calculators take a set of real numbers on the X axis, run them through a function, and plot the result on the Y axis. Complex numbers are an extension of the real numbers and are usually written in the form <i>a+b*i</i>, where <i>a</i> and <i>b</i> are real numbers and <i>i*i=-1</i> (the imaginary part). To graph a complex function, or a function that takes a complex number as an input and outputs a complex number, a two dimensional graph will not work well. The input itself is two dimensional (real and imaginary) and so is the output, so four dimensions would be needed. To get around this, the graph here is shown in three dimensions and color is used to encode the fourth dimension needed.
+        </p>
+        <h3>How to use</h3>
+        <p>
+          Start by typing an equation in the textbox in the upper-left. It should be in the form <i>f(z)=...</i>, where the function takes a complex number and does something to it. If the function is valid, the 3D graph should update.
+        </p>
+        <p>
+          The height of the graph defaults to the absolute value of the output of the current function at every input (this can be changed to the real or imaginary parts under options). By default, the hue of a point equals its angle (in polar coordinates) and the brightness gives a sense of the absolute value.
+        </p>
+        <p>
+          To rotate the graph, click and drag or touch and drag with one finger (on a touch screen). Use the mouse wheel or two fingers to zoom in or out. Right click and drag or drag with two fingers to pan the view.
+        </p>
+        <b>Note: This program works best in FireFox and Chrome. It may work in Edge, but does not usually work in Internet Explorer.</b>
+        <h3>Some things to try</h3>
+        <p>
+          The function <i>f(z)=z</i> is good to start with. Polynomials (<i>f(z)=z^2+1</i> for example) are always neat. You can clearly see that a polynomial always has as many zeros as the exponent on its highest term (some may be in the same position). The function <i>f(z)=z^c</i> is neat (with the slider enabled).
+          The functions <i>f(z)=((((z^2)+z)^2+z)^2+z)^2</i> and <i>f(z)=z^z^z^z^z</i> both have much fine detail, so are best viewed with height as flat. The functions sin, cos, tan, gamma, and zeta are also interesting to see in 3D (for example <i>f(z)=gamma(z)</i>).
+        </p>
+        <h3>About</h3>
+        <p>
+          This program was created by me, David Brock. While several 3D graphing calculators, and a few programs for creating 2D colored plots of complex functions exist, I did not find an online program that could create 3D colored plots. Since I love thinking about and playing with complex numbers and 4D things, I decided to create one.
+        </p>
+        <p>
+          I am sure many bugs are still in this program, so do not be discouraged if something does not work. I am frequently making changes, so new features/fixes will probably be added, too.
+        </p>
+        <p>
+          If you see "grass/noise" extending off the screen, this usually means the value of the function is extremely large or chaotic. I have not figured out why this happens yet. Also, since the plot is generated on the GPU, it is calculated in single precision (about 8 digits) while the plot cursor is calculated in double precision (about 16 digits), so this can lead to slight differences.
+        <h3>How this works</h3>
+        <p>
+          The real power of this program is that it can turn any equation into OpenGL code that can be run on a GPU and plotted on the screen. I use <a href="https://threejs.org/">Three.js</a> for the 3D graphics. I use <a href="https://mathjs.org/">Math.js</a> to compile the equation into an expression tree and then replace each node with the correct OpenGL function, using 2D vectors for all complex numbers. Almost every function (except addition) had to be written to accept vectors as complex numbers.
+        </p>
+      </div>
+    </div>
+
+    <div class="equation popUpWrapper">
+      <div class="popUp">
+        <div class="popUpClose">&times;</div>
+        <h2>Equation</h2>
+
+        <h3>Available Variables and Functions</h3>
+        <p>
+          <b>z</b> This is the input to the function being plotted.<br>
+          <b>x, y</b> These are the real and imaginary parts of <i>z</i>.<br>
+          <b>i</b> The imaginary unit. <i>i^2=-1</i><br>
+          <b>pi</b> 3.14159265...<br>
+          <b>e</b> 2.718281828...<br>
+          <b>c</b> This is a constant. It can be adjusted with a slider, if enabled in options.<br>
+          <br>
+          <b>re</b> The real part of a number<br>
+          <b>im</b> The imaginary part of a number<br>
+          <b>conj</b> The conjugate<br>
+          <b>abs</b> The absolute value, or magnitude (<i>abs(z)=sqrt(re(z)^2+im(z)^2)</i>)<br>
+          <b>polar</b> The number in polar coordinates. The real part is the magnitude and the imaginary part is the angle (in radians).<br>
+          <b>ln</b> Natural log, or log<sub>e</sub>. For complex numbers the result is similar to polar coordinates.<br>
+          <b>exp</b> Raise e to a power (<i>exp(z)=e^z</i>)<br>
+          <b>sqrt</b> Square root (<i>sqrt(z)=z^0.5</i>)<br>
+          <b>sin, cos, tan, csc, sec, cot</b> Trigonometric functions<br>
+          <b>asin, acos, atan</b> Inverse trigonometric functions<br>
+          <b>sinh, cosh, tanh</b> Hyperbolic trigonometric functions<br>
+          <b>asinh, acosh, atanh</b> Inverse hyperbolic trigonometric functions<br>
+          <b>gamma</b> The <a href="https://en.wikipedia.org/wiki/Gamma_function">gamma function</a>. It can be thought of an an extension of factorials.<br>
+          <b>zeta</b> The <a href="https://en.wikipedia.org/wiki/Riemann_zeta_function">Riemann zeta function</a>. With a low number of iterations a line is visible at re(z)=0.5 due to the way it is calculated.<br>
+        </p>
+      </div>
+    </div>
+
+    <div class="c popUpWrapper">
+      <div class="popUp">
+        <div class="popUpClose">&times;</div>
+        <h2>Constant c</h2>
+        
+        <p>This is a number you can use in equations (like pi, e, etc.). You can change it by clicking the line "c = ...", or using sliders if enabled with the checkbox in Options. The advantage of using c instead of defining a constant in the equation box is that it can be changed without the equation needung to be recompiled.</p>
+      </div>
+    </div>
+
+    <div class="plot popUpWrapper">
+      <div class="popUp">
+        <div class="popUpClose">&times;</div>
+        <h2>3D Plot</h2>
+
+        <p>This is the actual plot of your function. You can change what the color and height mean.</p>
+      </div>
+    </div>
+
+    <div class="grid popUpWrapper">
+      <div class="popUp">
+        <div class="popUpClose">&times;</div>
+        <h2>Input Plane</h2>
+
+        <p>This is the set of inputs to your function. It is analogous to the X axid on a traditional graphing calculator. It is a portion of the complex plane with the real and imaginary axes numbered.
+      </div>
+    </div>
+
+    <div class="cursor popUpWrapper">
+      <div class="popUp">
+        <div class="popUpClose">&times;</div>
+        <h2>Plot Cursor</h2>
+
+        <p>This allows you to inspect the plot more closely. If you click (or mouse over) a point on the input plane, you can see the exact input and output of the function at that point. The "Continuous" option toggles whether the cursor only moves when you click. Un-checking this is useful if an equation takes too long to recalculate or you want to watch a specific point.
+      </div>
+    </div>
+  </body>
+
+</html>
