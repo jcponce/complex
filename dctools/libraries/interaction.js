@@ -95,10 +95,8 @@ function update_expression() {
 // Maybe later I will figure out
 function showLink() {
   let expression_base64 = btoa($('#equation-input').val());
-  //let expression = $('#equation-input').val();
   let url = [location.protocol, '//', location.host, location.pathname].join('');
-  url = url + "?expression=" + expression_base64;
-  //url = url + "?expression=" + expression;
+  url = url + "?expression=" + atob(expression_base64);
   $('#copyable-link').val(url);
   $('#link-container').show();
   $('#copyable-link').select();
@@ -109,13 +107,11 @@ $('#copyable-link').blur(function () {
 
 // If the user already specified
 $(function () {
-  let expression_base64 = getQueryVariable('expression');
-  //let expression = getQueryVariable('expression');
+  let expression_base64 = trimN(getQueryVariable('expression'));
   //console.log(expression_base64);
   if (expression_base64) {
-    $('#equation-input').val(atob(expression_base64.replace('/', '')));
+    $('#equation-input').val(decodeURIComponent(expression_base64));
   }
-  //$('#equation-input').val(expression.replace('/', ''));
 });
 
 function trimN(s) {
