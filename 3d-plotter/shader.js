@@ -101,6 +101,38 @@ vec3 hsl2rgb(in vec3 c) {
   return c.z + c.y * (rgb-0.5)*(1.0-abs(2.0*c.z-1.0));
 }
 
+// Convert from Hue,Saturation/Value to RGB
+// http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
+vec3 hsv2rgb(vec3 c) {
+  vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+  vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+  return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+// https://github.com/d3/d3-color
+vec3 cubehelix(vec3 c) {
+  float a = c.y * c.z * (1.0 - c.z);
+  float cosh = cos(c.x + pi_C.x / 2.0);
+  float sinh = sin(c.x + pi_C.x / 2.0);
+  return vec3(
+    (c.z + a * (1.78277 * sinh - 0.14861 * cosh)),
+    (c.z - a * (0.29227 * cosh + 0.90649 * sinh)),
+    (c.z + a * (1.97294 * cosh))
+  );
+}
+
+// https://github.com/d3/d3-scale-chromatic
+vec3 cubehelixDefault(float t) {
+  return cubehelix(vec3(mix(300.0 / 180.0 * pi_C.x, -240.0 / 180.0 * pi_C.x, t), 0.5, t));
+}
+
+// https://github.com/d3/d3-scale-chromatic
+vec3 cubehelixRainbow(float t) {
+  if (t < 0.0 || t > 1.0) t -= floor(t);
+  float ts = abs(t - 0.5);
+  return cubehelix(vec3((360.0 * t - 100.0) / 180.0 * pi_C.x, 1.5 - 1.5 * ts, 0.8 - 0.9 * ts));
+}
+
 /*{Calculation}*/
 
 void main() {
@@ -134,6 +166,7 @@ void main() {
     float hue = polar.y / 2.0 / pi_C.x;
     float light = plotSaturation;
     gl_FragColor = vec4(hsl2rgb(vec3(hue, 1.0, light)), 1.0);
+    //gl_FragColor = vec4(cubehelixRainbow(hue), 1.0);
 
   } else if (plotColor == 2.0) {
     //***********************
