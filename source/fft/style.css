@@ -1,0 +1,21 @@
+html, body {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+  }
+  
+  canvas {
+    margin: 0px;
+    padding: 0px;
+  }
+  
+  #popup {
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    padding: 15px;
+    background: gray;
+    border-radius: 5px;
+    text-align: center;
+    display: none;
+  }

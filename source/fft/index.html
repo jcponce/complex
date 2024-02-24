@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <canvas width="500" height="400" id="canvas"></canvas>
+
+    <div id="popup">
+      <b>Copy this data into the <a href="https://www.desmos.com/calculator/1bvmexxoqj">Desmos graph</a></b><br>
+      Then change the columns to f, r1, theta1 respectively.<br>
+      <textarea id="text" rows="20" cols="30"></textarea><br>
+      <input type="button" id="close" value="close"/>
+    </div>
+
+    <script src="fft.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
