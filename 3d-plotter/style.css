@@ -285,6 +285,8 @@ input[type=range]:focus::-ms-fill-upper {
   background: #ffffff;
 }
 
+
+
 /*TODO: Use one of the selectors from https://stackoverflow.com/a/20541859/7077589 and figure out
 how to remove the virtical space around the range input in IE*/
 @supports (-ms-ime-align:auto) {
