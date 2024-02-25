@@ -141,7 +141,7 @@ function initOptions() {
 }
 
 function createPlot() {
-  const geometry = new THREE.PlaneBufferGeometry(10, 10, 256, 256);
+  const geometry = new THREE.PlaneBufferGeometry(11, 11, 256, 256);
   const material = compileMaterial(graph.currEquation, "plot");
   const plot = new THREE.Mesh(geometry, material);
 
@@ -187,12 +187,13 @@ function drawCanvasGrid(ctx, offset, scale, sizePx, labels, spacing) {
 
   while (true) {
     if (gridSize < spacing) {
-      if (gridSpace.toExponential(0).substr(0, 1) == "2") gridSpace *= 2.5;
+      // "substr" is deprecated
+      if (gridSpace.toExponential(0).substring(0, 1) == "2") gridSpace *= 2.5;
       else gridSpace *= 2;
       gridSize = gridSpace * sizePx / scale;
 
     } else if (gridSize > spacing * 3) {
-      if (gridSpace.toExponential(0).substr(0, 1) == "5") gridSpace /= 2.5;
+      if (gridSpace.toExponential(0).substring(0, 1) == "5") gridSpace /= 2.5;
       else gridSpace /= 2;
       gridSize = gridSpace * sizePx / scale;
 
@@ -254,7 +255,7 @@ function drawCanvasGrid(ctx, offset, scale, sizePx, labels, spacing) {
 function createGrid() {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
-  const size = 10;
+  const size = 11;
   const sizePx = 1024;
   const labelFrequency = 1;
 
@@ -305,8 +306,8 @@ function createGrid() {
 
 function createBBox() {
   const color = 0xffffff;
-  const size = 10;
-  const height = 10;
+  const size = 11;
+  const height = 11;
 
   const geometry = new THREE.BoxBufferGeometry(size, size, height);
   const edges = new THREE.EdgesGeometry(geometry);

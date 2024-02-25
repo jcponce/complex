@@ -130,7 +130,7 @@ vec3 cubehelixDefault(float t) {
 vec3 cubehelixRainbow(float t) {
   if (t < 0.0 || t > 1.0) t -= floor(t);
   float ts = abs(t - 0.5);
-  return cubehelix(vec3((360.0 * t - 100.0) / 180.0 * pi_C.x, 1.5 - 1.5 * ts, 0.8 - 0.9 * ts));
+  return cubehelix(vec3((360.0 * t - 100.0) / 180.0 * pi_C.x, 1.5 - 1.5 * ts, 0.8 - 2.0 * ts * plotSaturation));
 }
 
 /*{Calculation}*/
@@ -165,7 +165,7 @@ void main() {
     vec2 polar = polar_C(w);
     float hue = polar.y / 2.0 / pi_C.x;
     float light = plotSaturation;
-    gl_FragColor = vec4(hsl2rgb(vec3(hue, 1.0, light)), 1.0);
+    gl_FragColor = vec4(hsl2rgb(vec3(hue, 0.8, light)), 1.0);
     //gl_FragColor = vec4(cubehelixRainbow(hue), 1.0);
 
   } else if (plotColor == 2.0) {
@@ -187,6 +187,7 @@ void main() {
     float light =  _c * 0.5;
 
     vec3 _col = hsl2rgb(vec3(hue, 1.0, light));
+    //vec3 _col = cubehelixRainbow(hue);
 
     gl_FragColor = vec4(_col, 1.0);
 
