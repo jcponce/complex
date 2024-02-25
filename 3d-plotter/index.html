@@ -6,10 +6,12 @@
   <meta name="viewport" content="width=device-width">
   <title>Complex Plotter</title>
 
-  
+
   <link href="style.css" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
+
+
+  <link rel="stylesheet" href="https://www.dynamicmath.xyz/complex/dctools/libraries/css/w3.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.0.1/math.min.js"></script>
@@ -33,94 +35,124 @@
     <i class="material-icons" id="fullscreen_exit">fullscreen_exit</i>
   </div>
 
-  <div id="panel">
-    Enter equation
-    <span class="equation showHelp"><i class="material-icons" id="help_outline">help_outline</i></span><br>
+  <div class="w3-sidebar w3-bar-block w3-card w3-animate-left mySideBar" id="leftMenu">
 
-    <textarea rows="5" cols="20" id="equations" wrap="off" spellcheck="false">f(z)=z</textarea>
 
-    <br>
-    <div id="errors"></div>
+    <div class="w3-container w3-large" id="panel">
+      <button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large w3-light-grey w3-center">Close
+        &times;</button>
+      <br />
+      Enter equation
+      <span class="equation showHelp"><i class="material-icons" id="help_outline">help_outline</i></span><br>
 
-    <div id="cWrapper">
-      c = <span class="c value">0</span>
-      <div class="c setting">
-        Re:<input type="range" class="c setting" name="cReInput" id="cReInput" value="0.5" min="0" max="1"
-          step="0.001"><br>
-        Im:<input type="range" class="c setting" name="cImInput" id="cImInput" value="0.5" min="0" max="1" step="0.001">
-      </div>
-    </div>
+      <textarea rows="5" cols="20" id="equations" wrap="off" spellcheck="false">f(z)=z</textarea>
 
-    <hr>
+      <br>
+      <div id="errors"></div>
 
-    <div id="settingsWrapper">
-
-      <label for="cShow">Constant <i>c</i></label>
-      <input type="checkbox" name="cShow" id="cShow" class="c showSettings">
-      <span class="c showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
-      <div class="c setting">
-        <label for="cMin">Min</label>
-        <input type="text" name="cMin" id="cMin" value="-5">
-
-        <label for="cMax">Max</label>
-        <input type="text" name="cMax" id="cMax" value="5">
-      </div><br>
-
-      <label for="plotShow">3D Plot</label>
-      <input type="checkbox" name="plotShow" id="plotShow" class="plot showSettings" checked>
-      <span class="plot showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
-      <div class="plot setting">
-        <label for="plotHeight">Height</label>
-        <select name="plotHeight" id="plotHeight">
-          <option value="1" selected>abs(z)</option>
-          <option value="2">re(z)</option>
-          <option value="3">im(z)</option>
-          <option value="4">Flat</option>
-        </select><br>
-
-        <label for="plotColor">Color</label>
-        <select name="plotColor" id="plotColor">
-          <option value="1" selected>Simple arg(z)</option>
-          <option value="2">Enhanced arg(z) </option>
-          <option value="3">Enhanced abs(z)</option>
-          <option value="4">Enhanced abs(z) & arg(z)</option>
-          <option value="5">Enhanced re(z)</option>
-          <option value="6">Enhanced im(z)</option>
-          <option value="7">Enhanced re(z) & im(z)</option>
-        </select>
-
-        <div class="plotSaturation setting">
-          <label for="plotSaturation">Saturation Scale</label><br>
-          <input type="range" name="plotSaturation" id="plotSaturation" value="0.5" min="0" max="1" step="0.01">
+      <div id="cWrapper">
+        c = <span class="c value">0</span>
+        <div class="c setting">
+          Re:<input type="range" class="c setting" name="cReInput" id="cReInput" value="0.5" min="0" max="1"
+            step="0.001"><br>
+          Im:<input type="range" class="c setting" name="cImInput" id="cImInput" value="0.5" min="0" max="1"
+            step="0.001">
         </div>
-      </div><br>
-
-      <label for="gridShow">Input Plane</label>
-      <input type="checkbox" name="gridShow" id="gridShow" class="grid showSettings" checked>
-      <span class="grid showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
-      <div class="grid setting">
-        <label for="gridSpacing">Grid spacing</label>
-        <input type="number" name="gridSpacing" id="gridSpacing" value="5" min="1" max="25" step="1"><br>
-
-        <label for="gridLabels">Show Labels</label>
-        <input type="checkbox" name="gridLabels" id="gridLabels" checked>
-      </div><br>
-
-      <label for="cursorShow">Plot Cursor</label>
-      <input type="checkbox" name="cursorShow" id="cursorShow" class="cursor showSettings">
-      <span class="cursor showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
-      <div class="cursor setting">
-        <label for="cursorContinuous">Continuous</label>
-        <input type="checkbox" name="cursorContinuous" id="cursorContinuous" checked>
       </div>
+
+      <hr style="border: 1px solid rgb(78, 78, 78);" />
+
+      <div id="settingsWrapper">
+
+        <label for="cShow">Constant <i>c</i></label>
+        <input type="checkbox" name="cShow" id="cShow" class="c showSettings">
+        <span class="c showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
+        <div class="c setting">
+          <label for="cMin">Min</label>
+          <input type="text" name="cMin" id="cMin" value="-5">
+
+          <label for="cMax">Max</label>
+          <input type="text" name="cMax" id="cMax" value="5">
+        </div><br>
+        <hr style="border: 1px solid rgb(78, 78, 78);" />
+        <label for="plotShow">3D Plot</label>
+        <input type="checkbox" name="plotShow" id="plotShow" class="plot showSettings" checked>
+        <span class="plot showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
+        <div class="plot setting">
+          <span style="display: block;">
+            <label for="plotHeight">Height:</label>
+            <select name="plotHeight" id="plotHeight">
+              <option value="1" selected>abs(z)</option>
+              <option value="2">re(z)</option>
+              <option value="3">im(z)</option>
+              <option value="4">Flat</option>
+            </select>
+          </span>
+          <br>
+
+          <span style="display: block">
+            <label for="plotColor">Color:</label>
+            <select name="plotColor" id="plotColor">
+              <option value="1" selected>Simple arg(z)</option>
+              <option value="2">Enhanced arg(z) </option>
+              <option value="3">Enhanced abs(z)</option>
+              <option value="4">Enhanced abs(z) & arg(z)</option>
+              <option value="5">Enhanced re(z)</option>
+              <option value="6">Enhanced im(z)</option>
+              <option value="7">Enhanced re(z) & im(z)</option>
+            </select>
+          </span>
+
+          <div class="plotSaturation setting">
+            <label for="plotSaturation">Saturation Scale</label><br>
+            <input type="range" name="plotSaturation" id="plotSaturation" value="0.5" min="0" max="1" step="0.01">
+          </div>
+        </div>
+
+        <hr style="border: 1px solid rgb(78, 78, 78);" />
+
+        <label for="gridShow">Input Plane</label>
+        <input type="checkbox" name="gridShow" id="gridShow" class="grid showSettings" checked>
+        <span class="grid showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
+        <div class="grid setting">
+          <label for="gridSpacing">Grid spacing</label>
+          <input type="number" name="gridSpacing" id="gridSpacing" value="5" min="1" max="25" step="1"><br>
+
+          <label for="gridLabels">Show Labels</label>
+          <input type="checkbox" name="gridLabels" id="gridLabels" checked>
+        </div><br>
+
+        <label for="cursorShow">Plot Cursor</label>
+        <input type="checkbox" name="cursorShow" id="cursorShow" class="cursor showSettings">
+        <span class="cursor showHelp"><i class="material-icons" id="help_outline">help_outline</i></span>
+        <div class="cursor setting">
+          <label for="cursorContinuous">Continuous</label>
+          <input type="checkbox" name="cursorContinuous" id="cursorContinuous" checked>
+        </div>
+      </div>
+
+      <hr>
+
+      <div>
+        <span class="about showHelp">About this program</span><br>
+      </div>
+
     </div>
 
-    <hr>
-
-    <div>
-      <span class="about showHelp">About this program</span><br>
-    </div>
   </div>
+
+  <div>
+    <button class="w3-button w3-xlarge w3-left w3-text-white" style="position: fixed;top: 0;left: 0;"
+      onclick="openLeftMenu()">
+      <i class="material-icons">menu</i></button>
+  </div>
+
+
+  <!--
+     <div id="panel">
+
+  </div>
+    <button id="toggleButton">Toggle Panel</button>-->
 
   <div class="about popUpWrapper">
     <div class="popUp">
@@ -179,14 +211,15 @@
         large or chaotic. I have not figured out why this happens yet. Also, since the plot is generated on the GPU, it
         is calculated in single precision (about 8 digits) while the plot cursor is calculated in double precision
         (about 16 digits), so this can lead to slight differences.
-        <h3>How this works</h3>
-        <p>
-          The real power of this program is that it can turn any equation into OpenGL code that can be run on a GPU and
-          plotted on the screen. I use <a href="https://threejs.org/" target="_blank">Three.js</a> for the 3D graphics. I use <a
-            href="https://mathjs.org/" target="_blank">Math.js</a> to compile the equation into an expression tree and then replace each
-          node with the correct OpenGL function, using 2D vectors for all complex numbers. Almost every function (except
-          addition) had to be written to accept vectors as complex numbers.
-        </p>
+      <h3>How this works</h3>
+      <p>
+        The real power of this program is that it can turn any equation into OpenGL code that can be run on a GPU and
+        plotted on the screen. I use <a href="https://threejs.org/" target="_blank">Three.js</a> for the 3D graphics. I
+        use <a href="https://mathjs.org/" target="_blank">Math.js</a> to compile the equation into an expression tree
+        and then replace each
+        node with the correct OpenGL function, using 2D vectors for all complex numbers. Almost every function (except
+        addition) had to be written to accept vectors as complex numbers.
+      </p>
     </div>
   </div>
 
@@ -217,9 +250,11 @@
         <b>asin, acos, atan</b> Inverse trigonometric functions<br>
         <b>sinh, cosh, tanh</b> Hyperbolic trigonometric functions<br>
         <b>asinh, acosh, atanh</b> Inverse hyperbolic trigonometric functions<br>
-        <b>gamma</b> The <a href="https://en.wikipedia.org/wiki/Gamma_function" target="_blank">gamma function</a>. It can be thought of
+        <b>gamma</b> The <a href="https://en.wikipedia.org/wiki/Gamma_function" target="_blank">gamma function</a>. It
+        can be thought of
         an an extension of factorials.<br>
-        <b>zeta</b> The <a href="https://en.wikipedia.org/wiki/Riemann_zeta_function" target="_blank">Riemann zeta function</a>. With a
+        <b>zeta</b> The <a href="https://en.wikipedia.org/wiki/Riemann_zeta_function" target="_blank">Riemann zeta
+          function</a>. With a
         low number of iterations a line is visible at re(z)=0.5 due to the way it is calculated.<br>
       </p>
     </div>
@@ -266,6 +301,7 @@
         want to watch a specific point.
     </div>
   </div>
+
 </body>
 
 </html>

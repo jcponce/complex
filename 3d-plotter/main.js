@@ -140,6 +140,15 @@ function initOptions() {
   });
 }
 
+function openLeftMenu() {
+  document.getElementById("leftMenu").style.width = "20%";
+  document.getElementById("leftMenu").style.display = "block";
+}
+
+function closeLeftMenu() {
+  document.getElementById("leftMenu").style.display = "none";
+}
+
 function createPlot() {
   const geometry = new THREE.PlaneBufferGeometry(11, 11, 256, 256);
   const material = compileMaterial(graph.currEquation, "plot");
