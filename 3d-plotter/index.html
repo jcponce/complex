@@ -9,6 +9,7 @@
 
   <link href="style.css" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
   <link rel="icon" type="image/png" href="https://www.dynamicmath.xyz/complex/dctools/libraries/css/infinity32.png"
     sizes="32x32">
   <link rel="icon" type="image/png" href="https://www.dynamicmath.xyz/complex/dctools/libraries/css/infinity16.png"
@@ -279,7 +280,7 @@
   <div class="equation popUpWrapper">
     <div class="popUp">
       <div class="popUpClose">&times;</div>
-      <h2>Equation</h2>
+      <h2><strong>Equation</strong></h2>
 
       <h3>Available Variables and Functions</h3>
       <p>
@@ -316,7 +317,7 @@
   <div class="c popUpWrapper">
     <div class="popUp">
       <div class="popUpClose">&times;</div>
-      <h2>Constant c</h2>
+      <h2><strong>Constant</strong> <code>c</code></h2>
 
       <p>This is a number you can use in equations (like pi, e, etc.). You can change it by clicking the line "c = ...",
         or using sliders if enabled with the checkbox in Options. The advantage of using c instead of defining a
@@ -327,16 +328,37 @@
   <div class="plot popUpWrapper">
     <div class="popUp">
       <div class="popUpClose">&times;</div>
-      <h2>3D Plot</h2>
+      <h2><strong>3D Plot</strong></h2>
 
-      <p>This is the actual plot of your function. You can change what the color and height mean.</p>
+      <p>This is the actual plot of your function. You can change what the <code>Height</code> and <code>Color</code> mean.</p>
+      <p>
+        Height options:
+      </p>
+      <ul>
+        <li><code>abs(z)</code>: Modulus of $f(z)$.</li>
+        <li><code>re(z)</code>: Real component of $f(z)$.</li>
+        <li><code>im(z)</code>: Imaginary component of $f(z)$.</li>
+        <li><code>Flat</code>: 2D plot of $f(z)$.</li>
+      </ul>
+      <p>
+        Color options:
+      </p>
+      <ul>
+        <li><code>Simple arg(z)</code>: Angle of $f(z)$.</li>
+        <li><code>Enhanced arg(z)</code>: Level curves of the angle of $f(z)$.</li>
+        <li><code>Enhanced abs(z)</code>: Level curves of the modulus of $f(z)$.</li>
+        <li><code>Enhanced abs(z) & arg(z)</code>: Both level curves of the angle and modulus of $f(z)$.</li>
+        <li><code>Enhanced re(z)</code>:Level curves of the real components of $f(z)$.</li>
+        <li><code>Enhanced im(z)</code>: Level curves of the imaginary components of $f(z)$.</li>
+        <li><code>Enhanced re(z) & im(z)</code>: Both level curves of the real and imaginary components of $f(z)$.</li>
+      </ul>
     </div>
   </div>
 
   <div class="grid popUpWrapper">
     <div class="popUp">
       <div class="popUpClose">&times;</div>
-      <h2>Input Plane</h2>
+      <h2><strong>Input Plane</strong></h2>
 
       <p>This is the set of inputs to your function. It is analogous to the X axid on a traditional graphing calculator.
         It is a portion of the complex plane with the real and imaginary axes numbered.
@@ -346,7 +368,7 @@
   <div class="cursor popUpWrapper">
     <div class="popUp">
       <div class="popUpClose">&times;</div>
-      <h2>Plot Cursor</h2>
+      <h2><strong>Plot Cursor</strong></h2>
 
       <p>This allows you to inspect the plot more closely. If you click (or mouse over) a point on the input plane, you
         can see the exact input and output of the function at that point. The "Continuous" option toggles whether the
