@@ -328,8 +328,8 @@ function createBBox() {
 
 function createCursor() {
   const color = 0xFF8C00;
-  const size = 10;
-  const height = 10;
+  const size = 11;
+  const height = 11;
 
   var material = new THREE.LineDashedMaterial({
     color: color,
