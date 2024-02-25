@@ -141,7 +141,7 @@ function initOptions() {
 }
 
 function openLeftMenu() {
-  document.getElementById("leftMenu").style.width = "20%";
+  document.getElementById("leftMenu").style.width = "285px";
   document.getElementById("leftMenu").style.display = "block";
 }
 
