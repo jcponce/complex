@@ -169,51 +169,102 @@
       <div class="popUpClose">&times;</div>
 
       <h2><strong>Complex Function Plotter</strong></h2>
+      <hr>
       <h3><strong>Background</strong></h3>
       <p>
-        Most graphing calculators take a set of real numbers on the $x$-axis, run them through a function, and plot the
-        result on the $y$-axis. Complex numbers are an extension of the real numbers and are usually written in the form
-        $x+y i$, where $x$ and $y$ are real numbers and $i= \sqrt{-1}$ is the imaginary part. To graph a
-        complex function, or a function that takes a complex number as an input and outputs a complex number, 
-        a two dimensional graph will not work well. The input itself is two dimensional (real and imaginary) and so is the
-        output, so four dimensions would be needed. 
+        Most graphing calculators take a set of real numbers on the $x$-axis,
+        run them through a function, and plot the result on the $y$-axis.
+        The result we obtained is a two dimensional graph, as shown in the image below.
+      </p>
+      <div class="w3-center w3-mobile">
+        <img style="width:45%" src="plot-2d.svg">
+      </div>
+      <p>
+        Complex numbers are an extension of the real numbers and are
+        usually written in the form
+        $x+y \,i,$ where $x$ and $y$ are <em>real numbers</em> and
+        $i= \sqrt{-1}$ is <em>the imaginary part</em>.
+        A complex function
+        takes a complex number as an
+        input and outputs a complex number.
+        The input itself is two dimensional (real and imaginary) and so is the
+        output, so four dimensions would be needed.
+        Therefore a graphical depiction of complex functions
+        such as in the real case is not feasible.
         To get around this, the graph here is shown in three dimensions and
         color is used to encode the fourth dimension needed.
       </p>
+      <hr>
       <h3><strong>How to use</strong></h3>
       <p>
-        Start by typing an equation in the textbox in the upper-left. It should be in the form <i>f(z)=...</i>, where
-        the function takes a complex number and does something to it. If the function is valid, the 3D graph should
+        Start by typing an equation in the textbox in
+        the upper-left. It should be in the form <code>f(z)=...</code>,
+        where the function takes a complex number and does something
+        to it. If the function is valid, the 3D graph should
         update.
       </p>
       <p>
-        The height of the graph defaults to the absolute value of the output of the current function at every input
-        (this can be changed to the real or imaginary parts under options). By default, the hue of a point equals its
-        angle (in polar coordinates) and the brightness gives a sense of the absolute value.
+        The height of the graph defaults to the absolute value
+        of the output of the current function at every input.
+        By default, the hue of a point equals its angle (in polar coordinates).
       </p>
+
       <p>
         To rotate the graph, click and drag or touch and drag with one finger (on a touch screen). Use the mouse wheel
         or two fingers to zoom in or out. Right click and drag or drag with two fingers to pan the view.
       </p>
-      <b>Note: This program works best in FireFox and Chrome. It may work in Edge, but does not usually work in Internet
-        Explorer.</b>
+
+
+      <p class="w3-padding-large"><b>Note: This program works best in FireFox and Chrome. It may work in Edge, but does
+          not usually work in Internet
+          Explorer.</b></p>
+      <hr>
       <h3><strong>Some things to try</strong></h3>
       <p>
-        The function <i>f(z)=z</i> is good to start with. Polynomials (<i>f(z)=z^2+1</i> for example) are always neat.
+        The function $f(z)=z$ is good to start with. Polynomials are always neat. For example
+        $$
+        f(z)=z^2+1,\quad f(z) = 2z^3+3z^2+z-1, \quad f(z) = z^5-1.
+        $$
         You can clearly see that a polynomial always has as many zeros as the exponent on its highest term (some may be
-        in the same position). The function <i>f(z)=z^c</i> is neat (with the slider enabled).
-        The functions <i>f(z)=((((z^2)+z)^2+z)^2+z)^2</i> and <i>f(z)=z^z^z^z^z</i> both have much fine detail, so are
-        best viewed with height as flat. The functions sin, cos, tan, gamma, and zeta are also interesting to see in 3D
-        (for example <i>f(z)=gamma(z)</i>).
+        in the same position).
       </p>
+      <p>
+        The function $f(z)=z^c$ is also cool, with the <strong>slider enabled</strong>.
+        The functions
+        $$f(z)=(((z^2+z)^2+z)^2+z)^2 \quad \text{and}\quad f(z)=z{^{z^{z^{z^z}}}}$$
+        both have much fine detail, so are
+        best viewed with height as flat.
+        The functions $\sin(z),$
+        $\cos(z),$
+        $\tan(z),$
+        $\text{gamma}(z),$ and
+        $\text{zeta}(z)$ are also interesting to see in 3D.
+        For example type <code>f(z)=gamma(z)</code>.
+      </p>
+      <hr>
       <h3><strong>About</strong></h3>
       <p>
         This program was originally created by
-        <a href="https://replit.com/@DavidBrock1" target="_blank">David Brock</a>.
+        <a class="w3-hover-text-light-blue w3-text-indigo" href="https://replit.com/@DavidBrock1" target="_blank">David
+          Brock</a>.
         In this version I modified the color scheme to include
-        the level curves of the modulus ($f(z)=|z|$) and the phase 
-        $f(z)=\textbf{arg} (z)$. Also, I added more options to 
-        plot 3D plots of the real and imaginary components.
+        the level curves of the absolute value of the output and the
+        angle (in polar coordinates). I also added more options to
+        plot 3D plots of the real and imaginary components, 
+        including the level curves.
+      </p>
+
+      
+      <hr>
+      <h3><strong>How this works</strong></h3>
+      <p>
+        The real power of this program is that it can turn any equation into OpenGL code that can be run on a GPU and
+        plotted on the screen. The programm uses <a class="w3-hover-text-light-blue w3-text-indigo"
+          href="https://threejs.org/" target="_blank">Three.js</a> for the 3D graphics.
+        It also uses <a class="w3-hover-text-light-blue w3-text-indigo" href="https://mathjs.org/"
+          target="_blank">Math.js</a> to compile the equation into an expression tree
+        and then replace each node with the correct OpenGL function, using 2D vectors for all complex numbers.
+        Almost every function (except addition) had to be written to accept vectors as complex numbers.
       </p>
 
       <p>
@@ -221,15 +272,6 @@
         large or chaotic. Also, since the plot is generated on the GPU, it
         is calculated in single precision (about 8 digits) while the plot cursor is calculated in double precision
         (about 16 digits), so this can lead to slight differences.
-      </p>
-
-      <h3><strong>How this works</strong></h3>
-      <p>
-        The real power of this program is that it can turn any equation into OpenGL code that can be run on a GPU and
-        plotted on the screen. The programm uses <a href="https://threejs.org/" target="_blank">Three.js</a> for the 3D graphics. 
-        It also uses <a href="https://mathjs.org/" target="_blank">Math.js</a> to compile the equation into an expression tree
-        and then replace each node with the correct OpenGL function, using 2D vectors for all complex numbers.
-        Almost every function (except addition) had to be written to accept vectors as complex numbers.
       </p>
     </div>
   </div>
