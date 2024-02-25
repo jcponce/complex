@@ -333,7 +333,7 @@ function createCursor() {
 
   var material = new THREE.LineDashedMaterial({
     color: color,
-    scale: 10,
+    scale: 11,
     dashSize: 2,
     gapSize: 2,
   });
@@ -550,7 +550,7 @@ function animate() {
   const camera = graph.objects.camera;
 
   controls.update();
-  graph.objects.stats.update();
+  //graph.objects.stats.update();
 
   graph.props.position = controls.target.clone();
   graph.props.scale = 1 / controls.object.zoom;
@@ -599,7 +599,7 @@ $(document).ready(function () {
   initEquation();
   initOptions();
   initScene();
-  initStats();
+  //initStats();
   onResize();
   animate();
 });
