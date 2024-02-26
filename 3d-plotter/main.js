@@ -1,3 +1,8 @@
+/*
+  Author: David Block
+  Source: https://replit.com/@DavidBrock1/complexplotter#main.js
+*/
+
 "use strict"
 
 //Namespace to store everything
@@ -577,7 +582,7 @@ function animate() {
 };
 
 function readURLParms() {
-  var hash = decodeURIComponent(location.hash.substr(1));
+  var hash = decodeURIComponent(location.hash.substring(1)); //substr
   if (hash.length > 1) $("#equations").val(hash);
 }
 

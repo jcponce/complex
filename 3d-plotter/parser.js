@@ -1,3 +1,7 @@
+/*
+  Author: David Block
+  Soruce: https://replit.com/@DavidBrock1/complexplotter#parser.js
+*/
 
 //Compile an expression into OpenGL code
 function GLcompile(node, variables, functions, errorCheck) {

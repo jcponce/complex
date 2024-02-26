@@ -1,3 +1,8 @@
+/*
+  Author: David Block
+  Source: https://replit.com/@DavidBrock1/complexplotter#functionLibrary.js
+*/
+
 //Create GLSL code for all function
 var commonShaderCode = "";
 var baseScope = {

@@ -1,3 +1,8 @@
+/*
+  Author: David Block
+  Soruce: https://replit.com/@DavidBrock1/complexplotter#shader.js
+*/
+
 var uniforms = {
   offset:           {value: new THREE.Vector2()},
   scale:            {value: 1},
