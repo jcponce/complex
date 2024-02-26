@@ -269,7 +269,7 @@ function drawCanvasGrid(ctx, offset, scale, sizePx, labels, spacing) {
 function createGrid() {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
-  const size = 11;
+  const size = 11; // scale
   const sizePx = 1024;
   const labelFrequency = 1;
 
@@ -320,8 +320,8 @@ function createGrid() {
 
 function createBBox() {
   const color = 0xffffff;
-  const size = 11;
-  const height = 11;
+  const size = 11; // scale
+  const height = 11; // scale
 
   const geometry = new THREE.BoxBufferGeometry(size, size, height);
   const edges = new THREE.EdgesGeometry(geometry);
@@ -333,8 +333,8 @@ function createBBox() {
 
 function createCursor() {
   const color = 0xFF8C00;
-  const size = 11;
-  const height = 11;
+  const size = 11; // scale
+  const height = 11; // scale
 
   var material = new THREE.LineDashedMaterial({
     color: color,
@@ -582,7 +582,7 @@ function animate() {
 };
 
 function readURLParms() {
-  var hash = decodeURIComponent(location.hash.substring(1)); //substr
+  var hash = decodeURIComponent(location.hash.substring(1)); //"substr" is deprecated
   if (hash.length > 1) $("#equations").val(hash);
 }
 
