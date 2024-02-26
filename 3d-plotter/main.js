@@ -56,6 +56,12 @@ function initEquation() {
   });
 
 
+  $("#createLink").click(function () {
+    var search = "?equation=" + encodeURIComponent(graph.currEquation);
+    var url = location.href.split("?")[0] + search;
+
+    prompt("Use this URL to shere or save the current equation.", url);
+  });
 
   function update() {
     const equation = equationInput.val();
@@ -71,7 +77,7 @@ function initEquation() {
         plot.material = compileMaterial(lastEquation, "plot");
         graph.currEquation = lastEquation;
 
-        location.hash = encodeURIComponent(graph.currEquation);
+        //location.hash = encodeURIComponent(graph.currEquation);
         $("#errors").text("");
       } catch (err) {
         $("#errors").text(err.message)
