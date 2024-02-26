@@ -49,8 +49,8 @@ You can also visualize complex functions plotted with the domain coloring method
 
 #### Examples
 
-* [z * (1-z)](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=eiAqICgxLXop)
-* [1/z + i * z^(1/2)](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=MS96ICsgaSAqIHpeKDEvMik=)
+* [z * (1-z)](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=z*(1-z))
+* [1/z + i * z^(1/2)](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=1/z+i*z^(1/2))
 * [z + pi * log(z + e)](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=eiArIHBpICogbG9nKHogKyBlKQ==)
 * [e^z + t](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=ZV56ICsgdA==)
 * [s * i + s - 0.09 * (z - 6)^2](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=cyAqIGkgKyBzIC0gMC4wOSAqICh6IC0gNileMg==)

@@ -230,23 +230,29 @@ $('#texture-options a').each(function () {
 
 // When the user presses the button, show some copyable text
 function showLink() {
-  var expression_base64 = btoa($('#equation-input').val());
-  let url = [location.protocol, '//', location.host, location.pathname].join('');
-  url = url + "?expression=" + expression_base64;
-  $('#copyable-link').val(url);
-  $('#link-container').show();
-  $('#copyable-link').select();
+  let expression_base64 = btoa($("#equation-input").val());
+
+  let url = [location.protocol, "//", location.host, location.pathname].join(
+    ""
+  );
+  url = url + "?expression=" + atob(expression_base64);
+  //url = url + "?expression=" + expression_base64;
+
+  $("#copyable-link").val(url);
+  $("#link-container").show();
+  $("#copyable-link").select();
 }
-$('#copyable-link').blur(function () {
-  $('#link-container').hide();
+$("#copyable-link").blur(function () {
+  $("#link-container").hide();
 });
 
 // If the user already specified
 $(function () {
-  var expression_base64 = getQueryVariable('expression');
+  var expression_base64 = getQueryVariable("expression");
   //console.log(expression_base64);
   if (expression_base64) {
-    $('#equation-input').val(atob(expression_base64.replace('/', '')));
+    //$("#equation-input").val(atob(expression_base64.replace("/", "")));
+    $("#equation-input").val(decodeURIComponent(expression_base64));
   }
 });
 

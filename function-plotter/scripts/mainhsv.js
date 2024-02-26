@@ -280,7 +280,8 @@ function showLink() {
   let url = [location.protocol, "//", location.host, location.pathname].join(
     ""
   );
-  url = url + "?expression=" + expression_base64;
+  url = url + "?expression=" + atob(expression_base64);
+  //url = url + "?expression=" + expression_base64;
 
   $("#copyable-link").val(url);
   $("#link-container").show();
@@ -295,7 +296,8 @@ $(function () {
   var expression_base64 = getQueryVariable("expression");
   //console.log(expression_base64);
   if (expression_base64) {
-    $("#equation-input").val(atob(expression_base64.replace("/", "")));
+    //$("#equation-input").val(atob(expression_base64.replace("/", "")));
+    $("#equation-input").val(decodeURIComponent(expression_base64));
   }
 });
 
