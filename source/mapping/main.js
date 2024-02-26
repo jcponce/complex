@@ -13,7 +13,7 @@ let graph = {
   currEquation: "f(z)=z",
 };
 let lastJson = "";
-var DEBUG = false;
+var DEBUG = true;
 
 function initEquation() {
   const equationInput = $("#equations");
@@ -24,13 +24,13 @@ function initEquation() {
   let cMax = 1;
 
   $("#cReInput").on("change input", function () {
-    uniforms.c_C.value.x = $(this).val() * (cMax - cMin) + cMin;
-    $(".c.value").text(`${uniforms.c_C.value.x.toFixed(4)} + ${uniforms.c_C.value.y.toFixed(4)}i`);
+    uniforms.c.value.x = $(this).val() * (cMax - cMin) + cMin;
+    $(".c.value").text(`${uniforms.c.value.x.toFixed(4)} + ${uniforms.c.value.y.toFixed(4)}i`);
   }).change();
 
   $("#cImInput").on("change input", function () {
-    uniforms.c_C.value.y = $(this).val() * (cMax - cMin) + cMin;
-    $(".c.value").text(`${uniforms.c_C.value.x.toFixed(4)} + ${uniforms.c_C.value.y.toFixed(4)}i`);
+    uniforms.c.value.y = $(this).val() * (cMax - cMin) + cMin;
+    $(".c.value").text(`${uniforms.c.value.x.toFixed(4)} + ${uniforms.c.value.y.toFixed(4)}i`);
   }).change();
 
   $("#cMin").change(function () {
@@ -42,16 +42,16 @@ function initEquation() {
   }).change();
 
   $(".c.value").click(function () {
-    let re = prompt("Real part of c", uniforms.c_C.value.x);
-    let im = prompt("Imaginary part of c", uniforms.c_C.value.y);
+    let re = prompt("Real part of c", uniforms.c.value.x);
+    let im = prompt("Imaginary part of c", uniforms.c.value.y);
 
     if (re && im) {
       $("#cReInput").val((Number(re) - cMin) / (cMax - cMin));
       $("#cImInput").val((Number(im) - cMin) / (cMax - cMin));
-      $(".c.value").text(`${uniforms.c_C.value.x.toFixed(4)} + ${uniforms.c_C.value.y.toFixed(4)}i`);
+      $(".c.value").text(`${uniforms.c.value.x.toFixed(4)} + ${uniforms.c.value.y.toFixed(4)}i`);
 
-      uniforms.c_C.value.x = Number(re);
-      uniforms.c_C.value.y = Number(im);
+      uniforms.c.value.x = Number(re);
+      uniforms.c.value.y = Number(im);
     }
   });
 
@@ -74,9 +74,8 @@ function initEquation() {
     if (lastEquationChange != null && Date.now() - lastEquationChange >= updateDelay) {
       try {
         plot.material = compileMaterial(lastEquation, "plot");
+        //        conformal.material = compileMaterial(lastEquation, "conformal");
         graph.currEquation = lastEquation;
-
-        location.hash = encodeURIComponent(graph.currEquation);
         $("#errors").text("");
       } catch (err) {
         $("#errors").text(err.message)
@@ -92,7 +91,7 @@ function initEquation() {
 }
 
 function initOptions() {
-  const groups = ["equation", "about", "c", "plot", "grid", "cursor"];
+  const groups = ["equation", "about", "c", "plot", "conformal", "grid", "cursor"];
 
   groups.forEach(function (name) {
     $(`.${name}.showSettings`).change(function () {
@@ -118,51 +117,11 @@ function initOptions() {
     $(this).parents(".popUpWrapper").fadeOut(200);
   });
 
-  //$(".about.popUpWrapper").show();
-
-  $("#fullscreen").click(function () {
-    var elem = document.getElementById("plot");
-
-    var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
-        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
-        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
-        (document.msFullscreenElement && document.msFullscreenElement !== null);
-
-    if (!isInFullScreen) {
-      if (elem.requestFullscreen) {
-          elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) {
-          elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullScreen) {
-          elem.webkitRequestFullScreen();
-      } else if (elem.msRequestFullscreen) {
-          elem.msRequestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-          document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
-      } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
-      }
-    }
-  });
-}
-
-function openLeftMenu() {
-  document.getElementById("leftMenu").style.width = "285px";
-  document.getElementById("leftMenu").style.display = "block";
-}
-
-function closeLeftMenu() {
-  document.getElementById("leftMenu").style.display = "none";
+  $(".about.popUpWrapper").show();
 }
 
 function createPlot() {
-  const geometry = new THREE.PlaneBufferGeometry(11, 11, 256, 256);
+  const geometry = new THREE.PlaneBufferGeometry(10, 10, 256, 256);
   const material = compileMaterial(graph.currEquation, "plot");
   const plot = new THREE.Mesh(geometry, material);
 
@@ -208,13 +167,12 @@ function drawCanvasGrid(ctx, offset, scale, sizePx, labels, spacing) {
 
   while (true) {
     if (gridSize < spacing) {
-      // "substr" is deprecated
-      if (gridSpace.toExponential(0).substring(0, 1) == "2") gridSpace *= 2.5;
+      if (gridSpace.toExponential(0).substr(0, 1) == "2") gridSpace *= 2.5;
       else gridSpace *= 2;
       gridSize = gridSpace * sizePx / scale;
 
     } else if (gridSize > spacing * 3) {
-      if (gridSpace.toExponential(0).substring(0, 1) == "5") gridSpace /= 2.5;
+      if (gridSpace.toExponential(0).substr(0, 1) == "5") gridSpace /= 2.5;
       else gridSpace /= 2;
       gridSize = gridSpace * sizePx / scale;
 
@@ -230,7 +188,7 @@ function drawCanvasGrid(ctx, offset, scale, sizePx, labels, spacing) {
 
   //Draw major axes
   ctx.strokeStyle = "#FFFFFF";
-  ctx.lineWidth = 10;
+  ctx.lineWidth = 5;
   ctx.beginPath();
   ctx.moveTo(0, originY);
   ctx.lineTo(sizePx, originY);
@@ -241,8 +199,8 @@ function drawCanvasGrid(ctx, offset, scale, sizePx, labels, spacing) {
   //Draw minor geid lines
   ctx.font = "30px Arial";
   ctx.fillStyle = "#FFFFFF";
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = "#0000FF";
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "#df883a";
   ctx.beginPath();
   //Draw vertical lines
   for (let x = gridStartX, i = 0; x <= sizePx; x += gridSize, i++) {
@@ -256,7 +214,7 @@ function drawCanvasGrid(ctx, offset, scale, sizePx, labels, spacing) {
   }
 
   ctx.stroke();
-  ctx.strokeStyle = "#CC0000";
+  ctx.strokeStyle = "#00BFFF";
   ctx.beginPath();
 
   //Draw horizontal lines
@@ -273,10 +231,53 @@ function drawCanvasGrid(ctx, offset, scale, sizePx, labels, spacing) {
   ctx.stroke();
 }
 
+function createConformal() {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  const size = 10;
+  const sizePx = 1024;
+  const labelFrequency = 1;
+
+  canvas.width = sizePx;
+  canvas.height = sizePx;
+
+  const texture = new THREE.CanvasTexture(canvas);
+  uniforms.grid.value = texture;
+
+  const material = compileMaterial(graph.currEquation, "conformal");
+
+  const geometry = new THREE.PlaneBufferGeometry(size, size, 256, 256);
+  const conformal = new THREE.Mesh(geometry, material);
+
+  conformal.lookAt(0, 1, 0);
+
+  $("#conformalShow").change(function () {
+    graph.settings.conformalShow = $(this).prop("checked");
+    conformal.visible = graph.settings.conformalShow;
+  }).change();
+
+  $("#conformalLabels").change(function () {
+    graph.settings.conformalLabels = $(this).prop("checked");
+  }).change();
+
+  conformal.onBeforeRender = function () {
+    drawCanvasGrid(
+      ctx, graph.settings.position,
+      graph.settings.scale * size, sizePx,
+      graph.settings.conformalLabels,
+      graph.settings.gridSpacing
+    );
+
+    texture.needsUpdate = true;
+  };
+
+  return conformal;
+}
+
 function createGrid() {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
-  const size = 11; // scale
+  const size = 10;
   const sizePx = 1024;
   const labelFrequency = 1;
 
@@ -326,9 +327,9 @@ function createGrid() {
 }
 
 function createBBox() {
-  const color = 0xffffff;
-  const size = 11; // scale
-  const height = 11; // scale
+  const color = 0xFF8C00;
+  const size = 10;
+  const height = 10;
 
   const geometry = new THREE.BoxBufferGeometry(size, size, height);
   const edges = new THREE.EdgesGeometry(geometry);
@@ -340,12 +341,12 @@ function createBBox() {
 
 function createCursor() {
   const color = 0xFF8C00;
-  const size = 11; // scale
-  const height = 11; // scale
+  const size = 10;
+  const height = 10;
 
   var material = new THREE.LineDashedMaterial({
     color: color,
-    scale: 11,
+    scale: 10,
     dashSize: 2,
     gapSize: 2,
   });
@@ -354,7 +355,6 @@ function createCursor() {
   var point2 = new THREE.Vector3(0, -height / 2, 0);
 
   var geometry = new THREE.Geometry();
-  
   geometry.vertices.push(point1);
   geometry.vertices.push(point2);
 
@@ -454,7 +454,7 @@ function createCursor() {
     );
 
     var scope = {
-      c: math.complex(uniforms.c_C.value.x, uniforms.c_C.value.y)
+      c: math.complex(uniforms.c.value.x, uniforms.c.value.y)
     };
     math.evaluate(graph.currEquation, scope);
     var w = math.Complex(scope.f(z));
@@ -471,7 +471,7 @@ function createCursor() {
 
 function initScene() {
   const plotElement = $("#plot");
-  const backgroundColor = 0x343434;
+  const backgroundColor = 0x555555;
   const cameraSize = 7;
   const initHeight = 10;
   const plotRows = 1024;
@@ -495,7 +495,6 @@ function initScene() {
 
   let controls = new THREE.OrbitControls(fakeCamera, renderer.domElement);
   controls.object.position.set(0, 50, 0);
-  controls.screenSpacePanning = false;
   controls.saveState();
 
   let plotGroup = new THREE.Group();
@@ -503,6 +502,9 @@ function initScene() {
 
   let plot = createPlot();
   plotGroup.add(plot);
+
+  //  var conformal = createConformal();
+  //  plotGroup.add(conformal);
 
   let grid = createGrid();
   plotGroup.add(grid);
@@ -562,7 +564,7 @@ function animate() {
   const camera = graph.objects.camera;
 
   controls.update();
-  //graph.objects.stats.update();
+  graph.objects.stats.update();
 
   graph.props.position = controls.target.clone();
   graph.props.scale = 1 / controls.object.zoom;
@@ -587,11 +589,6 @@ function animate() {
 
   requestAnimationFrame(animate);
 };
-
-//function readURLParms() {
-//  var hash = decodeURIComponent(location.hash.substring(1)); //"substr" is deprecated
-// if (hash.length > 1) $("#equations").val(hash);
-//}
 
 function readURLParms() {
   location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
@@ -621,7 +618,7 @@ $(document).ready(function () {
   initEquation();
   initOptions();
   initScene();
-  //initStats();
+  initStats();
   onResize();
   animate();
 });

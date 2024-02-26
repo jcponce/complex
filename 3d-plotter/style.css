@@ -97,9 +97,9 @@ h1, h2, h3, p {
   background: rgb(231, 231, 231) !important;
   border-radius: 5px;
   overflow: auto;
-  line-height: 20px;
+  line-height: 18px;
   z-index: 1;
-  font-size: 16px;
+  font-size: 16px !important;
   transition: height 0.3s ease, width 0.3s ease;
 }
 
