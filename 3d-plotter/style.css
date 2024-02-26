@@ -5,9 +5,13 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font: normal 10px Verdana, Arial, sans-serif;
+  font-family: normal 10px Verdana, Arial, sans-serif;
 }
 
+h1, h2, h3, p {
+  font-family: Arial, sans-serif;
+  font-size: 1em;
+}
 
 #plot {
   padding: 0px;
