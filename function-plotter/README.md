@@ -73,13 +73,13 @@ You can also visualize complex functions plotted with the domain coloring method
 ## Examples about domain coloring
 
 * Analytic functions:
-  * [sin(z + t)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=c2luKHogKyB0KQ==)
-  * [z * t + 1/sin(z)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=eiAqIHQgKyAxL3Npbih6KQ==)
-  * [z^(10 * (t + 1)/2 + 2) - 1](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=el4oMTAgKiAodCArIDEpLzIgKyAyKSAtIDE=)
-  * [(z-1)/(z^2+z+1) * (t+1)/2 + z * ( 1- (t+1)/2 )](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=KHotMSkvKHpeMit6KzEpICogKHQrMSkvMiArIHogKiAoIDEtICh0KzEpLzIgKQ==)
+  * [sin(z + t)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=sin(z+t))
+  * [z * t + 1/sin(z)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=z*t+1/sin(z))
+  * [z^(10 * (t + 1)/2 + 2) - 1](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=z^(10*(t+1)/2+2)-1)
+  * [(z-1)/(z^2+z+1) * (t+1)/2 + z * ( 1- (t+1)/2 )](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=(z-1)/(z^2+z+1)*(t+1)/2+z*(1-(t+1)/2))
 * Non-Analytic functions:
-  * [(z+1) * conj(z)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=KHorMSkgKiBjb25qKHop)
-  * [conj(z) * (t+1)/2 + cos(z * ( 1- (t+1)/2 ))](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=Y29uaih6KSAqICh0KzEpLzIgKyBjb3MoeiAqICggMS0gKHQrMSkvMiApKQ==)
+  * [(z+1) * conj(z)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=(z+1)*conj(z))
+  * [conj(z) * (t+1)/2 + cos(z * ( 1- (t+1)/2 ))](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=conj(z)*(t+1)/2+cos(z*(1-(t+1)/2)))
 
 
 ## How does it work?
