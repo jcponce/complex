@@ -583,11 +583,22 @@ function animate() {
   requestAnimationFrame(animate);
 };
 
+/*
 function readURLParms() {
   var hash = decodeURIComponent(location.hash.substring(1)); //"substr" is deprecated
  if (hash.length > 1) $("#equations").val(hash);
 }
+*/
 
+function readURLParms() {
+  location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+    value = decodeURIComponent(value);
+    if (key == "equation") {
+      graph.currEquation = value;
+      $("#equations").val(value);
+    }
+  });
+}
 
 $(window).resize(onResize);
 
