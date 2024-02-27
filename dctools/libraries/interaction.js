@@ -94,9 +94,11 @@ function update_expression() {
 // To make it work, we need to trim the expression
 // Maybe later I will figure out
 function showLink() {
-  let expression_base64 = btoa($('#equation-input').val());
+  //let expression_base64 = btoa($('#equation-input').val());
+  let expression_unicode = encodeURI($('#equation-input').val());
   let url = [location.protocol, '//', location.host, location.pathname].join('');
-  url = url + "?expression=" + atob(expression_base64);
+  //url = url + "?expression=" + atob(expression_base64);
+  url = url + "?expression=" + expression_unicode;
   $('#copyable-link').val(url);
   $('#link-container').show();
   $('#copyable-link').select();
@@ -107,10 +109,12 @@ $('#copyable-link').blur(function () {
 
 // If the user already specified
 $(function () {
-  let expression_base64 = trimN(getQueryVariable('expression'));
+  //let expression_base64 = trimN(getQueryVariable('expression'));
+  let expression_unicode = trimN(getQueryVariable('expression'));
   //console.log(expression_base64);
-  if (expression_base64) {
-    $('#equation-input').val(decodeURIComponent(expression_base64));
+  //if (expression_base64) {
+  if (expression_unicode) {
+    $('#equation-input').val(decodeURIComponent(expression_unicode));
   }
 });
 
