@@ -230,12 +230,13 @@ $('#texture-options a').each(function () {
 
 // When the user presses the button, show some copyable text
 function showLink() {
-  let expression_base64 = btoa($("#equation-input").val());
+  //let expression_base64 = encodeURI($("#equation-input").val());
+  let expression_unicode = encodeURI($("#equation-input").val());
 
   let url = [location.protocol, "//", location.host, location.pathname].join(
     ""
   );
-  url = url + "?expression=" + atob(expression_base64);
+  url = url + "?expression=" + (expression_unicode);
   //url = url + "?expression=" + expression_base64;
 
   $("#copyable-link").val(url);
@@ -248,11 +249,13 @@ $("#copyable-link").blur(function () {
 
 // If the user already specified
 $(function () {
-  var expression_base64 = getQueryVariable("expression");
+  //var expression_base64 = getQueryVariable("expression");
+  var expression_unicode = getQueryVariable("expression");
   //console.log(expression_base64);
-  if (expression_base64) {
+  //if (expression_base64) {
+  if (expression_unicode) {
     //$("#equation-input").val(atob(expression_base64.replace("/", "")));
-    $("#equation-input").val(decodeURIComponent(expression_base64));
+    $("#equation-input").val(decodeURIComponent(expression_unicode));
   }
 });
 
