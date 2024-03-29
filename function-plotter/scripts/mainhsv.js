@@ -275,34 +275,38 @@ $("#texture-options a").each(function () {
 
 // When the user presses the button, show some copyable text
 function showLink() {
-  //let expression_base64 = btoa($("#equation-input").val());
-  let expression_unicode = encodeURI($("#equation-input").val());
-
-  let url = [location.protocol, "//", location.host, location.pathname].join(
-    ""
-  );
-  url = url + "?expression=" + expression_unicode;
-  //url = url + "?expression=" + expression_base64;
-
-  $("#copyable-link").val(url);
-  $("#link-container").show();
-  $("#copyable-link").select();
+  const expressionBase64 = btoa($('#equation-input').val());
+  let url = `${location.protocol}//${location.host}${location.pathname}?expression=${expressionBase64}`;
+  $('#copyable-link').val(url);
+  $('#link-container').show();
+  $('#copyable-link').select();
 }
-$("#copyable-link").blur(function () {
-  $("#link-container").hide();
+
+// Hide the link container when the copyable link loses focus
+$('#copyable-link').blur(function () {
+  $('#link-container').hide();
 });
 
-// If the user already specified
+// Check if the user already specified an expression in the URL
 $(function () {
-  //var expression_base64 = getQueryVariable("expression");
-  var expression_unicode = getQueryVariable("expression");
-  //console.log(expression_base64);
-  //if (expression_base64) {
-  if (expression_unicode) {
-    //$("#equation-input").val(atob(expression_base64.replace("/", "")));
-    $("#equation-input").val(decodeURIComponent(expression_unicode));
+  const expressionBase64 = getQueryVariable('expression');
+  if (expressionBase64) {
+    $('#equation-input').val(atob(expressionBase64.replace('/', '')));
   }
 });
+
+// Function to get the value of a query variable from the URL
+function getQueryVariable(variable) {
+  const query = window.location.search.substring(1);
+  const vars = query.split('&');
+  for (let i = 0; i < vars.length; i++) {
+    const pair = vars[i].split('=');
+    if (decodeURIComponent(pair[0]) === variable) {
+      return decodeURIComponent(pair[1]);
+    }
+  }
+  return null;
+}
 
 // Get things started.
 $("#equation-input").change(update_expression);

@@ -49,37 +49,37 @@ You can also visualize complex functions plotted with the domain coloring method
 
 #### Examples
 
-* [z * (1-z)](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=z*(1-z))
-* [1/z + i * z^(1/2)](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=1/z+i*z^(1/2))
-* [z + pi * log(z + e)](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=z+pi*log(z+e))
-* [e^z + t](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=e^z+t)
+* [z * (1-z)](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=eiAqICgxLXop)
+* [1/z + i * z^(1/2)](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=MS96K2kqel4oMS8yKQ==)
+* [z + pi * log(z + e)](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=eiArIHBpICogbG9nKHogKyBlKQ==)
+* [e^z + t](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=ZV56ICsgdA==)
 * [s * i + s - 0.09 * (z - 6)^2](https://www.dynamicmath.xyz/complex/function-plotter/index.htm?expression=s*i+s-0.09*(z-6)^2)
-* [sin(z + pi)/tanh(z^2 - i) + t](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=sin(z+pi)/tanh(z^2-i)+t)
+* [sin(z + pi)/tanh(z^2 - i) + t](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=cyAqIGkgKyBzIC0gMC4wOSAqICh6IC0gNileMg==)
 
 ## Some interesting examples about conformal mapping
 
-* [Fluid around cylinder](https://www.dynamicmath.xyz/complex/function-plotter/?expression=z*(1-(t+1)/2)+(t+1)/2*(z+1/z))
-  * [Real component](https://www.dynamicmath.xyz/complex/function-plotter/?expression=re((z+1/z))*(t+1)/2+re(z)*(1-(t+1)/2))
-  * [Imaginary component](https://www.dynamicmath.xyz/complex/function-plotter/?expression=im((z+1/z))*(t+1)/2+im(z)*(1-(t+1)/2))
-* [Disk with a rotating tile](https://www.dynamicmath.xyz/complex/function-plotter/?expression=(z*0.99+0.01*((1-z^(18))*z^2))*(1+i*t))
-* [Bending reality](https://www.dynamicmath.xyz/complex/function-plotter/?expression=e^(i*0.5*(z-3*i)+log(z-3*i))*(t+1)/2+z*(1-(t+1)/2))
-* [Vortex within a circle](https://www.dynamicmath.xyz/complex/function-plotter/?expression=(z*3)/2*e^(t*pi*i*e^(-1*abs((z*3)/2)^2)))
-* [Waves](https://www.dynamicmath.xyz/complex/function-plotter/?expression=e^(i*(1.5*r)^5)+t)
-* [Potential](https://www.dynamicmath.xyz/complex/function-plotter/?expression=(log((z-1)/(z+1)))*(t+1)/2+z*(1-(t+1)/2))
-* [Transform the unit circle to the UHP](https://www.dynamicmath.xyz/complex/function-plotter/?expression=transform(z,(z-i)/(z+i),t)*disk(transform(z,(z-i)/(z+i),t)))
-* [Joukowsky airfoil](https://www.dynamicmath.xyz/complex/function-plotter/?expression=joukowsky(z,-0.15+0.23*i,1.17))
-* [Loxodromic](https://www.dynamicmath.xyz/complex/function-plotter/?expression=((0.255+0.763*i)*log((z-1)/(z+1)))+s)
+* [Fluid around cylinder](https://www.dynamicmath.xyz/complex/function-plotter/?expression=eiooMS0odCsxKS8yKSsodCsxKS8yKih6KzEveik=)
+  * [Real component](https://www.dynamicmath.xyz/complex/function-plotter/?expression=cmUoKHorMS96KSkqKHQrMSkvMityZSh6KSooMS0odCsxKS8yKQ==)
+  * [Imaginary component](https://www.dynamicmath.xyz/complex/function-plotter/?expression=aW0oKHorMS96KSkqKHQrMSkvMitpbSh6KSooMS0odCsxKS8yKQ==)
+* [Disk with a rotating tile](https://www.dynamicmath.xyz/complex/function-plotter/?expression=KHoqMC45OSswLjAxKigoMS16XigxOCkpKnpeMikpKigxK2kqdCk=)
+* [Bending reality](https://www.dynamicmath.xyz/complex/function-plotter/?expression=ZV4oaSowLjUqKHotMyppKStsb2coei0zKmkpKSoodCsxKS8yK3oqKDEtKHQrMSkvMik=)
+* [Vortex within a circle](https://www.dynamicmath.xyz/complex/function-plotter/?expression=KHoqMykvMiplXih0KnBpKmkqZV4oLTEqYWJzKCh6KjMpLzIpXjIpKQ==)
+* [Waves](https://www.dynamicmath.xyz/complex/function-plotter/?expression=ZV4oaSooMS41KnIpXjUpK3Q=)
+* [Potential](https://www.dynamicmath.xyz/complex/function-plotter/?expression=KGxvZygoei0xKS8oeisxKSkpKih0KzEpLzIreiooMS0odCsxKS8yKQ==)
+* [Transform the unit circle to the UHP](https://www.dynamicmath.xyz/complex/function-plotter/?expression=dHJhbnNmb3JtKHosKHotaSkvKHoraSksdCkqZGlzayh0cmFuc2Zvcm0oeiwoei1pKS8oeitpKSx0KSk=)
+* [Joukowsky airfoil](https://www.dynamicmath.xyz/complex/function-plotter/?expression=am91a293c2t5KHosLTAuMTUrMC4yMyppLDEuMTcp)
+* [Loxodromic](https://www.dynamicmath.xyz/complex/function-plotter/?expression=KCgwLjI1NSswLjc2MyppKSpsb2coKHotMSkvKHorMSkpKStz)
 
 ## Examples about domain coloring
 
 * Analytic functions:
-  * [sin(z + t)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=sin(z+t))
-  * [z * t + 1/sin(z)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=z*t+1/sin(z))
-  * [z^(10 * (t + 1)/2 + 2) - 1](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=z^(10*(t+1)/2+2)-1)
-  * [(z-1)/(z^2+z+1) * (t+1)/2 + z * ( 1- (t+1)/2 )](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=(z-1)/(z^2+z+1)*(t+1)/2+z*(1-(t+1)/2))
+  * [sin(z + t)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=c2luKHordCk=)
+  * [z * t + 1/sin(z)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=eip0KzEvc2luKHop)
+  * [z^(10 * (t + 1)/2 + 2) - 1](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=el4oMTAqKHQrMSkvMisyKS0x)
+  * [(z-1)/(z^2+z+1) * (t+1)/2 + z * ( 1- (t+1)/2 )](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=KHotMSkvKHpeMit6KzEpKih0KzEpLzIreiooMS0odCsxKS8yKQ==)
 * Non-Analytic functions:
-  * [(z+1) * conj(z)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=(z+1)*conj(z))
-  * [conj(z) * (t+1)/2 + cos(z * ( 1- (t+1)/2 ))](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=conj(z)*(t+1)/2+cos(z*(1-(t+1)/2)))
+  * [(z+1) * conj(z)](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=KHorMSkqY29uaih6KQ==)
+  * [conj(z) * (t+1)/2 + cos(z * ( 1- (t+1)/2 ))](https://www.dynamicmath.xyz/complex/function-plotter/hsv.htm?expression=Y29uaih6KSoodCsxKS8yK2Nvcyh6KigxLSh0KzEpLzIpKQ==)
 
 
 ## How does it work?
