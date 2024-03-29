@@ -93,37 +93,46 @@ function update_expression() {
 // Now I am tryin to show just the expression. I hope this works fine :)
 // To make it work, we need to trim the expression
 // Maybe later I will figure out
+// Define a function to handle the showing of the link
 function showLink() {
-  //let expression_base64 = btoa($('#equation-input').val());
-  let expression_unicode = encodeURI($('#equation-input').val());
-  let url = [location.protocol, '//', location.host, location.pathname].join('');
-  //url = url + "?expression=" + atob(expression_base64);
-  url = url + "?expression=" + expression_unicode;
+  const expressionBase64 = btoa($('#equation-input').val());
+  let url = `${location.protocol}//${location.host}${location.pathname}?expression=${expressionBase64}`;
   $('#copyable-link').val(url);
   $('#link-container').show();
   $('#copyable-link').select();
 }
+
+// Hide the link container when the copyable link loses focus
 $('#copyable-link').blur(function () {
   $('#link-container').hide();
 });
 
-// If the user already specified
+// Check if the user already specified an expression in the URL
 $(function () {
-  //let expression_base64 = trimN(getQueryVariable('expression'));
-  let expression_unicode = trimN(getQueryVariable('expression'));
-  //console.log(expression_base64);
-  //if (expression_base64) {
-  if (expression_unicode) {
-    $('#equation-input').val(decodeURIComponent(expression_unicode));
+  const expressionBase64 = trimSpaces(getQueryVariable('expression'));
+  if (expressionBase64) {
+    $('#equation-input').val(atob(expressionBase64.replace('/', '')));
   }
 });
 
-function trimN(s) {
-  if (s.trim) {
-    return s.trim();
-  }
-  return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+// Function to trim leading and trailing spaces
+function trimSpaces(s) {
+  return s.trim ? s.trim() : s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 }
+
+// Function to get the value of a query variable from the URL
+function getQueryVariable(variable) {
+  const query = window.location.search.substring(1);
+  const vars = query.split('&');
+  for (let i = 0; i < vars.length; i++) {
+    const pair = vars[i].split('=');
+    if (decodeURIComponent(pair[0]) === variable) {
+      return decodeURIComponent(pair[1]);
+    }
+  }
+  return null;
+}
+
 
 // Get things started.
 $('#equation-input').change(update_expression);
