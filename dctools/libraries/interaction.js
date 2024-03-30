@@ -108,51 +108,14 @@ $('#copyable-link').blur(function () {
 });
 
 // Check if the user already specified an expression in the URL
+// If the user already specified
 $(function () {
-  const expressionBase64 = trimSpaces(getQueryVariable('expression'));
-  const expression_unicode = trimSpaces(getQueryVariable('expression'));
-  const checkValue = isBase64Encoded(expressionBase64);
-  //console.log(isBase64Encoded(expressionBase64));
-  ///if (expressionBase64) {
-  //  $('#equation-input').val(atob(expressionBase64.replace('/', '')));
-  //}
-  if(checkValue) 
-    $('#equation-input').val(atob(expressionBase64.replace('/', '')));
-  else 
-    $('#equation-input').val(decodeURIComponent(expression_unicode));
-  
-});
-
-// Function to trim leading and trailing spaces
-function trimSpaces(s) {
-  return s.trim ? s.trim() : s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-}
-
-function isBase64Encoded(str) {
-  // Remove white spaces from the string before checking
-  str = str.trim();
-
-  // Base64 encoded strings typically have a length that is a multiple of 4
-  // and only contain characters from the base64 character set, plus optional '=' padding
-  const base64Regex = /^[A-Za-z0-9+/]*={0,2}$/;
-
-  // Unicode-encoded strings should not match the base64 regex
-  return base64Regex.test(str);
-}
-
-
-// Function to get the value of a query variable from the URL
-function getQueryVariable(variable) {
-  const query = window.location.search.substring(1);
-  const vars = query.split('&');
-  for (let i = 0; i < vars.length; i++) {
-    const pair = vars[i].split('=');
-    if (decodeURIComponent(pair[0]) === variable) {
-      return decodeURIComponent(pair[1]);
-    }
+  let expression_base64 = getQueryVariable('expression');
+  //console.log(expression_base64);
+  if (expression_base64) {
+    $('#equation-input').val(atob(expression_base64.replace('/', '')));
   }
-  return null;
-}
+});
 
 
 // Get things started.
