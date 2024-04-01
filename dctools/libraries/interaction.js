@@ -85,38 +85,52 @@ function getQueryVariable(variable) {
 function update_expression() {
   let new_expression = $("#equation-input").val();
   input = new_expression;
-  console.log(new_expression);
+  //console.log(new_expression);
 }
 
 // When the user presses the button, show some copyable text
-// First I tried it with a base64 expression. 
-// Now I am tryin to show just the expression. I hope this works fine :)
-// To make it work, we need to trim the expression
-// Maybe later I will figure out
-// Define a function to handle the showing of the link
+// First I tried it with a base64 expression
+// which is easy to share in social media
+// but now some algebraic expressions can be
+// input in the link. It works so far :)
 function showLink() {
-  const expressionBase64 = btoa($('#equation-input').val());
-  let url = `${location.protocol}//${location.host}${location.pathname}?expression=${expressionBase64}`;
+  let expression_base64 = btoa($('#equation-input').val());
+  let url = [location.protocol, '//', location.host, location.pathname].join('');
+  url = url + "?expression=" + expression_base64;
   $('#copyable-link').val(url);
   $('#link-container').show();
   $('#copyable-link').select();
 }
 
-// Hide the link container when the copyable link loses focus
 $('#copyable-link').blur(function () {
   $('#link-container').hide();
 });
 
-// Check if the user already specified an expression in the URL
 // If the user already specified
 $(function () {
   let expression_base64 = getQueryVariable('expression');
-  //console.log(expression_base64);
-  if (expression_base64) {
+  //console.log(getQueryVariable('expression'))
+
+  if (expression_base64 && isBase64Encoded(getQueryVariable('expression'))) {
     $('#equation-input').val(atob(expression_base64.replace('/', '')));
+    //console.log(isBase64Encoded(getQueryVariable('expression')))
+  } else if (expression_base64 && !isBase64Encoded(getQueryVariable('expression'))) {
+    $('#equation-input').val(decodeURIComponent(expression_base64));
+    //console.log(isBase64Encoded(getQueryVariable('expression')))
   }
 });
 
+function isBase64Encoded(str) {
+  // Remove white spaces from the string before checking
+  str = str.trim();
+
+  // Base64 encoded strings typically have a length that is a multiple of 4
+  // and only contain characters from the base64 character set, plus optional '=' padding
+  const base64Regex = /^[A-Za-z0-9+/]*={0,2}$/;
+
+  // Unicode-encoded strings should not match the base64 regex
+  return base64Regex.test(str);
+}
 
 // Get things started.
 $('#equation-input').change(update_expression);
@@ -197,8 +211,8 @@ document.getElementById("pn").oninput = function () {
 };
 
 /* 
-	The follwing function is to include an HTML file in the slides
-	Source: https://www.w3schools.com/howto/howto_html_include.asp
+  The follwing function is to include an HTML file in the slides
+  Source: https://www.w3schools.com/howto/howto_html_include.asp
 */
 
 function includeHTML() {
