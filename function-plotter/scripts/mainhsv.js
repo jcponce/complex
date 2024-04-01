@@ -274,38 +274,47 @@ $("#texture-options a").each(function () {
 });
 
 // When the user presses the button, show some copyable text
+// First I tried it with a base64 expression
+// which is easy to share in social media
+// but now some algebraic expressions can be
+// input in the link. It works so far :)
 function showLink() {
-  const expressionBase64 = btoa($('#equation-input').val());
-  let url = `${location.protocol}//${location.host}${location.pathname}?expression=${expressionBase64}`;
+  let expression_base64 = btoa($('#equation-input').val());
+  let url = [location.protocol, '//', location.host, location.pathname].join('');
+  url = url + "?expression=" + expression_base64;
   $('#copyable-link').val(url);
   $('#link-container').show();
   $('#copyable-link').select();
 }
 
-// Hide the link container when the copyable link loses focus
 $('#copyable-link').blur(function () {
   $('#link-container').hide();
 });
 
-// Check if the user already specified an expression in the URL
+// If the user already specified
 $(function () {
-  const expressionBase64 = getQueryVariable('expression');
-  if (expressionBase64) {
-    $('#equation-input').val(atob(expressionBase64.replace('/', '')));
+  let expression_base64 = getQueryVariable('expression');
+  //console.log(getQueryVariable('expression'))
+
+  if (expression_base64 && isBase64Encoded(getQueryVariable('expression'))) {
+    $('#equation-input').val(atob(expression_base64.replace('/', '')));
+    //console.log(isBase64Encoded(getQueryVariable('expression')))
+  } else if (expression_base64 && !isBase64Encoded(getQueryVariable('expression'))) {
+    $('#equation-input').val(decodeURIComponent(expression_base64));
+    //console.log(isBase64Encoded(getQueryVariable('expression')))
   }
 });
 
-// Function to get the value of a query variable from the URL
-function getQueryVariable(variable) {
-  const query = window.location.search.substring(1);
-  const vars = query.split('&');
-  for (let i = 0; i < vars.length; i++) {
-    const pair = vars[i].split('=');
-    if (decodeURIComponent(pair[0]) === variable) {
-      return decodeURIComponent(pair[1]);
-    }
-  }
-  return null;
+function isBase64Encoded(str) {
+  // Remove white spaces from the string before checking
+  str = str.trim();
+
+  // Base64 encoded strings typically have a length that is a multiple of 4
+  // and only contain characters from the base64 character set, plus optional '=' padding
+  const base64Regex = /^[A-Za-z0-9+/]*={0,2}$/;
+
+  // Unicode-encoded strings should not match the base64 regex
+  return base64Regex.test(str);
 }
 
 // Get things started.
