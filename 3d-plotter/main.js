@@ -472,7 +472,7 @@ function createCursor() {
 
 function initScene() {
   const plotElement = $("#plot");
-  const backgroundColor = 0x343434;
+  const backgroundColor = 0x252525;
   const cameraSize = 7;
   const initHeight = 10;
   const plotRows = 1024;
