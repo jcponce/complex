@@ -87,7 +87,7 @@ h1, h2, h3, p {
 }
 
 #panel {
-  position: absolute;
+  /*position: absolute;*/
   left: 0px;
   top: 0px;
   margin: 5px;
