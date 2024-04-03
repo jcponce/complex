@@ -3,7 +3,7 @@
  * https://creativecommons.org/licenses/by-sa/4.0/
  * Written by Juan Carlos Ponce Campuzano, 12-Nov-2018
  
- * Last update 12-Aug-2020
+ * Last update 1-April-2024
  */
 
 function mouseWheel() {
