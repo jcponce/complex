@@ -1,6 +1,6 @@
-/*
-  Author: David Block
-  Source: https://replit.com/@DavidBrock1/complexplotter#main.js
+/** 
+ * @author David Block / https://replit.com/@DavidBrock1/complexplotter#main.js
+ * Adapted by Juan Carlos Ponce Campuzano
 */
 
 "use strict"
@@ -125,29 +125,29 @@ function initOptions() {
     var elem = document.getElementById("plot");
 
     var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
-        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
-        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
-        (document.msFullscreenElement && document.msFullscreenElement !== null);
+      (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+      (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+      (document.msFullscreenElement && document.msFullscreenElement !== null);
 
     if (!isInFullScreen) {
       if (elem.requestFullscreen) {
-          elem.requestFullscreen();
+        elem.requestFullscreen();
       } else if (elem.mozRequestFullScreen) {
-          elem.mozRequestFullScreen();
+        elem.mozRequestFullScreen();
       } else if (elem.webkitRequestFullScreen) {
-          elem.webkitRequestFullScreen();
+        elem.webkitRequestFullScreen();
       } else if (elem.msRequestFullscreen) {
-          elem.msRequestFullscreen();
+        elem.msRequestFullscreen();
       }
     } else {
       if (document.exitFullscreen) {
-          document.exitFullscreen();
+        document.exitFullscreen();
       } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
+        document.webkitExitFullscreen();
       } else if (document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
+        document.mozCancelFullScreen();
       } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
+        document.msExitFullscreen();
       }
     }
   });
@@ -355,7 +355,7 @@ function createCursor() {
   var point2 = new THREE.Vector3(0, -height / 2, 0);
 
   var geometry = new THREE.Geometry();
-  
+
   geometry.vertices.push(point1);
   geometry.vertices.push(point2);
 
@@ -364,7 +364,7 @@ function createCursor() {
 
   var raycaster = new THREE.Raycaster();
   graph.props.cursorPos = new THREE.Vector2();
-  
+
   $("#cursorShow").change(function () {
     graph.settings.cursorShow = $(this).prop("checked");
     if (!graph.settings.cursorShow) {
@@ -404,13 +404,13 @@ function createCursor() {
       }
 
       if (raycastToGrid(x, y).length > 0) {
-        $(this).css({cursor: "crosshair"});
+        $(this).css({ cursor: "crosshair" });
       } else {
-        $(this).css({cursor: "default"});
+        $(this).css({ cursor: "default" });
       }
     }
   });
-  
+
   function raycastToGrid(x, y) {
     raycaster.setFromCamera(new THREE.Vector2(
       x / window.innerWidth * 2 - 1,
@@ -428,8 +428,8 @@ function createCursor() {
       graph.props.cursorPos.y = (hit[0].uv.y - 0.5) * size;
 
       updateCursor();
-      
-      $("#cursor").css({left: x, top: y});
+
+      $("#cursor").css({ left: x, top: y });
       $("#cursor").show();
 
     } else if (hideCursor) {
@@ -597,7 +597,7 @@ function readURLParms() {
 */
 
 function readURLParms() {
-  location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+  location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
     value = decodeURIComponent(value);
     if (key == "equation") {
       graph.currEquation = value;
@@ -611,9 +611,9 @@ $(window).resize(onResize);
 window.onerror = function (message, src, line, col, err) {
   if (DEBUG) {
     alert(
-      "An unexpected error occured:\n" + 
+      "An unexpected error occured:\n" +
       message + "\n" +
-      "line " + line + 
+      "line " + line +
       " in " + src
     );
   }

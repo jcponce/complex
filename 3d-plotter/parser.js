@@ -1,6 +1,5 @@
-/*
-  Author: David Block
-  Soruce: https://replit.com/@DavidBrock1/complexplotter#parser.js
+/** 
+ * @author David Block / https://replit.com/@DavidBrock1/complexplotter#parser.js
 */
 
 //Compile an expression into OpenGL code

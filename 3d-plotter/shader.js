@@ -1,6 +1,6 @@
-/*
-  Author: David Block
-  Soruce: https://replit.com/@DavidBrock1/complexplotter#shader.js
+/**
+ * @author David Block / https://replit.com/@DavidBrock1/complexplotter#shader.js
+ * Adapted by Juan Carlos Ponce Campuzano
 */
 
 var uniforms = {
