@@ -15,7 +15,7 @@ https://jcponce.github.io/
 Under Creative Commons License
 https://creativecommons.org/licenses/by-sa/4.0/
 
-Last update 21-Aug-2020
+Last update 22-Aug-2024
 
 */
 
@@ -23,30 +23,26 @@ class domainColoring {
 
   constructor(func, size, frame = true, t = 0, u = 0, n = 1) {
 
-    // I need to adjust dimensions in case the canvas is not a square
+    // Adjust dimensions based on whether the canvas is framed or not
     this.frame = frame;
-    if (this.frame) {
-      this.x = 40;
-      this.y = 40;
-      this.w = width - this.x;
-      this.h = height - this.y;
-    } else {
-      this.x = 0;
-      this.y = 0;
-      this.w = width;
-      this.h = height;
-    }
+    this.x = this.frame ? 40 : 0;
+    this.y = this.frame ? 40 : 0;
+    this.w = width - this.x;
+    this.h = height - this.y;
+
+    // Calculate the size for the domain
     this.sw = size * 2;
     this.sh = (this.sw * height) / width;
 
 
     // Ok now let's get ready with main variables
-    this.origSize = new p5.Vector(this.sw, this.sh);
-    this.size = new p5.Vector(this.origSize.x, this.origSize.y);
-    this.origPos = new p5.Vector(0, 0); //Origin position
-    this.pos = new p5.Vector(this.origPos.x, this.origPos.y);
+    this.origSize = createVector(this.sw, this.sh);
+    this.size = this.origSize.copy();
+    this.origPos = createVector(0, 0); //Origin position
+    this.pos = this.origPos.copy();
     this.origZoom = 1;
     this.zoom = this.origZoom;
+
     this.printDebug = false;
     this.func = this.verifyFunction(complex_expression(func, t, u, n));
 
@@ -65,20 +61,14 @@ class domainColoring {
 
   }
 
-  // I need to check the user's input so it runs properly
+  // Verify that the provided function is valid
   verifyFunction(z) {
-    let k; // This is just to assign the value of z
     this.check = true;
     try {
-      k = z.fn;
+     z.fn;
     } catch (e) {
-      if (k === null || k === undefined) {
         this.check = false;
-        z = complex_expression('0');
-        //console.log(this.check); // debugging!
-        return z;
-      }
-
+        return complex_expression('0');
     }
     return z;
   }
@@ -161,7 +151,6 @@ class domainColoring {
     }
 
   }
-
 
   /* 
   
