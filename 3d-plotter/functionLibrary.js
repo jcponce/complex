@@ -1,5 +1,6 @@
 /** 
-* @author David Block / https://replit.com/@DavidBrock1/complexplotter#functionLibrary.js
+* @author David Block /
+* https://replit.com/@DavidBrock1/complexplotter#functionLibrary.js
 * Adapted by Juan Carlos Ponce Campuzano
 */
 
